@@ -1,70 +1,37 @@
-# Getting Started with Create React App
+# Turismo CDMX - Generador de Itinerarios
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este repositorio contiene el frontend de la aplicación de turismo cuyo objetivo es la creación de itinerarios personalizados, pensada para facilitar a nacionales y extranjeros la planeación de sus recorridos por la Ciudad de México.
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+La aplicación permite seleccionar distintos lugares de interés, crear itinerarios y personalizarlos de acuerdo a las preferencias del usuario. La interfaz está construida con **React** y **Bootstrap**, proporcionando una experiencia intuitiva y atractiva.
 
-### `npm start`
+## Tecnologías
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **React**: UI y lógica principal del frontend.
+- **Bootstrap**: Componentes estilizados para una experiencia visual moderna y responsiva.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Configuración del Proyecto
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Este proyecto fue creado usando `npx create-react-app`, lo que significa que no incluye los módulos de `node_modules` en el repositorio. Para ejecutarlo, asegúrate de seguir estos pasos:
 
-### `npm run build`
+### Instalación de Dependencias
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clona el repositorio y, desde la raíz del proyecto, ejecuta el siguiente comando para instalar todas las dependencias necesarias:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+````
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Ejecución del Proyecto
+Una vez instaladas las dependencias, puedes iniciar la aplicación en modo de desarrollo con:
 
-### `npm run eject`
+```bash
+npm start
+````
+La aplicación estará disponible en [http://localhost:3000](url) y se actualizará automáticamente al realizar cambios en el código.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Estructura del Proyecto
+- **/src:**: Contiene las carpetas 'components', 'css', 'img', etc; las cuales almacenan los componentes y cada recurso necesario para la aplicación.
+- **/public:**: Componentes estilizados para una experiencia visual moderna y responsiva.
