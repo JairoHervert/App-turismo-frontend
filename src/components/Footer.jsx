@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/Footer.css';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
@@ -18,10 +19,10 @@ function Footer() {
 
             <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 explore-links">
               <h6>Canasta Básica</h6>
-              <p><a href="/">Preguntas Frecuentes</a></p>
-              <p><a href="/">Incorpora un Lugar</a></p>
-              <p><a href="/">Terminos y Condiciones</a></p>
-              <p><a href="/">Sobre nosotros</a></p>
+              <p><Link to="/">Preguntas Frecuentes</Link></p>
+              <p><Link to="/">Incorpora un Lugar</Link></p>
+              <p><Link to="/">Terminos y Condiciones</Link></p>
+              <p><Link to="/">Sobre nosotros</Link></p>
             </div>
 
             <hr className="w-100 clearfix d-md-none" />
@@ -35,24 +36,24 @@ function Footer() {
 
             <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3 social-media">
               <h6>Síguenos</h6>
-              <a className="btn btn-primary btn-floating facebook" href="/" role="button">
+              <Link className="btn btn-primary btn-floating facebook" to="/" role="button">
                 <i className="bi bi-facebook"></i>
-              </a>
-              <a className="btn btn-primary btn-floating twitter" href="/" role="button">
+              </Link>
+              <Link className="btn btn-primary btn-floating twitter" to="/" role="button">
                 <i className="bi bi-twitter-x"></i>
-              </a>
-              <a className="btn btn-primary btn-floating google" href="/" role="button">
+              </Link>
+              <Link className="btn btn-primary btn-floating google" to="/" role="button">
                 <i className="bi bi-google"></i>
-              </a>
-              <a className="btn btn-primary btn-floating instagram" href="/" role="button">
+              </Link>
+              <Link className="btn btn-primary btn-floating instagram" to="/" role="button">
                 <i className="bi bi-instagram"></i>
-              </a>
-              <a className="btn btn-primary btn-floating linkedin" href="/" role="button">
+              </Link>
+              <Link className="btn btn-primary btn-floating linkedin" to="/" role="button">
                 <i className="bi bi-linkedin"></i>
-              </a>
-              <a className="btn btn-primary btn-floating github" href="/" role="button">
+              </Link>
+              <Link className="btn btn-primary btn-floating github" to="/" role="button">
                 <i className="bi bi-github"></i>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
