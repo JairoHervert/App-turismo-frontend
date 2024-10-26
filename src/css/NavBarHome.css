@@ -1,0 +1,40 @@
+/* Navbar link styles */
+.navbar .nav-item .nav-link {
+   color: #000;
+   /* Cambia a color blanco si prefieres un fondo oscuro */
+}
+
+.navbar .nav-item .nav-link:hover {
+   background-color: rgba(0, 0, 0, 0.1);
+   transition: all 0.3s ease;
+   border-radius: 0.25rem;
+   color: #000;
+}
+
+.btn-primary {
+   background-color: #E4007C;
+   border-color: #E4007C;
+}
+.btn-primary:hover {
+   background-color: #E4007C;
+   border-color: #E4007C;
+}
+.btn-primary:active {
+   background-color: #E4007C;
+   border-color: #E4007C;
+}
+
+.btn-outline-primary {
+   border-color: #E4007C;
+   color: #E4007C;
+}
+
+.btn-outline-primary:hover {
+   background-color: #E4007C;
+   color: white;
+}
+
+.logo-img {
+   width: 70px;
+   height: 70px;
+}

@@ -1,0 +1,69 @@
+.footer {
+   color: white;
+   font-family: 'Poppins', sans-serif;
+   font-size: 0.9rem;
+}
+
+.footer .container {
+   padding: 1rem 0;
+}
+
+.footer h6 {
+   text-transform: uppercase;
+   margin-bottom: 1rem;
+   font-weight: bold;
+   font-family: 'Montserrat', sans-serif;
+}
+
+.footer a {
+   color: white;
+   text-decoration: none;
+}
+
+.footer a:hover {
+   text-decoration: underline;
+}
+
+.footer .contact-info p,
+.footer .explore-links p {
+   margin: 0.5rem 0;
+}
+
+.footer .social-media a {
+   color: white;
+   margin: 0.5rem;
+}
+
+.footer .btn {
+   border: none;
+}
+
+.footer .facebook {
+   background-color: #3b5998;
+}
+
+.footer .twitter {
+   background-color: #55acee;
+}
+
+.footer .google {
+   background-color: #dd4b39;
+}
+
+.footer .instagram {
+   background-color: #ac2bac;
+}
+
+.footer .linkedin {
+   background-color: #0082ca;
+}
+
+.footer .github {
+   background-color: #333333;
+}
+
+.footer .copyright {
+   background-color: rgba(0, 0, 0, 0.2);
+   padding: 1rem;
+   text-align: center;
+}
