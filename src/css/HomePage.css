@@ -83,3 +83,103 @@
         font-size: 1em; 
     }
 }
+
+
+/* Estilos de la sección de categorías */
+/* Estilos específicos para el nav secundario */
+.secondary-nav {
+    max-width: 94%;
+    font-family: var(--font-title);
+    margin-left: 2rem;
+    border-bottom: 2px solid #c0bcbecc;
+    padding-bottom: 1rem;
+}
+
+.secondary-nav .nav-link {
+    position: relative;
+    color: black; /* Hace que el color del texto sea negro */
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.secondary-nav .nav-link.active {
+    color: var(--color-secondary) !important; /* Cambia el color de la opción activa */
+    font-weight: bold;
+}
+
+.secondary-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-secondary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: bottom right;
+}
+
+.secondary-nav .nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.card {
+    font-family: var(--font-body);
+}
+
+.card .btn-outline-primary {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+}
+
+.card .btn-outline-primary:hover {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.custom-card {
+    /*justificar el texto*/
+    text-align: justify;
+
+    width: 100%;
+    max-width: 23rem;
+    position: relative;
+    overflow: hidden;
+    margin: 0 !important;
+    /* Elimina cualquier margen */
+    border: 1px solid white !important;
+    /* Cambia el color del borde a blanco */
+    border-radius: 0 !important;
+    /* Elimina esquinas redondeadas */
+}
+
+.custom-card .card-img-top {
+    border-radius: 0 !important;
+}
+
+.custom-card .card-body {
+    flex-grow: 1;
+    position: relative;
+    padding-bottom: 6rem;
+    /* Espacio reservado para el botón Learn more */
+}
+
+.custom-card .description-text {
+    max-height: 8rem;
+    /* Aumenta la altura máxima para permitir más texto */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    /* Permite que el texto se envuelva en varias líneas */
+}
+
+.learn-more-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.5rem;
+    /* Ajusta el tamaño del botón */
+    font-size: 0.8rem;
+}

@@ -2,6 +2,10 @@ import React from 'react';
 import NavBarHome from '../components/NavBarHome';
 import Footer from '../components/Footer';
 import '../css/HomePage.css';
+import App from '../components/categories/App'
+
+
+
 
 const HomePage = () => {
   return (
@@ -25,6 +29,17 @@ const HomePage = () => {
       <section>
         <h1>hola :)</h1>
       </section>
+
+
+      {/* SECCIÓN DE CESAR - EXPLORAR CATEGORÍAS*/}
+      <br></br>
+      <section>
+        <div className='home-text'>
+            <h3> <strong>Explora nuestras categorías</strong> </h3>
+        </div>
+        <App />
+      </section>
+
       <Footer 
         showIncorporaLugar={false} />
     </div>
