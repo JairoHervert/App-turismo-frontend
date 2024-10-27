@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/NavBarHome.css';
 import logo from '../img/logo-provicional.png';
 
-function Navbar({ showingresa, ShowRegistrate }) {
+function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink }) {
 
   // Navegación programática con el hook useNavigate
   const navigate = useNavigate();
@@ -20,11 +20,11 @@ function Navbar({ showingresa, ShowRegistrate }) {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="container-fluid">
+    <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'position-absolute' : 'bg-light position-initial'}`} >
+      <div className="mx-3 container-fluid">
         {/* Logo */}
         <Link className="navbar-brand" to="/">
-          <img className='logo-img' src={logo} alt="Logo-canasta-basica"/>
+          <img className='logo-img' src={logo} alt="Logo-canasta-basica" />
         </Link>
 
         {/* Botón de colapso para móvil */}
@@ -37,24 +37,25 @@ function Navbar({ showingresa, ShowRegistrate }) {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <i className="fas fa-bars"></i>
+          <i className="bi bi-list"></i>
         </button>
+
 
         {/* Enlaces del menú */}
         <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {/* Enlaces (por ahora todos llevan a home) */}
             <li className="nav-item">
-              <Link className="nav-link" to="/">Lugares</Link>
+              <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Lugares</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">Gastronomía</Link>
+              <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Gastronomía</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">Museos</Link>
+              <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Museos</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/">Nuevas Experiencias</Link>
+              <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Nuevas Experiencias</Link>
             </li>
           </ul>
 
@@ -64,13 +65,13 @@ function Navbar({ showingresa, ShowRegistrate }) {
             {/* Mostrar botones de Ingresar o Registrate si sus sentinelas son True */}
             {showingresa && (
               <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClic}>
-              Ingresa
-            </button> )}
+                Ingresa
+              </button>)}
 
-            {ShowRegistrate && (
-            <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
-              Regístrate
-            </button> )}
+            {showRegistrate && (
+              <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
+                Regístrate
+              </button>)}
 
           </div>
         </div>

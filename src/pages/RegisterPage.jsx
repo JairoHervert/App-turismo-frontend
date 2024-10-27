@@ -2,10 +2,15 @@
 // src/pages/RegisterPage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/NavBarHome';
 
 const RegisterPage = () => {
   return (
     <div>
+      <Navbar
+        showingresa={true}
+        showRegistrate={true}
+      />
       <h2>Registrarse</h2>
       <form>
         <input type="text" placeholder="Usuario" />

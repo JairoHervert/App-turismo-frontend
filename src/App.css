@@ -6,6 +6,18 @@
    background-color: #B9E5F7;
 }
 
+.fontRosaMexicano {
+   color: #E4007C;
+}
+
+.blanco {
+   color: #FFFFFF;
+}
+
+.obscuro {
+   color: #000000;
+}
+
 .fontMontserrat {
    font-family: 'Montserrat', sans-serif;
 }

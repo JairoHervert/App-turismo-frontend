@@ -1,21 +1,30 @@
 import React from 'react';
 import NavBarHome from '../components/NavBarHome';
 import Footer from '../components/Footer';
+import '../css/HomePage.css';
 
 const HomePage = () => {
   return (
     <div>
       <NavBarHome 
         showingresa={true} 
-        ShowRegistrate={true} />
+        showRegistrate={true}
+        transparentNavbar={true}
+        lightLink={true} />
 
-      <div className='m-5'>
+      <section className='home'>
+        <div className='home-text'>
+          <h5>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
+          <h1>Ciudad de México</h1>
+          <button className='btn btn-primary' type='button'>
+              Comienza ahora
+          </button>
+        </div>
+      </section>
       
-        <h2>Bienvenido a la página principal</h2>
-        <p>Esta es la página principal de la aplicación</p>
-
-      </div>
-
+      <section>
+        <h1>hola :)</h1>
+      </section>
       <Footer 
         showIncorporaLugar={false} />
     </div>

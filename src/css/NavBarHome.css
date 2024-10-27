@@ -1,39 +1,78 @@
-.navbar .nav-item .nav-link {
-   color: #000;
-   /* Cambia a color blanco si prefieres un fondo oscuro */
-}
-
 .navbar .nav-item .nav-link:hover {
    background-color: rgba(0, 0, 0, 0.1);
    transition: all 0.3s ease;
    border-radius: 0.25rem;
-   color: #000;
+   color: #E4007C;
 }
 
 .btn-primary {
    background-color: #E4007C;
    border-color: #E4007C;
 }
+
 .btn-primary:hover {
    background-color: #E4007C;
    border-color: #E4007C;
 }
+
 .btn-primary:active {
    background-color: #E4007C;
    border-color: #E4007C;
 }
 
 .btn-outline-primary {
-   border-color: #E4007C;
-   color: #E4007C;
+   border-color: #fff;
+   color: #fff;
 }
 
 .btn-outline-primary:hover {
    background-color: #E4007C;
    color: white;
+   border-color: #E4007C;
 }
 
 .logo-img {
    width: 70px;
    height: 70px;
+}
+
+.navbar-toggler:focus {
+   outline: none;
+   box-shadow: none;
+}
+
+
+/* Posiciones del navbar:
+   absolute: se posiciona con respecto al primer ancestro que tenga una posición relativa, absoluta o fija. (se usara en el navbar de home)
+   initial: se posiciona con respecto al flujo normal del documento. (se usara en el navbar de las demas paginas) */
+.position-absolute {
+   position: absolute;
+}
+
+.position-initial {
+   position: initial;
+}
+
+
+/* Estilos del menu hamburguesa */
+
+/* Elimina el contorno y la sombra del botón de hamburguesa */
+.navbar-toggler {
+   outline: none;
+   box-shadow: none;
+   border: none;
+   background-color: transparent;
+}
+
+/* Cambia el color del icono de hamburguesa */
+.navbar-toggler .bi-list {
+   color: white; /* color para que se vea en fondo oscuro (CORREGIR ESTO)*/
+   font-size: 1.5rem;
+}
+
+/* Opcional: Cambia el color cuando el botón está activo */
+.navbar-toggler:focus .bi-list,
+.navbar-toggler:active .bi-list {
+   color: #ccc;
+   /* Color más claro para cuando el botón está activo */
 }
