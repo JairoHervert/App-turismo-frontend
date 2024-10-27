@@ -1,10 +1,12 @@
 import React from 'react';
-import '../css/LoginPage.css';
 import Login1 from '../components/Login1';
+import Login2 from '../components/Login2';
 
 function LoginPage() {
   return (
-    <Login1 />
+    <div>
+      <Login2 />
+    </div>
   );
 }
 

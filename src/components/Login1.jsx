@@ -6,14 +6,14 @@ function LoginPage() {
     <div className="login-container vh-100 d-flex">
       {/* Columna izquierda */}
       <div className="login-left text-white d-none d-md-flex flex-column align-items-center justify-content-center">
-        <h1 className="display-4 fw-bold text-center">Lorem ipsum dolor sit amet.</h1>
+        <h1 className="display-4 fw-bold text-center fontMontserrat">Lorem ipsum dolor sit amet.</h1>
         <p className="text-center mt-3 px-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores minus odio dolorem odit omnis sint blanditiis tenetur excepturi eligendi ad?</p>
         <small className="mt-5">ART BY Brandon Peso Pluma</small>
       </div>
 
       {/* Columna derecha */}
       <div className="login-right d-flex flex-column align-items-center justify-content-center p-4">
-        <h3 className="fw-normal mb-4">Log In</h3>
+        <h3 className="mb-4 fontMontserrat">Inicia sesion</h3>
 
         <form className="w-100" style={{ maxWidth: '400px' }}>
           <div className="form-outline mb-3">
