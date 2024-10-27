@@ -1,5 +1,9 @@
+.navbar{
+   background-color: transparent !important; /* Esto hace que el fondo sea transparente, algo choca pero no veo que, por eso mejor que sea pa siempre*/
+}
+
 .navbar .nav-item .nav-link {
-   color: #000;
+   color: #ffffff;
    /* Cambia a color blanco si prefieres un fondo oscuro */
 }
 
@@ -7,7 +11,7 @@
    background-color: rgba(0, 0, 0, 0.1);
    transition: all 0.3s ease;
    border-radius: 0.25rem;
-   color: #000;
+   color: #E4007C;
 }
 
 .btn-primary {
