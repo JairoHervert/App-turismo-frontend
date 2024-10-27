@@ -1,0 +1,86 @@
+@import "../var.css";
+
+.navbar {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
+.section {
+    padding: 70px 17% 60px;
+}
+
+.home {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(to left, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('../img/HomePage/home-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.home-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+.home-text h5, .home-text h1, .home-text p{
+    /*text-align: center;*/
+    color: #fff;
+}
+
+.home-text h5 {
+    font-family: var(--font-title);
+    font-size: 1em;
+    margin-left: 5px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.home-text h1 {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 3em;
+    line-height: 1.2;
+    margin-bottom: 50px;
+}
+
+.btn-primary {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+ }
+
+ .btn-primary:hover {
+    background-color: rgba(228, 0, 124, 0.8);
+    border-color: rgba(228, 0, 124, 0.8);
+ }
+
+@media (max-width: 800px) {
+    .home-text {
+        margin-left: 2em;
+        margin-right: 2em;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .home-text h5, .home-text h1, .home-text p{
+        text-align: center;
+    }
+
+    .home-text h1 {
+        font-size: 4em; 
+        letter-spacing: 3px; 
+    }
+    .home-text h5 {
+        margin: 0px 20px 0px 20px;
+        font-size: 1em; 
+    }
+}
