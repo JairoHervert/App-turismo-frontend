@@ -2,7 +2,7 @@ import React from 'react';
 import '../css/Footer.css';
 import { Link } from 'react-router-dom';
 
-function Footer() {
+function Footer({ showIncorporaLugar }) {
   return (
     <footer className="footer rosaMexicano text-center text-lg-start">
       <div className="container p-4">
@@ -20,7 +20,12 @@ function Footer() {
             <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 explore-links">
               <h6>Canasta Básica</h6>
               <p><Link to="/">Preguntas Frecuentes</Link></p>
-              <p><Link to="/">Incorpora un Lugar</Link></p>
+              
+              {/* Mostrar el enlace de incorporar lugar si showIncorporaLugar es verdadero */}
+              {showIncorporaLugar && (
+                <p><Link to="/">Incorpora un Lugar</Link></p>
+              )}
+
               <p><Link to="/">Terminos y Condiciones</Link></p>
               <p><Link to="/">Sobre nosotros</Link></p>
             </div>

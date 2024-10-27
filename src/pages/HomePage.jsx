@@ -5,7 +5,9 @@ import Footer from '../components/Footer';
 const HomePage = () => {
   return (
     <div>
-      <NavBarHome />
+      <NavBarHome 
+        showingresa={true} 
+        ShowRegistrate={true} />
 
       <div className='m-5'>
       
@@ -14,7 +16,8 @@ const HomePage = () => {
 
       </div>
 
-      <Footer />
+      <Footer 
+        showIncorporaLugar={false} />
     </div>
   );
 };

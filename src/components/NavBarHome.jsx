@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/NavBarHome.css';
 import logo from '../img/logo-provicional.png';
 
-function Navbar() {
+function Navbar({ showingresa, ShowRegistrate }) {
 
   // Navegación programática con el hook useNavigate
   const navigate = useNavigate();
@@ -41,7 +41,7 @@ function Navbar() {
         </button>
 
         {/* Enlaces del menú */}
-        <div className="collapse navbar-collapse fontPoppins" id="navbarContent">
+        <div className="collapse navbar-collapse" id="navbarContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {/* Enlaces (por ahora todos llevan a home) */}
             <li className="nav-item">
@@ -60,12 +60,18 @@ function Navbar() {
 
           {/* Botones de Ingresar y Registrarse con hook para redireccionamiento*/}
           <div className="d-flex">
-            <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClic}>
+
+            {/* Mostrar botones de Ingresar o Registrate si sus sentinelas son True */}
+            {showingresa && (
+              <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClic}>
               Ingresa
-            </button>
+            </button> )}
+
+            {ShowRegistrate && (
             <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
               Regístrate
-            </button>
+            </button> )}
+
           </div>
         </div>
       </div>
