@@ -1,13 +1,31 @@
 import React from 'react';
+import Slider from 'react-slick';
 import NavBarHome from '../components/NavBarHome';
 import Footer from '../components/Footer';
+
+// import css
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import '../css/HomePage.css';
+
 import App from '../components/categories/App'
-
-
+import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
 
 
 const HomePage = () => {
+
+  const settings = {
+    className: "center",
+    dots: true,
+    centerMode: true,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    centerPadding: "15%",
+    slidesToShow: 1,
+    speed: 1000
+  };
+
   return (
     <div>
       <NavBarHome 
@@ -26,8 +44,30 @@ const HomePage = () => {
         </div>
       </section>
       
-      <section>
-        <h1>hola :)</h1>
+      <section className='cardAlcaldias'>
+        <h2>Conoce las alcaldías de la CDMX</h2>
+        <p>Infinitas posibilidades x 16 alcaldías</p>
+
+        <div className='container slider'>
+          <Slider {...settings}>
+            <CardAlcaldia
+              nombreAlcaldia='Coyoacán'
+              nombreLugar='Plaza Coyoacán'
+              nombreImagen='coyoacan' />
+            <CardAlcaldia
+              nombreAlcaldia='Álvaro Obregón'
+              nombreLugar='Museo del Axolote'
+              nombreImagen='alvaro-obregon' />
+             <CardAlcaldia
+              nombreAlcaldia='Xochimilco'
+              nombreLugar='Plaza Coyoacán'
+              nombreImagen='xochimilco' />
+            <CardAlcaldia
+              nombreAlcaldia='Miguel Hidalgo'
+              nombreLugar='Plaza Coyoacán'
+              nombreImagen='miguel-hidalgo' />
+          </Slider>
+        </div>
       </section>
 
 

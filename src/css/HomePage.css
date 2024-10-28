@@ -62,6 +62,130 @@
     border-color: rgba(228, 0, 124, 0.8);
  }
 
+ .btn-out-primary {
+    background-color: #fff;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+ }
+ 
+ .btn-out-primary:hover {
+    background-color: var(--color-secondary);
+    border-color: #fff;
+    color: white;
+ }
+
+ /* Seccion: Alcaldías -------------- */
+
+.cardAlcaldias {
+    margin-top: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: none;
+    margin-bottom: 5em;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.cardAlcaldias h2 {
+    font-weight: 600;
+    font-family: var(--font-title);
+}
+
+.cardAlcaldias p{
+    font-family: var(--font-body);
+}
+
+.cardAlcaldias .card {
+    height: 22em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+}
+
+.cardAlcaldias .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardAlcaldias .card-body-text {
+    width: auto !important;
+    font-family: var(--font-title);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    color: #fff;
+}
+
+.cardAlcaldias .card-body-text h5 {
+    font-weight: 600;
+    font-size: 3em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.cardAlcaldias .card-body-text p {
+    font-weight: 500;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.card-body-buttons{
+    width: auto !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-botones {
+    width: auto !important;
+}
+
+.btn-favoritos, .btn-deseados {
+    background-color: #fff;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+    color: var(--color-dark);
+    padding: 0; 
+    border-radius: 10px;
+    width: 43px;
+    height: 43px;
+}
+
+.btn-favoritos:hover, .btn-deseados:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-favoritos {
+    margin-right: 10px;
+}
+
+.slick-initialized .slick-slide {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+ }
+
+.slick-initialized .slick-slide div {
+    width: 800px;
+}
+
+.container-slider {
+    max-width: 1120px;
+}
+
+
+
 @media (max-width: 800px) {
     .home-text {
         margin-left: 2em;
