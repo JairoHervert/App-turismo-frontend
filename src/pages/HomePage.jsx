@@ -2,6 +2,8 @@ import React from 'react';
 import Slider from 'react-slick';
 import NavBarHome from '../components/NavBarHome';
 import Footer from '../components/Footer';
+import Mapa from '../components/Mapa';
+import PreguntaRegistro from '../components/preguntaRegistro';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -78,6 +80,21 @@ const HomePage = () => {
             <h3> <strong>Explora nuestras categorías</strong> </h3>
         </div>
         <App />
+      </section>
+
+      {/* SECCIÓN DE CESAR - EXPLORAR LUGARES CERCANOS */}
+
+      <section>
+        <div className='mapa'>
+          <h2 >¡Sorpréndete con lo que te rodea!</h2>
+          <Mapa/>
+        </div>
+      </section>
+
+      <br></br>
+
+      <section> 
+        <PreguntaRegistro />
       </section>
 
       <Footer 

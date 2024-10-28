@@ -211,6 +211,15 @@
 
 /* Estilos de la sección de categorías */
 /* Estilos específicos para el nav secundario */
+.mapa, h2{
+    font-family: var(--font-title);
+    font-weight: 650;
+    font-size: 1.5em;
+    justify-content: center;
+    margin-left: 1em;
+    margin-right: 1em;
+    text-align: center;
+}
 .secondary-nav {
     max-width: 94%;
     font-family: var(--font-title);
@@ -306,4 +315,20 @@
     padding: 0.25rem 0.5rem;
     /* Ajusta el tamaño del botón */
     font-size: 0.8rem;
+}
+
+/*PREGUNTA*/
+
+.pregunta {
+    font-family: var(--font-title);
+    font-weight: 650;
+    font-size: 2em;
+    margin-bottom: 1rem;
+}
+
+.pitch {
+    text-align: justify;
+    font-family: var(--font-body);
+    font-size: 1em;
+    margin-bottom: 1rem;
 }
