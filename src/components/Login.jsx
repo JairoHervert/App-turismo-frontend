@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/Login2.css';
+import '../css/Login.css';
 import logo from '../img/logo-provicional.png';
 import imgFormulario from '../img/piramides-teotihuacan.webp';
 
-function Login2() {
+function Login() {
   const navigate = useNavigate();
 
   const handleHomeClick = () => {
@@ -93,4 +93,4 @@ function Login2() {
   );
 }
 
-export default Login2;
+export default Login;

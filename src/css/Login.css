@@ -128,3 +128,34 @@
 .btn-floating:hover {
    color: #2f6d9e;
 }
+
+/* Responsivo: en dispositivos móviles */
+@media (max-width: 768px) {
+   .login-box {
+      max-width: 30rem;
+      margin: 0 1rem;
+   }
+
+   /* Oculta la columna izquierda (imagen) en móviles */
+   .login-left {
+      display: none;
+   }
+
+   /* Ajusta el formulario a pantalla completa */
+   .login-content {
+      flex-direction: column;
+   }
+
+   /* Asegura el tamaño del texto del logo */
+   .logo-text {
+      font-size: 1rem;
+   }
+}
+
+@media (max-width: 470px) {
+   .logo-container {
+      max-width: 80%;
+      top: 0.1rem;
+      left: 0.1rem;
+   }
+}
