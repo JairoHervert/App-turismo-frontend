@@ -1,10 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/NavBarHome.css';
 import logo from '../img/logo-provicional.png';
 
-function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink }) {
+function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
 
   // Navegación programática con el hook useNavigate
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink }) {
   }
 
   return (
-    <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'position-absolute' : 'bg-light position-initial'}`} >
+    <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'posit-fixed' : 'bg-light position-initial'} ${staticNavbar ? 'position-absolute' : ''}`} >
       <div className="mx-3 container-fluid">
         {/* Logo */}
         <Link className="navbar-brand" to="/">

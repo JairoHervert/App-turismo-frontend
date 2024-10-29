@@ -45,8 +45,8 @@
 /* Posiciones del navbar:
    absolute: se posiciona con respecto al primer ancestro que tenga una posición relativa, absoluta o fija. (se usara en el navbar de home)
    initial: se posiciona con respecto al flujo normal del documento. (se usara en el navbar de las demas paginas) */
-.position-absolute {
-   position: absolute;
+.posit-fixed {
+   position: fixed;
 }
 
 .position-initial {
