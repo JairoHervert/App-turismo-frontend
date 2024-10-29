@@ -1,0 +1,334 @@
+@import "../var.css";
+
+.navbar {
+    width: 100%;
+    z-index: 1;
+}
+
+.section {
+    padding: 70px 17% 60px;
+}
+
+.home {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-image: linear-gradient(to left, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('../img/HomePage/home-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.home-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+.home-text h5, .home-text h1, .home-text p{
+    /*text-align: center;*/
+    color: #fff;
+}
+
+.home-text h5 {
+    font-family: var(--font-title);
+    font-size: 1em;
+    margin-left: 5px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.home-text h1 {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 3em;
+    line-height: 1.2;
+    margin-bottom: 50px;
+}
+
+.btn-primary {
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+ }
+
+ .btn-primary:hover {
+    background-color: rgba(228, 0, 124, 0.8);
+    border-color: rgba(228, 0, 124, 0.8);
+ }
+
+ .btn-out-primary {
+    background-color: #fff;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+ }
+ 
+ .btn-out-primary:hover {
+    background-color: var(--color-secondary);
+    border-color: #fff;
+    color: white;
+ }
+
+ /* Seccion: Alcaldías -------------- */
+
+.cardAlcaldias {
+    margin-top: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: none;
+    margin-bottom: 5em;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.cardAlcaldias h2 {
+    font-weight: 600;
+    font-family: var(--font-title);
+}
+
+.cardAlcaldias p{
+    font-family: var(--font-body);
+}
+
+.cardAlcaldias .card {
+    height: 22em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+}
+
+.cardAlcaldias .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardAlcaldias .card-body-text {
+    width: auto !important;
+    font-family: var(--font-title);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+    color: #fff;
+}
+
+.cardAlcaldias .card-body-text h5 {
+    font-weight: 600;
+    font-size: 3em;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.cardAlcaldias .card-body-text p {
+    font-weight: 500;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+}
+
+.card-body-buttons{
+    width: auto !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-botones {
+    width: auto !important;
+}
+
+.btn-favoritos, .btn-deseados {
+    background-color: #fff;
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+    border: none;
+    color: var(--color-dark);
+    padding: 0; 
+    border-radius: 10px;
+    width: 43px;
+    height: 43px;
+}
+
+.btn-favoritos:hover, .btn-deseados:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-favoritos {
+    margin-right: 10px;
+}
+
+.slick-initialized .slick-slide {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+ }
+
+.slick-initialized .slick-slide div {
+    width: 800px;
+}
+
+.container-slider {
+    max-width: 1120px;
+}
+
+
+
+@media (max-width: 800px) {
+    .home-text {
+        margin-left: 2em;
+        margin-right: 2em;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .home-text h5, .home-text h1, .home-text p{
+        text-align: center;
+    }
+
+    .home-text h1 {
+        font-size: 4em; 
+        letter-spacing: 3px; 
+    }
+    .home-text h5 {
+        margin: 0px 20px 0px 20px;
+        font-size: 1em; 
+    }
+}
+
+
+/* Estilos de la sección de categorías */
+/* Estilos específicos para el nav secundario */
+.mapa, h2{
+    font-family: var(--font-title);
+    font-weight: 650;
+    font-size: 1.5em;
+    justify-content: center;
+    margin-left: 1em;
+    margin-right: 1em;
+    text-align: center;
+}
+.secondary-nav {
+    max-width: 94%;
+    font-family: var(--font-title);
+    margin-left: 2rem;
+    border-bottom: 2px solid #c0bcbecc;
+    padding-bottom: 1rem;
+}
+
+.secondary-nav .nav-link {
+    position: relative;
+    color: black; /* Hace que el color del texto sea negro */
+    transition: color 0.3s ease;
+    text-decoration: none;
+}
+
+.secondary-nav .nav-link.active {
+    color: var(--color-secondary) !important; /* Cambia el color de la opción activa */
+    font-weight: bold;
+}
+
+.secondary-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--color-secondary);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: bottom right;
+}
+
+.secondary-nav .nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.card {
+    font-family: var(--font-body);
+}
+
+.card .btn-outline-primary {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+}
+
+.card .btn-outline-primary:hover {
+    background-color: var(--color-secondary);
+    color: white;
+}
+
+.custom-card {
+    /*justificar el texto*/
+    text-align: justify;
+
+    width: 100%;
+    max-width: 23rem;
+    position: relative;
+    overflow: hidden;
+    margin: 0 !important;
+    /* Elimina cualquier margen */
+    border: 1px solid white !important;
+    /* Cambia el color del borde a blanco */
+    border-radius: 0 !important;
+    /* Elimina esquinas redondeadas */
+}
+
+.custom-card .card-img-top {
+    border-radius: 0 !important;
+}
+
+.custom-card .card-body {
+    flex-grow: 1;
+    position: relative;
+    padding-bottom: 6rem;
+    /* Espacio reservado para el botón Learn more */
+}
+
+.custom-card .description-text {
+    max-height: 8rem;
+    /* Aumenta la altura máxima para permitir más texto */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    /* Permite que el texto se envuelva en varias líneas */
+}
+
+.learn-more-btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.5rem;
+    /* Ajusta el tamaño del botón */
+    font-size: 0.8rem;
+}
+
+/*PREGUNTA*/
+
+.pregunta {
+    font-family: var(--font-title);
+    font-weight: 650;
+    font-size: 2em;
+    margin-bottom: 1rem;
+}
+
+.pitch {
+    text-align: justify;
+    font-family: var(--font-body);
+    font-size: 1em;
+    margin-bottom: 1rem;
+}

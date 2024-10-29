@@ -1,0 +1,35 @@
+.rosaMexicano {
+   background-color: #E4007C;
+}
+
+.azulMaya {
+   background-color: #B9E5F7;
+}
+
+.fontRosaMexicano {
+   color: #E4007C;
+}
+
+.fontAzulMaya {
+   color: #B9E5F7;
+}
+
+.fontAzulMayaOscuro {
+   color: #489abb;
+}
+
+.blanco {
+   color: #FFFFFF;
+}
+
+.obscuro {
+   color: #000000;
+}
+
+.fontMontserrat {
+   font-family: 'Montserrat', sans-serif;
+}
+
+.fontPoppins {
+   font-family: 'Poppins', sans-serif;
+}
