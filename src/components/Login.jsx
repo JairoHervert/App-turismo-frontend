@@ -93,4 +93,6 @@ function Login() {
   );
 }
 
+// Login modificado en rama login-responsive
+
 export default Login;
