@@ -60,7 +60,7 @@ const HomePage = () => {
               nombreAlcaldia='Álvaro Obregón'
               nombreLugar='Museo del Axolote'
               nombreImagen='alvaro-obregon' />
-             <CardAlcaldia
+            <CardAlcaldia
               nombreAlcaldia='Xochimilco'
               nombreLugar='Plaza Coyoacán'
               nombreImagen='xochimilco' />
@@ -86,7 +86,7 @@ const HomePage = () => {
 
       <section>
         <div className='mapa'>
-          <h2 >¡Sorpréndete con lo que te rodea!</h2>
+          <h2>¡Sorpréndete con lo que te rodea!</h2>
           <Mapa/>
         </div>
       </section>

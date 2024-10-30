@@ -211,15 +211,19 @@
 
 /* Estilos de la sección de categorías */
 /* Estilos específicos para el nav secundario */
-.mapa, h2{
+.mapa{
     font-family: var(--font-title);
-    font-weight: 650;
-    font-size: 1.5em;
-    justify-content: center;
-    margin-left: 1em;
-    margin-right: 1em;
-    text-align: center;
+    margin-left: 2em;
+    margin-right: 2em;
 }
+
+h2{
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 650;
+    font-size: 2.5em;
+}
+
 .secondary-nav {
     max-width: 94%;
     font-family: var(--font-title);
@@ -295,18 +299,20 @@
 .custom-card .card-body {
     flex-grow: 1;
     position: relative;
-    padding-bottom: 6rem;
+    padding-bottom: 3.5rem;
     /* Espacio reservado para el botón Learn more */
 }
 
 .custom-card .description-text {
     max-height: 8rem;
-    /* Aumenta la altura máxima para permitir más texto */
     overflow: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+    -webkit-box-orient: vertical;
     white-space: normal;
-    /* Permite que el texto se envuelva en varias líneas */
 }
+
 
 .learn-more-btn {
     position: absolute;

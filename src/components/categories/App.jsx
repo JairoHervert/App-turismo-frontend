@@ -10,11 +10,12 @@ import lugar6 from '../../img/HomePage/category/lugar6.png';
 import '../../css/HomePage.css';
 
 
+
 const App = () => {
     const [selectedCategory, setSelectedCategory] = useState("No convencionales");
 
     const places = [
-        { category: "No convencionales", image: lugar1, name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
+        { category: "No convencionales", image: lugar1, name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera. Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera. Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
         { category: "No convencionales", image: lugar2, name: "Palacio Postal", description: "El Palacio Postal o la Quinta Casa de Correos es un edificio del Centro Histórico construido por el italiano Adamo Boari y el mexicano Gonzalo Garita." },
         { category: "No convencionales", image: lugar3, name: "Fuente de Tláloc", description: "Mosaicos de piedra adornan la Fuente de Tláloc, en honor al dios del agua y trazan símbolos del pasado de México." },
         { category: "No convencionales", image: lugar4, name: "Museo de Arte Popular", description: " Observa artesanías mexicanas como alebrijes, textiles y cerámica, celebrando la riqueza cultural de México en un espacio vibrante." },

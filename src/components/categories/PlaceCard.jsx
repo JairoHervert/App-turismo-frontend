@@ -13,7 +13,7 @@ function PlaceCard({ image, name, description }) {
       <div className="card-body d-flex flex-column">
         <h5 className="card-title">{name}</h5>
         <p className="card-text description-text">{description}</p>
-        <button className="btn btn-sm btn-outline-primary learn-more-btn">Learn more</button>
+        <button className="btn btn-sm btn-outline-primary learn-more-btn">Ver más</button>
       </div>
     </div>
   );
