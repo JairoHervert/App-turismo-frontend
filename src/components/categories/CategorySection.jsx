@@ -12,7 +12,7 @@ function CategorySection({ places }) {
             className="col-md-4 d-flex justify-content-center mb-4"
           >
             <PlaceCard
-              image={place.image}
+              imagen={place.imagen}
               name={place.name}
               description={place.description}
             />

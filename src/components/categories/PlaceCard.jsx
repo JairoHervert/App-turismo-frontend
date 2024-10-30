@@ -1,6 +1,8 @@
 import React from 'react';
 
-function PlaceCard({ image, name, description }) {
+function PlaceCard({ imagen, name, description }) {
+
+  const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.png`) : '';
   return (
     <div className="card mb-4 custom-card">
       <div className="position-relative">
