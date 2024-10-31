@@ -1,4 +1,5 @@
 DROP PROCEDURE IF EXISTS CrearUsuario;
+DROP PROCEDURE IF EXISTS IniciarSesion;
 DROP PROCEDURE IF EXISTS CrearLugar;
 DROP PROCEDURE IF EXISTS AñadirLugarDeseado;
 DROP PROCEDURE IF EXISTS UsuarioDeseados;
@@ -30,6 +31,15 @@ BEGIN
       SIGNAL SQLSTATE '45000' 
          SET MESSAGE_TEXT = 'El correo ya está registrado.';
    END IF;
+END //
+
+CREATE PROCEDURE IniciarSesion (
+   IN p_correo VARCHAR(255),
+   IN p_contraseña VARCHAR(255)
+)
+BEGIN
+   SELECT id FROM Usuario
+   WHERE correo = p_correo AND contraseña = p_contraseña;
 END //
 
 -- -----------------------------------------------------

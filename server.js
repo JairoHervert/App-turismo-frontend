@@ -9,7 +9,7 @@ app.use(express.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: '9412',
   database: 'AppTurismo'
 });
 
@@ -28,6 +28,19 @@ app.get('/usuarios', (req, res) => {
     }
     res.json(results);
     console.log(results);
+  });
+});
+
+app.post('/iniciar-sesion', (req, res) => {
+  const { correo, contraseña } = req.body;
+  const query = 'CALL IniciarSesion(?, ?)';
+
+  db.query(query, [correo, contraseña], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    const resultado = results[0][0] || null;
+    res.json({ id: resultado ? resultado.id : null });
   });
 });
 
