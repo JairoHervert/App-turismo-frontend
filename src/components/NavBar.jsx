@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../css/NavBarHome.css';
+import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
