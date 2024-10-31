@@ -21,8 +21,8 @@
 }
 
 .btn-outline-primary {
-   border-color: #fff;
-   color: #fff;
+   border-color: #E4007C;
+   color: #E4007C;
 }
 
 .btn-outline-primary:hover {
@@ -66,13 +66,13 @@
 
 /* Cambia el color del icono de hamburguesa */
 .navbar-toggler .bi-list {
-   color: white; /* color para que se vea en fondo oscuro (CORREGIR ESTO)*/
+   color: #e4007d; /* color para que se vea en fondo oscuro (CORREGIR ESTO)*/
    font-size: 1.5rem;
 }
 
 /* Opcional: Cambia el color cuando el botón está activo */
 .navbar-toggler:focus .bi-list,
 .navbar-toggler:active .bi-list {
-   color: #ccc;
+   color: #b30064;
    /* Color más claro para cuando el botón está activo */
 }

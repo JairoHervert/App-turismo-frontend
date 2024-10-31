@@ -33,8 +33,8 @@ const HomePage = () => {
       <NavBarHome 
         showingresa={true} 
         showRegistrate={true}
-        transparentNavbar={true}
-        lightLink={true} />
+        transparentNavbar={false}
+        lightLink={false} />
 
       <section className='home'>
         <div className='home-text'>
