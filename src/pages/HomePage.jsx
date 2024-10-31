@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import NavBarHome from '../components/NavBarHome';
+import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
@@ -33,8 +33,8 @@ const HomePage = () => {
       <NavBarHome 
         showingresa={true} 
         showRegistrate={true}
-        transparentNavbar={true}
-        lightLink={true} />
+        transparentNavbar={false}
+        lightLink={false} />
 
       <section className='home'>
         <div className='home-text'>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/LoginPage.css';
-import Navbar from '../components/NavBarHome';
+import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import imgFormulario from '../img/registerIMGA.jpg';
 
@@ -17,9 +17,9 @@ function RegisterPage() {
       <Navbar
         showingresa={false}
         showRegistrate={false}
-        transparentNavbar={true}
-        lightLink={true}
-        staticNavbar={true}
+        transparentNavbar={false}
+        lightLink={false}
+        staticNavbar={false}
       />
 
       <div className="login-background vh-100 vw-100 d-flex justify-content-center align-items-center">
