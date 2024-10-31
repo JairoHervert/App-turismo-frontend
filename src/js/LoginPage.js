@@ -9,7 +9,7 @@ export const fetchUsuarios = async () => {
     throw error;
   }
 };
-
+/*
 export const login = async () => {
   try {
     const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
@@ -22,4 +22,4 @@ export const login = async () => {
   } catch (error) {
     console.error("Error al intentar iniciar sesión:", error);
   }
-}
+}*/
