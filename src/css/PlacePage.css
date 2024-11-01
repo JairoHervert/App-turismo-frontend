@@ -1,0 +1,120 @@
+@import "../var.css";
+
+.place-page {
+    padding: 4%;
+}
+
+.place-page-img {
+    width: 100%;
+    height: 140px;
+    background-image: url('../img/HomePage/places/home-places-miguel-hidalgo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.place-row {
+    width: 100%;
+}
+
+.place-text, .place-description {
+    font-family: var(--font-body);
+}
+
+.place-text {
+    text-align: justify;
+}
+
+/* -------- Left Site of the Page ------------- */
+
+
+.place-left-site {
+    /* width: 30%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.description-left {
+    margin-top: 20px;
+}
+
+.map-placeholder {
+    width: 100%;
+    aspect-ratio: 1.4;
+    /* de a mientras una imagen :) */
+    background-image: url('../img/HomePage/mapa.png');
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 5px;
+}
+
+.card-descripcion-lugar {
+    width: 350px;
+    border-radius: 0;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    padding: 4%;
+}
+
+.col-icon {
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+}
+
+.link-google-maps {
+    color: var(--color-secondary);
+}
+
+/* -------------- Right Site of the Page --------- */
+
+.place-right-site {
+    /* width: 70%; */
+}
+
+.place-title {
+    display: flex;
+    justify-content: left;
+    align-items: start;
+    margin-bottom: 0;
+}
+
+.place-score {
+    margin-bottom: 15px;
+}
+
+
+/* --------------- Botones ---------------------- */
+
+.btn-place-page {
+    margin-top: 2%;
+    margin-left: 4%;
+    background-color: var(--color-secondary);
+    color: #fff;
+}
+
+.btn-place-page:hover {
+    background-color: #fff;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+    transition: 0.5s;
+}
+
+@media (min-width: 768px) and (max-width: 1300px) {
+    .place-right-site {
+        padding-left: 4%;
+    }
+    
+}
+
+@media (max-width: 768px) {
+    .place-row { 
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .place-right-site {
+        padding: 3%;
+    }
+    
+}
