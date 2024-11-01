@@ -41,7 +41,7 @@ const HomePage = () => {
           <h5>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
           <h1>Ciudad de México</h1>
           <button className='btn btn-primary' type='button'>
-              Comienza ahora
+              Comienza ahora 
           </button>
         </div>
       </section>
