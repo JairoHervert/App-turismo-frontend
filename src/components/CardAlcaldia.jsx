@@ -1,8 +1,5 @@
 import React from 'react';
-// import css
 import '../css/HomePage.css';
-// import imgs
-import favorito from '../img/logo-star.svg';
 
 
 function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
@@ -26,7 +23,7 @@ function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
             <i className="bi bi-star"></i>
             </button>
             </div>
-            <button className='btn btn-out-primary me-2'>Conoce más</button>
+            <button className='btn btn-cardAlcaldia me-2'>Conoce más</button>
           </div>
             <div className='card-body-text'>
               <p>{nombreLugar}</p>
