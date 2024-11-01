@@ -9,7 +9,7 @@ app.use(express.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '9412',
+  password: '',
   database: 'AppTurismo'
 });
 
@@ -21,6 +21,8 @@ db.connect((err) => {
   console.log('Conexión BD correcta');
 });
 
+
+
 app.get('/usuarios', (req, res) => {
   db.query('SELECT * FROM Usuario', (err, results) => {
     if (err) {
@@ -31,9 +33,28 @@ app.get('/usuarios', (req, res) => {
   });
 });
 
+// Registro
+
+app.post('/registro', (req, res) => {
+  const { correo, contraseña } = req.body;
+  const query = 'CALL UsuarioRegistro (?, ?);';
+  
+  db.query(query, [correo, contraseña], (err, results) => {
+    if (err) {
+      if (err.sqlState === '45000') {
+        return res.status(400).json({ error: 'El correo ya está registrado.' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Usuario creado', userId: results.insertId });
+  });
+});
+
+// Iniciar Sesión
+
 app.post('/iniciar-sesion', (req, res) => {
   const { correo, contraseña } = req.body;
-  const query = 'CALL IniciarSesion(?, ?)';
+  const query = 'CALL UsuarioIniciarSesion(?, ?);';
 
   db.query(query, [correo, contraseña], (err, results) => {
     if (err) {
