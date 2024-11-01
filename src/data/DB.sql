@@ -30,6 +30,7 @@ CREATE TABLE `Usuario` (
   `ligaFotoPerfil` VARCHAR(200),
   `fechaNacimiento` DATETIME,
   `ultimaConexion` DATETIME,
+  `token` VARCHAR(255),
   `auditoria` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

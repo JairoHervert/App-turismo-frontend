@@ -3,6 +3,7 @@ DROP PROCEDURE IF EXISTS UsuarioRegistro;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
+DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
 
@@ -103,6 +104,25 @@ BEGIN
    FROM LugarDeseado
    JOIN Lugar l ON LugarDeseado.idLugar = l.id
    WHERE LugarDeseado.idUsuario = p_id;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioVerFavoritos`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioVerFavoritos (
+   IN p_id INT
+)
+BEGIN
+   SELECT
+      l.nombre AS nombre,
+      l.descripcion AS descripcion,
+      l.direccion AS direccion,
+      l.costo AS costo
+      #AVG()
+   FROM LugarFavorito
+   JOIN Lugar l ON LugarFavorito.idLugar = l.id
+   WHERE LugarFavorito.idUsuario = p_id;
 END //
 
 -- -----------------------------------------------------
