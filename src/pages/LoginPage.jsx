@@ -13,15 +13,13 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Evita el envío del formulario y el refresco de la página
+    e.preventDefault();
 
     try {
       const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
-      console.log(response.data); // Muestra el resultado en la consola
-
+      console.log(response.data);
       if (response.data.id) {
         console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
-        // Aquí puedes redirigir o guardar el id en el estado, según sea necesario
       } else {
         console.log("Credenciales incorrectas.");
       }

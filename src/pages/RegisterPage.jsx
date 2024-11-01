@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../css/LoginPage.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -7,9 +8,34 @@ import imgFormulario from '../img/registerIMGA.jpg';
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const [nombre, setNombre] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [contraseña, setContraseña] = useState('');
+  const [contraseña2, setContraseña2] = useState('');
+  const [error, setError] = useState('');
 
   const handleHomeClick = () => {
     navigate('/');
+  };
+
+  const handleRegistro = async (e) => {
+    e.preventDefault();
+    setError('');
+    console.log(correo, contraseña);
+    try {
+      
+      const response = await axios.post('http://localhost:3001/registro', {
+        correo,
+        contraseña,
+      });
+      console.log(response.data);
+
+      navigate('/');
+    } catch (err) {
+      const errorMsg = err.response?.data?.error || 'Error de conexión';
+      setError('Error al registrar usuario: ' + errorMsg);
+      console.error(errorMsg);
+    }
   };
 
   return (
@@ -47,25 +73,49 @@ function RegisterPage() {
             <div className="login-right d-flex flex-column justify-content-center">
               <h3 className="fw-normal mb-3 pb-3 fontMontserrat fw-semibold">Registrar usuario</h3>
 
-              <form className="login-form">
+              <form className="login-form" onSubmit={handleRegistro}>
                 <div className="mb-3">
                   <label htmlFor="registerInputName" className="form-label">Nombre completo</label>
-                  <input type="text" className="form-control" id="registerInputName" />
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="registerInputName"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                  />
                 </div>
 
                 <div className="mb-3">
                   <label htmlFor="registerInputEmail" className="form-label">Correo electrónico</label>
-                  <input type="email" className="form-control" id="registerInputEmail" />
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="registerInputEmail"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
                 </div>
 
                 <div className="mb-3">
                   <label htmlFor="registerInputPassword" className="form-label">Contraseña</label>
-                  <input type="password" className="form-control" id="registerInputPassword" />
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="registerInputPassword"
+                    value={contraseña}
+                    onChange={(e) => setContraseña(e.target.value)}
+                  />
                 </div>
 
                 <div className="mb-3">
                   <label htmlFor="registerConfirmPassword" className="form-label">Confirmar contraseña</label>
-                  <input type="password" className="form-control" id="registerConfirmPassword" />
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="registerConfirmPassword"
+                    value={contraseña2}
+                    onChange={(e) => setContraseña2(e.target.value)}
+                  />
                 </div>
 
                 <div className="pt-1 mb-4 mt-4">
