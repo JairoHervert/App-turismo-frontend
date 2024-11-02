@@ -4,17 +4,21 @@ import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
+import { useState } from 'react';
 
 // import css
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../css/HomePage.css';
 
-import App from '../components/categories/App'
+import CatHome from '../components/categories/CategoryHome';
 import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
 
 
 const HomePage = () => {
+
+  const [isRegistered, setIsRegistered] = useState(false);
+
 
   const settings = {
     className: "center",
@@ -41,7 +45,7 @@ const HomePage = () => {
           <h5>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
           <h1>Ciudad de México</h1>
           <button className='btn btn-primary' type='button'>
-              Comienza ahora
+              Comienza ahora 
           </button>
         </div>
       </section>
@@ -72,14 +76,26 @@ const HomePage = () => {
         </div>
       </section>
 
+        {/* Agregar boton de ver mas que redirige a ver todas las alcaldias*/ }
+        <div className='alc-vermas'>
+          <button className='btn btn-primary' type='button'>
+            Ver más
+          </button>
+        </div>
+
 
       {/* SECCIÓN DE CESAR - EXPLORAR CATEGORÍAS*/}
       <br></br>
       <section>
         <div className='home-text'>
-            <h3> <strong>Explora nuestras categorías</strong> </h3>
-        </div>
-        <App />
+        <h3>
+            <strong>
+              {isRegistered
+                ? 'Lugares que te podrían interesar'
+                : 'Explora nuestras categorías'}
+            </strong>
+          </h3>        </div>
+        <CatHome />
       </section>
 
       {/* SECCIÓN DE CESAR - EXPLORAR LUGARES CERCANOS */}
@@ -96,6 +112,7 @@ const HomePage = () => {
       <section> 
         <PreguntaRegistro />
       </section>
+      <br></br>
 
       <Footer 
         showIncorporaLugar={false} />
