@@ -4,7 +4,8 @@ import '../css/LoginPage.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import imgFormulario from '../img/piramides-teotihuacan.webp';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import axios from 'axios';
 
 function LoginPage() {
@@ -14,6 +15,7 @@ function LoginPage() {
     navigate('/');
   };
 
+  // VERIFICACIÓN CON GOOGLE
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log('Token de Google:', tokenResponse);
@@ -42,6 +44,11 @@ function LoginPage() {
       console.log('Error al autenticar con Google');
     },
   });
+
+  // VERIFICACIÓN CON FACEBOOK
+  const responseFacebook = (response) => {
+    console.log(response); // Maneja la respuesta de autenticación aquí
+  };
 
   return (
     <div className='vh-100 vw-100'>
@@ -103,21 +110,19 @@ function LoginPage() {
                   <button type='button' className='btn btn-link btn-floating mx-1' onClick={() => login()}>
                     <i className='bi bi-google'></i>
                   </button>
-                  <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                      console.log('Credenciales:', credentialResponse);
-                      // Aquí puedes manejar las credenciales del usuario
-                    }}
-                    onError={() => {
-                      console.log('Error al iniciar sesión');
-                    }}
-                  />
                   <button type='button' className='btn btn-link btn-floating mx-1'>
                     <i className='bi bi-microsoft'></i>
                   </button>
-                  <button type='button' className='btn btn-link btn-floating mx-1'>
-                    <i className='bi bi-facebook'></i>
-                  </button>
+                  <FacebookLogin
+                      appId="1276060800080687"
+                      autoLoad={false}
+                      callback={responseFacebook}
+                      render={(renderProps) => (
+                         <button type="button" className="btn btn-link btn-floating mx-1" onClick={renderProps.onClick}>
+                          <i className="bi bi-facebook"></i>
+                        </button>
+                      )}
+                    />
                 </div>
 
                 <p>¿No tienes una cuenta? <Link to='/register' className='fontRosaMexicano'>Regístrate aquí</Link></p>
