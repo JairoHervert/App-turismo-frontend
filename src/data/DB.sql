@@ -24,11 +24,13 @@ USE `AppTurismo`;
 DROP TABLE IF EXISTS `Usuario`;
 CREATE TABLE `Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(255) NOT NULL,
   `correo` VARCHAR(255) NOT NULL,
   `contraseña` VARCHAR(255) NOT NULL,
   `ligaFotoPerfil` VARCHAR(200),
   `fechaNacimiento` DATETIME,
   `ultimaConexion` DATETIME,
+  `token` VARCHAR(255),
   `auditoria` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

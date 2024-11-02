@@ -30,14 +30,12 @@
     margin-right: 3em;
 }
 
-.home-text h5,
-.home-text h1,
-.home-text p {
+.home-h5, .home-h1, .home-p{
     /*text-align: center;*/
     color: #fff;
 }
 
-.home-text h5 {
+.home-h5 {
     font-family: var(--font-title);
     font-size: 1em;
     margin-left: 5px;
@@ -46,7 +44,7 @@
     text-transform: uppercase;
 }
 
-.home-text h1 {
+.home-h1 {
     font-family: var(--font-title);
     font-weight: 800;
     font-size: 3em;
@@ -54,27 +52,33 @@
     margin-bottom: 50px;
 }
 
-.btn-primary {
+ /* --------------- Botones -------------- */
+
+.btn-home {
     background-color: var(--color-secondary);
     border-color: var(--color-secondary);
-}
+    color: #fff;
+ }
 
-.btn-primary:hover {
-    background-color: rgba(228, 0, 124, 0.8);
-    border-color: rgba(228, 0, 124, 0.8);
-}
-
-.btn-out-primary {
+ .btn-home:hover {
     background-color: #fff;
     border-color: var(--color-secondary);
     color: var(--color-secondary);
-}
+    transition: 0.5s;
+ }
 
-.btn-out-primary:hover {
+ .btn-cardAlcaldia {
+    background-color: #fff;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+ }
+ 
+ .btn-cardAlcaldia:hover {
     background-color: var(--color-secondary);
     border-color: #fff;
     color: white;
-}
+    transition: 0.5s;
+ }
 
 /* Seccion: Alcaldías -------------- */
 
@@ -190,7 +194,11 @@
 
 
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
+    .home {
+        justify-content: center;
+    }
+
     .home-text {
         margin-left: 2em;
         margin-right: 2em;
@@ -198,18 +206,15 @@
         justify-content: center;
     }
 
-    .home-text h5,
-    .home-text h1,
-    .home-text p {
+    .home-h5, .home-h1, .home-p{
         text-align: center;
     }
 
-    .home-text h1 {
-        font-size: 4em;
-        letter-spacing: 3px;
+    .home-h1 {
+        font-size: 4em; 
+        letter-spacing: 3px; 
     }
-
-    .home-text h5 {
+    .home-h5 {
         margin: 0px 20px 0px 20px;
         font-size: 1em;
     }

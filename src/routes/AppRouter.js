@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
+import PlacePage from '../pages/PlacePage';
 import UsuarioDeseados from '../pages/UsuarioDeseados';
 import ItinerariesSavedPage from '../pages/ItinerariesSavedPage';
 import TerminosCondiciones from '../pages/TerminosCondiciones';
@@ -20,6 +21,7 @@ function AppRouter() {
         <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
         <Route path="/politica-privacidad" element={<PoliticasPrivacidad />} />
         <Route path="/confirmacion-registro" element={<ConfirmacionRegistro />} />
+        <Route path="/placepage" element={<PlacePage />} />
       </Routes>
     </Router>
   );

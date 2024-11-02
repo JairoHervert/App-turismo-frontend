@@ -1,8 +1,15 @@
-CALL CrearUsuario('CesarHavit@gmail.com', 12345);
-CALL CrearUsuario('JairoHervert@gmail.com', 12345);
-CALL CrearUsuario('BrandonSegura@gmail.com', 12345);
+CALL UsuarioRegistro('César Havit', 'CesarHavit@gmail.com', 12345);
+CALL UsuarioRegistro('Jairo Hervert', 'JairoHervert@gmail.com', 12345);
+CALL UsuarioRegistro('Brandon Segura', 'BrandonSegura@gmail.com', 12345);
 
-CALL CrearLugar('Palacio de Bellas Artes', '', 'Alameda central');
-CALL CrearLugar('Zócalo', '', 'Zócalo');
-CALL CrearLugar('Frikiplaza', '', 'Alcantarilla');
-CALL CrearLugar('Moshi Moshi', '', 'Casa del Mau');
+CALL LugarRegistro('Palacio de Bellas Artes', '', 'Alameda central');
+CALL LugarRegistro('Zócalo', '', 'Zócalo');
+CALL LugarRegistro('Frikiplaza', '', 'Alcantarilla');
+CALL LugarRegistro('Moshi Moshi', '', 'La esquina');
+
+CALL UsuarioAñadirDeseado(1,1);
+CALL UsuarioAñadirDeseado(1,2);
+
+CALL UsuarioVerDeseados(1);
+
+CALL UsuarioVerFavoritos(1);

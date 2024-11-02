@@ -1,12 +1,16 @@
 import React from 'react';
-// import css
 import '../css/HomePage.css';
-// import imgs
-import favorito from '../img/logo-star.svg';
-
+import { useNavigate } from 'react-router-dom';
 
 function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
-  
+
+  const navigate = useNavigate();
+
+    const handlePlacePageClick = () => {
+        navigate('/placepage');
+    };
+
+
   const imagen = require(`../img/HomePage/places/home-places-${nombreImagen}.jpg`);
 
   return (
@@ -26,7 +30,7 @@ function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
             <i className="bi bi-star"></i>
             </button>
             </div>
-            <button className='btn btn-out-primary me-2'>Conoce más</button>
+            <button onClick={handlePlacePageClick} className='btn btn-cardAlcaldia me-2'>Conoce más</button>
           </div>
             <div className='card-body-text'>
               <p>{nombreLugar}</p>
