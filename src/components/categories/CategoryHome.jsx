@@ -6,11 +6,10 @@ import '../../css/HomePage.css';
 
 
 
-const App = () => {
+const CategoryHome = () => {
 
     const [selectedCategory, setSelectedCategory] = useState("No convencionales");
 
-   
     const places = [
         { category: "No convencionales", imagen: '1', name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera. Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera. Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
         { category: "No convencionales", imagen: "2", name: "Palacio Postal", description: "El Palacio Postal o la Quinta Casa de Correos es un edificio del Centro Histórico construido por el italiano Adamo Boari y el mexicano Gonzalo Garita." },
@@ -78,4 +77,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default CategoryHome;

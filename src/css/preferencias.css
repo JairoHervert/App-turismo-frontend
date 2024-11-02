@@ -1,0 +1,48 @@
+@import "../var.css";
+
+.pref-border-modal {
+    border: 1.5px solid var(--color-primary); /* Color rosa */
+}
+.pref-titulo{
+    /*Letra*/
+    font-family:var(--font-title);
+    font-size: 1.5rem;
+    color: var(--color-secondary);
+    font-weight: bold; /* Añadir esta línea para poner la letra en negrita */
+}
+.pref-content{
+    /*Letra*/
+    font-family:var(--font-body);
+    font-size: 1rem;
+}
+.pref-categoriaUser {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Mantiene la relación de aspecto 1:1 para asegurar una forma cuadrada */
+    background-size: cover; /* La imagen de fondo cubre todo el contenedor sin distorsionarse */
+    background-position: center; /* Centra la imagen de fondo */
+    background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+    cursor: pointer;
+    border: 5px solid transparent;
+    transition: border-color 0.3s;
+    border-radius: 12px; /* Ajusta el valor para redondear las esquinas */
+    overflow: hidden; /* Asegura que la imagen de fondo no se salga de los bordes redondeados */
+}
+
+.pref-categoriaUser.seleccionada {
+    border-color: #09c2f6; /* Borde azul para indicar selección */
+    border-width: 5px;
+}
+
+.pref-categoriaUser .titulo {
+    font-family: 'Arial Black', Gadget, sans-serif; /* O 'Impact', Charcoal, sans-serif */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    padding: 0.5rem;
+    font-size: 1.2rem; /* Ajusta el tamaño de la letra */
+    text-shadow: 4px 3px 2.2px rgba(0, 0, 0, 1); /* Añade una sombra negra */
+}

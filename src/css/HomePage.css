@@ -329,10 +329,34 @@ h2{
     font-family: var(--font-title);
     font-weight: 650;
     font-size: 2em;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
     margin-bottom: 1rem;
 }
 
-.pitch {
+
+
+/*PREGUNTA DEL REGISTRO*/
+.pr-0{
+    background-color: var(--color-primary);
+    padding: 20px 0;
+}
+
+
+.pr-1{
+    background-color: var(--color-primary);
+    border-radius: '5px' 
+}
+
+.pr-2{
+    padding: 10px;
+}
+.pr-img{
+    border-radius: 5px;
+}
+
+.pr-pitch{
+    line-height: '1.4';
     text-align: justify;
     font-family: var(--font-body);
     font-size: 1em;
