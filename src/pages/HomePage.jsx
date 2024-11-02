@@ -4,6 +4,7 @@ import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
+import { useState } from 'react';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -15,6 +16,9 @@ import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
 
 
 const HomePage = () => {
+
+  const [isRegistered, setIsRegistered] = useState(false);
+
 
   const settings = {
     className: "center",
@@ -84,8 +88,13 @@ const HomePage = () => {
       <br></br>
       <section>
         <div className='home-text'>
-            <h3> <strong>Explora nuestras categorías</strong> </h3>
-        </div>
+        <h3>
+            <strong>
+              {isRegistered
+                ? 'Lugares que te podrían interesar'
+                : 'Explora nuestras categorías'}
+            </strong>
+          </h3>        </div>
         <CatHome />
       </section>
 
