@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../css/HomePage.css';
 
-import App from '../components/categories/App'
+import CatHome from '../components/categories/CategoryHome';
 import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
 
 
@@ -41,7 +41,7 @@ const HomePage = () => {
           <h5>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
           <h1>Ciudad de México</h1>
           <button className='btn btn-primary' type='button'>
-              Comienza ahora
+              Comienza ahora 
           </button>
         </div>
       </section>
@@ -72,6 +72,13 @@ const HomePage = () => {
         </div>
       </section>
 
+        {/* Agregar boton de ver mas que redirige a ver todas las alcaldias*/ }
+        <div className='alc-vermas'>
+          <button className='btn btn-primary' type='button'>
+            Ver más
+          </button>
+        </div>
+
 
       {/* SECCIÓN DE CESAR - EXPLORAR CATEGORÍAS*/}
       <br></br>
@@ -79,7 +86,7 @@ const HomePage = () => {
         <div className='home-text'>
             <h3> <strong>Explora nuestras categorías</strong> </h3>
         </div>
-        <App />
+        <CatHome />
       </section>
 
       {/* SECCIÓN DE CESAR - EXPLORAR LUGARES CERCANOS */}
@@ -96,6 +103,7 @@ const HomePage = () => {
       <section> 
         <PreguntaRegistro />
       </section>
+      <br></br>
 
       <Footer 
         showIncorporaLugar={false} />
