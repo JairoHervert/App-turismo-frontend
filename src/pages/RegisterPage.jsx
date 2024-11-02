@@ -15,7 +15,7 @@ function RegisterPage() {
   return (
     <div className='vh-100 vw-100'>
       <Navbar
-        showingresa={false}
+        showingresa={true}
         showRegistrate={false}
         transparentNavbar={false}
         lightLink={false}

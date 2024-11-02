@@ -33,3 +33,7 @@
 .fontPoppins {
    font-family: 'Poppins', sans-serif;
 }
+
+.cursor-pointer {
+   cursor: pointer;
+}
