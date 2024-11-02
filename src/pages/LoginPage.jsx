@@ -4,6 +4,8 @@ import '../css/LoginPage.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import imgFormulario from '../img/piramides-teotihuacan.webp';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -11,6 +13,35 @@ function LoginPage() {
   const handleHomeClick = () => {
     navigate('/');
   };
+
+  const login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      console.log('Token de Google:', tokenResponse);
+      // Aquí puedes manejar el token de acceso como desees
+      console.log(typeof tokenResponse);
+      const accessToken = tokenResponse.access_token;
+      console.log('Token de acceso:', accessToken);
+      // Llama a Google UserInfo API para obtener los datos del usuario
+      try {
+        const userInfo = await axios.get(
+          'https://www.googleapis.com/oauth2/v3/userinfo',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              
+            },
+          }
+        );
+        console.log('Información del usuario:', userInfo.data);
+        // Aquí puedes manejar la información del usuario (e.g., nombre, email)
+      } catch (error) {
+        console.error('Error al obtener información del usuario:', error);
+      }
+    },
+    onError: () => {
+      console.log('Error al autenticar con Google');
+    },
+  });
 
   return (
     <div className='vh-100 vw-100'>
@@ -69,9 +100,18 @@ function LoginPage() {
                 {/* Sección de botones de redes sociales */}
                 <div className='text-center mt-4 mb-5'>
                   <p>o inicia sesión con:</p>
-                  <button type='button' className='btn btn-link btn-floating mx-1'>
+                  <button type='button' className='btn btn-link btn-floating mx-1' onClick={() => login()}>
                     <i className='bi bi-google'></i>
                   </button>
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      console.log('Credenciales:', credentialResponse);
+                      // Aquí puedes manejar las credenciales del usuario
+                    }}
+                    onError={() => {
+                      console.log('Error al iniciar sesión');
+                    }}
+                  />
                   <button type='button' className='btn btn-link btn-floating mx-1'>
                     <i className='bi bi-microsoft'></i>
                   </button>
