@@ -26,7 +26,7 @@ function RegisterPage() {
         <div className="register-box d-flex flex-column rounded">
           <div className="close-icon" onClick={handleHomeClick}>✕</div>
           <div className="register-content d-flex">
-      
+
             <div className="register-left">
               <img src={imgFormulario} alt="Register background" className="register-left-image" />
               <div className='register-left-overlay text-start d-flex flex-column justify-content-center pb-5'>
@@ -82,10 +82,14 @@ function RegisterPage() {
                   </button>
                 </div>
 
-                <p>¿Ya tienes una cuenta? <Link to="/register" className="fontRosaMexicano">Inicia sesión aquí</Link></p>
+                <p>¿Ya tienes una cuenta? <Link to="/login" className="fontRosaMexicano">Inicia sesión aquí</Link></p>
 
-                <div className="mt-4">
-                  <small>Al registrarte, aceptas nuestros <a href="#!" className="fontAzulMayaOscuro">Términos de Servicio</a> y <a href="#!" className="fontAzulMayaOscuro">Política de Privacidad</a>.</small>
+                <div className='mt-4'>
+                  <small>
+                    Al registrarte, aceptas nuestros
+                    <Link to="/terminos-condiciones" className="fontAzulMayaOscuro"> Términos de Servicio</Link> y
+                    <Link to="/politica-privacidad" className="fontAzulMayaOscuro"> Política de Privacidad</Link>.
+                  </small>
                 </div>
               </form>
             </div>
