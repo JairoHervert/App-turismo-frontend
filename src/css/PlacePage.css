@@ -21,9 +21,9 @@
 .big-img {
     width: 100%;
     aspect-ratio: 1;
-    background-image: url('../img/PlacePage/place-img-fuentetlaloc.jpg');
     background-size: cover;
     background-position: center;
+    cursor: pointer;
 }
 
 .fila-1, .fila-2 {
@@ -146,10 +146,14 @@
     margin-right: 15px;
 }
 
-
-
+.score-text {
+    font-weight: 500;
+    margin-bottom: 0;
+}
 .stars {
     width: fit-content;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -183,7 +187,7 @@
     margin-bottom: 50px;
     margin-left: 30px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
 }
 
 .card-title {
@@ -198,7 +202,7 @@
 }
 
 .review-description {
-    width: 70%;
+    width: 100%;
     display: flex;
     align-items: flex-start;
     margin-left: 30px;
@@ -215,6 +219,7 @@
 .review-user-section-left {
     display: flex;
     height: fit-content;
+    width: 20%;
 }
 
 .review-user-information {
@@ -225,8 +230,8 @@
 }
 
 .review-user-photo {
-    width: 110px;
-    height: 110px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
 }
 
@@ -249,6 +254,13 @@
         padding: 3%;
     }
     
+    .place-left-site {
+        width: 100%;
+    }
+
+    .card-descripcion-lugar {
+        width: 90%;
+    }
 }
 
 @media (max-width: 1931px) {
@@ -272,11 +284,6 @@
         width: 90%;
         margin-left: 30px;
         margin-bottom: 20px;
-    }
-
-    .review-user-photo {
-        width: 90px;
-        height: 90px;
     }
 }
 

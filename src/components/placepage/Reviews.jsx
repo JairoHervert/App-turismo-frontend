@@ -1,18 +1,20 @@
 import React from 'react';
+import '../../css/PlacePage.css';
 import userPhoto from '../../img/PlacePage/place-user.png';
 
-function Reviews() {
+function Reviews({nombreUsuario, antiguedadReview, comentarioUsuario}) {
   
+    
     return (
         <div className='review-content'>
             <div className='review-user-section-left'>
                 <img src={userPhoto} alt='user-photo' className='review-user-photo' />
                 <div className='review-user-information'>
                     <div className='row gx-0'>
-                        <h4>Brandon Segura</h4>
+                        <h4>{nombreUsuario}</h4>
                     </div>
                     <div className='row gx-0'>
-                        <p>Hace 10 meses</p>
+                        <p>Hace {antiguedadReview}</p>
                     </div>
                 </div>
             </div>
@@ -29,8 +31,7 @@ function Reviews() {
                         </div>
                     </div>
                     <div className='review-description-opinion'>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae rem eligendi, quas officia recusandae eum aliquam soluta, repellat alias deleniti, sunt enim iste sapiente natus molestias. Soluta animi itaque doloremque cupiditate? Molestias aspernatur, nam ut maiores incidunt repellendus? Debitis, ea!
-                        Lorem ipsum dolor sit, amet consectetur adipisicime?</p>
+                        <p>{comentarioUsuario}</p>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DescripcionLugar({nombreImagen}) {
+function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, placeHorario, lugarImagenes}) {
 
     return (
       <section className='place-page container-fluid'>
@@ -17,7 +17,7 @@ function DescripcionLugar({nombreImagen}) {
                             <i class="bi bi-geo-alt-fill"></i>
                         </div>
                         <div className='col'>
-                        <p className='place-description'>De La Ciudadela 4, Colonia Centro, Centro, Cuauhtémoc, 06040 Ciudad de México, CDMX</p>
+                        <p className='place-description'>{placeDireccion}</p>
                         </div>
                     </div>
                     <div className='row gx-0'>
@@ -25,7 +25,7 @@ function DescripcionLugar({nombreImagen}) {
                             <i class="bi bi-currency-dollar"></i>
                         </div>
                         <div className='col'>
-                            <p className='place-description'>Sin costo</p>
+                            <p className='place-description'>{placeCosto}</p>
                         </div>
                         
                     </div>
@@ -34,7 +34,7 @@ function DescripcionLugar({nombreImagen}) {
                         <i class="bi bi-person-wheelchair"></i>
                         </div>
                         <div className='col'>
-                            <p className='place-description'>Accesible con silla de ruedas</p>
+                            <p className='place-description'>{placeAccesibilidad}</p>
                         </div>
                     </div>
                     <div className='row gx-0'>
@@ -42,7 +42,7 @@ function DescripcionLugar({nombreImagen}) {
                             <i class="bi bi-clock"></i>
                         </div>
                         <div className='col'>
-                            <p className='place-description'>Todos los días de 8:30 a 19:30 hrs</p>
+                            <p className='place-description'>{placeHorario}</p>
                         </div>
                         
                     </div>
@@ -55,7 +55,7 @@ function DescripcionLugar({nombreImagen}) {
                 </h2>
                 <div className='row gx-0 place-score'>
                     <div className='score'>
-                        <h3 className='score-text'>4.8</h3>
+                        <h2 className='score-text'>4.8</h2>
                     </div>
                     <div className='stars'>
                         {/* de a mientras */}
@@ -100,22 +100,34 @@ function DescripcionLugar({nombreImagen}) {
                 {/* Seccion galería */}
                 <div className='place-img'>
 
-                    <div className='big-img'>
-
-                        </div>
+                    {lugarImagenes?.[0] && (
+                        <div
+                            className='big-img'
+                            style={{ backgroundImage: `url(${lugarImagenes[0]})` }}
+                        ></div>
+                    )}
 
                     <div className='col-md-7 col-little-img'>
                         <div className='row gx-0 fila-1'>
-                                <div className='place-little-img'></div>
-                                <div className='place-little-img'></div>
+                            {lugarImagenes.slice(1, 3).map((nombreImagen, index) => (
+                                <div
+                                    key={index}
+                                    className='place-little-img'
+                                    style={{ backgroundImage: `url(${nombreImagen})` }}
+                                ></div>
+                            ))}
                         </div>
                         <div className='row gx-0 fila-2'>
-                                <div className='place-little-img'></div>
-                                <div className='place-little-img'></div>
+                            {lugarImagenes.slice(3, 5).map((nombreImagen, index) => (
+                                <div
+                                    key={index}
+                                    className='place-little-img'
+                                    style={{ backgroundImage: `url(${nombreImagen})` }}
+                                ></div>
+                            ))}
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>

@@ -7,6 +7,14 @@ import '../css/PlacePage.css';
 
 const PlacePage = () => {
 
+  const imagenes = [
+    'https://www.bibliotecademexico.gob.mx/imagenes/Bpersonales/Ini_CastroLeas.jpg',
+    'https://www.sopitas.com/wp-content/uploads/2023/05/bibliotecas-personales-biblioteca-de-mexico-portada.jpg',
+    'https://mxc.com.mx/wp-content/uploads/2024/08/biblioteca-de-mexico-1.jpg-6.jpg',
+    'https://www.bibliotecademexico.gob.mx/imagenes/Bpersonales/ini_AliChumacero.jpg',
+    'https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg'
+  ];
+
   return (
     <div>
       <NavBarHome 
@@ -26,7 +34,12 @@ const PlacePage = () => {
 
       <section>
         <DescripcionLugar
-          nombreImagen='palaciopostal'
+          placeDireccion='De La Ciudadela 4, Colonia Centro, Centro, Cuauhtémoc, 06040 Ciudad de México, CDMX'
+          placeCosto='Sin costo'
+          placeAccesibilidad='Accesible con silla de ruedas'
+          placeHorario='Todos los días de 8:30 a 19:30 hrs'
+          lugarImagenes={imagenes}
+
         />
       </section>
 
@@ -36,9 +49,19 @@ const PlacePage = () => {
             <h1 className='title'>Reseñas y calificaciones</h1>
           </div>
           <div className='card-body'>
-            <Reviews/>
-            <Reviews/>
-            <Reviews/>
+            <Reviews
+              nombreUsuario='Brandon Segura'
+              antiguedadReview='10 meses'
+              comentarioUsuario='Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero perferendis quaerat excepturi? Praesentium tempore, aspernatur temporibus, commodi libero officiis ab deserunt sit accusantium iusto explicabo ad, voluptatem iure dolor quasi.'/>
+            <Reviews
+              nombreUsuario='Mauricio'
+              antiguedadReview='1 año'
+              comentarioUsuario='Me gustó'/>
+            <Reviews
+              nombreUsuario='Juan Mark'
+              antiguedadReview='3 dias'
+              comentarioUsuario='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis voluptate, cupiditate suscipit totam maxime est deleniti nulla similique, quae asperiores optio explicabo culpa! Itaque sit veniam ipsam expedita autem quis recusandae molestias qui placeat, officia distinctio perferendis, rerum iste pariatur animi illo nostrum veritatis ex voluptatem, vel id odio. Vel.'/>
+              
           </div>
         </div>
       </section>
