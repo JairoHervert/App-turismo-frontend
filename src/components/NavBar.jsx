@@ -15,7 +15,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
   // Función para boton de registro
   const handleRegisterClick = () => {
-    navigate('/register');
+    navigate('/history');
   }
 
   return (
