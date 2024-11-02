@@ -1,15 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../css/LoginPage.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import imgFormulario from '../img/piramides-teotihuacan.webp';
+import { fetchUsuarios } from '../js/LoginPage';
 import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import axios from 'axios';
 
 function LoginPage() {
+  const [correo, setCorreo] = useState('');
+  const [contraseña, setContraseña] = useState('');
   const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
+      console.log(response.data);
+      if (response.data.id) {
+        console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
+      } else {
+        console.log("Credenciales incorrectas.");
+      }
+    } catch (error) {
+      console.error("Error al intentar iniciar sesión:", error);
+    }
+  };
 
   const handleHomeClick = () => {
     navigate('/');
@@ -85,15 +104,27 @@ function LoginPage() {
             <div className='login-right d-flex flex-column justify-content-center'>
               <h3 className='fw-normal mb-3 pb-3 fontMontserrat fw-semibold'>Iniciar sesión</h3>
 
-              <form className='login-form'>
+              <form className='login-form' onSubmit={handleLogin}>
                 <div className='mb-3'>
                   <label htmlFor='logInputEmail' className='form-label'>Correo electrónico</label>
-                  <input type='email' className='form-control' id='logInputEmail' aria-describedby='emailHelp' />
+                  <input
+                    type='email'
+                    className='form-control'
+                    id='logInputEmail'
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
+                  />
                 </div>
 
                 <div className='mb-3'>
                   <label htmlFor='logInputPassword' className='form-label'>Contraseña</label>
-                  <input type='password' className='form-control' id='logInputPassword' />
+                  <input
+                    type='password'
+                    className='form-control'
+                    id='logInputPassword'
+                    value={contraseña}
+                    onChange={(e) => setContraseña(e.target.value)}
+                  />
                 </div>
 
                 <div className='pt-1 mb-4 mt-4'>
@@ -114,15 +145,15 @@ function LoginPage() {
                     <i className='bi bi-microsoft'></i>
                   </button>
                   <FacebookLogin
-                      appId="1276060800080687"
-                      autoLoad={false}
-                      callback={responseFacebook}
-                      render={(renderProps) => (
-                         <button type="button" className="btn btn-link btn-floating mx-1" onClick={renderProps.onClick}>
-                          <i className="bi bi-facebook"></i>
-                        </button>
-                      )}
-                    />
+                    appId="1276060800080687"
+                    autoLoad={false}
+                    callback={responseFacebook}
+                    render={(renderProps) => (
+                        <button type="button" className="btn btn-link btn-floating mx-1" onClick={renderProps.onClick}>
+                        <i className="bi bi-facebook"></i>
+                      </button>
+                    )}
+                  />
                 </div>
 
                 <p>¿No tienes una cuenta? <Link to='/register' className='fontRosaMexicano'>Regístrate aquí</Link></p>

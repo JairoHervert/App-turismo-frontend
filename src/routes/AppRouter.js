@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
-import HistoryPage from '../pages/HistoryPage';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 
@@ -13,9 +12,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/History" element={<HistoryPage />} />
-        <Route path="/register" element={<RegisterPage />} 
-        />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
   );
