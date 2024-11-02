@@ -72,6 +72,13 @@ const HomePage = () => {
         </div>
       </section>
 
+        {/* Agregar boton de ver mas que redirige a ver todas las alcaldias*/ }
+        <div className='alc-vermas'>
+          <button className='btn btn-primary' type='button'>
+            Ver más
+          </button>
+        </div>
+
 
       {/* SECCIÓN DE CESAR - EXPLORAR CATEGORÍAS*/}
       <br></br>
