@@ -1,0 +1,19 @@
+.co_re-titulo {
+   font-size: 3rem;
+   margin-top: 1em;
+}
+
+.co_re-iniciar-sesion {
+   color: #E4007C;
+   text-decoration: none;
+}
+
+.co_re-iniciar-sesion:hover {
+   color: #b40766;
+   text-decoration: underline;
+}
+
+.co_re-imagen {
+   width: 100%;
+   max-width: 16rem;
+}

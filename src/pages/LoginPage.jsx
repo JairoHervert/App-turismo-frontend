@@ -72,9 +72,6 @@ function LoginPage() {
                     <i className='bi bi-google'></i>
                   </button>
                   <button type='button' className='btn btn-link btn-floating mx-1'>
-                    <i className='bi bi-microsoft'></i>
-                  </button>
-                  <button type='button' className='btn btn-link btn-floating mx-1'>
                     <i className='bi bi-facebook'></i>
                   </button>
                 </div>

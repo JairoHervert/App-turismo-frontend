@@ -6,6 +6,7 @@ import UsuarioDeseados from '../pages/UsuarioDeseados';
 import ItinerariesSavedPage from '../pages/ItinerariesSavedPage';
 import TerminosCondiciones from '../pages/TerminosCondiciones';
 import PoliticasPrivacidad from '../pages/PoliticasPrivacidad';
+import ConfirmacionRegistro from '../pages/ConfirmacionRegistro';
 
 function AppRouter() {
   return (
@@ -18,6 +19,7 @@ function AppRouter() {
         <Route path="/itinerariesSaved" element={<ItinerariesSavedPage/>} />
         <Route path="/terminos-condiciones" element={<TerminosCondiciones />} />
         <Route path="/politica-privacidad" element={<PoliticasPrivacidad />} />
+        <Route path="/confirmacion-registro" element={<ConfirmacionRegistro />} />
       </Routes>
     </Router>
   );
