@@ -3,7 +3,7 @@ import '../css/HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
 function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
-  
+
   const navigate = useNavigate();
 
     const handlePlacePageClick = () => {
