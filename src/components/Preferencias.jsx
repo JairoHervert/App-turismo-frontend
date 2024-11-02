@@ -128,9 +128,6 @@ function Preferencias() {
                 </div>
             </div>
         </div>
-
-            {/* Botón para abrir el primer modal */}
-            <a className="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Abrir preferencias</a>
         </div>
     );
 }
