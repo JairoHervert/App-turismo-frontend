@@ -13,12 +13,12 @@ function preguntaRegistro() {
                             <div className="col-12 col-md-7 d-flex flex-column justify-content-center pr-2" >
                                 <h2 className="pregunta">¿Ya te encuentras registrado?</h2>
                                 <div className="pr-pitch">
-                                    <p style={{ marginBottom: '8px' }}>
+                                    <p>
                                         ¡Regístrate ahora y lleva la organización de tus viajes al siguiente nivel! Nuestra app te permite
                                         crear un itinerario personalizado de manera fácil y rápida, ayudándote a disfrutar de cada destino al máximo.
                                         Con una cuenta, tendrás acceso a herramientas exclusivas para que planear sea tan emocionante como el viaje mismo.
                                     </p>
-                                    <p style={{ marginBottom: '8px' }}>
+                                    <p>
                                         No dejes que la falta de planificación te haga perder momentos únicos. <strong>¡Regístrate ahora y comienza a crear el itinerario de tus sueños!</strong>
                                     </p>
                                 </div>
