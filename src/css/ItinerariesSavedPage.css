@@ -1,0 +1,22 @@
+/* Estilos para el contenedor principal de la página */
+.itineraries-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Estilos generales para el contenedor */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* Título de la página */
+.page-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin: 20px 0;
+    text-align: center;
+}
