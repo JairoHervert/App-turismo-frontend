@@ -93,6 +93,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
                       <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmacion Registro</Link></li>
                       <li><Link className='dropdown-item' to='/usuario-deseados'>Deseados User</Link></li>
+                      <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
                       <li><Link className='dropdown-item' to='/favorites-page'>Favoritos User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
                       <li><hr className="dropdown-divider" /></li>
