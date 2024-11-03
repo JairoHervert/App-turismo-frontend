@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, Grid, TextField, InputAdornment } from '@mui/material';
+import { Container, Stack, Grid, TextField, Box, InputAdornment } from '@mui/material';
 import { Search as SearchIcon, FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -48,37 +48,39 @@ function FavoritesPage() {
           />
         </Stack>
 
-        <Grid container spacing={2} justifyContent='center' alignItems='center'>
-          <ItemFavoritos
-            imagen={Imagen1}
-            nombre='Fuente de Tlaloc'
-            descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
+        <Box sx={{ maxHeight: '74vh', overflowY: 'auto' }}>
+          <Grid container spacing={2} justifyContent='center' alignItems='center'>
+            <ItemFavoritos
+              imagen={Imagen1}
+              nombre='Fuente de Tlaloc'
+              descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
 
-          <ItemFavoritos
-            imagen={Imagen2}
-            nombre='Casa de León'
-            descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
+            <ItemFavoritos
+              imagen={Imagen2}
+              nombre='Casa de León'
+              descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
 
-          <ItemFavoritos
-            imagen={Imagen3}
-            nombre='Palacio Postal'
-            descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
+            <ItemFavoritos
+              imagen={Imagen3}
+              nombre='Palacio Postal'
+              descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
 
-          <ItemFavoritos
-            imagen={Imagen1}
-            nombre='Fuente de Tlaloc'
-            descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
+            <ItemFavoritos
+              imagen={Imagen1}
+              nombre='Fuente de Tlaloc'
+              descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
 
-          <ItemFavoritos
-            imagen={Imagen2}
-            nombre='Casa de León'
-            descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
+            <ItemFavoritos
+              imagen={Imagen2}
+              nombre='Casa de León'
+              descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
 
-          <ItemFavoritos
-            imagen={Imagen3}
-            nombre='Palacio Postal'
-            descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
-        </Grid>
+            <ItemFavoritos
+              imagen={Imagen3}
+              nombre='Palacio Postal'
+              descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
+          </Grid>
+        </Box>
 
       </Container>
 
