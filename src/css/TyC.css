@@ -3,34 +3,28 @@
 /* Estilos para la página de Términos y Condiciones */
 .TyC {
     background-color: #ffffff;
+    padding-bottom: 2em;
 }
-.TyC-header {
 
+.TyC-header {
     padding-top: 10px;
+    padding-bottom: 20px;
     text-align: center;
     font-weight: bold;
     font-size: 3rem;
 }
 
-
 .TyC-nav{
     font-family: var(--font-title);
-}
-
-.TyC_container {
-    padding: 10px 80px;
+    padding-top: 1em;
+    
 }
 
 .TyC_navContainer {
     background-color: #f8f9fa;
-    padding: 20px;
     border-radius: 8px;    
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.30);
-}
-
-.TyC_nav {
-    position: sticky;
-    top: 20px;
+    
 }
 
 .TyC_navLink {
@@ -46,18 +40,14 @@
     text-decoration: none; /* Subraya solo cuando se pasa el ratón por encima */
 }
 
-.TyC_contentContainer {
-    padding: 20px;
-}
 
 .TyC_content {
-
     max-height: 80vh;
     overflow-y: auto;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .TyC_section {
