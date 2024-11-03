@@ -1,73 +1,28 @@
 import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../css/LoginPage.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import imgFormulario from '../img/piramides-teotihuacan.webp';
-import { fetchUsuarios } from '../js/LoginPage';
 import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { handleLogin, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/login-handler';
 
 function LoginPage() {
+  
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
   const navigate = useNavigate();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
-      console.log(response.data);
-      if (response.data.id) {
-        console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
-      } else {
-        console.log("Credenciales incorrectas.");
-      }
-    } catch (error) {
-      console.error("Error al intentar iniciar sesión:", error);
-    }
-  };
 
   const handleHomeClick = () => {
     navigate('/');
   };
 
   // VERIFICACIÓN CON GOOGLE
-  const login = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log('Token de Google:', tokenResponse);
-      // Aquí puedes manejar el token de acceso como desees
-      console.log(typeof tokenResponse);
-      const accessToken = tokenResponse.access_token;
-      console.log('Token de acceso:', accessToken);
-      // Llama a Google UserInfo API para obtener los datos del usuario
-      try {
-        const userInfo = await axios.get(
-          'https://www.googleapis.com/oauth2/v3/userinfo',
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              
-            },
-          }
-        );
-        console.log('Información del usuario:', userInfo.data);
-        // Aquí puedes manejar la información del usuario (e.g., nombre, email)
-      } catch (error) {
-        console.error('Error al obtener información del usuario:', error);
-      }
-    },
-    onError: () => {
-      console.log('Error al autenticar con Google');
-    },
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: successGoogleHandler,
+    onError: errorGoogleHandler,
   });
-
-  // VERIFICACIÓN CON FACEBOOK
-  const responseFacebook = (response) => {
-    console.log(response); // Maneja la respuesta de autenticación aquí
-  };
 
   return (
     <div className='vh-100 vw-100'>
@@ -104,7 +59,7 @@ function LoginPage() {
             <div className='login-right d-flex flex-column justify-content-center'>
               <h3 className='fw-normal mb-3 pb-3 fontMontserrat fw-semibold'>Iniciar sesión</h3>
 
-              <form className='login-form' onSubmit={handleLogin}>
+              <form className='login-form' onSubmit={(e) => handleLogin(e, correo, contraseña)}>
                 <div className='mb-3'>
                   <label htmlFor='logInputEmail' className='form-label'>Correo electrónico</label>
                   <input
@@ -138,7 +93,7 @@ function LoginPage() {
                 {/* Sección de botones de redes sociales */}
                 <div className='text-center mt-4 mb-5'>
                   <p>o inicia sesión con:</p>
-                  <button type='button' className='btn btn-link btn-floating mx-1' onClick={() => login()}>
+                  <button type='button' className='btn btn-link btn-floating mx-1' onClick={() => handleGoogleLogin()}>
                     <i className='bi bi-google'></i>
                   </button>
                   <button type='button' className='btn btn-link btn-floating mx-1'>
