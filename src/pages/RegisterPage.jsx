@@ -124,18 +124,20 @@ function RegisterPage() {
                   <button type="button" className="btn btn-link btn-floating mx-1">
                     <i className="bi bi-google"></i>
                   </button>
-                  <button type="button" className="btn btn-link btn-floating mx-1">
-                    <i className="bi bi-microsoft"></i>
-                  </button>
+
                   <button type="button" className="btn btn-link btn-floating mx-1">
                     <i className="bi bi-facebook"></i>
+
+
+                    
                   </button>
                 </div>
 
                 <p>¿Ya tienes una cuenta? <Link to="/login" className="fontRosaMexicano">Inicia sesión aquí</Link></p>
+                
 
                 <div className='mt-4'>
-                  <small>
+                <small>
                     Al registrarte, aceptas nuestros
                     <Link to="/terminos-condiciones" className="fontAzulMayaOscuro"> Términos de Servicio</Link> y
                     <Link to="/politica-privacidad" className="fontAzulMayaOscuro"> Política de Privacidad</Link>.

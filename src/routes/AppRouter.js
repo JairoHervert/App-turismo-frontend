@@ -8,6 +8,7 @@ import ItinerariesSavedPage from '../pages/ItinerariesSavedPage';
 import TerminosCondiciones from '../pages/TerminosCondiciones';
 import PoliticasPrivacidad from '../pages/PoliticasPrivacidad';
 import ConfirmacionRegistro from '../pages/ConfirmacionRegistro';
+import HistorialBusqueda from '../pages/HistoryPage';
 import FavoritesPage from '../pages/FavoritesPage';
 
 function AppRouter() {
@@ -19,6 +20,7 @@ function AppRouter() {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/usuario-deseados' element={<UsuarioDeseados />} />
         <Route path='/itinerariesSaved' element={<ItinerariesSavedPage/>} />
+        <Route path='/HistoryPage' element={<HistorialBusqueda/>} />
         <Route path='/terminos-condiciones' element={<TerminosCondiciones />} />
         <Route path='/politica-privacidad' element={<PoliticasPrivacidad />} />
         <Route path='/confirmacion-registro' element={<ConfirmacionRegistro />} />
