@@ -12,8 +12,8 @@ function ConfirmacionRegistro() {
           </div>
           <div>
             <h1 className='fw-bolder fontMontserrat co_re-titulo mb-5'>¡Registro exitoso!</h1>
-            <h2 className='fw-medium fs-3'>Juntos exploraremos lo desconocido. Que cada destino te lleve a un recuerdo inolvidable.</h2>
-            <h3 className='fs-3'>Por favor, procede a <Link className='co_re-iniciar-sesion' to='/login'>Iniciar sesion</Link> para continuar.</h3>
+            <h2 className='fw-medium fs-3 co_re-text'>Juntos exploraremos lo desconocido. Que cada destino te lleve a un recuerdo inolvidable.</h2>
+            <h3 className='fs-3 co_re-text'>Por favor, procede a <Link className='co_re-iniciar-sesion' to='/login'>Iniciar sesion</Link> para continuar.</h3>
           </div>
       </div>
 

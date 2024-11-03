@@ -5,11 +5,11 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
   const navigate = useNavigate();
 
   const informacionLugar = () => {
-    navigate(`/`); // redirige a la página de inicio, actualizar con la ruta correcta si es necesario
+    navigate(`/placepage`); // redirige a la página de inicio, actualizar con la ruta correcta si es necesario
   };
 
   const handleFavoriteClick = () => {
-    // Acción al hacer clic en el ícono de corazón
+    // Acción al hacer clic en el ícono de corazón, por ahora solo imprime un mensaje en la consola
     console.log('Lugar agregado a favoritos');
   };
 

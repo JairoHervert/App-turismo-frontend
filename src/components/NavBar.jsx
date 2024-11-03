@@ -7,7 +7,7 @@ import Preferencias from './Preferencias'; // Asegúrate de importar el componen
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName, setUserName] = useState('Nombre de Usuario'); // Simula el nombre del usuario
   const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar la apertura del menú
 
@@ -91,6 +91,8 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
+                      <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmacion Registro</Link></li>
+                      <li><Link className='dropdown-item' to='/usuario-deseados'>Deseados User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
                       <li><hr className="dropdown-divider" /></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>

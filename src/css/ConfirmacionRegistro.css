@@ -17,3 +17,13 @@
    width: 100%;
    max-width: 16rem;
 }
+
+@media (max-height: 800px) {
+   .co_re-imagen {
+      max-width: 12rem;
+   }
+   .co_re-titulo {
+      font-size: 2rem;
+      margin-top: 1em;
+   }
+}
