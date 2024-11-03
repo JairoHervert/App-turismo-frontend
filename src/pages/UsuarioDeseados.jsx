@@ -15,7 +15,7 @@ function UsuarioDeseados() {
         staticNavbar={false}
       />
 
-      <div className='us_de-container my-5'>
+      <div className='us_de-container my-4'>
         <div className='d-flex justify-content-between align-items-center us_de-titulo-buscador'>
           <h1 className='fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Deseados</h1>
           <div className='us_de-cont-buscador-filtro'>
