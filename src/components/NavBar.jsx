@@ -7,7 +7,7 @@ import Preferencias from './Preferencias'; // Asegúrate de importar el componen
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName, setUserName] = useState('Nombre de Usuario'); // Simula el nombre del usuario
   const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar la apertura del menú
 
