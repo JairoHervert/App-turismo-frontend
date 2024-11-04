@@ -19,6 +19,7 @@ app.post('/confirm-email', confirmacionRegistroController.confirmarRegistro);
 app.post('/registro', registerController.registroRegular);
 app.post('/registroGoogle', registerController.registroGoogle);
 app.post('/iniciar-sesion', loginController.iniciarSesion);
+app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 
 app.listen(PORT, () => {
   console.log(`Servidor en funcionamiento en http://localhost:${PORT}`);

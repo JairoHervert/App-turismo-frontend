@@ -22,12 +22,19 @@ class registerModel{
     return new Promise((resolve, reject) => {
       db.query(query, [nombre, correo, imagen, token], (err, results) => {
         if (err) {
-          if (err.sqlState === '45000') {
-              return resolve('El correo ya está registrado.');
-          }
           reject(err);
         }
-        resolve({ message: 'Usuario creado'});
+        const resultado = results || null;
+        let error = '';
+        if (resultado && resultado.error) {
+          switch (resultado.error) {
+            case 'correo_ya_registrado':
+              error = 'El correo ya está registrado.';
+              break;
+          }
+          return reject(new Error(error));
+        }
+        resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
       });
     });
   }

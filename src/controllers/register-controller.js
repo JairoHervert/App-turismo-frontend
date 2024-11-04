@@ -34,12 +34,27 @@ class registerController {
         res.status(201).json(resultado);
       })
       .catch((err) => {
-        if (err === "El correo ya está registrado.") {
+        console.log(err);
+        if (err.message === 'El correo ya está registrado.') {
           return res.status(400).json({ error: err });
         }
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err });
       });
   }
+
+  /*static async registroGoogle(req, res) {
+    const { nombre, correo, imagen, token } = req.body;
+    
+    try {
+      const resultado = registerModel.registroGoogle(nombre, correo, imagen, token)
+      res.status(201).json(resultado);
+    }
+    catch (err) {
+      if(err.message === 'correo_ya_registrado')
+        return res.status(400).json({ error: 'El correo ya está registrado.'});
+      res.status(500).json({ error: err.message });
+    }
+  }*/
 
   static async enviarCorreoVerificacion(req, res){
     const { name, email } = req.body;

@@ -59,7 +59,7 @@ function RegisterPage() {
             <div className="register-right d-flex flex-column justify-content-center">
               <h3 className="fw-normal mb-3 pb-3 fontMontserrat fw-semibold">Registrar usuario</h3>
 
-              <form className="login-form" onSubmit={(e) => handleRegistro(e, nombre, correo, contraseña)}>
+              <form className="login-form" onSubmit={(e) => handleRegistro(e, nombre, correo, contraseña, contraseña2)}>
                 <div className="mb-3">
                   <label htmlFor="registerInputName" className="form-label">Nombre completo</label>
                   <input
@@ -74,7 +74,7 @@ function RegisterPage() {
                 <div className="mb-3">
                   <label htmlFor="registerInputEmail" className="form-label">Correo electrónico</label>
                   <input
-                    type="email"
+                    type="text"
                     className="form-control"
                     id="registerInputEmail"
                     value={correo}
@@ -117,6 +117,7 @@ function RegisterPage() {
                   <button type='button' className='btn btn-link btn-floating mx-1'>
                     <i className='bi bi-microsoft'></i>
                   </button>
+                  
                   <FacebookLogin
                     appId="1276060800080687"
                     autoLoad={false}

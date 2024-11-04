@@ -59,9 +59,12 @@ BEGIN
    IF usuarioExistente = 0 THEN
       INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, token, confirmacion, auditoria)
       VALUES (p_nombre, p_correo, p_imagen, p_sub, 1, NOW());
+
+      SELECT id FROM Usuario
+      WHERE nombre = p_nombre AND correo = p_correo;
+      
    ELSE
-      SIGNAL SQLSTATE '45000' 
-         SET MESSAGE_TEXT = 'El correo ya está registrado.';
+      SELECT 'correo_ya_registrado' AS 'error';
    END IF;
 END //
 
@@ -107,6 +110,31 @@ BEGIN
             WHERE correo = p_correo AND contraseña = p_contraseña;
          END IF;
       END IF;*/
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`IniciarSesion`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioIniciarSesionGoogle (
+   IN p_correo VARCHAR(255),
+   IN p_token VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   DECLARE contraseñaCorrecta INT;
+   DECLARE confirmacion_ INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = p_correo AND token = p_token;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+	SELECT id FROM Usuario
+        WHERE correo = p_correo;
    END IF;
 END //
 
