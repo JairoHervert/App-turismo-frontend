@@ -10,6 +10,8 @@ CALL LugarRegistro('Moshi Moshi', '', 'La esquina');
 CALL UsuarioAñadirDeseado(1,1);
 CALL UsuarioAñadirDeseado(1,2);
 
+CALL UsuarioIniciarSesion('CesarHavit@gmail.com', 1234);
+
 CALL UsuarioVerDeseados(1);
 
 CALL UsuarioVerFavoritos(1);

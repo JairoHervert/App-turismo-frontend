@@ -1,5 +1,5 @@
 
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 /*!40101 SET SQL_MODE=''*/;
 
@@ -31,6 +31,7 @@ CREATE TABLE `Usuario` (
   `fechaNacimiento` DATETIME,
   `ultimaConexion` DATETIME,
   `token` VARCHAR(255),
+  `confirmacion` BOOLEAN NOT NULL DEFAULT 0,
   `auditoria` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -110,4 +111,3 @@ SELECT
    ultimaConexion,
    auditoria
 FROM Usuario;
-
