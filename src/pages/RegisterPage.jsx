@@ -175,7 +175,7 @@ function RegisterPage() {
                   />
                 </div>
 
-                <p>¿Ya tienes una cuenta? <Link to="/register" className="fontRosaMexicano">Inicia sesión aquí</Link></p>
+                <p>¿Ya tienes una cuenta? <Link to="/login" className="fontRosaMexicano">Inicia sesión aquí</Link></p>
 
                 <div className="mt-4">
                   <small>
