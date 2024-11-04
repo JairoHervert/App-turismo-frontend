@@ -8,9 +8,10 @@
 /* Contenedor del cuadro de login */
 .login-box {
    background-color: white;
-   width: 800px;
-   
-   overflow: hidden;
+   max-width: 800px;
+   height: auto;
+   max-height: 98vh;
+   overflow-y: auto;
    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
    position: relative;
 }
@@ -93,5 +94,11 @@
 
    .login-content {
       flex-direction: column;
+   }
+}
+
+@media (max-height: 975px) {
+   .lo_pa-opciones-inicio {
+      margin-bottom: 2rem;
    }
 }

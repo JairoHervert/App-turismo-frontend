@@ -9,11 +9,14 @@ const handleLogin = async (e, correo, contraseña) => {
       console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
       localStorage.setItem('access_token', response.data.token);
       localStorage.setItem('id', response.data.resultado.id);
+      window.location.href = '/';
     } else {
       console.log("Credenciales incorrectas.");
+      alert("Credenciales incorrectas.");
     }
   } catch (error) {
     console.error("Error al intentar iniciar sesión:", error);
+    alert("Error al intentar iniciar sesión.");
   }
 };
 

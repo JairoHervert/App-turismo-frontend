@@ -3,10 +3,10 @@ const mysql = require('mysql2');
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'Palaclav1+',
-    // password: '',
+    // password: 'Aom',
+    password: '',
     database: 'AppTurismo',
-    port: 3308 // Cambiar en caso de usar el 3306
+    // port: 3308 // Cambiar en caso de usar el 3306
   });
 
   db.connect((err) => {

@@ -41,9 +41,9 @@ app.post('/isLogged', (req, res) => {
   console.log(req.body);
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if(err){
-      res.json({logged: false});
+      res.json({logged: false, decoded: null});
     } else {
-      res.json({logged: true});
+      res.json({logged: true, decoded});
     }
     console.log(decoded);
   });

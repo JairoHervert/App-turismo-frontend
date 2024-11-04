@@ -1,0 +1,84 @@
+@import "../var.css";
+
+/* Estilos para la página de Términos y Condiciones */
+.TyC {
+    background-color: #ffffff;
+    padding-bottom: 2em;
+}
+
+.TyC-header {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.TyC-nav{
+    font-family: var(--font-title);
+    padding-top: 1em;
+    
+}
+
+.TyC_navContainer {
+    background-color: #f8f9fa;
+    border-radius: 8px;    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.30);
+    
+}
+
+.TyC_navLink {
+
+    color: var(--color-secondary);
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-decoration: none; /* Asegura que los enlaces no tengan subrayado por defecto */
+}
+
+.TyC_navLink:hover {
+    color: #479aec; /* Cambia el color del texto
+    text-decoration: none; /* Subraya solo cuando se pasa el ratón por encima */
+}
+
+
+.TyC_content {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.TyC_section {
+    margin-bottom: 20px;
+}
+
+.TyC_title {
+    font-family: var(--font-title);
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: #343a40;
+    
+}
+
+.TyC_text {
+    text-align: justify;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: #6c757d;
+    line-height: 1.5;
+}
+
+.TyC_list {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+/* Cambiar el color de la animación de selección */
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    background-color: var(--color-primary); /* Cambia el color de fondo a rojo */
+    color: var(--color-secondary); /* Cambia el color del texto a blanco */
+    text-decoration: none; /* Quita el subrayado cuando está activo */
+}

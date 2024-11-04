@@ -13,7 +13,7 @@ const enviarCorreoVerificacion = async (nombre, correo) => {
 
     const result = await response.json();
     if (response.ok) {
-      alert(result.message); // Muestra el mensaje de confirmación
+      alert("Usuario registrado con éxito, solo accede a tu correo para verificar tu cuenta. " + result.message); // Muestra el mensaje de confirmación
     } else {
       alert('Hubo un error al enviar el correo de verificación');
     }
@@ -37,6 +37,9 @@ const handleRegistro = async (e, nombre, correo, contraseña) => {
     if(response.data !== 'El correo ya está registrado.'){
       await enviarCorreoVerificacion(nombre, correo);
       window.location.href = '/';
+    }
+    else{
+      alert('El correo ya está registrado.');
     }
     // navigate('/');
   } catch (err) {
