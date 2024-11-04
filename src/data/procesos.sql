@@ -85,7 +85,9 @@ BEGIN
    IF usuarioExistente = 0 THEN
       SELECT 'correo_no_registrado' AS 'error';
    ELSE
-
+	SELECT id, contraseña, confirmacion FROM Usuario
+        WHERE correo = p_correo;
+/*
       SELECT COUNT(*) INTO contraseñaCorrecta
       FROM Usuario
       WHERE correo = p_correo AND contraseña = p_contraseña;
@@ -101,10 +103,10 @@ BEGIN
          IF confirmacion_ = 0 THEN
             SELECT 'cuenta_no_confirmada' AS 'error';
          ELSE
-            SELECT id FROM Usuario
+            SELECT id, contraseña FROM Usuario
             WHERE correo = p_correo AND contraseña = p_contraseña;
          END IF;
-      END IF;
+      END IF;*/
    END IF;
 END //
 

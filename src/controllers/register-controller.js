@@ -1,21 +1,29 @@
 const registerModel = require("../models/MySQL/register-model");
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const transporter = require('../configs/nodemailer-config');
 
 class registerController {
   static async registroRegular(req, res) {
     const { nombre, correo, contraseña } = req.body;
-    registerModel
-      .registroRegular(nombre, correo, contraseña)
-      .then((resultado) => {
-        res.status(201).json(resultado);
-      })
-      .catch((err) => {
-        if (err === "El correo ya está registrado.") {
-          return res.status(400).json({ error: err });
-        }
-        res.status(500).json({ error: err.message });
-      });
+    try {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
+  
+      registerModel
+        .registroRegular(nombre, correo, hashedPassword)
+        .then((resultado) => {
+          res.status(201).json(resultado);
+        })
+        .catch((err) => {
+          if (err === "El correo ya está registrado.") {
+            return res.status(400).json({ error: err });
+          }
+          res.status(500).json({ error: err.message });
+        });
+    } catch (err) {
+      res.status(500).json({ error: 'Error al encriptar la contraseña' });
+    }
   }
 
   static async registroGoogle(req, res) {

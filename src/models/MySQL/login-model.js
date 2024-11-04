@@ -9,8 +9,7 @@ class loginModel {
             reject(err);
         }
         const resultado = results[0][0] || null;
-        console.log(resultado);
-        var error;
+        let error;
         if (resultado && resultado.error) {
           switch (resultado.error) {
             case 'correo_no_registrado':
@@ -27,7 +26,7 @@ class loginModel {
           }
           return reject(new Error(error));
         }
-        resolve({ id: resultado ? resultado.id : null });
+        resolve({ id: resultado ? resultado.id : null, hashedPassword: resultado ? resultado.contraseña : null, confirmacion: resultado ? resultado.confirmacion : null });
       });
     });
   }
