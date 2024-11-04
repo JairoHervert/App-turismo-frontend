@@ -52,6 +52,10 @@
     margin-bottom: 50px;
 }
 
+.home-p {
+    color: black;
+}
+
  /* --------------- Botones -------------- */
 
 .btn-home {
@@ -100,7 +104,7 @@
     font-family: var(--font-title);
 }
 
-.cardAlcaldias p {
+.cardAlcaldias .card-body-text-p {
     font-family: var(--font-body);
 }
 
@@ -130,14 +134,15 @@
     color: #fff;
 }
 
-.cardAlcaldias .card-body-text h5 {
+.card-body-text-h5 {
     font-weight: 600;
     font-size: 3em;
     letter-spacing: 3px;
     text-transform: uppercase;
+    text-align: end;
 }
 
-.cardAlcaldias .card-body-text p {
+.card-body-text-p {
     font-weight: 500;
     font-size: 1.1em;
     margin-bottom: 5px;
@@ -218,9 +223,69 @@
         margin: 0px 20px 0px 20px;
         font-size: 1em;
     }
+    
 }
 
+@media (max-width: 995px) {
+    .container-slider {
+        max-width: 200px;
+    }
 
+    .slick-initialized .slick-slide div {
+        width: 600px;
+    }
+}
+@media (max-width: 772px) and (min-width: 600px) {
+    .cardAlcaldias {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .slick-initialized .slick-slide div {
+        width: 470px;
+    }
+}
+
+@media (max-width: 600px) and (min-width: 309px) {
+    .cardAlcaldias {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .slick-initialized .slick-slide div {
+        width: 100%;
+    }
+
+    /* .slick-slide {
+        left: 30px;
+    } */
+
+    /* .card {
+        width: fit-content;
+    } */
+    .card-body {
+        padding: 10px;
+    }
+    .card-body-text-h5 {
+        font-size: 2em !important;
+    }
+    .btn-favoritos, .btn-deseados {
+        width: 30px;
+        height: 30px;
+    }
+    .btn-cardAlcaldia {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        font-size: 10px;
+    }
+    .slick-next {
+        right: 30px !important;
+    }
+    .slick-prev {
+        left: 30px !important;
+        z-index: 2;
+    }
+}
 /* Estilos de la sección de categorías */
 /* Estilos específicos para el nav secundario */
 .mapa {

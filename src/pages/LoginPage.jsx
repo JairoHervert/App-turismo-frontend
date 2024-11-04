@@ -14,19 +14,22 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
-      console.log(response.data);
       if (response.data.id) {
         console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
-      } else {
-        console.log("Credenciales incorrectas.");
-      }
+      } 
     } catch (error) {
-      console.error("Error al intentar iniciar sesión:", error);
+      // Mostrar el mensaje de error específico
+      if (error.response && error.response.data && error.response.data.error) {
+        console.error("Error:", error.response.data.error);
+      } else {
+        console.error("Error al intentar iniciar sesión:", error);
+      }
     }
   };
+  
 
   const handleHomeClick = () => {
     navigate('/');

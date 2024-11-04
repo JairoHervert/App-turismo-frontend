@@ -29,7 +29,15 @@ const HomePage = () => {
     autoplaySpeed: 5000,
     centerPadding: "15%",
     slidesToShow: 1,
-    speed: 1000
+    speed: 1000,
+    responsive: [{
+      breakpoint: 1300,
+      settings: {
+        centerPadding: "20px",
+        slidesToShow: 1,
+        fade: true,
+      }
+    }]
   };
 
   return (
