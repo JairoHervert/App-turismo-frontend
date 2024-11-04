@@ -31,7 +31,7 @@ function SearchHistoryPage() {
         staticNavbar={false}
       />
 
-      <div className="search-history-background vh-100 vw-100 d-flex justify-content-center align-items-center">
+      <div className="search-history-background d-flex flex-column justify-content-center">
         
         <div className="controls-container">
           <button className='btn btn-primary' type='button' >
@@ -41,30 +41,19 @@ function SearchHistoryPage() {
             <i className="bi bi-trash-fill"></i> Borrar historial
           </button>
 
-          <div className="search-container" style={{ position: 'relative' }}>
-      <i className="bi bi-search" style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)' }}></i>
-      <input
-        type="text"
-        className="search-bar"
-        placeholder="Buscar en el historial"
-        onChange={(e) => console.log('Buscar:', e.target.value)}
-        style={{ paddingLeft: '35px' }} // Aumenta el padding a la izquierda para el ícono
-      />
-    </div>
-          
+          <div className="search-container position-relative">
+            <i className="bi bi-search position-absolute" style={{ left: '10px', top: '50%', transform: 'translateY(-50%)' }}></i>
+            <input
+              type="text"
+              className="search-bar"
+              placeholder="Buscar en el historial"
+              onChange={(e) => console.log('Buscar:', e.target.value)}
+            />
+          </div>
         </div>
-        
-        {/* Contenedor de los controles de filtro, borrar historial y búsqueda */}
-        
 
-        {/* Caja del historial de búsqueda */}
         <div className="search-history-box d-flex flex-column rounded">
           <h3 className="search-history-title fw-normal mb-3 pb-3 text-center">Historial de Búsqueda</h3>
-          
-          <div className="header d-flex justify-content-between align-items-center mb-2">
-            <button className="close-icon" onClick={handleHomeClick}>✕</button>
-          </div>
-
           <p className="date-text text-center">Hoy - martes, 15 de octubre de 2024</p>
 
           <div className="search-history-list">

@@ -1,6 +1,7 @@
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import CuadroLugar from '../components/deseados/UDCuadroLugar';
+import MenuFiltros from '../components/deseados/MenuFiltros';
 import '../css/UsuarioDeseados.css';
 
 function UsuarioDeseados() {
@@ -14,30 +15,60 @@ function UsuarioDeseados() {
         staticNavbar={false}
       />
 
-      <div className='us_de-container my-5'>
-        <div className='d-flex justify-content-between align-items-center'>
+      <div className='us_de-container my-4'>
+        <div className='d-flex justify-content-between align-items-center us_de-titulo-buscador'>
           <h1 className='fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Deseados</h1>
+          <div className='us_de-cont-buscador-filtro'>
+            <div className='input-group us_de-buscador'>
+              <input
+                type='search'
+                className='form-control rounded-start'
+                placeholder='Buscar en deseados'
+                aria-label='Search'
+                aria-describedby='search-addon'
+              />
+              <button
+                type='button'
+                className='btn ud_de-btn-outline-secondary fw-medium'
+                data-mdb-ripple-init
+              >
+                <span className='fw-semibold'>Buscar</span>
+              </button>
+            </div>
 
-          <div className='input-group us_de-buscador'>
-            <input
-              type='search'
-              className='form-control rounded-start'
-              placeholder='Buscar en deseados'
-              aria-label='Search'
-              aria-describedby='search-addon'
-            />
-            <button
-              type='button'
-              className='btn ud_de-btn-outline-secondary fw-medium'
-              data-mdb-ripple-init
-            >
-              Buscar
-            </button>
-          </div>
+            {/* Botón de filtro, visible solo en pantallas chicas */}
+            <div className='d-xl-none us_de-contenedor-filtro'>
+              <button type='button' className='btn us_de-button-agregar' data-bs-toggle='modal' data-bs-target='#us_de-filtros-busqueda'>
+                <i className='bi bi-funnel-fill us_de-icono me-2'></i><span className='fw-semibold'>Filtros</span>
+              </button>
+            </div>
+
+            {/* Modal de filtro */}
+            <div className='modal fade' id='us_de-filtros-busqueda' tabIndex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
+              <div className='modal-dialog'>
+                <div className='modal-content'>
+                  <div className='modal-header'>
+                    <h1 className='modal-title fs-5' id='exampleModalLabel'>Filtros de busqueda</h1>
+                    <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                  </div>
+                  <div className='modal-body'>
+
+                    <MenuFiltros
+                      modal={true} />
+
+                  </div>
+                  <div className='modal-footer'>
+                    <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
+                    <button type='button' className='btn btn-primary'>Aplicar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> {/* fin-row-grid */}
         </div> {/* fin-titulo_y_buscador */}
 
         <div className='row'>
-          <div className='col-12 col-lg-9 us_de-scrollable-column'>
+          <div className='col-12 col-xl-9 us_de-scrollable-column'>
             <CuadroLugar
               nombreLugar='Álvaro Obregón'
               descripcionLugar='Descubre el encanto de Ávaro Obregón, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.'
@@ -75,92 +106,11 @@ function UsuarioDeseados() {
 
 
           </div>
-
-          <div className='col-12 col-lg-3 d-flex flex-column align-items-center'>
+          <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
             <div className='us_de-contenedor-filtros my-4 d-flex flex-column justify-content-center align-items-center'>
               <h2 className='fs-2 fw-semibold mt-2 fontMontserrat'>Filtros de busqueda</h2>
-
-              <div className='accordion' id='accordionFiltro'>
-                {/* Primer acordeón: abierto por defecto */}
-                <div className='accordion-item us_de-accordion-item'>
-                  <h2 className='accordion-header fw-bold' id='us_de-filtro-alcaldias'>
-                    <button
-                      className='accordion-button us_de-accordion-button fw-semibold'
-                      type='button'
-                      data-bs-toggle='collapse'
-                      data-bs-target='#collapseOne'
-                      aria-expanded='true'
-                      aria-controls='collapseOne'
-                    >
-                      Alcaldias
-                    </button>
-                  </h2>
-                  <div
-                    id='collapseOne'
-                    className='accordion-collapse collapse show'
-                    aria-labelledby='us_de-filtro-alcaldias'
-                    data-bs-parent='#accordionFiltro'
-                  >
-                    <div className='accordion-body ud_de-accordion-body'>
-                      <ul className='list-unstyled'>
-                        <li><input type='checkbox' id='option1' /> <label htmlFor='option1'>Álvaro Obregón</label></li>
-                        <li><input type='checkbox' id='option2' /> <label htmlFor='option2'>Azcapotzalco</label></li>
-                        <li><input type='checkbox' id='option3' /> <label htmlFor='option3'>Benito Juárez</label></li>
-                        <li><input type='checkbox' id='option4' /> <label htmlFor='option4'>Coyoacán</label></li>
-                        <li><input type='checkbox' id='option5' /> <label htmlFor='option5'>Cuajimalpa</label></li>
-                        <li><input type='checkbox' id='option6' /> <label htmlFor='option6'>Cuauhtémoc</label></li>
-                        <li><input type='checkbox' id='option7' /> <label htmlFor='option7'>Gustavo A. Madero</label></li>
-                        <li><input type='checkbox' id='option8' /> <label htmlFor='option8'>Iztacalco</label></li>
-                        <li><input type='checkbox' id='option9' /> <label htmlFor='option9'>Iztapalapa</label></li>
-                        <li><input type='checkbox' id='option10' /> <label htmlFor='option10'>Magdalena C.</label></li>
-                        <li><input type='checkbox' id='option11' /> <label htmlFor='option11'>Miguel Hidalgo</label></li>
-                        <li><input type='checkbox' id='option12' /> <label htmlFor='option12'>Milpa Alta</label></li>
-                        <li><input type='checkbox' id='option13' /> <label htmlFor='option13'>Tláhuac</label></li>
-                        <li><input type='checkbox' id='option14' /> <label htmlFor='option14'>Tlalpan</label></li>
-                        <li><input type='checkbox' id='option15' /> <label htmlFor='option15'>Venustiano Carranza</label></li>
-                        <li><input type='checkbox' id='option16' /> <label htmlFor='option16'>Xochimilco</label></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Segundo acordeón: cerrado por defecto */}
-                <div className='accordion-item us_de-accordion-item'>
-                  <h2 className='accordion-header fw-bold' id='ud_de-filtro-categorias'>
-                    <button
-                      className='accordion-button collapsed us_de-accordion-button fw-semibold'
-                      type='button'
-                      data-bs-toggle='collapse'
-                      data-bs-target='#collapseTwo'
-                      aria-expanded='false'
-                      aria-controls='collapseTwo'
-                    >
-                      Categorias
-                    </button>
-                  </h2>
-                  <div
-                    id='collapseTwo'
-                    className='accordion-collapse collapse'
-                    aria-labelledby='ud_de-filtro-categorias'
-                    data-bs-parent='#accordionFiltro'
-                  >
-                    <div className='accordion-body ud_de-accordion-body'>
-                      <ul className='list-unstyled'>
-                        <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Turisticos</label></li>
-                        <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>No convencionales</label></li>
-                        <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Gastronomía</label></li>
-                        <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Naturaleza</label></li>
-                        <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Familiar</label></li>
-                        <li><input type='checkbox' id='option24' /> <label htmlFor='option24'>Museos</label></li>
-                        <li><input type='checkbox' id='option17' /> <label htmlFor='option17'>Música</label></li>
-                        <li><input type='checkbox' id='option20' /> <label htmlFor='option20'>Cultura</label></li>
-                        <li><input type='checkbox' id='option23' /> <label htmlFor='option23'>Danza</label></li>
-                        <li><input type='checkbox' id='option25' /> <label htmlFor='option25'>Sitios religiosos</label></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div> {/* fin del accordion */}
+              <MenuFiltros
+                modal={false} />
             </div>
 
             <div>

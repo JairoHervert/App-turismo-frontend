@@ -68,11 +68,11 @@ function LoginPage() {
 
             {/* Columna derecha: Formulario */}
             <div className='login-right d-flex flex-column justify-content-center'>
-              <h3 className='fw-normal mb-3 pb-3 fontMontserrat fw-semibold'>Iniciar sesión</h3>
+              <h3 className='fw-normal mb-3 pb-3 fontMontserrat fw-bolder'>Iniciar sesión</h3>
 
               <form className='login-form' onSubmit={handleLogin}>
                 <div className='mb-3'>
-                  <label htmlFor='logInputEmail' className='form-label'>Correo electrónico</label>
+                  <label htmlFor='logInputEmail' className='form-label fw-semibold'>Correo electrónico</label>
                   <input
                     type='email'
                     className='form-control'
@@ -83,7 +83,7 @@ function LoginPage() {
                 </div>
 
                 <div className='mb-3'>
-                  <label htmlFor='logInputPassword' className='form-label'>Contraseña</label>
+                  <label htmlFor='logInputPassword' className='form-label fw-semibold'>Contraseña</label>
                   <input
                     type='password'
                     className='form-control'
@@ -94,7 +94,7 @@ function LoginPage() {
                 </div>
 
                 <div className='pt-1 mb-4 mt-4'>
-                  <button type='submit' className='btn btn-primary'>Iniciar sesión</button>
+                  <button type='submit' className='btn btn-primary fw-semibold'>Iniciar sesión</button>
                 </div>
 
                 <div className='mb-3'>
@@ -102,8 +102,8 @@ function LoginPage() {
                 </div>
 
                 {/* Sección de botones de redes sociales */}
-                <div className='text-center mt-4 mb-5'>
-                  <p>o inicia sesión con:</p>
+                <div className='text-center lo_pa-opciones-inicio'>
+                  <p className='fw-semibold'>o inicia sesión con:</p>
                   <button type='button' className='btn btn-link btn-floating mx-1'>
                     <i className='bi bi-google'></i>
                   </button>

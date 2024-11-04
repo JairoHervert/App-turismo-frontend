@@ -1,184 +1,135 @@
 /* Fondo blanco para toda la pantalla */
 .search-history-background {
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Centra verticalmente */
-    min-height: 100vh;
-  }
-  
-  /* Contenedor de los controles de filtro, borrar y búsqueda, centrado horizontalmente */
-  .controls-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
-    margin-bottom: 15px; 
-  }
-  
-  .input-login{
-    margin-top: 15px;
-    margin-left: 85px;
-  }
-  
-  .controls-container .btn-link {
-    color: #333;
-    text-decoration: none;
-    font-size: 16px;
-  }
-  
-  .controls-container .btn-link:hover {
-    color: #007bff;
-    text-decoration: underline;
-  }
-  
-  .search-bar {
-    width: 300px; /* Ancho fijo de la barra de búsqueda */
-    padding: 5px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
-  }
-  
-  /* Fondo azul claro solo para la caja del historial */
-  .search-history-box {
-    background: #e3f2fd;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0px 100px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 700px;
-  }
-  
-  .aline-between {
-    justify-content: space-between;
-  }
-  
-  .header {
-    margin-bottom: 10px;
-  }
-  
-  .close-icon {
-    cursor: pointer;
-    font-size: 24px;
-    color: #666;
-    border: none;
-    background: none;
-  }
-  
-  .date-text {
-    font-size: 14px;
-    color: #6c757d;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .search-history-item {
-    border-bottom: 1px solid #e0e0e0;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .item-left {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-  }
-  
-  .checkbox {
-    margin-right: 10px;
-  }
-  
-  .query-time {
-    color: #6c757d;
-    font-size: 14px;
-    margin-right: 8px;
-  }
-  
-  .query-text {
-    font-weight: bold;
-    color: #1a0dab;
-    text-decoration: none;
-  }
-  
-  .query-text:hover {
-    text-decoration: underline;
-  }
-  
-  .menu-icon {
-    font-size: 18px;
-    color: #666;
-    cursor: pointer;
-    margin-left: auto;
-  }
-  
-  /*CLASE DE UNVIERSE From Uiverse.io 
-  SUGERENCIA O ALTERNATIVA QUE ENCONTRÉ EN LA WEB PARA HACER LOS MENSAJES "EMERGENTES" QUE 
-  COMENTARON EN LA ULTIMA REUNION. 
-  Fuente: Universe.io 
-  */  
-.uiverse {
-  position: relative;
-  background: #ffffff;
-  color: #000;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 10px;
-  width: 150px;
-  height: 50px;
-  font-size: 17px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Centra verticalmente */
+  min-height: 100vh;
+}
+
+/* Contenedor de los controles de filtro, borrar y búsqueda, centrado horizontalmente */
+.controls-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  gap: 25px;
+  margin-bottom: 15px; 
 }
 
-.tooltip {
-  position: absolute;
-  top: 0;
-  font-size: 14px;
-  background: #ffffff;
-  color: #ffffff;
-  padding: 5px 8px;
+.input-login{
+  margin-top: 15px;
+  margin-left: 85px;
+}
+
+.controls-container .btn-link {
+  color: #333;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.controls-container .btn-link:hover {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.search-bar {
+  width: 300px; /* Ancho fijo de la barra de búsqueda */
+  padding: 7px;
+  padding-left: 30px;
+
+  border: 1px solid #ced4da;
   border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.tooltip::before {
-  position: absolute;
-  content: "";
-  height: 8px;
-  width: 8px;
-  background: #ffffff;
-  bottom: -3px;
-  left: 50%;
-  transform: translate(-50%) rotate(45deg);
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+/* Fondo azul claro solo para la caja del historial */
+.search-history-box {
+  background: #e3f2fd;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0px 100px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 700px;
 }
 
-.uiverse:hover .tooltip {
-  top: -45px;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+.aline-between {
+  justify-content: space-between;
 }
 
-svg:hover span,
-svg:hover .tooltip {
-  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+.header {
+  margin-bottom: 10px;
 }
 
-.uiverse:hover,
-.uiverse:hover .tooltip,
-.uiverse:hover .tooltip::before {
-  background: linear-gradient(320deg, rgb(3, 77, 146), rgb(0, 60, 255));
-  color: #ffffff;
+.close-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: #666;
+  border: none;
+  background: none;
 }
+
+.date-text {
+  font-size: 14px;
+  color: #6c757d;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search-history-item {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.query-time {
+  color: #6c757d;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.query-text {
+  font-weight: bold;
+  color: #1a0dab;
+  text-decoration: none;
+}
+
+.query-text:hover {
+  text-decoration: underline;
+}
+
+.menu-icon {
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+/* Nueva regla para hacer que los controles se apilen en pantallas pequeñas */
+@media (max-width: 768px) {
+  .controls-container {
+      flex-direction: column; /* Cambia a columna en pantallas pequeñas */
+      align-items: center; /* Permite que los botones se expandan */
+      
+  }
+
+  .btn{
+      width: 100%; 
+      
+  }
+
+
+}
+
+ 
