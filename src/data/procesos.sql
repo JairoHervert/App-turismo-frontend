@@ -1,5 +1,6 @@
 # Usuario
 DROP PROCEDURE IF EXISTS UsuarioRegistro;
+DROP PROCEDURE IF EXISTS UsuarioRegistroGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
@@ -32,6 +33,32 @@ BEGIN
    IF usuarioExistente = 0 THEN
       INSERT INTO Usuario (nombre, correo, contraseña, auditoria)
       VALUES (p_nombre, p_correo, p_contraseña, NOW());
+   ELSE
+      SIGNAL SQLSTATE '45000' 
+         SET MESSAGE_TEXT = 'El correo ya está registrado.';
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioRegistroGoogle`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioRegistroGoogle (
+   IN p_nombre VARCHAR(255),
+   IN p_correo VARCHAR(255),
+   IN p_imagen VARCHAR(255),
+   IN p_sub VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = p_correo;
+    
+   IF usuarioExistente = 0 THEN
+      INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, token, confirmacion, auditoria)
+      VALUES (p_nombre, p_correo, p_imagen, p_sub, 1, NOW());
    ELSE
       SIGNAL SQLSTATE '45000' 
          SET MESSAGE_TEXT = 'El correo ya está registrado.';

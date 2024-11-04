@@ -18,6 +18,21 @@ class registerController {
       });
   }
 
+  static async registroGoogle(req, res) {
+    const { nombre, correo, imagen, token } = req.body;
+    registerModel
+      .registroGoogle(nombre, correo, imagen, token)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      })
+      .catch((err) => {
+        if (err === "El correo ya está registrado.") {
+          return res.status(400).json({ error: err });
+        }
+        res.status(500).json({ error: err.message });
+      });
+  }
+
   static async enviarCorreoVerificacion(req, res){
     const { name, email } = req.body;
   

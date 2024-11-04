@@ -46,6 +46,25 @@ const handleRegistro = async (e, nombre, correo, contraseña) => {
   }
 };
 
+const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
+  try {
+    const response = await axios.post('http://localhost:3001/registroGoogle', {
+      correo,
+      nombre,
+      imagen,
+      token,
+    });
+
+    if(response.data !== 'El correo ya está registrado.'){
+      window.location.href = '/';
+    }
+  } catch (err) {
+    const errorMsg = err.response?.data?.error || 'Error de conexión';
+    // setError('Error al registrar usuario: ' + errorMsg);
+    console.error(err);
+  }
+};
+
 // VERIFICACIÓN CON GOOGLE
 const successGoogleHandler = async (tokenResponse) => {
   console.log('Token de Google:', tokenResponse);
@@ -63,6 +82,13 @@ const successGoogleHandler = async (tokenResponse) => {
       }
     );
     console.log('Información del usuario:', userInfo.data);
+
+    await handleRegistroGoogle(
+      userInfo.data.email,
+      userInfo.data.name,
+      userInfo.data.picture,
+      userInfo.data.sub);
+
   } catch (error) {
     console.error('Error al obtener información del usuario:', error);
   }
