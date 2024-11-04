@@ -1,22 +1,60 @@
 const registerModel = require("../models/MySQL/register-model");
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const transporter = require('../configs/nodemailer-config');
 
 class registerController {
   static async registroRegular(req, res) {
     const { nombre, correo, contraseña } = req.body;
+    try {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(contraseña, saltRounds);
+  
+      registerModel
+        .registroRegular(nombre, correo, hashedPassword)
+        .then((resultado) => {
+          res.status(201).json(resultado);
+        })
+        .catch((err) => {
+          if (err === "El correo ya está registrado.") {
+            return res.status(400).json({ error: err });
+          }
+          res.status(500).json({ error: err.message });
+        });
+    } catch (err) {
+      res.status(500).json({ error: 'Error al encriptar la contraseña' });
+    }
+  }
+
+  static async registroGoogle(req, res) {
+    const { nombre, correo, imagen, token } = req.body;
     registerModel
-      .registroRegular(nombre, correo, contraseña)
+      .registroGoogle(nombre, correo, imagen, token)
       .then((resultado) => {
         res.status(201).json(resultado);
       })
       .catch((err) => {
-        if (err === "El correo ya está registrado.") {
+        console.log(err);
+        if (err.message === 'El correo ya está registrado.') {
           return res.status(400).json({ error: err });
         }
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err });
       });
   }
+
+  /*static async registroGoogle(req, res) {
+    const { nombre, correo, imagen, token } = req.body;
+    
+    try {
+      const resultado = registerModel.registroGoogle(nombre, correo, imagen, token)
+      res.status(201).json(resultado);
+    }
+    catch (err) {
+      if(err.message === 'correo_ya_registrado')
+        return res.status(400).json({ error: 'El correo ya está registrado.'});
+      res.status(500).json({ error: err.message });
+    }
+  }*/
 
   static async enviarCorreoVerificacion(req, res){
     const { name, email } = req.body;

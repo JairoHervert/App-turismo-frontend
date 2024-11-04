@@ -1,5 +1,6 @@
 # Usuario
 DROP PROCEDURE IF EXISTS UsuarioRegistro;
+DROP PROCEDURE IF EXISTS UsuarioRegistroGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
@@ -39,6 +40,35 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioRegistroGoogle`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioRegistroGoogle (
+   IN p_nombre VARCHAR(255),
+   IN p_correo VARCHAR(255),
+   IN p_imagen VARCHAR(255),
+   IN p_sub VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = p_correo;
+    
+   IF usuarioExistente = 0 THEN
+      INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, token, confirmacion, auditoria)
+      VALUES (p_nombre, p_correo, p_imagen, p_sub, 1, NOW());
+
+      SELECT id FROM Usuario
+      WHERE nombre = p_nombre AND correo = p_correo;
+      
+   ELSE
+      SELECT 'correo_ya_registrado' AS 'error';
+   END IF;
+END //
+
+-- -----------------------------------------------------
 -- Process `AppTurismo`.`IniciarSesion`
 -- -----------------------------------------------------
 
@@ -47,8 +77,65 @@ CREATE PROCEDURE UsuarioIniciarSesion (
    IN p_contraseña VARCHAR(255)
 )
 BEGIN
-   SELECT id FROM Usuario
-   WHERE correo = p_correo AND contraseña = p_contraseña;
+   DECLARE usuarioExistente INT;
+   DECLARE contraseñaCorrecta INT;
+   DECLARE confirmacion_ INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = p_correo;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+	SELECT id, contraseña, confirmacion FROM Usuario
+        WHERE correo = p_correo;
+/*
+      SELECT COUNT(*) INTO contraseñaCorrecta
+      FROM Usuario
+      WHERE correo = p_correo AND contraseña = p_contraseña;
+
+      IF contraseñaCorrecta = 0 THEN
+         SELECT 'contraseña_incorrecta' AS 'error';
+      ELSE
+      
+         SELECT confirmacion INTO confirmacion_
+         FROM Usuario
+         WHERE correo = p_correo AND contraseña = p_contraseña;
+
+         IF confirmacion_ = 0 THEN
+            SELECT 'cuenta_no_confirmada' AS 'error';
+         ELSE
+            SELECT id, contraseña FROM Usuario
+            WHERE correo = p_correo AND contraseña = p_contraseña;
+         END IF;
+      END IF;*/
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`IniciarSesion`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioIniciarSesionGoogle (
+   IN p_correo VARCHAR(255),
+   IN p_token VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   DECLARE contraseñaCorrecta INT;
+   DECLARE confirmacion_ INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = p_correo AND token = p_token;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+	SELECT id FROM Usuario
+        WHERE correo = p_correo;
+   END IF;
 END //
 
 -- -----------------------------------------------------

@@ -105,7 +105,7 @@ function RegisterPage() {
             <div className="register-right d-flex flex-column justify-content-center">
               <h3 className="fw-normal mb-3 pb-3 fontMontserrat fw-semibold">Registrar usuario</h3>
 
-              <form className="login-form" onSubmit={handleFormSubmit}>
+              <form className="login-form" onSubmit={(e) => handleRegistro(e, nombre, correo, contraseña, contraseña2)}>
                 <div className="mb-3">
                   <label htmlFor="registerInputName" className="form-label">Nombre completo</label>
                   <input
@@ -121,7 +121,7 @@ function RegisterPage() {
                 <div className="mb-3">
                   <label htmlFor="registerInputEmail" className="form-label">Correo electrónico</label>
                   <input
-                    type="email"
+                    type="text"
                     className="form-control"
                     id="registerInputEmail"
                     value={correo}

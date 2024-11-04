@@ -27,7 +27,9 @@
     "react-scripts": "^5.0.1",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "bcrypt": "5.1.1",
+    "sweetalert2": "11.14.4"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"react-scripts start\"",

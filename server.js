@@ -18,22 +18,12 @@ const PORT = 3001;
 
 // Ruta para manejar el registro y enviar el correo de verificación
 app.post('/register', registerController.enviarCorreoVerificacion);
-
-
 app.post('/confirm-email', confirmacionRegistroController.confirmarRegistro);
 
-// app.get('/usuarios', (req, res) => {
-//   db.query('SELECT * FROM Usuario', (err, results) => {
-//     if (err) {
-//       return res.status(500).json({ error: err.message });
-//     }
-//     res.json(results);
-//     console.log(results);
-//   });
-// });
-
 app.post('/registro', registerController.registroRegular);
+app.post('/registroGoogle', registerController.registroGoogle);
 app.post('/iniciar-sesion', loginController.iniciarSesion);
+app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;
