@@ -1,16 +1,20 @@
 const loginModel = require('../models/MySQL/login-model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const doenv = require('dotenv').config();
 
 class loginController{
   static async iniciarSesion(req, res){
     const { correo, contraseña } = req.body;
-  
-    try {
-      const resultado = await loginModel.iniciarSesion(correo);
-      const token = (id, correo) => {
+    const token = (id, correo) => {
         return jwt.sign({id: id, correo: correo}, process.env.JWT_SECRET, {
           expiresIn: '1h'
         });
       }
+
+    try {
+      const resultado = await loginModel.iniciarSesion(correo);
+
       // Comparar la contraseña ingresada con la almacenada encriptada
       const passwordMatch = await bcrypt.compare(contraseña, resultado.hashedPassword);
       if (!passwordMatch) {
@@ -35,14 +39,7 @@ class loginController{
       }
       res.status(500).json({ error: err.message });
     }
-/*
-    loginModel.iniciarSesion(correo, contraseña)
-    .then((resultado) => {
-      res.json(resultado);
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });*/
+
   }
 
   static async iniciarSesionGoogle(req, res) {
