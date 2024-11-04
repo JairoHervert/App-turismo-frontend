@@ -4,9 +4,11 @@ const handleLogin = async (e, correo, contraseña) => {
   e.preventDefault();
   try {
     const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
-    console.log(response.data);
-    if (response.data.id) {
-      console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
+    // console.log(response.data);
+    if (response.data.resultado.id) {
+      console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
+      localStorage.setItem('access_token', response.data.token);
+      localStorage.setItem('id', response.data.resultado.id);
     } else {
       console.log("Credenciales incorrectas.");
     }

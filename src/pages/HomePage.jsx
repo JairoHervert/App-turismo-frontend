@@ -4,6 +4,7 @@ import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
+import { Logged } from '../pagesHandlers/home-handler';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -13,6 +14,9 @@ import '../css/HomePage.css';
 import App from '../components/categories/App'
 import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
 
+const isLogged = Logged();
+
+console.log(isLogged);
 
 const HomePage = () => {
 
@@ -38,7 +42,7 @@ const HomePage = () => {
 
       <section className='home'>
         <div className='home-text'>
-          <h5>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
+          <h5>Planea tu próximo<strong>viaje</strong> con nosotros a la</h5>
           <h1>Ciudad de México</h1>
           <button className='btn btn-primary' type='button'>
               Comienza ahora 
