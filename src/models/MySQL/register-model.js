@@ -12,7 +12,7 @@ class registerModel{
                     }
                     reject(err);
                 }
-                resolve({ message: 'Usuario creado', userId: results.insertId });
+                resolve({ message: 'Usuario creado'});
             });
         });
     }
