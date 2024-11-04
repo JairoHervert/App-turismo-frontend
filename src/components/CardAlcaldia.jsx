@@ -24,10 +24,10 @@ function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
           <div className='card-body-buttons'>
             <div className='btn-botones'>
             <button className='btn-favoritos'>
-            <i className="bi bi-bookmark"></i>
+              <i className="bi bi-bookmark"></i>
             </button>
             <button className='btn-deseados'>
-            <i className="bi bi-star"></i>
+              <i className="bi bi-star"></i>
             </button>
             </div>
             <button onClick={handlePlacePageClick} className='btn btn-cardAlcaldia me-2'>Conoce más</button>

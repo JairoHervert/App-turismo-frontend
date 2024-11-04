@@ -139,6 +139,7 @@
     margin-top: 5px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .score {
@@ -156,6 +157,14 @@
     align-items: center;
 }
 
+.place-score-stars {
+    width: fit-content;
+    display: flex;
+}
+
+.place-buttons {
+    width: fit-content;
+}
 
 /* --------------- Botones ---------------------- */
 
@@ -173,6 +182,24 @@
     transition: 0.5s;
 }
 
+.btn-placePage-button {
+    width: fit-content !important;
+    border-color: var(--color-secondary);
+    margin-left: 5px;
+    color: var(--color-secondary);
+}
+
+.btn-placeOnClick {
+    color: #fff;
+    background-color: var(--color-secondary);
+    border-color: #fff;
+}
+
+.btn-placePage-favoritos {
+    display: flex;
+    justify-content: flex-end;
+    width: fit-content !important;
+}
 /* ------------Review section ---------------- */
 .review-card {
     border-radius: 0;
