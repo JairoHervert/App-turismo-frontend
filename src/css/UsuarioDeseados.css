@@ -64,6 +64,7 @@
 /* Card con sombra en lugar de borde */
 .us_de-border-target {
    border: 1px solid #489abb;
+   background-color: #b9e6f79f;  /* Color de fondo de la targeta. Eliminar linea para volver a blanco */
 }
 
 
@@ -99,7 +100,7 @@
 
 /* Contenedor desplazable para la columna de lugares */
 .us_de-scrollable-column {
-   max-height: 75vh;
+   max-height: 95vh;
    overflow-y: auto;
 }
 
