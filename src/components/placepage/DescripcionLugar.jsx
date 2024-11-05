@@ -1,6 +1,17 @@
 import React from 'react';
+import { useState } from 'react';
 
 function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, placeHorario, lugarImagenes}) {
+    const [isClickedDeseados, setIsClickedDeseados] = useState(false);
+    const [isClickedFavoritos, setIsClickedFavoritos] = useState(false);
+
+    const handleButtonDeseadosClick = () => {
+        setIsClickedDeseados(!isClickedDeseados);
+    };
+
+    const handleButtonFavoritosClick = () => {
+        setIsClickedFavoritos(!isClickedFavoritos);
+    };
 
     return (
       <section className='place-page container-fluid'>
@@ -54,16 +65,26 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                     Biblioteca de México
                 </h2>
                 <div className='row gx-0 place-score'>
-                    <div className='score'>
-                        <h2 className='score-text'>4.8</h2>
+                    <div className='place-score-stars'>
+                        <div className='score'>
+                            <h2 className='score-text'>4.8</h2>
+                        </div>
+                        <div className='stars'>
+                            {/* de a mientras */}
+                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star"></i>
+                            <i class="bi bi-star"></i>
+                        </div>
                     </div>
-                    <div className='stars'>
-                        {/* de a mientras */}
-                        <i class="bi bi-star"></i>
-                        <i class="bi bi-star"></i>
-                        <i class="bi bi-star"></i>
-                        <i class="bi bi-star"></i>
-                        <i class="bi bi-star"></i>
+                    <div className='place-buttons'>
+                        <button className={`btn ${isClickedDeseados ? 'btn-placeOnClick' : 'btn-light'} btn-placePage-button`} onClick={handleButtonDeseadosClick}>
+                            <i className="bi bi-bookmark"></i>
+                        </button>
+                        <button className={`btn ${isClickedFavoritos ? 'btn-placeOnClick' : 'btn-light'} btn-placePage-button`} onClick={handleButtonFavoritosClick}>
+                            <i className="bi bi-star"></i>
+                        </button>
                     </div>
                 </div>
                 <p className='place-text'>

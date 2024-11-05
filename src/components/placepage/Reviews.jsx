@@ -11,7 +11,7 @@ function Reviews({nombreUsuario, antiguedadReview, comentarioUsuario}) {
                 <img src={userPhoto} alt='user-photo' className='review-user-photo' />
                 <div className='review-user-information'>
                     <div className='row gx-0'>
-                        <h4>{nombreUsuario}</h4>
+                        <h7>{nombreUsuario}</h7>
                     </div>
                     <div className='row gx-0'>
                         <p>Hace {antiguedadReview}</p>
