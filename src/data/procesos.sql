@@ -31,8 +31,8 @@ BEGIN
    WHERE correo = p_correo;
     
    IF usuarioExistente = 0 THEN
-      INSERT INTO Usuario (nombre, correo, contraseña, auditoria)
-      VALUES (p_nombre, p_correo, p_contraseña, NOW());
+      INSERT INTO Usuario (nombre, correo, contraseña, auditoria, confirmacion)
+      VALUES (p_nombre, p_correo, p_contraseña, NOW(), 1);
    ELSE
       SIGNAL SQLSTATE '45000' 
          SET MESSAGE_TEXT = 'El correo ya está registrado.';

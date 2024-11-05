@@ -78,7 +78,16 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
       token,
     });
 
-    console.log(response);
+    console.log(response.data.id.id);
+
+    // guardar el token en localStorage
+    localStorage.setItem('access_token', token);
+    localStorage.setItem('google_access_token', token);
+    localStorage.setItem('id', response.data.id.id);
+
+    // Verificar que se guardó bien
+    console.log(localStorage.getItem('access_token'));
+    console.log(localStorage.getItem('id'));
 
     /*if(response.data !== 'El correo ya está registrado.'){
       window.location.href = '/';
