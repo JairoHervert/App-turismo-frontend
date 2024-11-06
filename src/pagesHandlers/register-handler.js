@@ -208,8 +208,41 @@ const errorGoogleHandler = () => {
 };
 
 // VERIFICACIÓN CON FACEBOOK
-const responseFacebook = (response) => {
-  console.log(response); // Maneja la respuesta de autenticación aquí
+const responseFacebook = async (response) => {
+  console.log(response);
+
+  const { accessToken, name, userID } = response;
+  const picture = `https://graph.facebook.com/${userID}/picture?type=large&access_token=${accessToken}`;
+
+  try {
+    const res = await axios.post('http://localhost:3001/registro_Facebook', {
+      nombre: name,
+      imagen: picture,
+      facebookId: userID,
+    });
+    
+    console.log(res.data.id);
+    console.log(name, picture, userID);
+    Swal.fire({
+      icon: 'success',
+      title: 'Inicio de sesión exitoso',
+      text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
+      timer: 2000,
+      showConfirmButton: false,
+      willClose: () => {
+        window.location.href = '/'
+      }
+    });
+  } catch (error) {
+    console.error('Error al registrar usuario con Facebook:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Inicio de sesión fallido',
+      text: error.response.data.error,
+      timer: 2000,
+      showConfirmButton: false
+    });
+  }
 };
 
 // Exports

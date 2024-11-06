@@ -75,7 +75,7 @@ END //
 CREATE PROCEDURE UsuarioRegistroGoogle (
    IN p_nombre VARCHAR(255),
    IN p_correo VARCHAR(320),
-   IN p_imagen VARCHAR(255),
+   IN p_imagen VARCHAR(512),
    IN p_token VARCHAR(255)
 )
 BEGIN
@@ -93,7 +93,7 @@ BEGIN
       WHERE nombre = p_nombre AND correo = UPPER(p_correo);
       
    ELSE
-      SELECT 'correo_ya_registrado' AS 'error';
+      SELECT 'usuario_ya_registrado' AS 'error';
    END IF;
 END //
 
@@ -103,6 +103,7 @@ END //
 
 CREATE PROCEDURE UsuarioRegistroFacebook (
    IN p_nombre VARCHAR(255),
+   IN p_imagen VARCHAR(512),
    IN p_token VARCHAR(255)
 )
 BEGIN
@@ -113,14 +114,14 @@ BEGIN
    WHERE tokenFacebook = p_token;
     
    IF usuarioExistente = 0 THEN
-      INSERT INTO Usuario (nombre, tokenFacebook, confirmacion, auditoria)
-      VALUES (p_nombre, p_token, 1, NOW());
+      INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria)
+      VALUES (p_nombre, p_imagen, p_token, 1, NOW());
 
       SELECT id FROM Usuario
       WHERE tokenFacebook = p_token;
       
    ELSE
-      SELECT 'correo_ya_registrado' AS 'error';
+      SELECT 'usuario_ya_registrado' AS 'error';
    END IF;
 END //
 
@@ -189,9 +190,9 @@ BEGIN
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
    WHERE tokenFacebook = p_token;
-   
+
    IF usuarioExistente = 0 THEN
-      SELECT 'correo_no_registrado' AS 'error';
+      SELECT 'cuenta_no_registrada' AS 'error';
    ELSE
 	SELECT id FROM Usuario
         WHERE tokenFacebook = p_token;

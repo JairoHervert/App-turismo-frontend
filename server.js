@@ -22,8 +22,10 @@ app.post('/confirm-email', confirmacionRegistroController.confirmarRegistro);
 
 app.post('/registro', registerController.registroRegular);
 app.post('/registroGoogle', registerController.registroGoogle);
+app.post('/registro_Facebook', registerController.registroFacebook);
 app.post('/iniciar-sesion', loginController.iniciarSesion);
 app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
+app.post('/login_Facebook', loginController.iniciarSesionFacebook);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;

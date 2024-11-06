@@ -42,6 +42,21 @@ class registerController {
       });
   }
 
+  static async registroFacebook(req, res) {
+    const { nombre, imagen, facebookId } = req.body;
+    
+    registerModel
+      .registroFacebook(nombre, imagen, facebookId)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      })
+      .catch((err) => {
+        if (err === 'El correo ya está registrado.') {
+          return res.status(400).json({ error: err });
+        }
+        res.status(500).json({ error: err.message });
+      });
+  }
   /*static async registroGoogle(req, res) {
     const { nombre, correo, imagen, token } = req.body;
     

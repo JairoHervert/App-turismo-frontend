@@ -32,9 +32,25 @@ class registerModel{
               error = 'El correo ya está registrado.';
               break;
           }
-          return reject(new Error(error));
+          reject(new Error(error));
         }
         resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
+      });
+    });
+  }
+
+  static async registroFacebook(nombre, imagen, facebookId) {
+    const query = 'CALL UsuarioRegistroFacebook (?, ?, ?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [nombre, imagen, facebookId], (err, results) => {
+        if (err) {
+          if (err.sqlState === '45000') {
+            return resolve('El correo ya está registrado.');
+          }
+          reject(err);
+        }
+        const resultado = results || null;
+        resolve(resultado/*{ id: resultado ? resultado.id : null}*/);
       });
     });
   }

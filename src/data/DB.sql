@@ -27,7 +27,7 @@ CREATE TABLE `Usuario` (
   `nombre` VARCHAR(255) NOT NULL,
   `correo` VARCHAR(320) NOT NULL,
   `contraseña` VARCHAR(255) NOT NULL,
-  `ligaFotoPerfil` VARCHAR(255),
+  `ligaFotoPerfil` VARCHAR(512),
   `fechaNacimiento` DATETIME,
   `ultimaConexion` DATETIME,
   `tokenGoogle` VARCHAR(255),

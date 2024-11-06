@@ -40,12 +40,29 @@ class loginModel {
         }
         const resultado = results[0][0] || null;
         if (resultado && resultado.error) {
-          return reject(new Error('Cuenta no registrada'));
+          reject(new Error('Cuenta no registrada'));
         }
         resolve({id: resultado ? resultado.id : null});
       });
     });
   }
+
+  static async iniciarSesionFacebook(token) {
+    const query = 'CALL UsuarioIniciarSesionFacebook(?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [token], (err, results) => {
+        if(err) {
+          reject(err);
+        }
+        const resultado = results[0][0] || null;
+        if (resultado && resultado.error) {
+          reject(new Error('cuenta_no_registrada'));
+        }
+        resolve({id: resultado ? resultado.id : null});
+      });
+    });
+  }
+
 }
 
 module.exports = loginModel;
