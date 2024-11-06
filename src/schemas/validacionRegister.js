@@ -3,9 +3,15 @@
 // Validación para nombre
 export const validateName = (name) => {
     if (!name) {
-      return "El nombre es obligatorio.";
+        return "El nombre es obligatorio.";
     } else if (name.length < 3) {
-      return "El nombre debe tener al menos 3 caracteres.";
+        return "El nombre debe tener al menos 3 caracteres.";
+    } else if (!/^[A-Za-z]+$/.test(name)) {
+        return "El nombre solo debe contener letras y no debe tener espacios.";
+    } else if (name[0] !== name[0].toUpperCase()) {
+        return "El nombre debe comenzar con una letra mayúscula.";
+    } else if (name.slice(1) !== name.slice(1).toLowerCase()) {
+        return "Todas las letras después de la primera deben ser minúsculas.";
     }
     return "";
   };
