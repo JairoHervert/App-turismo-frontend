@@ -196,6 +196,7 @@ const successGoogleHandler = async (tokenResponse) => {
       userInfo.data.name,
       userInfo.data.picture,
       userInfo.data.sub);
+    console.log(userInfo);
 
   } catch (error) {
     console.error('Error al obtener información del usuario:', error);
