@@ -7,10 +7,10 @@ class loginController{
   static async iniciarSesion(req, res){
     const { correo, contraseña } = req.body;
     const token = (id, correo) => {
-        return jwt.sign({id: id, correo: correo}, process.env.JWT_SECRET, {
-          expiresIn: '1h'
-        });
-      }
+      return jwt.sign({id: id, correo: correo}, process.env.JWT_SECRET, {
+        expiresIn: '1h'
+      });
+    }
 
     try {
       const resultado = await loginModel.iniciarSesion(correo);

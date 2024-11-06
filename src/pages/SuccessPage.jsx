@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import '../css/SuccessPage.css';
 import imagenRegistroExitoso from '../img/success-page.png';
+
+
 function ConfirmacionRegistro() {
   return (
     <div>

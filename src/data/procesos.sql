@@ -1,7 +1,9 @@
 # Usuario
 DROP PROCEDURE IF EXISTS UsuarioRegistro;
+DROP PROCEDURE IF EXISTS UsuarioValidarCuenta;
 DROP PROCEDURE IF EXISTS UsuarioRegistroGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
+DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
@@ -28,14 +30,37 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = p_correo;
+   WHERE correo = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
       INSERT INTO Usuario (nombre, correo, contraseña, auditoria, confirmacion)
-      VALUES (p_nombre, p_correo, p_contraseña, NOW(), 1);
+      VALUES (p_nombre, UPPER(p_correo), p_contraseña, NOW(), 0);
    ELSE
       SIGNAL SQLSTATE '45000' 
          SET MESSAGE_TEXT = 'El correo ya está registrado.';
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioCrearTokenValidacion`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioValidarCuenta (
+   IN p_correo VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = UPPER(p_correo);
+    
+   IF usuarioExistente = 0 THEN
+      SIGNAL SQLSTATE '45000' 
+         SET MESSAGE_TEXT = 'No existe el correo';
+   ELSE
+      UPDATE Usuario SET confirmacion = 1
+      WHERE correo = UPPER(p_correo);
    END IF;
 END //
 
@@ -54,14 +79,14 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = p_correo;
+   WHERE correo = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
       INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, token, confirmacion, auditoria)
-      VALUES (p_nombre, p_correo, p_imagen, p_sub, 1, NOW());
+      VALUES (p_nombre, UPPER(p_correo), p_imagen, p_sub, 1, NOW());
 
       SELECT id FROM Usuario
-      WHERE nombre = p_nombre AND correo = p_correo;
+      WHERE nombre = p_nombre AND correo = UPPER(p_correo);
       
    ELSE
       SELECT 'correo_ya_registrado' AS 'error';
@@ -83,13 +108,13 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = p_correo;
+   WHERE correo = UPPER(p_correo);
    
    IF usuarioExistente = 0 THEN
       SELECT 'correo_no_registrado' AS 'error';
    ELSE
 	SELECT id, contraseña, confirmacion FROM Usuario
-        WHERE correo = p_correo;
+        WHERE correo = UPPER(p_correo);
 /*
       SELECT COUNT(*) INTO contraseñaCorrecta
       FROM Usuario
@@ -114,7 +139,7 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
--- Process `AppTurismo`.`IniciarSesion`
+-- Process `AppTurismo`.`UsuarioIniciarSesionGoogle`
 -- -----------------------------------------------------
 
 CREATE PROCEDURE UsuarioIniciarSesionGoogle (
@@ -128,13 +153,13 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = p_correo AND token = p_token;
+   WHERE correo = UPPER(p_correo) AND token = p_token;
    
    IF usuarioExistente = 0 THEN
       SELECT 'correo_no_registrado' AS 'error';
    ELSE
 	SELECT id FROM Usuario
-        WHERE correo = p_correo;
+        WHERE correo = UPPER(p_correo);
    END IF;
 END //
 
