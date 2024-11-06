@@ -38,7 +38,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     return;
   }
 
-  const nameRegex = /^[A-Z][a-z]*$/; 
+  const nameRegex =  /^[A-ZÁÉÍÓÚÜ][a-záéíóúü]+(?:\s[A-ZÁÉÍÓÚÜa-záéíóúü]+|('[A-ZÁÉÍÓÚÜa-záéíóúü]+))*$/; 
   if (!nameRegex.test(nombre) || nombre.length < 3) {
     Swal.fire({
       icon: 'error',
@@ -50,7 +50,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     return;
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$/;
   if (!emailRegex.test(correo)) {
     Swal.fire({
       icon: 'error',
