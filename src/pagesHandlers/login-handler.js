@@ -170,28 +170,37 @@ const errorGoogleHandler = () => {
 
 const responseFacebook = async (response) => {
   console.log(response);
-
-  const { userID } = response;
-  console.log(userID); // Muestra correctamente el userID
+  const { userID, accessToken } = response;
 
   try {
     const res = await axios.post('http://localhost:3001/login_Facebook', {
       token: userID,
     });
     
-    console.log(res);
-    Swal.fire({
-      icon: 'success',
-      title: 'Inicio de sesión exitoso',
-      text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
-      timer: 2000,
-      showConfirmButton: false,
-      willClose: () => {
-        window.location.href = '/'
-      }
-    });
+    if (res.data.resultado.id) {
+      
+      // guardar el token en localStorage
+      localStorage.setItem('access_token', accessToken);
+      localStorage.setItem('id', res.data.resultado.id);
+
+      // Verificar que se guardó bien
+      console.log(localStorage.getItem('access_token'));
+      console.log(localStorage.getItem('id'));
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Inicio de sesión exitoso',
+        text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
+        timer: 2000,
+        showConfirmButton: false,
+        willClose: () => {
+          window.location.href = '/'
+        }
+      });
+    }
   } catch (error) {
     console.error('Error al registrar usuario con Facebook:', error);
+    console.log(error);
     console.log(error.response.data.error);
     Swal.fire({
       icon: 'error',

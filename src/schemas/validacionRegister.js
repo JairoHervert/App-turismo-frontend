@@ -29,8 +29,14 @@ export const validateName = (name) => {
       return "La contraseña es obligatoria.";
     } else if (password.length < 8) {
       return "La contraseña debe tener al menos 8 caracteres.";
-    } else if (!/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-      return "La contraseña debe incluir al menos una letra mayúscula y un número.";
+    } else if (!/[A-Z]/.test(password)) {
+      return "La contraseña debe incluir al menos una letra mayúscula";
+    } else if (!/[a-z]/.test(password)) {
+      return "La contraseña debe incluir al menos una letra minúscula";
+    } else if (!/[0-9]/.test(password)) {
+      return "La contraseña debe incluir al menos un número.";
+    } else if (password.length > 128) {
+      return "La contraseña puede tener máximo 128 caracteres.";
     }
     return "";
   };

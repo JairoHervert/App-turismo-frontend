@@ -53,7 +53,7 @@ class loginController{
     const { token } = req.body;
     try {
       const resultado = await loginModel.iniciarSesionFacebook(token);
-      res.json({id: resultado});
+      res.json({resultado: resultado});
     } catch (err) {
       if (err.message === 'cuenta_no_registrada') {
         return res.status(400).json({ error: 'Cuenta no registrada.' });
