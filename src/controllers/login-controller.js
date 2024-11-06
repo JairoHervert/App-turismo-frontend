@@ -25,12 +25,6 @@ class loginController{
       }
 
       const newToken = token(resultado.id, correo);
-      res.cookie('access_token', newToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'none'
-        // Configurar despues la duración del token
-      });
       res.json({resultado: resultado, token: newToken});
 
     } catch (err) {
