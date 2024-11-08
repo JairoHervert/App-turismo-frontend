@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 function MenuFiltros({ modal }) {
   return (
@@ -15,7 +15,7 @@ function MenuFiltros({ modal }) {
               aria-expanded='true'
               aria-controls='collapseOne'
             >
-              Alcaldias
+              Alcaldías
             </button>
           </h2>
           <div
@@ -58,7 +58,7 @@ function MenuFiltros({ modal }) {
               aria-expanded='false'
               aria-controls='collapseTwo'
             >
-              Categorias
+              Categorías
             </button>
           </h2>
           <div
@@ -69,7 +69,7 @@ function MenuFiltros({ modal }) {
           >
             <div className='accordion-body ud_de-accordion-body'>
               <ul className='list-unstyled'>
-                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Turisticos</label></li>
+                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Turísticos</label></li>
                 <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>No convencionales</label></li>
                 <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Gastronomía</label></li>
                 <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Naturaleza</label></li>
@@ -85,7 +85,7 @@ function MenuFiltros({ modal }) {
         </div>
       </div> {/* fin del accordion */}
     </div>
-  )
+  );
 }
 
-export default MenuFiltros
+export default MenuFiltros;
