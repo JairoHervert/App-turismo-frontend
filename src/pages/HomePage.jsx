@@ -47,7 +47,7 @@ const HomePage = () => {
         showRegistrate={true}
         transparentNavbar={false}
         lightLink={false} />
-
+        
       <section className='home'>
         <div className='home-text'>
           <h5 className='home-h5'>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
@@ -82,7 +82,6 @@ const HomePage = () => {
               nombreImagen='miguel-hidalgo' />
           </Slider>
         </div>
-      </section>
 
         {/* Agregar boton de ver mas que redirige a ver todas las alcaldias*/ }
         <div className='alc-vermas'>
@@ -90,6 +89,9 @@ const HomePage = () => {
             Ver más
           </button>
         </div>
+      </section>
+
+        
 
 
       {/* SECCIÓN DE CESAR - EXPLORAR CATEGORÍAS*/}

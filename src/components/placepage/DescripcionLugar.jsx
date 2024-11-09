@@ -90,33 +90,6 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                 <p className='place-text'>
                     Desde su fundación, a comienzos de 1990, la revista Biblioteca de México ha publicado 172 números impresos y 4 números digitales. A lo largo de más de 30 años, ha dado espacio a trabajos de creación, investigación y crítica a autores de habla hispana y de otros idiomas. Pensada originalmente como una revista de letras en el sentido clásico y más generoso del término, que busca dar relieve y difusión a obras inasequibles de los acervos de la biblioteca misma, en esta nueva etapa digital también se tiene el propósito de acercarse a las nuevas generaciones de lectores, publicando a jóvenes escritores e ilustradores. Se trata, así, de sostener un esfuerzo de divulgación literaria que, de la manera más incluyente, brinde hospitalidad a la belleza y la inteligencia de la creación.
                 </p>
-                
-                {/* Seccion galería 
-                <div className='row place-img gx-0'>
-                    <div className='col-md-5 col-big-img'>
-                        <div className='place-big-img'></div>
-                    </div>
-                    <div className='col-md-7 col-little-img'>
-                        <div className='row gx-0'>
-                            <div className='col'>
-                                <div className='place-little-img'></div>
-                            </div>
-                            <div className='col'>
-                                <div className='place-little-img'></div>
-                            </div>
-                        </div>
-                        <div className='row gx-0'>
-                            <div className='col '>
-                                <div className='place-little-img'></div>
-                            </div>
-                            <div className='col '>
-                                <div className='place-little-img'></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>*/}
-                
-
 
                 {/* Seccion galería */}
                 <div className='place-img'>

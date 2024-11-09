@@ -52,8 +52,8 @@ const PlacePage = () => {
 
       <section className='reviews'>
         <div className='card review-card'>
-          <div className='card-title'>
-            <h1 className='title'>Reseñas y calificaciones</h1>
+          <div className='card-title-place'>
+            <h1 className='title-place'>Reseñas y calificaciones</h1>
           </div>
           <div className='card-body'>
             <Reviews

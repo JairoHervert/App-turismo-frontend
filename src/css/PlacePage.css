@@ -217,13 +217,13 @@
     justify-content: start;
 }
 
-.card-title {
+.card-title-place {
     display: flex;
     justify-content: flex-start;
     margin-left: 100px;
 }
 
-.title {
+.title-place {
     font-family: var(--font-tittle);
     font-weight: 400;   
 }
@@ -291,11 +291,11 @@
 }
 
 @media (max-width: 1931px) {
-    .card-title {
+    .card-title-place {
         margin-left: 30px;
     }
 
-    .title {
+    .title-place {
         font-size: 2em;
     }
 }
