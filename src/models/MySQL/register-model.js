@@ -55,6 +55,19 @@ class registerModel{
     });
   }
 
+  // Actualizar el campo confirmacion de la tabla usuario a 1
+  static async confirmarCuenta(correo) {
+    const query = 'CALL UsuarioConfirmarCuenta (?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, correo, (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(results);
+      });
+    });
+  }
+
 }
 
 module.exports = registerModel;

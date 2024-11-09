@@ -2,6 +2,7 @@ const registerModel = require("../models/MySQL/register-model");
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const transporter = require('../configs/nodemailer-config');
+const jwt = require('jsonwebtoken');
 
 class registerController {
   static async registroRegular(req, res) {
@@ -57,7 +58,7 @@ class registerController {
         res.status(500).json({ error: err.message });
       });
   }
-  /*static async registroGoogle(req, res) {
+  static async registroGoogle(req, res) {
     const { nombre, correo, imagen, token } = req.body;
     
     try {
@@ -69,21 +70,22 @@ class registerController {
         return res.status(400).json({ error: 'El correo ya está registrado.'});
       res.status(500).json({ error: err.message });
     }
-  }*/
+  }
 
   static async enviarCorreoVerificacion(req, res){
     const { name, email } = req.body;
-  
-    // Genera un token único para la verificación
-    const token = crypto.randomBytes(32).toString('hex');
-  
-     // Aquí se guardará el token y el correo en tu base de datos, junto con un tiempo de expiración (opcional).
-  
+
+    const token = (correo) => {
+      return jwt.sign({correo: correo}, process.env.JWT_SECRET);
+    }
+
+    const newToken = token(email);
+
     const mailOptions = {
       from: 'canastabasica2024@gmail.com',
       to: email,
       subject: 'Confirma tu registro',
-      html: `<p>Hola ${name},</p><p>Gracias por registrarte. Haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${token}">Confirmar Registro</a>`
+      html: `<p>Hola ${name},</p><p>Gracias por registrarte. Haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${newToken}">Confirmar Registro</a>`
     };
   
     try {

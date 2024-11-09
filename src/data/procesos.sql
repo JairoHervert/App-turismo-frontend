@@ -3,6 +3,8 @@ DROP PROCEDURE IF EXISTS UsuarioRegistro;
 DROP PROCEDURE IF EXISTS UsuarioValidarCuenta;
 DROP PROCEDURE IF EXISTS UsuarioRegistroGoogle;
 DROP PROCEDURE IF EXISTS UsuarioRegistroFacebook;
+DROP PROCEDURE IF EXISTS UsuarioConfirmarCuenta;
+DROP PROCEDURE IF EXISTS UsuarioConfirmarCuentaId;
 # Usuario Inicio de Sesión
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
@@ -86,8 +88,8 @@ BEGIN
    WHERE correo = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
-      INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria)
-      VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW());
+      INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
+      VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
 
       SELECT id FROM Usuario
       WHERE nombre = p_nombre AND correo = UPPER(p_correo);
@@ -114,14 +116,58 @@ BEGIN
    WHERE tokenFacebook = p_token;
     
    IF usuarioExistente = 0 THEN
-      INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria)
-      VALUES (p_nombre, p_imagen, p_token, 1, NOW());
+      INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
+      VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
 
       SELECT id FROM Usuario
       WHERE tokenFacebook = p_token;
       
    ELSE
       SELECT 'usuario_ya_registrado' AS 'error';
+   END IF;
+END //
+
+-- Proceso para actualizar el campo de confirmación de la cuenta a 1 con el correo
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioConfirmarCuenta`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioConfirmarCuenta (
+   IN p_correo VARCHAR(320)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = UPPER(p_correo);
+    
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+      UPDATE Usuario SET confirmacion = 1
+      WHERE correo = UPPER(p_correo);
+   END IF;
+END //
+
+-- Proceso para actualizar el campo de confirmación de la cuenta a 1 con el id
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioConfirmarCuentaId`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioConfirmarCuentaId (
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+    
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_registrado' AS 'error';
+   ELSE
+      UPDATE Usuario SET confirmacion = 1
+      WHERE id = p_id;
    END IF;
 END //
 

@@ -1,20 +1,28 @@
-// const registerModel = require("../models/MySQL/register-model");
-// const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const registerModel = require('../models/MySQL/register-model');
+;
 
 class confirmacionRegistroController {
   static async confirmarRegistro(req, res){
-    const { token } = req.body;
-  
-    // Aquí buscarías el token en la base de datos para verificar si es válido
-    // Si el token es válido, marca el correo como verificado y elimina el token
-  
-    const tokenValido = true; // Simulación de verificación (es decir, que el token si coincide o existe en el campo del usuario)
-  
-    if (tokenValido) {
-      res.json({ success: true, message: 'Correo verificado exitosamente' });
-    } else {
-      res.status(400).json({ success: false, message: 'Token inválido o expirado' });
-    }
+    const token = req.body.token
+    console.log("token: " + token);
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+      if(err){
+        res.json({success: false});
+        return;
+      } else {
+        const correo = decoded.correo;
+        console.log(correo);
+        registerModel.confirmarCuenta(correo)
+        .then((resultado) => {
+          res.json({success: true});
+        })
+        .catch((err) => {
+          console.log(err);
+          res.json({success: false});
+        });
+      }
+    });
   }
 }
 
