@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
-import Preferencias from './Preferencias'; // Asegúrate de importar el componente Preferencias
+import Preferencias from './Preferencias';
+import BasicModal from 'modalDetalleIt';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -23,6 +24,13 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  // Estado y funciones para el modal de detalles
+
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
 
   return (
     <>
@@ -100,9 +108,13 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
                       <li><Link className='dropdown-item' to='/favorites-page'>Favoritos User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
+                      <li><button className="dropdown-item" onClick={handleOpenModal}>Abrir Detalle</button></li>
                       <li><hr className="dropdown-divider" /></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>
+
+                      {/* Renderiza el modal en el mismo archivo */}
+                      <BasicModal open={openModal} onClose={handleCloseModal} />
                   </div>
                 </>
               ) : (
