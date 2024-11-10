@@ -63,30 +63,31 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                 <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Nuevas Experiencias</Link>
               </li>
             </ul>
-
             {/* Sección de perfil de usuario */}
-            <div className="d-flex user-profile">
+            <div className="d-flex align-items-center justify-content-end justify-content-sm-end">
               {isLoggedIn ? (
                 <>
-                  <div className="text-end me-2 user-info">
+                  <div className="order-sm-1 text-end me-2">
                     <div>Bienvenido</div>
                     <div className="fw-bold">{userName}</div>
                   </div>
-                  <div className="dropdown">
+                  <div className="order-sm-2">
+                    <img
+                      src={avatar}
+                      alt="Perfil"
+                      className="rounded-circle"
+                      width="50"
+                      height="50"
+                    />
+                  </div>
+                  <div className="order-sm-3 dropdown">
                     <button
-                      className="nav-link p-0 d-flex align-items-center bg-transparent border-0 user-icon"
+                      className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
                       id="userDropdown"
                       data-bs-toggle="dropdown"
                       aria-expanded={menuOpen}
                       onClick={toggleMenu}
                     >
-                      <img
-                        src={avatar}
-                        alt="Perfil"
-                        className="rounded-circle user-avatar"
-                        width="50"
-                        height="50"
-                      />
                       <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
