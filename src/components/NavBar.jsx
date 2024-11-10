@@ -4,6 +4,7 @@ import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
 import Preferencias from './Preferencias';
+import Detalles from './modalDetalleIt';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -100,6 +101,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
                       <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
+                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Preferencias 2</button></li>
                       <li><hr className="dropdown-divider" /></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>
@@ -126,6 +128,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
       {/* Componente de Preferencias */}
       <Preferencias />
+      <Detalles />
     </>
   );
 }
