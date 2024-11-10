@@ -1,46 +1,52 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import '../css/LoginPage.css';
+// modulos importados
+import React from 'react';
+import { useState } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import { Container, Stack, Box, Typography, Input } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid2';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
+import { useNavigate } from 'react-router-dom';
+import FormHelperText from '@mui/material/FormHelperText';
+
+// modulos de iconos
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import CloseIcon from '@mui/icons-material/Close';
+
+// componentes importados
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
-import imgFormulario from '../img/piramides-teotihuacan.webp';
-import { fetchUsuarios } from '../js/LoginPage';
+import LeftImage from '../components/login/LeftImage';
+
+// estilos importados
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
+import '../css/LoginPage.css';
+
+// elementos de la página
+import imgTeotihuacan from '../img/piramides-teotihuacan.webp';
+import fuenteTlaloc from '../img/PlacePage/place-img-fuentetlaloc.jpg';
+import casaLeon from '../img/PlacePage/place-img-casadeleon.jpg';
 
 function LoginPage() {
+  // validacion de correo
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const [correoReglas, setCorreoReglas] = useState({
     sinEspacios: false,
     arrobaCaracteres: false,
     dominioConPunto: false,
   });
 
-  const navigate = useNavigate();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
-      if (response.data.id) {
-        console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
-      }
-    } catch (error) {
-      // Mostrar el mensaje de error específico
-      if (error.response && error.response.data && error.response.data.error) {
-        console.error("Error:", error.response.data.error);
-      } else {
-        console.error("Error al intentar iniciar sesión:", error);
-      }
-    }
-  };
-
-  const handleHomeClick = () => {
-    navigate('/');
-  };
-
-  // Manejador para actualizar, analizar y validar el valor del correo
   const handleCorreoChange = (e) => {
     const correo = e.target.value;
     setCorreo(correo);
@@ -51,110 +57,176 @@ function LoginPage() {
       sinEspacios: /^[^\s]+$/.test(correo),
       arrobaCaracteres: /^[^@]+@[^@]+$/.test(correo),
       dominioConPunto: /@[^@]+\.[^@]+$/.test(correo),
+      noVacio: correo.length > 0,
     });
   };
 
+  const handleContraseñaChange = (e) => {
+    setContraseña(e.target.value);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+
+    // Si ambos campos están llenos, puedes realizar tu lógica de inicio de sesión aquí.
+    if (correo && contraseña) {
+      // Lógica de inicio de sesión...
+      console.log("Iniciando sesión...");
+    }
+  };
+
+
+  // visibilidad de la contraseña
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
+
+  // redireccionamiento a home
+  const navigate = useNavigate();
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
+
   return (
-    <div className='vh-100 vw-100'>
-      <Navbar
-        showingresa={false}
-        showRegistrate={true}
-        transparentNavbar={false}
-        lightLink={false}
-        staticNavbar={false}
-      />
+    <ThemeProvider theme={ThemeMaterialUI}>
+      <Box className='login-background'>
 
-      <div className='login-background vh-100 vw-100 d-flex justify-content-center align-items-center'>
-        <div className='login-box d-flex flex-column rounded'>
-          {/* Icono de cerrar en la esquina superior derecha */}
-          <div className='close-icon' onClick={handleHomeClick}>✕</div>
+        <Box className='lo_pa-container-tool'>
+          <Navbar
+            showingresa={false}
+            showRegistrate={false}
+            transparentNavbar={false}
+            lightLink={false}
+            staticNavbar={false}
+          />
+          <Container maxWidth='md' disableGutters className='my-5 py-4 d-flex align-items-center justify-content-center' >
+            <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
+              {/* lado izquiero imagen con texto */}
+              <Grid size={{ xs: 10, md: 6 }} className='login-left-container'>
+                <LeftImage
+                  imageUrl={casaLeon}
+                  nombreFotografo='Brandon Peso Pluma' />
+              </Grid>
 
-          <div className='login-content d-flex'>
-            {/* Columna izquierda: Imagen y texto */}
-            <div className='login-left'>
-              <img src={imgFormulario} alt='Login background' className='login-left-image' />
-              <div className='login-left-overlay text-start d-flex flex-column justify-content-center pb-5'>
-                <h4 className='fw-semibold fs-2 fontMontserrat'>Bienvenido a la aventura que cambiará tu historia</h4>
-                <small className='fw-light'>Únete a una comunidad vibrante donde florece la creatividad, se forjan conexiones y cada paso te acerca a experiencias inolvidables. Sumérgete y encuentra la inspiración.</small>
+              {/* lado derecho formulario */}
+              <Grid size={{ md: 6 }}>
+                <Box className='login-right-form bg-light'>
+                  <Box className='mx-3 pb-5 pt-3'>
+                    <Box className='d-flex justify-content-end'>
+                      <IconButton aria-label="cerrar" onClick={handleHomeClick}>
+                        <CloseIcon />
+                      </IconButton>
+                    </Box>
 
-                {/* Crédito de la fotografía */}
-                <div className='photo-credit'>
-                  Fotografía de
-                  <p><span className='fw-bold'>Nombre del Fotógrafo</span></p>
-                </div>
-              </div>
-            </div>
+                    <Box className='mx-4'>
+                      <Typography variant='h4' className='fw-bold'>Iniciar sesión</Typography>
+                      <Typography variant='subtitle1'>Ingresa tus datos para continuar</Typography>
 
-            {/* Columna derecha: Formulario */}
-            <div className='login-right d-flex flex-column justify-content-center'>
-              <h3 className='fw-normal mb-3 pb-3 fontMontserrat fw-bolder'>Iniciar sesión</h3>
+                      <form className='login-form' onSubmit={handleLogin}>
+                        <Box className='my-4'>
+                          <TextField
+                            hiddenLabel
+                            id="log-correo"
+                            label="Correo electrónico"
+                            placeholder='correo@ejemplo.com'
+                            size="small"
+                            type='email'
+                            onChange={handleCorreoChange}
+                            fullWidth
+                            // errores si no cumple con las reglas
+                            error={formSubmitted && !correo}
+                            helperText={formSubmitted && !correo ? "El correo no puede estar vacío" : ""}
 
-              <form className='login-form' onSubmit={handleLogin}>
-                <div className='mb-3'>
-                  <label htmlFor='logInputEmail' className='form-label fw-semibold'>Correo electrónico</label>
+                          />
+                          <Typography variant="body2" color="textSecondary" className='mb-2 ms-2 fw-medium'>
+                            El correo debe cumplir con las siguientes reglas:
+                          </Typography>
+                          <ul>
+                            <li className={`lo_pa-rule-input fw-medium ${correoReglas.noVacio ? 'text-success fw-semibold' : ''}`}>No debe estar vacío.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${correoReglas.sinEspacios ? 'text-success fw-semibold' : ''}`}>No debe contener espacios.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${correoReglas.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbolo @.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${correoReglas.dominioConPunto ? 'text-success fw-semibold' : ''}`}>Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).</li>
+                          </ul>
+                        </Box>
 
-                  <input
-                    type='email'
-                    className='form-control'
-                    id='logInputEmail'
-                    value={correo}
-                    onChange={handleCorreoChange}
-                  //onChange={(e) => setCorreo(e.target.value)}
-                  />
-                  <ul>
-                    <li className={`lo_pa-rule-input ${correoReglas.sinEspacios ? 'text-success' : ''}`}>
-                      No debe contener espacios.
-                    </li>
-                    <li className={`lo_pa-rule-input ${correoReglas.arrobaCaracteres ? 'text-success' : ''}`}>
-                      Debe tener al menos un carácter antes y después del símbolo @.
-                    </li>
-                    <li className={`lo_pa-rule-input ${correoReglas.dominioConPunto ? 'text-success' : ''}`}>
-                      Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).
-                    </li>
-                  </ul>
-                </div>
+                        <Box className='my-4'>
+                          <FormControl variant="outlined" size="small" fullWidth error={formSubmitted && !contraseña}>
+                            <InputLabel htmlFor="log-password">Contraseña</InputLabel>
+                            <OutlinedInput
+                              id="log-password"
+                              type={showPassword ? 'text' : 'password'}
+                              value={contraseña}
+                              onChange={handleContraseñaChange}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    onMouseUp={handleMouseUpPassword}
+                                    edge="end"
+                                  >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                  </IconButton>
+                                </InputAdornment>
+                              }
+                              label="Contraseña"
+                            />
+                            {formSubmitted && !contraseña && (
+                              <FormHelperText>La contraseña no puede estar vacía</FormHelperText>
+                            )}
+                          </FormControl>
+                        </Box>
 
-                <div className='mb-3'>
-                  <label htmlFor='logInputPassword' className='form-label fw-semibold'>Contraseña</label>
-                  <input
-                    type='password'
-                    className='form-control'
-                    id='logInputPassword'
-                    required
-                    value={contraseña}
-                    onChange={(e) => setContraseña(e.target.value)}
-                  />
-                </div>
+                        <Box className='lo_pa-iniciar-olvidaste'>
+                          <Button variant="contained" type="submit">
+                            Iniciar sesión
+                          </Button>
 
-                <div className='pt-1 mb-4 mt-4'>
-                  <button type='submit' className='btn btn-primary fw-semibold'>Iniciar sesión</button>
-                </div>
+                          <Link href="#" underline="hover">
+                            <Typography variant='subtitle2' color='dark' className='mt-4 pb-2' sx={{ fontSize: '1rem' }}>¿Olvidaste tu contraseña?</Typography>
+                          </Link>
+                        </Box>
 
-                <div className='mb-3'>
-                  <small><Link className='text-muted' to='/forgot-password'>¿Olvidaste tu contraseña?</Link></small>
-                </div>
+                        <Box className='my-4 d-flex flex-column align-items-center justify-content-center'>
+                          <Typography variant='subtitle2' sx={{ fontSize: '1rem' }}>O inicia sesión con:</Typography>
+                          <Box className='d-flex justify-content-center'>
+                            <IconButton aria-label="google" color='google'>
+                              <GoogleIcon />
+                            </IconButton>
+                            <IconButton aria-label="facebook" color='facebook'>
+                              <FacebookRoundedIcon />
+                            </IconButton>
+                          </Box>
+                        </Box>
+                      </form>
 
-                {/* Sección de botones de redes sociales */}
-                <div className='text-center lo_pa-opciones-inicio'>
-                  <p className='fw-semibold'>o inicia sesión con:</p>
-                  <button type='button' className='btn btn-link btn-floating mx-1'>
-                    <i className='bi bi-google'></i>
-                  </button>
-                  <button type='button' className='btn btn-link btn-floating mx-1'>
-                    <i className='bi bi-facebook'></i>
-                  </button>
-                </div>
+                      <Box className='mt-5'>
+                        <Typography variant='body1'>¿No tienes una cuenta? <Link href="/register" underline="hover">Regístrate aquí</Link></Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
 
-                <p>¿No tienes una cuenta? <Link to='/register' className='fontRosaMexicano'>Regístrate aquí</Link></p>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+            </Grid>
+          </Container>
+        </Box>
 
-      <Footer showIncorporaLugar={false} />
-    </div>
-  );
+        <Footer />
+      </Box>
+    </ThemeProvider >
+  )
 }
 
-export default LoginPage;
+export default LoginPage
