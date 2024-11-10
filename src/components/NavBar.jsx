@@ -101,7 +101,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
                       <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
-                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Preferencias 2</button></li>
+                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
                       <li><hr className="dropdown-divider" /></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>

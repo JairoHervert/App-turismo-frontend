@@ -1,0 +1,201 @@
+@import "../var.css";
+
+.CD-card {
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 3px;
+}
+
+.CD-card-body {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    flex-wrap: wrap;
+    background-color: white;
+}
+
+.CD-icon-drag {
+    cursor: grab;
+    font-size: 1.5rem;
+    margin-right: 0.8rem;
+}
+
+.CD-card-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 3px;
+    margin-right: 1rem;
+    object-fit: cover;
+}
+
+/* Rectangular format for small screens */
+@media (max-width: 576px) {
+    .CD-card-body {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+    .CD-icon-drag {
+        margin-bottom: 0.5rem;
+    }
+    .CD-card-img {
+        width: 100%;
+        height: 140px; /* Ajuste a formato rectangular */
+
+        margin-right: 0;
+        margin-bottom: 1rem;
+        margin-left: auto;
+    }
+    .CD-icon-delete {
+        align-self: flex-end;
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}
+
+.CD-content {
+    flex-grow: 1;
+    min-width: 200px;
+}
+
+.CD-card-title {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-title);
+}
+
+.CD-card-text {
+    margin-bottom: 0.5rem;
+    font-family: var(--font-body);
+}
+
+.CD-card-link {
+    text-decoration: none;
+    font-family: var(--font-body);
+    color: rgb(82, 174, 255);
+    font-weight: 450;
+    margin-right: 0;
+}
+
+.CD-icon-delete {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    color: rgb(230, 0, 169);
+}
+
+.CD-card-link:focus,
+.CD-icon-delete:focus {
+    outline-offset: 2px;
+}
+
+.CD-card-link,
+.CD-icon-delete {
+    transition: color 0.3s ease;
+}
+
+.CD-card-link:hover {
+    color: var(--color-secondary);
+}
+
+.CD-icon-delete:hover {
+    color: rgb(255, 0, 0);
+}
+
+
+/*------------------*/
+.MD-tam {
+    min-height: 70vh; /* El modal ocupará al menos el 80% de la altura de la ventana */
+}
+
+  .MD-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-title);
+    width: 100%;
+    color: var(--color-secondary);
+  }
+  
+  /* Estilo para el botón de regresar */
+  .MD-btn-regresar {
+    margin-bottom: 1rem;
+  }
+  
+  /* Estilo para el contenedor de la lista de elementos */
+  .MD-lista-elementos {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 15px;
+  }
+
+/* Estilo general del contenedor */
+.lugar-detalle {
+    background-color: #fbfeff; /* Fondo verde */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
+    border: var(--color-primary) solid 1.5px;
+    font-family: var(--font-body);
+  }
+  
+  /* Estilo del carrusel */
+  #carouselLugarDetalle {
+    border-radius: 8px;
+    overflow: hidden; /* Para que las imágenes se recorten con los bordes */
+  }
+  
+  .lugar-imagen {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  /* Contenedor de la información del lugar */
+  .lugar-info-container {
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 8px;
+    max-height:300px; /* Altura máxima antes de activar el scroll */
+    overflow-y: auto; /* Habilita el scroll vertical si el contenido excede la altura */
+    margin-top: 20px;
+  }
+  
+  /* Información del lugar */
+  .lugar-info {
+    text-align: justify;
+  }
+  
+  .lugar-info h3 {
+    color: #007bff; /* Texto principal en azul */
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .lugar-info p {
+    margin-bottom: 8px;
+    color: #495057;
+  }
+  
+  .lugar-info p i {
+    font-size: 1.1rem;
+  }
+  
+  /* Respuesta en pantallas pequeñas */
+  @media (max-width: 768px) {
+    .lugar-detalle {
+      padding: 15px;
+    }
+    
+    .lugar-imagen {
+      height: 200px;
+    }
+  
+    .lugar-info h3 {
+      font-size: 1.3rem;
+    }
+  }
+  
