@@ -4,7 +4,6 @@ import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
 import Preferencias from './Preferencias';
-import BasicModal from './modalDetalleIt';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
