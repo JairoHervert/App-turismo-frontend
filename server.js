@@ -9,7 +9,7 @@ app.use(express.json());
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: '9412',
   database: 'AppTurismo'
 });
 
@@ -36,17 +36,18 @@ app.get('/usuarios', (req, res) => {
 // Registro
 
 app.post('/registro', (req, res) => {
-  const { correo, contraseña } = req.body;
-  const query = 'CALL UsuarioRegistro (?, ?);';
+  const { nombre, correo, contraseña } = req.body;
+  const query = 'CALL UsuarioRegistro (?, ?, ?);';
   
-  db.query(query, [correo, contraseña], (err, results) => {
+  db.query(query, [nombre, correo, contraseña], (err, results) => {
     if (err) {
       if (err.sqlState === '45000') {
         return res.status(400).json({ error: 'El correo ya está registrado.' });
       }
       return res.status(500).json({ error: err.message });
     }
-    res.status(201).json({ message: 'Usuario creado', userId: results.insertId });
+    console.log(results);
+    res.status(201).json({ message: 'Usuario creado', userId: results });
   });
 });
 
@@ -60,10 +61,27 @@ app.post('/iniciar-sesion', (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    const resultado = results[0][0] || null;
-    res.json({ id: resultado ? resultado.id : null });
+    
+    const resultado = results[0][0];
+    if (resultado && resultado.error) {
+      // Identificar el error específico
+      if (resultado.error === 'correo_no_registrado') {
+        return res.status(400).json({ error: 'El correo no está registrado.' });
+      }
+      if (resultado.error === 'contraseña_incorrecta') {
+        return res.status(400).json({ error: 'La contraseña es incorrecta.' });
+      }
+      if (resultado.error === 'cuenta_no_confirmada') {
+        return res.status(400).json({ error: 'La cuenta no ha sido confirmada. Revisa tu correo para confirmar tu cuenta.' });
+      }
+    } else if (resultado && resultado.id) {
+      res.json({ id: resultado.id });
+    } else {
+      res.status(400).json({ error: 'Credenciales incorrectas.' });
+    }
   });
 });
+
 
 const PORT = 3001;
 app.listen(PORT, () => {

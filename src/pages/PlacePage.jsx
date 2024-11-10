@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
 import '../css/PlacePage.css';
+import { useNavigate } from 'react-router-dom';
 
 const PlacePage = () => {
 
@@ -15,6 +16,12 @@ const PlacePage = () => {
     'https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg'
   ];
 
+  const navigate = useNavigate();
+
+  const handleHomePageClick = () => {
+        navigate('/');
+   };
+
   return (
     <div>
       <NavBarHome 
@@ -25,7 +32,7 @@ const PlacePage = () => {
 
       <section>
         <div className='place-page-img'>
-          <button className='btn btn-place-page'>
+          <button className='btn btn-place-page' onClick={handleHomePageClick}>
             <i class="bi bi-arrow-left"></i>
             Regresar
           </button>
@@ -45,8 +52,8 @@ const PlacePage = () => {
 
       <section className='reviews'>
         <div className='card review-card'>
-          <div className='card-title'>
-            <h1 className='title'>Reseñas y calificaciones</h1>
+          <div className='card-title-place'>
+            <h1 className='title-place'>Reseñas y calificaciones</h1>
           </div>
           <div className='card-body'>
             <Reviews

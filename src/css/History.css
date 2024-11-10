@@ -1,66 +1,72 @@
 /* Fondo blanco para toda la pantalla */
-.search-history-background {
+.search-history-background-history {
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Centra verticalmente */
+  justify-content: center;
   min-height: 100vh;
+
 }
 
 /* Contenedor de los controles de filtro, borrar y búsqueda, centrado horizontalmente */
-.controls-container {
+.controls-container-history {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 25px;
   margin-bottom: 15px; 
+
 }
 
-.input-login{
+.input-login-history {
   margin-top: 15px;
   margin-left: 85px;
 }
 
-.controls-container .btn-link {
+.controls-container-history .btn-link-history {
   color: #333;
   text-decoration: none;
   font-size: 16px;
 }
 
-.controls-container .btn-link:hover {
+.controls-container-history .btn-link-history:hover {
   color: #007bff;
   text-decoration: underline;
 }
 
-.search-bar {
-  width: 300px; /* Ancho fijo de la barra de búsqueda */
+.search-bar-history {
+  width: 300px;
   padding: 7px;
   padding-left: 30px;
-
   border: 1px solid #ced4da;
   border-radius: 5px;
 }
 
 /* Fondo azul claro solo para la caja del historial */
-.search-history-box {
+.search-history-box-history {
   background: #e3f2fd;
   padding: 30px;
+  
+  
   border-radius: 10px;
   box-shadow: 0 0px 100px rgba(0, 0, 0, 0.1);
   width: 90%;
-  max-width: 700px;
+  max-width: 2000px;
+  height: auto;
+  
+  
 }
 
-.aline-between {
+.aline-between-history {
   justify-content: space-between;
 }
 
-.header {
+.header-history {
   margin-bottom: 10px;
 }
 
-.close-icon {
+.close-icon-history {
   cursor: pointer;
   font-size: 24px;
   color: #666;
@@ -68,14 +74,14 @@
   background: none;
 }
 
-.date-text {
+.date-text-history {
   font-size: 14px;
   color: #6c757d;
   text-align: center;
   margin-bottom: 20px;
 }
 
-.search-history-item {
+.search-history-item-history {
   border-bottom: 1px solid #e0e0e0;
   padding: 10px 0;
   display: flex;
@@ -83,33 +89,33 @@
   align-items: center;
 }
 
-.item-left {
+.item-left-history {
   display: flex;
   align-items: center;
   flex-grow: 1;
 }
 
-.checkbox {
+.checkbox-history {
   margin-right: 10px;
 }
 
-.query-time {
+.query-time-history {
   color: #6c757d;
   font-size: 14px;
   margin-right: 8px;
 }
 
-.query-text {
+.query-text-history {
   font-weight: bold;
   color: #1a0dab;
   text-decoration: none;
 }
 
-.query-text:hover {
+.query-text-history:hover {
   text-decoration: underline;
 }
 
-.menu-icon {
+.menu-icon-history {
   font-size: 18px;
   color: #666;
   cursor: pointer;
@@ -118,18 +124,12 @@
 
 /* Nueva regla para hacer que los controles se apilen en pantallas pequeñas */
 @media (max-width: 768px) {
-  .controls-container {
-      flex-direction: column; /* Cambia a columna en pantallas pequeñas */
-      align-items: center; /* Permite que los botones se expandan */
-      
+  .controls-container-history {
+      flex-direction: column;
+      align-items: center;
   }
 
-  .btn{
-      width: 100%; 
-      
+  .btn-history {
+      width: 100%;
   }
-
-
 }
-
- 

@@ -48,14 +48,12 @@ function UsuarioDeseados() {
               <div className='modal-dialog'>
                 <div className='modal-content'>
                   <div className='modal-header'>
-                    <h1 className='modal-title fs-5' id='exampleModalLabel'>Filtros de busqueda</h1>
+                    <h1 className='modal-title fs-5' id='exampleModalLabel'>Filtros de búsqueda</h1>
                     <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                   </div>
                   <div className='modal-body'>
-
                     <MenuFiltros
                       modal={true} />
-
                   </div>
                   <div className='modal-footer'>
                     <button type='button' className='btn btn-secondary' data-bs-dismiss='modal'>Cancelar</button>
@@ -71,14 +69,14 @@ function UsuarioDeseados() {
           <div className='col-12 col-xl-9 us_de-scrollable-column'>
             <CuadroLugar
               nombreLugar='Álvaro Obregón'
-              descripcionLugar='Descubre el encanto de Ávaro Obregón, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.'
+              descripcionLugar='Descubre el encanto de Álvaro Obregón, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.'
               imagenLugar='home-places-alvaro-obregon.jpg'
               tiempoLugar='2 hrs'
               costoLugar='Gratis' />
 
             <CuadroLugar
               nombreLugar='Xochimilco'
-              descripcionLugar='Sumérgete en la experiencia única de los canales de Xochimilco. Navega en trajineras y disfruta de la tradición y el folclor en un ambiente colorido.'
+              descripcionLugar='Sumérgete en la experiencia única de los canales de Xochimilco. Navega en trajineras y disfruta de la tradición y el folclore en un ambiente colorido.'
               imagenLugar='home-places-xochimilco.jpg'
               tiempoLugar='3 hrs'
               costoLugar='Gratis' />
@@ -88,14 +86,14 @@ function UsuarioDeseados() {
               descripcionLugar='Vive la majestuosidad de las antiguas pirámides. Sube a la cima del Sol y la Luna para una vista impresionante de este sitio arqueológico.'
               imagenLugar='home-places-piramides-teotihuacan.webp'
               tiempoLugar='4 hrs'
-              costoLugar='200mxn' />
+              costoLugar='200 MXN' />
 
             <CuadroLugar
               nombreLugar='Coyoacán'
               descripcionLugar='Explora las calles empedradas y plazas vibrantes de Coyoacán, un rincón bohemio lleno de cafés, arte y el ambiente acogedor de la Ciudad de México.'
               imagenLugar='home-places-coyoacan.jpg'
               tiempoLugar='2:30 hrs'
-              costoLugar='100mxn' />
+              costoLugar='100 MXN' />
 
             <CuadroLugar
               nombreLugar='Xochimilco'
@@ -103,14 +101,11 @@ function UsuarioDeseados() {
               imagenLugar='home-places-xochimilco.jpg'
               tiempoLugar='3 hrs'
               costoLugar='Gratis' />
-
-
           </div>
           <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
             <div className='us_de-contenedor-filtros my-4 d-flex flex-column justify-content-center align-items-center'>
-              <h2 className='fs-2 fw-semibold mt-2 fontMontserrat'>Filtros de busqueda</h2>
-              <MenuFiltros
-                modal={false} />
+              <h2 className='fs-2 fw-semibold mt-2 fontMontserrat'>Filtros de búsqueda</h2>
+              <MenuFiltros modal={false} />
             </div>
 
             <div>

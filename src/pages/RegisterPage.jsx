@@ -21,10 +21,15 @@ function RegisterPage() {
   const handleRegistro = async (e) => {
     e.preventDefault();
     setError('');
-    console.log(correo, contraseña);
+    console.log(nombre, correo, contraseña, contraseña2);
+    if(contraseña != contraseña2) {
+      console.log('Las contraseñas no coinciden')
+      return;
+    }
     try {
       
       const response = await axios.post('http://localhost:3001/registro', {
+        nombre,
         correo,
         contraseña,
       });

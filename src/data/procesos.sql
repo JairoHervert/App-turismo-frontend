@@ -47,8 +47,38 @@ CREATE PROCEDURE UsuarioIniciarSesion (
    IN p_contraseña VARCHAR(255)
 )
 BEGIN
-   SELECT id FROM Usuario
-   WHERE correo = p_correo AND contraseña = p_contraseña;
+   DECLARE usuarioExistente INT;
+   DECLARE contraseñaCorrecta INT;
+   DECLARE confirmacion_ INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = p_correo;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+
+      SELECT COUNT(*) INTO contraseñaCorrecta
+      FROM Usuario
+      WHERE correo = p_correo AND contraseña = p_contraseña;
+
+      IF contraseñaCorrecta = 0 THEN
+         SELECT 'contraseña_incorrecta' AS 'error';
+      ELSE
+      
+         SELECT confirmacion INTO confirmacion_
+         FROM Usuario
+         WHERE correo = p_correo AND contraseña = p_contraseña;
+
+         IF confirmacion_ = 0 THEN
+            SELECT 'cuenta_no_confirmada' AS 'error';
+         ELSE
+            SELECT id FROM Usuario
+            WHERE correo = p_correo AND contraseña = p_contraseña;
+         END IF;
+      END IF;
+   END IF;
 END //
 
 -- -----------------------------------------------------
