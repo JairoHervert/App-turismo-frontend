@@ -71,19 +71,19 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                         </div>
                         <div className='stars'>
                             {/* de a mientras */}
-                            <i class="bi bi-star"></i>
-                            <i class="bi bi-star"></i>
-                            <i class="bi bi-star"></i>
-                            <i class="bi bi-star"></i>
-                            <i class="bi bi-star"></i>
+                            <i className='bi bi-star'></i>
+                            <i className='bi bi-star'></i>
+                            <i className='bi bi-star'></i>
+                            <i className='bi bi-star'></i>
+                            <i className='bi bi-star'></i>
                         </div>
                     </div>
                     <div className='place-buttons'>
                         <button className={`btn ${isClickedDeseados ? 'btn-placeOnClick' : 'btn-light'} btn-placePage-button`} onClick={handleButtonDeseadosClick}>
-                            <i className="bi bi-bookmark"></i>
+                            <i className='bi bi-bookmark'></i>
                         </button>
                         <button className={`btn ${isClickedFavoritos ? 'btn-placeOnClick' : 'btn-light'} btn-placePage-button`} onClick={handleButtonFavoritosClick}>
-                            <i className="bi bi-star"></i>
+                            <i className='bi bi-star'></i>
                         </button>
                     </div>
                 </div>
