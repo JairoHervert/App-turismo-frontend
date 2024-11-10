@@ -10,6 +10,7 @@ import PoliticasPrivacidad from '../pages/PoliticasPrivacidad';
 import ConfirmacionRegistro from '../pages/ConfirmacionRegistro';
 import HistorialBusqueda from '../pages/HistoryPage';
 import FavoritesPage from '../pages/FavoritesPage';
+import GenerarItinerario from '../pages/GenerarItinerario';
 
 function AppRouter() {
   return (
@@ -26,6 +27,7 @@ function AppRouter() {
         <Route path='/confirmacion-registro' element={<ConfirmacionRegistro />} />
         <Route path='/placepage' element={<PlacePage />} />
         <Route path='/favoritos' element={<FavoritesPage />} />
+        <Route path='/generar-itinerario' element={<GenerarItinerario />} />
       </Routes>
     </Router>
   );

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../css/LoginPage.css';
@@ -10,16 +10,22 @@ import { fetchUsuarios } from '../js/LoginPage';
 function LoginPage() {
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
+  const [correoReglas, setCorreoReglas] = useState({
+    sinEspacios: false,
+    arrobaCaracteres: false,
+    dominioConPunto: false,
+  });
+
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
       if (response.data.id) {
         console.log("Inicio de sesión exitoso. ID de usuario:", response.data.id);
-      } 
+      }
     } catch (error) {
       // Mostrar el mensaje de error específico
       if (error.response && error.response.data && error.response.data.error) {
@@ -29,10 +35,23 @@ function LoginPage() {
       }
     }
   };
-  
 
   const handleHomeClick = () => {
     navigate('/');
+  };
+
+  // Manejador para actualizar, analizar y validar el valor del correo
+  const handleCorreoChange = (e) => {
+    const correo = e.target.value;
+    setCorreo(correo);
+    console.log(correo);
+
+    // Validar reglas
+    setCorreoReglas({
+      sinEspacios: /^[^\s]+$/.test(correo),
+      arrobaCaracteres: /^[^@]+@[^@]+$/.test(correo),
+      dominioConPunto: /@[^@]+\.[^@]+$/.test(correo),
+    });
   };
 
   return (
@@ -73,13 +92,26 @@ function LoginPage() {
               <form className='login-form' onSubmit={handleLogin}>
                 <div className='mb-3'>
                   <label htmlFor='logInputEmail' className='form-label fw-semibold'>Correo electrónico</label>
+
                   <input
                     type='email'
                     className='form-control'
                     id='logInputEmail'
                     value={correo}
-                    onChange={(e) => setCorreo(e.target.value)}
+                    onChange={handleCorreoChange}
+                  //onChange={(e) => setCorreo(e.target.value)}
                   />
+                  <ul>
+                    <li className={`lo_pa-rule-input ${correoReglas.sinEspacios ? 'text-success' : ''}`}>
+                      No debe contener espacios.
+                    </li>
+                    <li className={`lo_pa-rule-input ${correoReglas.arrobaCaracteres ? 'text-success' : ''}`}>
+                      Debe tener al menos un carácter antes y después del símbolo @.
+                    </li>
+                    <li className={`lo_pa-rule-input ${correoReglas.dominioConPunto ? 'text-success' : ''}`}>
+                      Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).
+                    </li>
+                  </ul>
                 </div>
 
                 <div className='mb-3'>
@@ -88,6 +120,7 @@ function LoginPage() {
                     type='password'
                     className='form-control'
                     id='logInputPassword'
+                    required
                     value={contraseña}
                     onChange={(e) => setContraseña(e.target.value)}
                   />

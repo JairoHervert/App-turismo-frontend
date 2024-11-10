@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -19,6 +20,11 @@ const HomePage = () => {
 
   const [isRegistered, setIsRegistered] = useState(false);
 
+  const navigate = useNavigate();
+
+  const handlePlacePageClick = () => {
+      navigate('/generar-itinerario');
+  };
 
   const settings = {
     className: "center",
@@ -52,7 +58,7 @@ const HomePage = () => {
         <div className='home-text'>
           <h5 className='home-h5'>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
           <h1 className='home-h1'>Ciudad de México</h1>
-          <button className='btn btn-home' type='button'>
+          <button onClick={handlePlacePageClick} className='btn btn-home' type='button'>
               Comienza ahora
           </button>
         </div>

@@ -33,7 +33,7 @@ const PlacePage = () => {
       <section>
         <div className='place-page-img'>
           <button className='btn btn-place-page' onClick={handleHomePageClick}>
-            <i class="bi bi-arrow-left"></i>
+            <i className='bi bi-arrow-left'></i>
             Regresar
           </button>
         </div>

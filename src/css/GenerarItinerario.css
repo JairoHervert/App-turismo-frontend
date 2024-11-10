@@ -1,0 +1,84 @@
+@import "../var.css";
+
+.map-icon-itinerario {
+    font-size: 2.5rem;
+}
+
+.h1-itineario-title {
+    font-size: 3rem;
+}
+
+.header-itinerario {
+    background-color: var(--color-secondary);
+    
+}
+
+.content-generarItinerario {
+    margin-top: 40px;
+    
+}
+
+.card-fechaViaje-generarItinerario,
+.card-consideraciones-generarItinerario,
+.card-presupuesto-generarItinerario {
+    padding: 1.5%;
+}
+
+.card-fechaViaje-generarItinerario {
+    margin-bottom: 10px !important;
+}
+
+.card-consideraciones-generarItinerario {
+    margin-left: 20px !important;
+}
+
+.checkbox-consideraciones {
+    border-radius: 5px;
+    background-color: #d8f4ff;
+    margin-bottom: 7px;
+}
+
+.checkbox-consideraciones:hover {
+    background-color: var(--color-primary);
+}
+
+.css-19opgx6-MuiFormControlLabel-root {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.numero-viajantes {
+    margin-bottom: 20px;
+}
+
+.swap-presupuesto:hover {
+    color: rgba(228, 0, 124, 0.8);
+}
+
+.btn-generarItinerario {
+    margin-top: 30px;
+    padding-left: 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+@media (max-width: 600px) {
+    .card-fechaViaje-generarItinerario {
+        margin-bottom: 7px !important;
+    }
+    
+    .card-consideraciones-generarItinerario {
+        margin-left: 0px !important;
+    }
+
+    .content-generarItinerario {
+        align-items: center;
+    }
+}
+
+@media (max-width: 760px) and (min-width: 600px) {
+    .subtitulos-generarItinerario {
+        font-size: .8em !important;
+    }
+}
