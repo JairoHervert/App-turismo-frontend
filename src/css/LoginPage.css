@@ -5,20 +5,19 @@
    background-position: center;
 }
 
-/* Columna izquierda (imagen y texto) */
-.login-left {
-   flex: 1;
-   position: relative;
-   display: flex;
+.lo_pa-rule-input {
+   font-size: 0.8rem;
 }
 
-.login-left-image {
-   background-image: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../img/piramides-teotihuacan.webp');
-   background-size: cover;
-   background-position: center;
+.login-right-form {
    width: 100%;
    height: 100%;
 }
+
+.lo_pa-just-texts {
+   font-size: 8rem;
+}
+
 /* Contenedor del cuadro de login */
 .login-box {
    background-color: white;
@@ -103,8 +102,4 @@
    .lo_pa-opciones-inicio {
       margin-bottom: 2rem;
    }
-}
-
-.lo_pa-rule-input {
-   font-size: 0.8rem;
 }
