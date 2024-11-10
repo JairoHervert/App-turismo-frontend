@@ -65,16 +65,16 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
             </ul>
 
             {/* Sección de perfil de usuario */}
-            <div className="d-flex align-items-center">
+            <div className="d-flex user-profile">
               {isLoggedIn ? (
                 <>
-                  <div className="text-end me-2">
+                  <div className="text-end me-2 user-info">
                     <div>Bienvenido</div>
                     <div className="fw-bold">{userName}</div>
                   </div>
                   <div className="dropdown">
                     <button
-                      className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
+                      className="nav-link p-0 d-flex align-items-center bg-transparent border-0 user-icon"
                       id="userDropdown"
                       data-bs-toggle="dropdown"
                       aria-expanded={menuOpen}
@@ -83,7 +83,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <img
                         src={avatar}
                         alt="Perfil"
-                        className="rounded-circle"
+                        className="rounded-circle user-avatar"
                         width="50"
                         height="50"
                       />
