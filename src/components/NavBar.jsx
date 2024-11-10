@@ -63,65 +63,64 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                 <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Nuevas Experiencias</Link>
               </li>
             </ul>
+{/* Sección de perfil de usuario */}
+<div className="d-flex align-items-center justify-content-end justify-content-sm-end">
+  {isLoggedIn ? (
+    <>
+      <div className="order-sm-1 text-end me-2">
+        <div>Bienvenido</div>
+        <div className="fw-bold">{userName}</div>
+      </div>
+      <div className="order-sm-2">
+        <img
+          src={avatar}
+          alt="Perfil"
+          className="rounded-circle"
+          width="50"
+          height="50"
+        />
+      </div>
+      <div className="order-sm-3 dropdown">
+        <button
+          className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
+          id="userDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded={menuOpen}
+          onClick={toggleMenu}
+        >
+          <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
+        </button>
+        <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+          <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
+          <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
+          <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
+          <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
+          <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
+          <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
+          <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
+          <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
+          <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
+          <li><hr className="dropdown-divider" /></li>
+          <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
+        </ul>
+      </div>
+    </>
+  ) : (
+    <>
+      {showingresa && (
+        <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClick}>
+          Ingresa
+        </button>
+      )}
+      {showRegistrate && (
+        <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
+          Regístrate
+        </button>
+      )}
+    </>
+  )}
+</div>
 
-            {/* Sección de perfil de usuario */}
-            <div className="d-flex user-profile">
-              {isLoggedIn ? (
-                <>
-                  <div className="text-end me-2 user-info">
-                    <div>Bienvenido</div>
-                    <div className="fw-bold">{userName}</div>
-                  </div>
-                  <div className="dropdown">
-                    <button
-                      className="nav-link p-0 d-flex align-items-center bg-transparent border-0 user-icon"
-                      id="userDropdown"
-                      data-bs-toggle="dropdown"
-                      aria-expanded={menuOpen}
-                      onClick={toggleMenu}
-                    >
-                      <img
-                        src={avatar}
-                        alt="Perfil"
-                        className="rounded-circle user-avatar"
-                        width="50"
-                        height="50"
-                      />
-                      <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
-                    </button>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                      <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
-                      <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
-                      <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
-                      <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
-                      <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
-                      <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
-
-                      {/* <li><Link className='dropdown-item' to='/register'>Registrate</Link></li>  */}
-
-                      <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
-                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
-                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
-                      <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
-                    </ul>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {showingresa && (
-                    <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClick}>
-                      Ingresa
-                    </button>
-                  )}
-                  {showRegistrate && (
-                    <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
-                      Regístrate
-                    </button>
-                  )}
-                </>
-              )}
-            </div>
           </div>
         </div>
       </nav>
