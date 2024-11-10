@@ -4,7 +4,6 @@ import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
 import Preferencias from './Preferencias';
-import BasicModal from './modalDetalleIt';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -24,13 +23,6 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  // Estado y funciones para el modal de detalles
-
-  const [openModal, setOpenModal] = React.useState(false);
-
-  const handleOpenModal = () => setOpenModal(true);
-  const handleCloseModal = () => setOpenModal(false);
 
   return (
     <>
@@ -100,21 +92,17 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
                       <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
-                      <li><Link className='dropdown-item' to='/usuario-deseados'>Deseados User</Link></li>
+                      <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
                       <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
                       <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
 
                       {/* <li><Link className='dropdown-item' to='/register'>Registrate</Link></li>  */}
 
-                      <li><Link className='dropdown-item' to='/favorites-page'>Favoritos User</Link></li>
+                      <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
-                      <li><button className="dropdown-item" onClick={handleOpenModal}>Abrir Detalle</button></li>
                       <li><hr className="dropdown-divider" /></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>
-
-                      {/* Renderiza el modal en el mismo archivo */}
-                      <BasicModal open={openModal} onClose={handleCloseModal} />
                   </div>
                 </>
               ) : (

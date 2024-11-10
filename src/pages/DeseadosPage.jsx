@@ -1,12 +1,17 @@
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
+import StarIcon from '@mui/icons-material/StarRateRounded';
+import { TextField, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
+import { ThemeProvider } from '@mui/material/styles';
 import CuadroLugar from '../components/deseados/UDCuadroLugar';
 import MenuFiltros from '../components/deseados/MenuFiltros';
-import '../css/UsuarioDeseados.css';
+import '../css/DeseadosPage.css';
 
-function UsuarioDeseados() {
+function DeseadosPage() {
   return (
-    <div>
+    <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
         showingresa={false}
         showRegistrate={false}
@@ -17,24 +22,24 @@ function UsuarioDeseados() {
 
       <div className='us_de-container my-4'>
         <div className='d-flex justify-content-between align-items-center us_de-titulo-buscador'>
-          <h1 className='fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Deseados</h1>
+          <div className='d-flex justify-content-between align-items-center'>
+            <StarIcon color='yellow' fontSize='inhert' className='us_de-icono-estrella mb-4 me-2'/>
+            <h1 className='fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Deseados</h1>
+          </div>
           <div className='us_de-cont-buscador-filtro'>
-            <div className='input-group us_de-buscador'>
-              <input
-                type='search'
-                className='form-control rounded-start'
-                placeholder='Buscar en deseados'
-                aria-label='Search'
-                aria-describedby='search-addon'
-              />
-              <button
-                type='button'
-                className='btn ud_de-btn-outline-secondary fw-medium'
-                data-mdb-ripple-init
-              >
-                <span className='fw-semibold'>Buscar</span>
-              </button>
-            </div>
+            <TextField 
+              label="Buscar en deseados" 
+              variant="outlined" 
+              size="small" 
+              sx={{ maxWidth: 250 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
 
             {/* Botón de filtro, visible solo en pantallas chicas */}
             <div className='d-xl-none us_de-contenedor-filtro'>
@@ -119,8 +124,8 @@ function UsuarioDeseados() {
       </div> {/* fin-container */}
 
       <Footer showIncorporaLugar={true} />
-    </div>
+    </ThemeProvider>
   );
 }
 
-export default UsuarioDeseados;
+export default DeseadosPage;
