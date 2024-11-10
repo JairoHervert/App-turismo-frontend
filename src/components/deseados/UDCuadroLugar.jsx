@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import '../../css/UsuarioDeseados.css';
+import '../../css/DeseadosPage.css';
 
 function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar }) {
   const navigate = useNavigate();

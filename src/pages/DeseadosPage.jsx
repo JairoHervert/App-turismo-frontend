@@ -2,9 +2,9 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import CuadroLugar from '../components/deseados/UDCuadroLugar';
 import MenuFiltros from '../components/deseados/MenuFiltros';
-import '../css/UsuarioDeseados.css';
+import '../css/DeseadosPage.css';
 
-function UsuarioDeseados() {
+function DeseadosPage() {
   return (
     <div>
       <Navbar
@@ -123,4 +123,4 @@ function UsuarioDeseados() {
   );
 }
 
-export default UsuarioDeseados;
+export default DeseadosPage;
