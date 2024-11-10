@@ -12,6 +12,11 @@ const ThemeMaterialUI = createTheme({
       dark: '#2f6d9e', // Azul Maya más oscuro (hover)
       light: '#7ab1d5', // Opcional: Azul Maya claro
     },
+    yellow: {
+      main: '#f9a825', // Amarillo
+      dark: '#c17900', // Amarillo más oscuro (hover)
+      light: '#ffdb56', // Opcional: Amarillo claro
+    },
   },
   typography: {
     fontFamily: '"Montserrat", "Poppins", "Roboto", "Helvetica", "Arial", sans-serif',

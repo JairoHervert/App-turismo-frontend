@@ -3,23 +3,17 @@
    margin: 0 auto;
 }
 
-.us_de-buscador {
-   width: 20rem;
-}
-
 .us_de-deseados-text {
    font-size: 3rem;
 }
 
 /* para ajustar el buscador a pantallas menos de 597 ponerlo en otra linea */
 
-
 .us_de-imagen-lugar {
    height: 12rem;
    width: 18rem;
    object-fit: cover;
 }
-
 
 /* Seccion del acordeon */
 
@@ -50,21 +44,13 @@
    box-shadow: #e4007d56 0 0 0 0.25rem;
 }
 
-.ud_de-btn-outline-secondary {
-   color: #286279;
-   background-color: #b9e6f79f;
-   border-color: #489abb;
-}
-
-.ud_de-btn-outline-secondary:hover {
-   background-color: #489abb;
-   color: #FFFFFF;
-}
-
 /* Card con sombra en lugar de borde */
 .us_de-border-target {
-   border: 1px solid #489abb;
-   background-color: #b9e6f79f;  /* Color de fondo de la targeta. Eliminar linea para volver a blanco */
+   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+   background-color: #fff;
+   /* Color de fondo de la targeta. Eliminar linea para volver a blanco */
 }
 
 
@@ -143,6 +129,7 @@
       flex-direction: column;
       margin-bottom: 2rem;
    }
+
    .us_de-deseados-text {
       font-size: 3rem;
       margin-bottom: 0rem;
@@ -154,60 +141,72 @@
       max-width: 65%;
    }
 }
+
 @media (max-width: 1470px) {
    .ud-lugar-info-col {
       max-width: 62%;
    }
 }
+
 @media (max-width: 1346px) {
    .ud-lugar-info-col {
       max-width: 60%;
    }
 }
+
 @media (max-width: 1295px) {
    .ud-lugar-info-col {
       max-width: 56%;
    }
 }
+
 @media (max-width: 1199px) {
    .ud-lugar-info-col {
       max-width: 100%;
    }
 }
+
 @media (max-width: 1150px) {
    .ud-lugar-info-col {
       max-width: 65%;
    }
 }
+
 @media (max-width: 1092px) {
    .ud-lugar-info-col {
       max-width: 62%;
    }
 }
+
 @media (max-width: 1030px) {
    .ud-lugar-info-col {
       max-width: 60%;
    }
 }
+
 @media (max-width: 980px) {
    .ud-lugar-info-col {
       max-width: 58%;
    }
 }
+
 @media (max-width: 940px) {
    .ud-lugar-info-col {
       max-width: 55%;
    }
 }
+
 @media (max-width: 880px) {
    .ud-lugar-info-col {
       max-width: 52%;
    }
 }
+
 @media (max-width: 830px) {
    .ud-lugar-info-col {
       max-width: 50%;
    }
+
    .us_de-icons {
       font-size: smaller;
    }
@@ -217,6 +216,7 @@
    .ud-lugar-info-col {
       max-width: 100%;
    }
+
    .ud_contenedor-imagen-lugar {
       display: flex;
       justify-content: center;
@@ -224,15 +224,14 @@
       margin-top: 1rem;
       margin-bottom: 1.2rem;
    }
+
    .us_de-imagen-lugar {
       height: 100%;
       max-height: 18rem;
       width: 100%;
       max-width: 24rem;
-
    }
 }
-
 
 /* Estilos para el botón de filtrar y buscador*/
 .us_de-cont-buscador-filtro {
@@ -241,6 +240,7 @@
    align-items: center;
    margin-bottom: 1rem;
 }
+
 .us_de-contenedor-filtro {
    display: flex;
    justify-content: space-between;
@@ -248,21 +248,12 @@
    margin-left: 0.5rem;
 }
 
-.us_de-buscador {
-   width: 18rem;
-}
-
-@media (max-width: 840px) {
-   .us_de-buscador {
-      width: 17rem;
-   }
-}
-
 @media (max-width: 420px) {
    .us_de-cont-buscador-filtro {
       display: flex;
       flex-direction: column;
    }
+
    .us_de-contenedor-filtro {
       margin-left: 0;
       margin-top: 0.6rem;
@@ -271,4 +262,8 @@
 
 .us_de-modal-filtro {
    width: 100%;
+}
+
+.us_de-icono-estrella {
+   font-size: 3.2rem;
 }
