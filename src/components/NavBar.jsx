@@ -92,6 +92,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
+                      <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
                       <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
                       <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
                       <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
