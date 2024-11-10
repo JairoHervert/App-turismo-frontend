@@ -3,15 +3,15 @@
    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../img/HomePage/home-bg.jpg');
    background-size: cover;
    background-position: center;
+   width: 100%;
+   height: 100%;
 }
 
 .lo_pa-rule-input {
    font-size: 0.8rem;
 }
-
-.login-right-form {
-   width: 100%;
-   height: 100%;
+.lo_pa-container-tool{
+   min-height: 100vh;
 }
 
 .lo_pa-just-texts {
@@ -39,67 +39,23 @@
    color: #333;
 }
 
-/* Contenido dividido en dos columnas */
-/* .login-content {
-   display: flex;
-   height: 100%;
-} */
-
-
-.login-left-overlay {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.5);
-   color: white;
-   padding: 20px;
-   text-align: left;
-}
-
-.photo-credit {
-   position: absolute;
-   bottom: 10px;
-   left: 10px;
-   color: rgba(255, 255, 255, 0.8);
-   font-size: 0.85rem;
-}
-
-/* Columna derecha (formulario) */
-.login-right {
-   flex: 1;
-   padding: 2rem;
-}
-
-/* Botones sociales */
-.btn-floating {
-   font-size: 1.3rem;
-   color: #489abb;
-}
-
-.btn-floating:hover {
-   color: #2f6d9e;
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-   .login-box {
-      max-width: 30rem;
-      margin: 0 1rem;
-   }
-
-   .login-left {
+@media (max-width: 899px) {
+   .login-left-container {
       display: none;
    }
-
-   .login-content {
+   .login-right-form {
+      border-radius: 6px;
+      overflow: hidden;
+   }
+   .lo_pa-iniciar-olvidaste {
+      display: flex;
       flex-direction: column;
+      align-items: center;
    }
 }
 
-@media (max-height: 975px) {
-   .lo_pa-opciones-inicio {
-      margin-bottom: 2rem;
+@media (max-width: 678px) {
+   .login-right-form {
+      margin-inline: 2rem;
    }
 }
