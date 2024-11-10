@@ -32,7 +32,7 @@ function LoginPage() {
             {/* lado izquiero imagen con texto */}
             <Grid size={6}>
               <Box className='login-left-image'>
-                <Typography variant='h3' className='fw-semibold'>Bienvenido a la aventura que cambiará tu historia</Typography>
+                <Typography variant='h3' className='fw-semibold '>Bienvenido a la aventura que cambiará tu historia</Typography>
                 <Typography variant='body1'>Únete a una comunidad vibrante donde florece la creatividad, se forjan conexiones y cada paso te acerca a experiencias inolvidables. Sumérgete y encuentra la inspiración.</Typography>
 
                 <Box className=''>
