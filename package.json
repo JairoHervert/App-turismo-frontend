@@ -3,12 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
     "@dnd-kit/core": "^6.1.0",
     "@dnd-kit/sortable": "^8.0.0",
-=======
     "@date-io/dayjs": "^3.0.0",
->>>>>>> d2a34a914a140139a1590598fb2034b429bfe847
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.6",
