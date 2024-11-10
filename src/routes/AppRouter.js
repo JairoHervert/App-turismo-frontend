@@ -11,6 +11,8 @@ import ConfirmacionRegistro from '../pages/ConfirmacionRegistro';
 import HistorialBusqueda from '../pages/HistoryPage';
 import FavoritesPage from '../pages/FavoritesPage';
 import GenerarItinerario from '../pages/GenerarItinerario';
+import CategoriasPage from '../pages/Categorias';
+
 
 function AppRouter() {
   return (
@@ -22,6 +24,7 @@ function AppRouter() {
         <Route path='/deseados' element={<DeseadosPage />} />
         <Route path='/itinerariesSaved' element={<ItinerariesSavedPage/>} />
         <Route path='/HistoryPage' element={<HistorialBusqueda/>} />
+        <Route path='/Categorias-page' element={<CategoriasPage/>} />
         <Route path='/terminos-condiciones' element={<TerminosCondiciones />} />
         <Route path='/politica-privacidad' element={<PoliticasPrivacidad />} />
         <Route path='/confirmacion-registro' element={<ConfirmacionRegistro />} />
