@@ -12,7 +12,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import '../css/HomePage.css';
 
 import CatHome from '../components/categories/CategoryHome';
-import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
+import CardAlcaldia from '../components/CardAlcaldia';
 
 
 const HomePage = () => {
