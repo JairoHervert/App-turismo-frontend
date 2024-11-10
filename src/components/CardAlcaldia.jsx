@@ -41,13 +41,4 @@ function CardAlcaldia({nombreAlcaldia, nombreLugar, nombreImagen}) {
   );
 }
 
-// no tiene uso de momento
-function Arrow(props) {
-  const { className, style, onClick } = props;
-  return (
-    <div className={className}>
-    </div>
-  );
-}
-
-export {CardAlcaldia,Arrow};
+export default CardAlcaldia;
