@@ -74,7 +74,7 @@ function LoginPage() {
     e.preventDefault();
     setFormSubmitted(true);
 
-    if (sinEspacios && arrobaCaracteres && dominioConPunto && noVacio && (contraseña.length > 0)) {
+    if (correoReglas.sinEspacios && correoReglas.arrobaCaracteres && correoReglas.dominioConPunto && correoReglas.noVacio && (contraseña.length > 0)) {
       handleLogin(e, correo, contraseña);
     }
   };
@@ -145,7 +145,7 @@ function LoginPage() {
                             label="Correo electrónico"
                             placeholder='correo@ejemplo.com'
                             size="small"
-                            type='email'
+                            type='text'
                             onChange={handleCorreoChange}
                             fullWidth
                             // errores si no cumple con las reglas

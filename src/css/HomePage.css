@@ -111,7 +111,6 @@
 }
 
 .cardAlcaldias .card-body-text-p {
-.cardAlcaldias .card-body-text-p {
     font-family: var(--font-body);
 }
 
@@ -142,7 +141,6 @@
 }
 
 .card-body-text-h5 {
-.card-body-text-h5 {
     font-weight: 600;
     font-size: 3em;
     letter-spacing: 3px;
@@ -152,13 +150,11 @@
 }
 
 .card-body-text-p {
-.card-body-text-p {
     font-weight: 500;
     font-size: 1.1em;
     margin-bottom: 5px;
 }
 
-.card-body-buttons {
 .card-body-buttons {
     width: auto !important;
     display: flex;
@@ -171,8 +167,6 @@
     width: auto !important;
 }
 
-.btn-favoritos,
-.btn-deseados {
 .btn-favoritos,
 .btn-deseados {
     background-color: #fff;
@@ -412,13 +406,11 @@
 /* Estilos de la sección de categorías */
 /* Estilos específicos para el nav secundario */
 .mapa {
-.mapa {
     font-family: var(--font-title);
     margin-left: 2em;
     margin-right: 2em;
 }
 
-h2 {
 h2 {
     margin-bottom: 2rem;
     text-align: center;
@@ -571,7 +563,7 @@ h2 {
 
 .pr-pitch {
     line-height: '1.4';
-
+}
 
 /*PREGUNTA DEL REGISTRO*/
 .pr-0 {
