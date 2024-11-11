@@ -27,7 +27,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
       try {
         const loggedIn = await isLogged();
         setIsLoggedIn(loggedIn.logged);
-        setUserName(loggedIn.data.correo);
+        setUserName(loggedIn.data);
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
       }

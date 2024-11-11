@@ -159,11 +159,16 @@ const responseFacebook = async (response) => {
       token: userID,
     });
     
+    console.log(res.data);
+    console.log(res.data.resultado.id);
+    console.log(accessToken);
+
     if (res.data.resultado.id) {
       
       // guardar el token en localStorage
       localStorage.setItem('access_token', accessToken);
       localStorage.setItem('id', res.data.resultado.id);
+      localStorage.setItem('facebook_access_token', accessToken);
 
       // Verificar que se guardó bien
       console.log(localStorage.getItem('access_token'));
@@ -173,7 +178,7 @@ const responseFacebook = async (response) => {
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
-        timer: 2000,
+        // timer: 5000,
         showConfirmButton: false,
         willClose: () => {
           window.location.href = '/'
