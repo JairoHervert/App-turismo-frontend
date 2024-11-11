@@ -147,6 +147,11 @@ const errorGoogleHandler = () => {
 
 const responseFacebook = async (response) => {
   console.log(response);
+  console.log(response.status);
+  console.log(response.status == 'unknown');
+  if(response.status == 'unknown') {
+    return;
+  }
   const { userID, accessToken } = response;
 
   try {

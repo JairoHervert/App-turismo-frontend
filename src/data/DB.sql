@@ -30,8 +30,8 @@ CREATE TABLE `Usuario` (
   `ligaFotoPerfil` VARCHAR(512),
   `fechaNacimiento` DATETIME,
   `ultimaConexion` DATETIME,
-  `tokenGoogle` VARCHAR(255),
-  `tokenFacebook` VARCHAR(255),
+  `tokenGoogle` VARCHAR(255) UNIQUE,
+  `tokenFacebook` VARCHAR(255) UNIQUE,
   `confirmacion` BOOLEAN NOT NULL DEFAULT 0,
   `auditoria` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
