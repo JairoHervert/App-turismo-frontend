@@ -129,16 +129,20 @@ BEGIN
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
    WHERE tokenFacebook = p_token;
-    
-   IF usuarioExistente = 0 THEN
-      INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
-      VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
-
-      SELECT id FROM Usuario
-      WHERE tokenFacebook = p_token;
-      
+   
+   IF p_token IS NULL OR p_token = '' THEN
+      SELECT 'error_conexion' AS 'error';
    ELSE
-      SELECT 'usuario_ya_registrado' AS 'error';
+      IF usuarioExistente = 0 THEN
+         INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
+         VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
+
+         SELECT id FROM Usuario
+         WHERE tokenFacebook = p_token;
+      
+      ELSE
+         SELECT 'usuario_ya_registrado' AS 'error';
+      END IF;
    END IF;
 END //
 
@@ -257,11 +261,15 @@ BEGIN
    FROM Usuario
    WHERE tokenFacebook = p_token;
 
-   IF usuarioExistente = 0 THEN
-      SELECT 'cuenta_no_registrada' AS 'error';
+   IF p_token IS NULL OR p_token = '' THEN
+      SELECT 'error_conexion' AS 'error';
    ELSE
-	SELECT id FROM Usuario
-        WHERE tokenFacebook = p_token;
+      IF usuarioExistente = 0 THEN
+         SELECT 'cuenta_no_registrada' AS 'error';
+      ELSE
+	 SELECT id FROM Usuario
+         WHERE tokenFacebook = p_token;
+      END IF;
    END IF;
 END //
 

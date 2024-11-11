@@ -210,7 +210,11 @@ const errorGoogleHandler = () => {
 // VERIFICACIÓN CON FACEBOOK
 const responseFacebook = async (response) => {
   console.log(response);
-
+  console.log(response.status);
+  console.log(response.status == 'unknown');
+  if(response.status == 'unknown') {
+    return;
+  }
   const { accessToken, name, userID } = response;
   const picture = `https://graph.facebook.com/${userID}/picture?type=large&access_token=${accessToken}`;
 
