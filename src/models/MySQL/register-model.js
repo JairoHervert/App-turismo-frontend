@@ -24,17 +24,25 @@ class registerModel{
         if (err) {
           reject(err);
         }
-        const resultado = results || null;
+        const resultado = results[0][0] || null;
         let error = '';
+        // console.log(resultado);
         if (resultado && resultado.error) {
           switch (resultado.error) {
             case 'correo_ya_registrado':
-              error = 'El correo ya está registrado.';
+              error = 'El correo ya está registrado. Inicia sesión con tu correo y contraseña.';
+              break;
+            case 'usuario_ya_registrado':
+              error = 'El usuario ya está registrado.';
+              break;
+            case 'correo_invalido':
+              error = 'El correo no es válido.';
               break;
           }
+          // return resolve({ error });
           reject(new Error(error));
         }
-        resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
+        return resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
       });
     });
   }

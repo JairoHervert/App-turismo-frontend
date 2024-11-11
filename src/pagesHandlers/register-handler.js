@@ -102,9 +102,9 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       Swal.fire({
         icon: 'success',
         title: 'Registro iniciado correctamente',
-        text: 'El siguiente paso es aceptar el correo de confirmación.',
-        timer: 5000,
-        showConfirmButton: false,
+        text: 'El siguiente paso es aceptar el correo de confirmación para poder ingresar a tu cuenta.',
+        // timer: 5000,
+        showConfirmButton: true,
         willClose: () => {
           window.location.href = '/'
         }
@@ -128,7 +128,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Inicio de sesión fallido',
       text: 'Algo falló en la solicitud',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
   }
@@ -150,10 +150,10 @@ const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         text: '¡Bienvenido! Has registrado tu cuenta de Google correctamente.',
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false,
         willClose: () => {
-          window.location.href = '/'
+          window.location.href = '/login'
         }
       })
     } else {
@@ -166,7 +166,7 @@ const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
         icon: 'error',
         title: 'Inicio de sesión fallido',
         text: error.response.data.error,
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false
       });
     } else {
@@ -175,7 +175,7 @@ const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
         icon: 'error',
         title: 'Inicio de sesión fallido',
         text: 'Algo falló en la solicitud',
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false
       });
     }
@@ -241,7 +241,7 @@ const responseFacebook = async (response) => {
       icon: 'success',
       title: 'Inicio de sesión exitoso',
       text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false,
       willClose: () => {
         window.location.href = '/'
@@ -253,7 +253,7 @@ const responseFacebook = async (response) => {
       icon: 'error',
       title: 'Inicio de sesión fallido',
       text: error.response.data.error,
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
   }

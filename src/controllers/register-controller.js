@@ -27,22 +27,6 @@ class registerController {
     }
   }
 
-  static async registroGoogle(req, res) {
-    const { nombre, correo, imagen, token } = req.body;
-    registerModel
-      .registroGoogle(nombre, correo, imagen, token)
-      .then((resultado) => {
-        res.status(201).json(resultado);
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.message === 'El correo ya está registrado.') {
-          return res.status(400).json({ error: err });
-        }
-        res.status(500).json({ error: err });
-      });
-  }
-
   static async registroFacebook(req, res) {
     const { nombre, imagen, facebookId } = req.body;
     
@@ -62,12 +46,13 @@ class registerController {
     const { nombre, correo, imagen, token } = req.body;
     
     try {
-      const resultado = registerModel.registroGoogle(nombre, correo, imagen, token)
+      const resultado = await registerModel.registroGoogle(nombre, correo, imagen, token)
       res.status(201).json(resultado);
     }
     catch (err) {
       if(err.message === 'correo_ya_registrado')
         return res.status(400).json({ error: 'El correo ya está registrado.'});
+      console.log(err);
       res.status(500).json({ error: err.message });
     }
   }
@@ -84,8 +69,8 @@ class registerController {
     const mailOptions = {
       from: 'canastabasica2024@gmail.com',
       to: email,
-      subject: 'Confirma tu registro',
-      html: `<p>Hola ${name},</p><p>Gracias por registrarte. Haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${newToken}">Confirmar Registro</a>`
+      subject: 'Confirma tu registro en App Turismo',
+      html: `<p>Hola ${name},</p><p>Gracias por registrarte en AppTurismo.</p><p>Para concluir tu registro y poder ingresar a tu cuenta haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${newToken}">Confirmar Registro</a>`
     };
   
     try {
