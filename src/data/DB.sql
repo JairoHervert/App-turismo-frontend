@@ -25,12 +25,13 @@ DROP TABLE IF EXISTS `Usuario`;
 CREATE TABLE `Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(255) NOT NULL,
-  `correo` VARCHAR(255) NOT NULL,
+  `correo` VARCHAR(320) NOT NULL,
   `contraseña` VARCHAR(255) NOT NULL,
-  `ligaFotoPerfil` VARCHAR(200),
+  `ligaFotoPerfil` VARCHAR(512),
   `fechaNacimiento` DATETIME,
   `ultimaConexion` DATETIME,
-  `token` VARCHAR(255),
+  `tokenGoogle` VARCHAR(255),
+  `tokenFacebook` VARCHAR(255),
   `confirmacion` BOOLEAN NOT NULL DEFAULT 0,
   `auditoria` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
@@ -111,4 +112,3 @@ SELECT
    ultimaConexion,
    auditoria
 FROM Usuario;
-

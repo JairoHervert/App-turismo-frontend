@@ -1,6 +1,7 @@
 @import "../var.css";
 
 .place-page, .reviews {
+.place-page, .reviews {
     padding: 4%;
 }
 
@@ -12,6 +13,59 @@
     background-position: center;
     background-attachment: fixed;
 }
+
+.place-img {
+    display: flex;
+    margin-top: 70px;
+}
+
+.big-img {
+    width: 100%;
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.fila-1, .fila-2 {
+    display: flex;
+    padding-left: 5%;
+    justify-content: space-around;
+}
+
+.fila-1 {
+    padding-bottom: 1%;
+}
+
+.col-little-img {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.place-little-img {
+    width: 40%;
+    aspect-ratio: 1;
+    background-image: url('../img/PlacePage/place-img-cafeterias.jpg');
+    background-size: cover;
+    background-position: center;
+}
+ /*
+.col-big-img {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.place-big-img {
+    width: 90%;
+    aspect-ratio: 1;
+    background-image: url('../img/HomePage/places/home-places-miguel-hidalgo.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+*/
 
 .place-img {
     display: flex;
@@ -86,6 +140,7 @@
     display: flex;
     justify-content: center;
     align-items: start;
+    align-items: start;
 }
 
 .description-left {
@@ -124,6 +179,7 @@
 
 .place-right-site {
     /* width: 70%; */
+    align-items: start;
     align-items: start;
 }
 

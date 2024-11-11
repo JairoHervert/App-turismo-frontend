@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
 import Preferencias from './Preferencias';
 import Detalles from './modalDetalleIt';
+import { isLogged } from '../schemas/isLogged';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -20,10 +21,30 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
     navigate('/register');
   };
 
+  // Verificar si el usuario está logueado
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        setIsLoggedIn(loggedIn.logged);
+        setUserName(loggedIn.data.correo);
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+      }
+    };
+
+    fetchLoginStatus();
+  }, []);
+
   // Función para manejar la apertura y cierre del menú
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = '/';
+  }
 
   return (
     <>
@@ -105,7 +126,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
                       <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
+                      <li><Link className="dropdown-item" to="/logout" onClick={handleLogout}>Cerrar Sesión</Link></li>
                     </ul>
                   </div>
                 </>

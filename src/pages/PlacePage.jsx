@@ -3,10 +3,26 @@ import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
+import Reviews from '../components/placepage/Reviews';
 import '../css/PlacePage.css';
+import { useNavigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const PlacePage = () => {
+
+  const imagenes = [
+    'https://www.bibliotecademexico.gob.mx/imagenes/Bpersonales/Ini_CastroLeas.jpg',
+    'https://www.sopitas.com/wp-content/uploads/2023/05/bibliotecas-personales-biblioteca-de-mexico-portada.jpg',
+    'https://mxc.com.mx/wp-content/uploads/2024/08/biblioteca-de-mexico-1.jpg-6.jpg',
+    'https://www.bibliotecademexico.gob.mx/imagenes/Bpersonales/ini_AliChumacero.jpg',
+    'https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg'
+  ];
+
+  const navigate = useNavigate();
+
+  const handleHomePageClick = () => {
+        navigate('/');
+   };
 
   const imagenes = [
     'https://www.bibliotecademexico.gob.mx/imagenes/Bpersonales/Ini_CastroLeas.jpg',

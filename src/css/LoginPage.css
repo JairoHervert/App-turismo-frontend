@@ -59,3 +59,9 @@
       margin-inline: 2rem;
    }
 }
+
+@media (max-height: 975px) {
+   .lo_pa-opciones-inicio {
+      margin-bottom: 2rem;
+   }
+}

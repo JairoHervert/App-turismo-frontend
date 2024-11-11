@@ -6,6 +6,7 @@ import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Logged } from '../pagesHandlers/home-handler';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -15,6 +16,8 @@ import '../css/HomePage.css';
 import CatHome from '../components/categories/CategoryHome';
 import CardAlcaldia from '../components/CardAlcaldia';
 
+const isLogged = Logged();
+console.log(isLogged);
 
 const HomePage = () => {
 

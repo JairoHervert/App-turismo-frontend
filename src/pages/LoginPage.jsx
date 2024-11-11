@@ -27,6 +27,11 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/login/LeftImage';
 
+//componentes de back
+import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { handleLogin, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/login-handler';
+
 // estilos importados
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/LoginPage.css';
@@ -65,17 +70,14 @@ function LoginPage() {
     setContraseña(e.target.value);
   };
 
-  const handleLogin = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
     setFormSubmitted(true);
 
-    // Si ambos campos están llenos, puedes realizar tu lógica de inicio de sesión aquí.
-    if (correo && contraseña) {
-      // Lógica de inicio de sesión...
-      console.log("Iniciando sesión...");
+    if (sinEspacios && arrobaCaracteres && dominioConPunto && noVacio && (contraseña.length > 0)) {
+      handleLogin(e, correo, contraseña);
     }
   };
-
 
   // visibilidad de la contraseña
   const [showPassword, setShowPassword] = React.useState(false);
@@ -95,7 +97,10 @@ function LoginPage() {
   const handleHomeClick = () => {
     navigate('/');
   };
-
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: successGoogleHandler,
+    onError: errorGoogleHandler,
+  });
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -132,7 +137,7 @@ function LoginPage() {
                       <Typography variant='h4' className='fw-bold'>Iniciar sesión</Typography>
                       <Typography variant='subtitle1'>Ingresa tus datos para continuar</Typography>
 
-                      <form className='login-form' onSubmit={handleLogin}>
+                      <form className='login-form' onSubmit={handleFormSubmit}>
                         <Box className='my-4'>
                           <TextField
                             hiddenLabel
@@ -201,12 +206,20 @@ function LoginPage() {
                         <Box className='my-4 d-flex flex-column align-items-center justify-content-center'>
                           <Typography variant='subtitle2' sx={{ fontSize: '1rem' }}>O inicia sesión con:</Typography>
                           <Box className='d-flex justify-content-center'>
-                            <IconButton aria-label="google" color='google'>
+                            <IconButton aria-label="google" color='google' onClick={() => handleGoogleLogin()}>
                               <GoogleIcon />
                             </IconButton>
-                            <IconButton aria-label="facebook" color='facebook'>
-                              <FacebookRoundedIcon />
-                            </IconButton>
+
+                            <FacebookLogin
+                              appId="1276060800080687"
+                              autoLoad={false}
+                              callback={responseFacebook}
+                              render={(renderProps) => (
+                                <IconButton aria-label="facebook" color='facebook' onClick={renderProps.onClick}>
+                                  <FacebookRoundedIcon />
+                                </IconButton>
+                              )}
+                            />
                           </Box>
                         </Box>
                       </form>

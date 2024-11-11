@@ -1,17 +1,26 @@
-# Usuario
+# Usuario Registro
 DROP PROCEDURE IF EXISTS UsuarioRegistro;
+DROP PROCEDURE IF EXISTS UsuarioValidarCuenta;
+DROP PROCEDURE IF EXISTS UsuarioRegistroGoogle;
+DROP PROCEDURE IF EXISTS UsuarioRegistroFacebook;
+DROP PROCEDURE IF EXISTS UsuarioConfirmarCuenta;
+DROP PROCEDURE IF EXISTS UsuarioConfirmarCuentaId;
+# Usuario Inicio de Sesión
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
+DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
+DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
+# Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
 
--- ---------------------------------------------------------------------------------------------------
---                                              PROCESOS
--- ---------------------------------------------------------------------------------------------------
-
 DELIMITER //
+
+-- ---------------------------------------------------------------------------------------------------
+--                                         USUARIO REGISTRO
+-- ---------------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioRegistro`
@@ -19,7 +28,7 @@ DELIMITER //
 
 CREATE PROCEDURE UsuarioRegistro (
    IN p_nombre VARCHAR(255),
-   IN p_correo VARCHAR(255),
+   IN p_correo VARCHAR(320),
    IN p_contraseña VARCHAR(255)
 )
 BEGIN
@@ -27,11 +36,11 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = p_correo;
+   WHERE correo = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
-      INSERT INTO Usuario (nombre, correo, contraseña, auditoria)
-      VALUES (p_nombre, p_correo, p_contraseña, NOW());
+      INSERT INTO Usuario (nombre, correo, contraseña, auditoria, confirmacion)
+      VALUES (p_nombre, UPPER(p_correo), p_contraseña, NOW(), 0);
    ELSE
       SIGNAL SQLSTATE '45000' 
          SET MESSAGE_TEXT = 'El correo ya está registrado.';
@@ -39,11 +48,139 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioCrearTokenValidacion`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioValidarCuenta (
+   IN p_correo VARCHAR(320)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = UPPER(p_correo);
+    
+   IF usuarioExistente = 0 THEN
+      SIGNAL SQLSTATE '45000' 
+         SET MESSAGE_TEXT = 'No existe el correo';
+   ELSE
+      UPDATE Usuario SET confirmacion = 1
+      WHERE correo = UPPER(p_correo);
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioRegistroGoogle`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioRegistroGoogle (
+   IN p_nombre VARCHAR(255),
+   IN p_correo VARCHAR(320),
+   IN p_imagen VARCHAR(512),
+   IN p_token VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = UPPER(p_correo);
+    
+   IF usuarioExistente = 0 THEN
+      INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
+      VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
+
+      SELECT id FROM Usuario
+      WHERE nombre = p_nombre AND correo = UPPER(p_correo);
+      
+   ELSE
+      SELECT 'usuario_ya_registrado' AS 'error';
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioRegistroFacebook`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioRegistroFacebook (
+   IN p_nombre VARCHAR(255),
+   IN p_imagen VARCHAR(512),
+   IN p_token VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE tokenFacebook = p_token;
+    
+   IF usuarioExistente = 0 THEN
+      INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
+      VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
+
+      SELECT id FROM Usuario
+      WHERE tokenFacebook = p_token;
+      
+   ELSE
+      SELECT 'usuario_ya_registrado' AS 'error';
+   END IF;
+END //
+
+-- Proceso para actualizar el campo de confirmación de la cuenta a 1 con el correo
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioConfirmarCuenta`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioConfirmarCuenta (
+   IN p_correo VARCHAR(320)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE correo = UPPER(p_correo);
+    
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+      UPDATE Usuario SET confirmacion = 1
+      WHERE correo = UPPER(p_correo);
+   END IF;
+END //
+
+-- Proceso para actualizar el campo de confirmación de la cuenta a 1 con el id
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioConfirmarCuentaId`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioConfirmarCuentaId (
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+    
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_registrado' AS 'error';
+   ELSE
+      UPDATE Usuario SET confirmacion = 1
+      WHERE id = p_id;
+   END IF;
+END //
+
+-- ---------------------------------------------------------------------------------------------------
+--                                        USUARIO INICIAR SESIÓN
+-- ---------------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------
 -- Process `AppTurismo`.`IniciarSesion`
 -- -----------------------------------------------------
 
 CREATE PROCEDURE UsuarioIniciarSesion (
-   IN p_correo VARCHAR(255),
+   IN p_correo VARCHAR(320),
    IN p_contraseña VARCHAR(255)
 )
 BEGIN
@@ -53,33 +190,64 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = p_correo;
+   WHERE correo = UPPER(p_correo);
    
    IF usuarioExistente = 0 THEN
       SELECT 'correo_no_registrado' AS 'error';
    ELSE
-
-      SELECT COUNT(*) INTO contraseñaCorrecta
-      FROM Usuario
-      WHERE correo = p_correo AND contraseña = p_contraseña;
-
-      IF contraseñaCorrecta = 0 THEN
-         SELECT 'contraseña_incorrecta' AS 'error';
-      ELSE
-      
-         SELECT confirmacion INTO confirmacion_
-         FROM Usuario
-         WHERE correo = p_correo AND contraseña = p_contraseña;
-
-         IF confirmacion_ = 0 THEN
-            SELECT 'cuenta_no_confirmada' AS 'error';
-         ELSE
-            SELECT id FROM Usuario
-            WHERE correo = p_correo AND contraseña = p_contraseña;
-         END IF;
-      END IF;
+	SELECT id, contraseña, confirmacion FROM Usuario
+        WHERE correo = UPPER(p_correo);
    END IF;
 END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioIniciarSesionGoogle`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioIniciarSesionGoogle (
+   IN p_correo VARCHAR(320),
+   IN p_token VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE tokenGoogle = p_token;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'correo_no_registrado' AS 'error';
+   ELSE
+	SELECT id FROM Usuario
+        WHERE tokenGoogle = p_token;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioIniciarSesionFacebook`
+-- -----------------------------------------------------
+
+CREATE PROCEDURE UsuarioIniciarSesionFacebook (
+   IN p_token VARCHAR(255)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE tokenFacebook = p_token;
+
+   IF usuarioExistente = 0 THEN
+      SELECT 'cuenta_no_registrada' AS 'error';
+   ELSE
+	SELECT id FROM Usuario
+        WHERE tokenFacebook = p_token;
+   END IF;
+END //
+
+-- ---------------------------------------------------------------------------------------------------
+--                                         USUARIO PREFERENCIAS
+-- ---------------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioAñadirDeseado`
@@ -154,6 +322,10 @@ BEGIN
    JOIN Lugar l ON LugarFavorito.idLugar = l.id
    WHERE LugarFavorito.idUsuario = p_id;
 END //
+
+-- ---------------------------------------------------------------------------------------------------
+--                                               LUGARES
+-- ---------------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarRegistro`
