@@ -76,7 +76,6 @@ function LoginPage() {
     }
   };
 
-
   // visibilidad de la contraseña
   const [showPassword, setShowPassword] = React.useState(false);
 
