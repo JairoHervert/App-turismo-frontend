@@ -510,8 +510,6 @@ h2 {
     display: -webkit-box;
     -webkit-line-clamp: 4;
     /* Muestra hasta 4 líneas antes de los puntos suspensivos */
-    -webkit-line-clamp: 4;
-    /* Muestra hasta 4 líneas antes de los puntos suspensivos */
     -webkit-box-orient: vertical;
     white-space: normal;
 }
