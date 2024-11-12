@@ -85,7 +85,10 @@ CREATE PROCEDURE UsuarioRegistroGoogle (
 BEGIN
    DECLARE correoExistente INT;
    DECLARE googleExistente INT;
+   DECLARE correoExistente INT;
+   DECLARE googleExistente INT;
 
+   SELECT COUNT(*) INTO correoExistente
    SELECT COUNT(*) INTO correoExistente
    FROM Usuario
    WHERE correo = UPPER(p_correo);
@@ -99,7 +102,27 @@ BEGIN
          IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
             INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
             VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
+   
+   SELECT COUNT(*) INTO googleExistente
+   FROM Usuario
+   WHERE tokenGoogle = p_token;
+    
+   IF correoExistente = 0 THEN
+      IF googleExistente = 0 THEN
+         IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
+            INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
+            VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
 
+            SELECT id FROM Usuario
+            WHERE nombre = p_nombre AND correo = UPPER(p_correo);
+         ELSE
+            SELECT 'correo_invalido' AS 'error';
+         END IF;
+      ELSE
+         SELECT 'usuario_ya_registrado' AS 'error';
+      END IF;
+   ELSE
+      SELECT 'correo_ya_registrado' AS 'error';
             SELECT id FROM Usuario
             WHERE nombre = p_nombre AND correo = UPPER(p_correo);
          ELSE
@@ -134,10 +157,22 @@ BEGIN
       IF usuarioExistente = 0 THEN
          INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
          VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
+   
+   IF p_token IS NULL OR p_token = '' THEN
+      SELECT 'error_conexion' AS 'error';
+   ELSE
+      IF usuarioExistente = 0 THEN
+         INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
+         VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
 
          SELECT id FROM Usuario
          WHERE tokenFacebook = p_token;
+         SELECT id FROM Usuario
+         WHERE tokenFacebook = p_token;
       
+      ELSE
+         SELECT 'usuario_ya_registrado' AS 'error';
+      END IF;
       ELSE
          SELECT 'usuario_ya_registrado' AS 'error';
       END IF;
@@ -226,6 +261,7 @@ BEGIN
       END IF;
    END IF;
    
+   
 END //
 
 -- -----------------------------------------------------
@@ -269,7 +305,7 @@ BEGIN
       IF usuarioExistente = 0 THEN
          SELECT 'cuenta_no_registrada' AS 'error';
       ELSE
-	 SELECT id FROM Usuario
+	      SELECT id FROM Usuario
          WHERE tokenFacebook = p_token;
       END IF;
    END IF;
@@ -314,6 +350,7 @@ BEGIN
    
    IF usuarioExistente = 0 THEN
       SELECT 'usuario_no_existente' AS 'error';
+      SELECT 'usuario_no_existente' AS 'error';
    END IF;   
    
    SELECT COUNT(*) INTO lugarExistente
@@ -321,6 +358,7 @@ BEGIN
    WHERE id = p_idLugar;
    
    IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_existente' AS 'error';
       SELECT 'lugar_no_existente' AS 'error';
    END IF;
    
@@ -347,11 +385,25 @@ BEGIN
       SELECT 'usuario_no_existente' AS 'error';
    ELSE
       SELECT
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT
       l.nombre AS nombre,
       l.descripcion AS descripcion,
       l.direccion AS direccion,
       l.costo AS costo
       #AVG()
+      FROM LugarDeseado
+      JOIN Lugar l ON LugarDeseado.idLugar = l.id
+      WHERE LugarDeseado.idUsuario = p_id;
+   END IF;  
       FROM LugarDeseado
       JOIN Lugar l ON LugarDeseado.idLugar = l.id
       WHERE LugarDeseado.idUsuario = p_id;
@@ -365,6 +417,25 @@ CREATE PROCEDURE UsuarioVerFavoritos (
    IN p_id INT
 )
 BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT
+         l.nombre AS nombre,
+         l.descripcion AS descripcion,
+         l.direccion AS direccion,
+         l.costo AS costo
+         #AVG()
+      FROM LugarFavorito
+      JOIN Lugar l ON LugarFavorito.idLugar = l.id
+      WHERE LugarFavorito.idUsuario = p_id;
+   END IF;
    DECLARE usuarioExistente INT;
    
    SELECT COUNT(*) INTO usuarioExistente
@@ -409,6 +480,7 @@ BEGIN
       INSERT INTO Lugar (nombre, descripcion, direccion, auditoria)
       VALUES (p_nombre, p_descripcion, p_direccion, NOW());
    ELSE
+      SELECT 'lugar_ya_registrado' AS 'error';
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;
 END //

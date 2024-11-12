@@ -3,17 +3,25 @@ import Footer from '../components/Footer';
 import '../css/SuccessPage.css';
 import imagenRegistroExitoso from '../img/success-page.png';
 import { SuccessfullRegistration } from '../pagesHandlers/sucessPage-handler';
-
+import React from 'react';
+import { useEffect } from 'react';
 
 function ConfirmacionRegistro() {
+
+  const [isConfirmed, setIsConfirmed] = React.useState(false);
 
   const Confirmed = async () => {
     const token = window.location.pathname.split('/')[2];
     const response = await SuccessfullRegistration(token);
     console.log(response);
+    setIsConfirmed(response);
   }
 
-if(Confirmed()){
+  useEffect(() => {
+    Confirmed();
+  }, []);
+
+if(isConfirmed){
   return (
     <div>
       <div className='vh-100 container d-flex flex-column justify-content-center align-items-center text-center'>
@@ -41,7 +49,7 @@ else{
           <div>
             <h1 className='fw-bolder fontMontserrat co_re-titulo mb-5'>¡Registro no exitoso!</h1>
             <h2 className='fw-medium fs-3'>Lo sentimos, no se ha podido confirmar tu registro.</h2>
-            <h3 className='fs-3'>Por favor, intenta de nuevo o <Link className='co_re-iniciar-sesion' to='/login'>Inicia sesion</Link> para continuar.</h3>
+            <h3 className='fs-3'>Por favor, intenta de nuevo o <Link className='co_re-iniciar-sesion' to='/register'>Registrarse nuevamente</Link> para continuar.</h3>
           </div>
       </div>
       <Footer showIncorporaLugar={false} />

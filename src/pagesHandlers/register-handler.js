@@ -14,12 +14,15 @@ const enviarCorreoVerificacion = async (nombre, correo) => {
 
     const result = await response.json();
     if (response.ok) {
-      alert("Usuario registrado con éxito, solo accede a tu correo para verificar tu cuenta. " + result.message); // Muestra el mensaje de confirmación
+      console.log('Correo de verificación enviado:', result);
+      return true;
     } else {
-      alert('Hubo un error al enviar el correo de verificación');
+      console.error('Error al enviar la solicitud de verificación:', result);
+      return false;
     }
   } catch (error) {
     console.error('Error al enviar la solicitud de verificación:', error);
+    return false;
   }
 };
 
@@ -32,7 +35,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Error',
       text: 'Todos los campos son obligatorios',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
     return;
@@ -44,7 +47,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Error en el nombre',
       text: 'El nombre debe comenzar con una letra mayúscula, solo contener letras y tener al menos 3 caracteres.',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
     return;
@@ -56,7 +59,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Error',
       text: 'Por favor, ingrese un correo electrónico válido',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
     return;
@@ -68,7 +71,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Error en la contraseña',
       text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
     return;
@@ -79,7 +82,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Error',
       text: 'Las contraseñas no coinciden',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false,
     });
     return;
@@ -99,16 +102,22 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       Swal.fire({
         icon: 'success',
         title: 'Registro iniciado correctamente',
-        text: 'El siguiente paso es aceptar el correo de confirmación.',
-        timer: 3000,
-        showConfirmButton: false,
+        text: 'El siguiente paso es aceptar el correo de confirmación para poder ingresar a tu cuenta.',
+        // timer: 5000,
+        showConfirmButton: true,
         willClose: () => {
           window.location.href = '/'
         }
       });
     }
     else{
-      alert('El correo ya está registrado.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'El correo ya está registrado',
+        timer: 5000,
+        showConfirmButton: false,
+      });
     }
     // navigate('/');
   } catch (err) {
@@ -119,7 +128,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
       icon: 'error',
       title: 'Inicio de sesión fallido',
       text: 'Algo falló en la solicitud',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
   }
@@ -142,10 +151,10 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         text: '¡Bienvenido! Has registrado tu cuenta de Google correctamente.',
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false,
         willClose: () => {
-          window.location.href = '/'
+          window.location.href = '/login'
         }
       })
     } else {
@@ -158,7 +167,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
         icon: 'error',
         title: 'Inicio de sesión fallido',
         text: error.response.data.error,
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false
       });
     } else {
@@ -167,7 +176,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
         icon: 'error',
         title: 'Inicio de sesión fallido',
         text: 'Algo falló en la solicitud',
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false
       });
     }
@@ -234,7 +243,7 @@ const responseFacebook = async (response) => {
       icon: 'success',
       title: 'Inicio de sesión exitoso',
       text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false,
       willClose: () => {
         window.location.href = '/'
@@ -246,7 +255,7 @@ const responseFacebook = async (response) => {
       icon: 'error',
       title: 'Inicio de sesión fallido',
       text: error.response.data.error,
-      timer: 2000,
+      timer: 5000,
       showConfirmButton: false
     });
   }

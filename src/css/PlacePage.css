@@ -66,6 +66,59 @@
 
 */
 
+.place-img {
+    display: flex;
+    margin-top: 70px;
+}
+
+.big-img {
+    width: 100%;
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.fila-1, .fila-2 {
+    display: flex;
+    padding-left: 5%;
+    justify-content: space-around;
+}
+
+.fila-1 {
+    padding-bottom: 1%;
+}
+
+.col-little-img {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.place-little-img {
+    width: 40%;
+    aspect-ratio: 1;
+    background-image: url('../img/PlacePage/place-img-cafeterias.jpg');
+    background-size: cover;
+    background-position: center;
+}
+ /*
+.col-big-img {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.place-big-img {
+    width: 90%;
+    aspect-ratio: 1;
+    background-image: url('../img/HomePage/places/home-places-miguel-hidalgo.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+*/
+
 .place-row {
     width: 100%;
 }
@@ -85,6 +138,7 @@
     /* width: 30%; */
     display: flex;
     justify-content: center;
+    align-items: start;
     align-items: start;
 }
 
@@ -125,6 +179,7 @@
 .place-right-site {
     /* width: 70%; */
     align-items: start;
+    align-items: start;
 }
 
 .place-title {
@@ -139,6 +194,7 @@
     margin-top: 5px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .score {
@@ -156,6 +212,14 @@
     align-items: center;
 }
 
+.place-score-stars {
+    width: fit-content;
+    display: flex;
+}
+
+.place-buttons {
+    width: fit-content;
+}
 
 /* --------------- Botones ---------------------- */
 
@@ -173,6 +237,24 @@
     transition: 0.5s;
 }
 
+.btn-placePage-button {
+    width: fit-content !important;
+    border-color: var(--color-secondary);
+    margin-left: 5px;
+    color: var(--color-secondary);
+}
+
+.btn-placeOnClick {
+    color: #fff;
+    background-color: var(--color-secondary);
+    border-color: #fff;
+}
+
+.btn-placePage-favoritos {
+    display: flex;
+    justify-content: flex-end;
+    width: fit-content !important;
+}
 /* ------------Review section ---------------- */
 .review-card {
     border-radius: 0;
@@ -190,13 +272,13 @@
     justify-content: start;
 }
 
-.card-title {
+.card-title-place {
     display: flex;
     justify-content: flex-start;
     margin-left: 100px;
 }
 
-.title {
+.title-place {
     font-family: var(--font-tittle);
     font-weight: 400;   
 }
@@ -264,11 +346,11 @@
 }
 
 @media (max-width: 1931px) {
-    .card-title {
+    .card-title-place {
         margin-left: 30px;
     }
 
-    .title {
+    .title-place {
         font-size: 2em;
     }
 }

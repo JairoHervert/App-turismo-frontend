@@ -1,3 +1,4 @@
+const { errorHandler } = require('../../pagesHandlers/error-handler');
 const db = require('./db');
 
 class registerModel{
@@ -27,8 +28,10 @@ class registerModel{
           reject(err);
         }
         const resultado = results || null;
-        if (resultado && resultado.error)
-          return reject(new Error(resultado.error));
+        if (resultado && resultado.error) {
+          let errorMessage = errorHandler(resultado.error);
+          return reject(new Error(errorMessage));
+        }
         resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
       });
     });

@@ -3,13 +3,16 @@ import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import PlacePage from '../pages/PlacePage';
-import UsuarioDeseados from '../pages/UsuarioDeseados';
+import DeseadosPage from '../pages/DeseadosPage';
 import ItinerariesSavedPage from '../pages/ItinerariesSavedPage';
 import TerminosCondiciones from '../pages/TerminosCondiciones';
 import PoliticasPrivacidad from '../pages/PoliticasPrivacidad';
-import ConfirmacionRegistro from '../pages/SuccessPage'; // Importar la página de confirmación
+import ConfirmacionRegistro from '../pages/SuccessPage';
 import HistorialBusqueda from '../pages/HistoryPage';
 import FavoritesPage from '../pages/FavoritesPage';
+import GenerarItinerario from '../pages/GenerarItinerario';
+import CategoriasPage from '../pages/Categorias';
+
 
 function AppRouter() {
   return (
@@ -18,14 +21,16 @@ function AppRouter() {
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/register' element={<RegisterPage />} />
-        <Route path='/usuario-deseados' element={<UsuarioDeseados />} />
+        <Route path='/deseados' element={<DeseadosPage />} />
         <Route path='/itinerariesSaved' element={<ItinerariesSavedPage/>} />
         <Route path='/HistoryPage' element={<HistorialBusqueda/>} />
+        <Route path='/Categorias-page' element={<CategoriasPage/>} />
         <Route path='/terminos-condiciones' element={<TerminosCondiciones />} />
         <Route path='/politica-privacidad' element={<PoliticasPrivacidad />} />
-        <Route path="/confirm/:token" element={<ConfirmacionRegistro />} /> {/* Nueva ruta para la confirmación */}
+        <Route path="/confirm/:token" element={<ConfirmacionRegistro />} />
         <Route path='/placepage' element={<PlacePage />} />
-        <Route path='/favorites-page' element={<FavoritesPage />} />
+        <Route path='/favoritos' element={<FavoritesPage />} />
+        <Route path='/generar-itinerario' element={<GenerarItinerario />} />
       </Routes>
     </Router>
   );

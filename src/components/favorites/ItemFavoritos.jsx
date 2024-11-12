@@ -1,10 +1,11 @@
 import { Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
+import '../../css/FavoritesPage.css';
 
 function ItemFavoritos({ imagen, nombre, descripcion }) {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} >
-      <Card sx={{ maxWidth: 380, margin: 'auto'}}>
+      <Card sx={{ maxWidth: 380, margin: 'auto' }}>
         <CardActionArea>
           <CardMedia
             component='img'
@@ -16,7 +17,7 @@ function ItemFavoritos({ imagen, nombre, descripcion }) {
             <Typography gutterBottom variant='h5' className='fw-semibold' textAlign={'center'} component='div'>
               {nombre}
             </Typography>
-            <Typography variant='body2' textAlign={'center'}>
+            <Typography variant='body2' textAlign={'center'} className='fa_pa-descripcion'>
               {descripcion}
             </Typography>
           </CardContent>

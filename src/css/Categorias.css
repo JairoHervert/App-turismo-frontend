@@ -1,0 +1,270 @@
+/* Contenedor principal */
+.search-category-background-category {
+    background-color: #f0f4f8;
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column; /* Asegura que los elementos se acomoden correctamente en pantallas pequeñas */
+}
+
+/* Contenedor de controles */
+.controls-container-category {
+    background-color: #e3f2fd; /* Color azul claro */
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de imágenes */
+.space-images-category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center; /* Asegura que las imágenes se centren */
+}
+
+/* Contenedor para el encabezado */
+.text-center-category h2-category {
+    font-weight: bold;
+}
+
+/* Contenedor de dos columnas */
+.container-category {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en nuevas filas */
+}
+
+/* Caja izquierda con categorías */
+.left-box-category {
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    min-height: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Caja derecha para las selecciones */
+.right-box-category {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0px 15px rgba(0, 0, 0, 0.1);
+    width: 25%;
+}
+
+/* Botones de navegación */
+.navigation-buttons-category {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    top: -10px;
+}
+
+.nav-button-category {
+    background: transparent;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.nav-button-category:hover {
+    color: #007bff;
+}
+
+/* Botones */
+.btn-clear-category {
+    background-color: #E4007C;
+    color: white;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.btn-clear-category:hover {
+    background-color: #E4007C;
+}
+
+.btn-category {
+    background-color: #E4007C;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px;
+    width: 8%;
+    margin-left: 80px;
+    position: relative;
+    top: -80px;
+    cursor: pointer;
+}
+
+/* Configuración de botón */
+.btn-config-reg-category {
+    margin-top: 1px;
+    background-color: #E4007C;
+}
+
+.btn-category-back {
+    background-color: #E4007C;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+    top: 390px;
+}
+
+.text-ptv-category {
+    margin-left: 38%;
+}
+
+.btn-category:hover {
+    background-color: #e600e6;
+}
+
+/* Lista de categorías */
+.category-grid-category {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.category-item-category {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 3px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.category-item-category.selected {
+    border-color: #007bff; /* Borde azul para elementos seleccionados */
+}
+
+.category-item-category img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.category-item-category .category-label-category {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.8);
+}
+
+/* Lista de selecciones */
+.selection-list-category {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.selection-item-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.selection-item-category .delete-icon-category {
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+}
+
+.selection-item-category .delete-icon-category:hover {
+    color: #ff0000;
+}
+
+/* Responsivo */
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+    .container-category {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .left-box-category,
+    .right-box-category {
+        width: 100%;
+    }
+
+    .category-grid-category {
+        grid-template-columns: repeat(2, 1fr); /* Ajuste de 3 a 2 columnas */
+    }
+
+    .btn-category {
+        width: 50%; /* Botón más grande en pantallas pequeñas */
+        margin-left: 25%;
+        top: 0;
+    }
+
+    .search-category-background-category {
+        padding-top: 40px; /* Ajuste en el espaciado en pantallas pequeñas */
+    }
+}
+
+/* Pantallas muy pequeñas (móviles, especialmente en orientación vertical) */
+@media (max-width: 480px) {
+    .container-category {
+        flex-direction: column;
+    }
+
+    .category-grid-category {
+        grid-template-columns: 1fr; /* Una sola columna para pantallas muy pequeñas */
+    }
+
+    .btn-category {
+        width: 100%; /* Botón con el 100% del ancho */
+        margin-left: 0;
+    }
+
+    .left-box-category, 
+    .right-box-category {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .navigation-buttons-category {
+        flex-direction: column;
+    }
+}
+
+html, body {
+    overflow-x: hidden;
+}

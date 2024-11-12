@@ -14,6 +14,7 @@
     height: 100vh;
     width: 100%;
     background-image: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../img/HomePage/home-bg.jpg');
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../img/HomePage/home-bg.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -56,6 +57,10 @@
     color: black;
 }
 
+.home-p {
+    color: black;
+}
+
  /* --------------- Botones -------------- */
 
 .btn-home {
@@ -84,6 +89,7 @@
     transition: 0.5s;
  }
 
+/* Seccion: Alcaldías -------------- */
 /* Seccion: Alcaldías -------------- */
 
 .cardAlcaldias {
@@ -140,6 +146,7 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     text-align: end;
+    text-align: end;
 }
 
 .card-body-text-p {
@@ -169,11 +176,14 @@
     border: none;
     color: var(--color-dark);
     padding: 0;
+    padding: 0;
     border-radius: 10px;
     width: 43px;
     height: 43px;
 }
 
+.btn-favoritos:hover,
+.btn-deseados:hover {
 .btn-favoritos:hover,
 .btn-deseados:hover {
     background-color: rgba(255, 255, 255, 0.8);
@@ -188,6 +198,7 @@
     justify-content: center;
     align-items: center;
 }
+}
 
 .slick-initialized .slick-slide div {
     width: 800px;
@@ -197,7 +208,54 @@
     max-width: 1120px;
 }
 
+.slider {
+    margin-bottom: 40px;
+}
 
+.slick-slider {
+    button.slick-next:before {
+        content: "";
+    }
+    button.slick-prev:before {
+        content: "";
+    }
+}
+
+.slick-slider button.slick-next,
+.slick-slider button.slick-prev {
+    mask-size: 50px 50px;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    background-color: var(--color-secondary); 
+    border-color: #fff;
+    width: 60px;
+    height: 60px;
+    border: none; 
+    outline: none;
+}
+
+.slick-slider button.slick-next {
+    mask-image: url("../img/HomePage/chevron-right.svg");    
+}
+
+.slick-slider button.slick-prev {
+    mask-image: url("../img/HomePage/chevron-left.svg");
+    z-index: 1;
+}
+
+.slick-next {
+    right: -65px !important;
+}
+
+.slick-prev {
+    left: -65px !important;
+}
+
+@media (max-width: 1400px) {
+    .slick-initialized .slick-slide div {
+        width: 760px;
+    }
+}
 
 @media (max-width: 900px) {
     .home {
@@ -222,11 +280,16 @@
     .home-h5 {
         margin: 0px 20px 0px 20px;
         font-size: 1em;
+        font-size: 1em;
     }
+    
     
 }
 
 @media (max-width: 995px) {
+    .home-h2 {
+        font-size: 1.5em;
+    }
     .container-slider {
         max-width: 200px;
     }
@@ -234,7 +297,21 @@
     .slick-initialized .slick-slide div {
         width: 600px;
     }
+
+    .slick-next {
+        right: -30px !important;
+    }
+    .slick-prev {
+        left: -30px !important;
+        z-index: 2;
+    }
+
+    .slick-slider button.slick-next,
+    .slick-slider button.slick-prev {
+        mask-size: 50px 50px;
+    }
 }
+
 @media (max-width: 772px) and (min-width: 600px) {
     .cardAlcaldias {
         margin-left: 0;
@@ -242,6 +319,18 @@
     }
     .slick-initialized .slick-slide div {
         width: 470px;
+    }
+    .slick-next {
+        right: -40px !important;
+    }
+    .slick-prev {
+        left: -40px !important;
+        z-index: 2;
+    }
+
+    .slick-slider button.slick-next,
+    .slick-slider button.slick-prev {
+        mask-size: 50px 50px;
     }
 }
 
@@ -255,13 +344,6 @@
         width: 100%;
     }
 
-    /* .slick-slide {
-        left: 30px;
-    } */
-
-    /* .card {
-        width: fit-content;
-    } */
     .card-body {
         padding: 10px;
     }
@@ -280,13 +362,47 @@
         font-size: 10px;
     }
     .slick-next {
-        right: 30px !important;
+        right: 10px !important;
     }
     .slick-prev {
-        left: 30px !important;
+        left: 10px !important;
         z-index: 2;
     }
+    .slick-next, .slick-prev {
+        mask-size: 30px 30px !important;
+        background-color: white !important;
+    }
 }
+
+@media (max-width: 1300px) and (min-width: 1200px){
+    .slick-next {
+        right: 70px !important;
+    }
+    .slick-prev {
+        left: 70px !important;
+        z-index: 2;
+    }
+
+    .slick-slider button.slick-next,
+    .slick-slider button.slick-prev {
+        mask-size: 50px 50px;
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 995px) {
+    .slick-next {
+        right: 0px !important;
+    }
+    .slick-prev {
+        left: 0px !important;
+        z-index: 2;
+    }
+    .slick-slider button.slick-next,
+    .slick-slider button.slick-prev {
+        mask-size: 50px 50px;
+    }
+}
+
 /* Estilos de la sección de categorías */
 /* Estilos específicos para el nav secundario */
 .mapa {
@@ -314,11 +430,15 @@ h2 {
     position: relative;
     color: black;
     /* Hace que el color del texto sea negro */
+    color: black;
+    /* Hace que el color del texto sea negro */
     transition: color 0.3s ease;
     text-decoration: none;
 }
 
 .secondary-nav .nav-link.active {
+    color: var(--color-secondary) !important;
+    /* Cambia el color de la opción activa */
     color: var(--color-secondary) !important;
     /* Cambia el color de la opción activa */
     font-weight: bold;
@@ -412,10 +532,36 @@ h2 {
     font-size: 2em;
     font-size: 1.5rem;
     margin-bottom: 10px;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
     margin-bottom: 1rem;
 }
 
 
+
+/*PREGUNTA DEL REGISTRO*/
+.pr-0 {
+    background-color: var(--color-primary);
+    padding: 20px 0;
+}
+
+
+.pr-1 {
+    background-color: var(--color-primary);
+    border-radius: '5px'
+}
+
+.pr-2 {
+    padding: 10px;
+}
+
+.pr-img {
+    border-radius: 5px;
+}
+
+.pr-pitch {
+    line-height: '1.4';
+}
 
 /*PREGUNTA DEL REGISTRO*/
 .pr-0 {
@@ -444,8 +590,16 @@ h2 {
     font-size: 1em;
     margin-bottom: 1rem;
 }
+
 .alc-vermas{
-    text-align:right;
-    padding-right: 5.5rem;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+    transition: 0.5s;
 }

@@ -3,7 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
-import Preferencias from './Preferencias'; // Asegúrate de importar el componente Preferencias
+import Preferencias from './Preferencias';
+import Detalles from './modalDetalleIt';
 import { isLogged } from '../schemas/isLogged';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
@@ -27,7 +28,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
         const loggedIn = await isLogged();
         console.log(loggedIn);
         setIsLoggedIn(loggedIn.logged);
-        setUserName(loggedIn.data.correo);
+        setUserName(loggedIn.data);
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
       }
@@ -84,16 +85,24 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                 <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Nuevas Experiencias</Link>
               </li>
             </ul>
-
             {/* Sección de perfil de usuario */}
-            <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center justify-content-end justify-content-sm-end">
               {isLoggedIn ? (
                 <>
-                  <div className="text-end me-2">
+                  <div className="order-sm-1 text-end me-2">
                     <div>Bienvenido</div>
                     <div className="fw-bold">{userName}</div>
                   </div>
-                  <div className="dropdown">
+                  <div className="order-sm-2">
+                    <img
+                      src={avatar}
+                      alt="Perfil"
+                      className="rounded-circle"
+                      width="50"
+                      height="50"
+                    />
+                  </div>
+                  <div className="order-sm-3 dropdown">
                     <button
                       className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
                       id="userDropdown"
@@ -101,27 +110,22 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       aria-expanded={menuOpen}
                       onClick={toggleMenu}
                     >
-                      <img
-                        src={avatar}
-                        alt="Perfil"
-                        className="rounded-circle"
-                        width="50"
-                        height="50"
-                      />
                       <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
-                      <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmacion Registro</Link></li>
-                      <li><Link className='dropdown-item' to='/usuario-deseados'>Deseados User</Link></li>
+                      <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
+                      <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
+                      <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
                       <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
-                      <li><Link className='dropdown-item' to='/HistoryPage'>Historial de busqueda</Link></li>
+                      <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
 
                       {/* <li><Link className='dropdown-item' to='/register'>Registrate</Link></li>  */}
 
-                      <li><Link className='dropdown-item' to='/favorites-page'>Favoritos User</Link></li>
+                      <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
                       <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
+                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
                       <li><hr className="dropdown-divider" /></li>
                       <li><Link className="dropdown-item" to="/logout" onClick={handleLogout}>Cerrar Sesión</Link></li>
                     </ul>
@@ -148,6 +152,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
       {/* Componente de Preferencias */}
       <Preferencias />
+      <Detalles />
     </>
   );
 }

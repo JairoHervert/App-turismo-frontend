@@ -9,8 +9,8 @@ const SuccessfullRegistration = async (token) => {
     const response = await axios.post('http://localhost:3001/confirm-email', {
       token
     });
-    console.log(response.data);
-    return true;
+    // console.log(response.data.success);
+    return response.data.success;
   } catch (err) {
     console.error(err);
     return false;

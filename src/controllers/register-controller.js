@@ -73,8 +73,8 @@ class registerController {
     const mailOptions = {
       from: 'canastabasica2024@gmail.com',
       to: email,
-      subject: 'Confirma tu registro',
-      html: `<p>Hola ${name},</p><p>Gracias por registrarte. Haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${newToken}">Confirmar Registro</a>`
+      subject: 'Confirma tu registro en App Turismo',
+      html: `<p>Hola ${name},</p><p>Gracias por registrarte en AppTurismo.</p><p>Para concluir tu registro y poder ingresar a tu cuenta haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${newToken}">Confirmar Registro</a>`
     };
   
     try {

@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Logged } from '../pagesHandlers/home-handler';
 
 // import css
@@ -13,7 +14,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import '../css/HomePage.css';
 
 import CatHome from '../components/categories/CategoryHome';
-import {CardAlcaldia, Arrow} from '../components/CardAlcaldia';
+import CardAlcaldia from '../components/CardAlcaldia';
 
 const isLogged = Logged();
 console.log(isLogged);
@@ -22,6 +23,11 @@ const HomePage = () => {
 
   const [isRegistered, setIsRegistered] = useState(false);
 
+  const navigate = useNavigate();
+
+  const handlePlacePageClick = () => {
+      navigate('/generar-itinerario');
+  };
 
   const settings = {
     className: "center",
@@ -50,12 +56,12 @@ const HomePage = () => {
         showRegistrate={true}
         transparentNavbar={false}
         lightLink={false} />
-
+        
       <section className='home'>
         <div className='home-text'>
           <h5 className='home-h5'>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
           <h1 className='home-h1'>Ciudad de México</h1>
-          <button className='btn btn-home' type='button'>
+          <button onClick={handlePlacePageClick} className='btn btn-home' type='button'>
               Comienza ahora
           </button>
         </div>
@@ -85,7 +91,6 @@ const HomePage = () => {
               nombreImagen='miguel-hidalgo' />
           </Slider>
         </div>
-      </section>
 
         {/* Agregar boton de ver mas que redirige a ver todas las alcaldias*/ }
         <div className='alc-vermas'>
@@ -93,6 +98,9 @@ const HomePage = () => {
             Ver más
           </button>
         </div>
+      </section>
+
+        
 
 
       {/* SECCIÓN DE CESAR - EXPLORAR CATEGORÍAS*/}

@@ -4,29 +4,6 @@ import Swal from 'sweetalert2';
 const handleLogin = async (e, correo, contraseña) => {
   e.preventDefault();
 
-  if (!correo || !contraseña) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Todos los campos son obligatorios',
-      timer: 2000,
-      showConfirmButton: false
-    });
-    return;
-  }
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(correo)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Por favor, ingrese un correo electrónico válido',
-      timer: 2000,
-      showConfirmButton: false
-    });
-    return;
-  }
-
   try {
     const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
     if (response.data.resultado.id) {
@@ -37,7 +14,7 @@ const handleLogin = async (e, correo, contraseña) => {
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         text: '¡Bienvenido! Has iniciado sesión correctamente.',
-        timer: 2000,
+        timer: 3000,
         showConfirmButton: false,
         willClose: () => {
           window.location.href = '/'
@@ -52,7 +29,7 @@ const handleLogin = async (e, correo, contraseña) => {
         icon: 'error',
         title: 'Inicio de sesión fallido',
         text: error.response.data.error,
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false
       });
     } else {
@@ -61,7 +38,7 @@ const handleLogin = async (e, correo, contraseña) => {
         icon: 'error',
         title: 'Inicio de sesión fallido',
         text: 'Algo falló en la solicitud',
-        timer: 2000,
+        timer: 5000,
         showConfirmButton: false
       });
     }
@@ -176,11 +153,16 @@ const responseFacebook = async (response) => {
       token: userID,
     });
     
+    console.log(res.data);
+    console.log(res.data.resultado.id);
+    console.log(accessToken);
+
     if (res.data.resultado.id) {
       
       // guardar el token en localStorage
       localStorage.setItem('access_token', accessToken);
       localStorage.setItem('id', res.data.resultado.id);
+      localStorage.setItem('facebook_access_token', accessToken);
 
       // Verificar que se guardó bien
       console.log(localStorage.getItem('access_token'));
@@ -190,7 +172,7 @@ const responseFacebook = async (response) => {
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
-        timer: 2000,
+        // timer: 5000,
         showConfirmButton: false,
         willClose: () => {
           window.location.href = '/'

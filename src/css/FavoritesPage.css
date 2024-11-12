@@ -6,3 +6,21 @@
 .fav_pag-icono-corazon {
    font-size: 3rem;
 }
+
+.fa_pa-descripcion {
+   height: 5rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 4;
+   /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+   -webkit-box-orient: vertical;
+   white-space: normal;
+}
+
+@media (max-width: 1200px) {
+   .fa_pa-descripcion {
+      height: 4rem;
+      -webkit-line-clamp: 3;
+   }
+}
