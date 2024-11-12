@@ -5,6 +5,8 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import imgFormulario from '../img/registerIMGA.jpg';
 import { useGoogleLogin } from '@react-oauth/google';
+import GoogleIcon from '@mui/icons-material/Google';
+import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
 import { validateName, validateEmail, validatePassword, validateConfirmPassword } from '../schemas/validacionRegister';
@@ -106,7 +108,7 @@ function RegisterPage() {
 
               <form className="login-form" onSubmit={(e) => handleRegistro(e, nombre, correo, contraseña, contraseña2)}>
                 <div className="mb-3">
-                  <label htmlFor="registerInputName" className="form-label">Nombre completo</label>
+                  <label htmlFor="registerInputName" className="form-label">Nombre de usuario</label>
                   <input
                     type="text"
                     className="form-control"
@@ -161,6 +163,8 @@ function RegisterPage() {
                   <p>o regístrate con:</p>
                   <button type='button' className='btn btn-link btn-floating mx-1' onClick={() => handleGoogleLogin()}>
                     <i className='bi bi-google'></i>
+                    
+                    
                   </button>
                   <FacebookLogin
                     appId="1276060800080687"

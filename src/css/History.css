@@ -59,18 +59,24 @@ width: 200px;
 
 /* Caja de historial */
 .search-history-box-history {
-  background: #e3f2fd;
+  background: #f8f8f8;
+  margin-bottom: auto;
+  border-radius: 30px;
   padding: 30px;
-  border-radius: 10px;
   box-shadow: 0 0px 100px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 1000px;
   height: auto;
   overflow-y: auto;
   max-height: 780px;
-  margin: 0 auto;
   box-sizing: border-box;
+  text-decoration: none;
+  color: black;
+  border: 6px solid transparent; /* Borde ancho inicial */
+  gap: 5px;
+  border-color: #c1e0ed;
 }
+
 
 /* Scrollbar personalizado */
 ::-webkit-scrollbar {
@@ -94,6 +100,7 @@ width: 200px;
 .filter-box-history {
   display: flex;
   transform: translateY(-12px);
+  margin-left: 50px;
   transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
   
 /*   flex-direction: column;
@@ -144,6 +151,13 @@ width: 200px;
   flex-grow: 1;
 }
 
+/*HOVER DE LA CAJA*/
+.item-left-history:hover {
+  background-color: #a2dcee; /* Cambia el fondo al pasar el mouse */
+ 
+  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 .checkbox-history {
   margin-right: 10px;
 }
@@ -153,6 +167,8 @@ width: 200px;
   font-size: 14px;
   margin-right: 8px;
 }
+
+
 
 .query-text-history {
   font-weight: bold;
@@ -180,6 +196,149 @@ width: 200px;
   font-weight: bold;
 }
 
+/* inicio del dropdownMenu*/ 
+.menu {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000000;
+  width: fit-content;
+  display: flex;
+  list-style: none;
+  position: fixed;
+  bottom: 80%;
+}
+
+.menu a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.menu .link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 36px;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.menu .link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #e4007c;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.menu .link svg {
+  width: 14px;
+  height: 14px;
+  fill: #000000;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.menu .item {
+  position: relative;
+}
+/*ESTO INDICA LA POSICION DEL DROPDOWN*/
+.menu .item .submenu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 100%;
+  border-radius: 0 0 16px 16px;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #cccccc;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  z-index: 1;
+  pointer-events: none;
+  list-style: none;
+}
+
+.menu .item:hover .submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  border-top: transparent;
+  border-color: #e4007c;
+}
+
+.menu .item:hover .link {
+  color: #ffffff;
+  border-radius: 16px 16px 0 0;
+}
+
+.menu .item:hover .link::after {
+  transform: scaleX(1);
+  transform-origin: right;
+}
+
+.menu .item:hover .link svg {
+  fill: #ffffff;
+  transform: rotate(-180deg);
+}
+
+.submenu .submenu-item {
+  width: 100%;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.submenu .submenu-link {
+  display: block;
+  padding: 12px 24px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.submenu .submenu-item:last-child .submenu-link {
+  border-bottom: none;
+}
+/*HOVER DEL DROPDOWN*/
+.submenu .submenu-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  width: 100%;
+  height: 100%;
+  background-color: #a2dcee;
+  z-index: -1;
+  transform-origin: left;
+  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.submenu .submenu-link:hover:before {
+  transform: scaleX(1);
+  transform-origin: right; 
+}
+
+.submenu .submenu-link:hover {
+  color: #ffffff;
+}
+
+
 /* Diseño adaptable */
 @media (max-width: 768px) {
   .controls-container-history {
@@ -198,7 +357,42 @@ width: 200px;
     margin-left: 0;
     margin-right: 0;
   }
+  .menu {
+    left: 10px; 
+    bottom: 100%;
+    flex-direction: column; 
+    align-items: flex-start; 
+    font-size: 14px; 
+    gap: 10px;
+  }
+
+  .menu .link {
+    padding: 10px 20px; 
+  }
+
+  .menu .submenu {
+    width: 100%; 
+    left: 0; 
+  }
+
+  .menu .link svg {
+    width: 18px; 
+    height: 18px;
+  }
 }
+
+.menu {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #000000;
+  width: fit-content;
+  display: flex;
+  list-style: none;
+  position: fixed;
+  bottom: 80%;
+}
+
+
 
 html, body {
   overflow-x: hidden;
