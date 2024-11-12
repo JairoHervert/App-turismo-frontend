@@ -17,8 +17,9 @@ class registerController {
           res.status(201).json(resultado);
         })
         .catch((err) => {
-          if (err === "El correo ya está registrado.") {
-            return res.status(400).json({ error: err });
+          if (err.message) {
+            let mensajeError = errorHandler(err.message);
+            return res.status(400).json({ error: mensajeError });
           }
           res.status(500).json({ error: err.message });
         });
@@ -35,9 +36,9 @@ class registerController {
         res.status(201).json(resultado);
       })
       .catch((err) => {
-        console.log(err);
-        if (err.message === 'El correo ya está registrado.') {
-          return res.status(400).json({ error: err });
+        if (err.message) {
+          let mensajeError = errorHandler(err.message);
+          return res.status(400).json({ error: mensajeError });
         }
         res.status(500).json({ error: err });
       });
@@ -52,8 +53,9 @@ class registerController {
         res.status(201).json(resultado);
       })
       .catch((err) => {
-        if (err === 'El correo ya está registrado.') {
-          return res.status(400).json({ error: err });
+        if (err.message) {
+          let mensajeError = errorHandler(err.message);
+          return res.status(400).json({ error: mensajeError });
         }
         res.status(500).json({ error: err.message });
       });

@@ -25,6 +25,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
     const fetchLoginStatus = async () => {
       try {
         const loggedIn = await isLogged();
+        console.log(loggedIn);
         setIsLoggedIn(loggedIn.logged);
         setUserName(loggedIn.data.correo);
       } catch (error) {

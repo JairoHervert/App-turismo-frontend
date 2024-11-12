@@ -8,10 +8,12 @@ class registerModel{
       db.query(query, [nombre, correo, contraseña], (err, results) => {
         if (err) {
           if (err.sqlState === '45000') {
-              return resolve('El correo ya está registrado.');
+              return reject(new Error('El correo ya está registrado.'));
           }
           reject(err);
         }
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve({ message: 'Usuario creado'});
       });
     });
@@ -25,15 +27,8 @@ class registerModel{
           reject(err);
         }
         const resultado = results || null;
-        let error = '';
-        if (resultado && resultado.error) {
-          switch (resultado.error) {
-            case 'correo_ya_registrado':
-              error = 'El correo ya está registrado.';
-              break;
-          }
-          reject(new Error(error));
-        }
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
       });
     });
@@ -45,11 +40,13 @@ class registerModel{
       db.query(query, [nombre, imagen, facebookId], (err, results) => {
         if (err) {
           if (err.sqlState === '45000') {
-            return resolve('El correo ya está registrado.');
+            return reject(new Error('El correo ya está registrado.'));
           }
           reject(err);
         }
         const resultado = results || null;
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve(resultado/*{ id: resultado ? resultado.id : null}*/);
       });
     });
