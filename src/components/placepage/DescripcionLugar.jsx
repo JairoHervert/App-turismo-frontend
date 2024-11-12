@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
+import { Rating } from '@mui/material';
 
-function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, placeHorario, lugarImagenes}) {
+function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, placeHorario, lugarImagenes, value}) {
     const [isClickedDeseados, setIsClickedDeseados] = useState(false);
     const [isClickedFavoritos, setIsClickedFavoritos] = useState(false);
 
@@ -71,11 +72,12 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                         </div>
                         <div className='stars'>
                             {/* de a mientras */}
-                            <i className='bi bi-star'></i>
-                            <i className='bi bi-star'></i>
-                            <i className='bi bi-star'></i>
-                            <i className='bi bi-star'></i>
-                            <i className='bi bi-star'></i>
+                            <Rating 
+                                name='read-only' 
+                                defaultValue={value} 
+                                readOnly 
+                                size='large'
+                                precision={0.1}/>
                         </div>
                     </div>
                     <div className='place-buttons'>

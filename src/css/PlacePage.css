@@ -49,22 +49,6 @@
     background-size: cover;
     background-position: center;
 }
- /*
-.col-big-img {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-}
-
-.place-big-img {
-    width: 90%;
-    aspect-ratio: 1;
-    background-image: url('../img/HomePage/places/home-places-miguel-hidalgo.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-*/
 
 .place-row {
     width: 100%;
@@ -79,7 +63,6 @@
 }
 
 /* -------- Left Site of the Page ------------- */
-
 
 .place-left-site {
     /* width: 30%; */

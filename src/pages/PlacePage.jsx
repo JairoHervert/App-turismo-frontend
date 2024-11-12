@@ -46,7 +46,7 @@ const PlacePage = () => {
           placeAccesibilidad='Accesible con silla de ruedas'
           placeHorario='Todos los días de 8:30 a 19:30 hrs'
           lugarImagenes={imagenes}
-
+          value = {3.6}
         />
       </section>
 
@@ -59,16 +59,24 @@ const PlacePage = () => {
             <Reviews
               nombreUsuario='Brandon Segura'
               antiguedadReview='10 meses'
-              comentarioUsuario='Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero perferendis quaerat excepturi? Praesentium tempore, aspernatur temporibus, commodi libero officiis ab deserunt sit accusantium iusto explicabo ad, voluptatem iure dolor quasi.'/>
+              comentarioUsuario='Lorem ipsum dolor sit, amet consectetur adipisicing elit. Libero perferendis quaerat excepturi? Praesentium tempore, aspernatur temporibus, commodi libero officiis ab deserunt sit accusantium iusto explicabo ad, voluptatem iure dolor quasi.'
+              valueReview = {4.6}
+              userPhoto={require('../img/PlacePage/place-user.png')}
+            />
             <Reviews
               nombreUsuario='Mauricio'
               antiguedadReview='1 año'
-              comentarioUsuario='Me gustó'/>
+              comentarioUsuario='Me gustó'
+              valueReview = {2.4}
+              userPhoto={require('../img/PlacePage/place-user.png')}
+            />
             <Reviews
               nombreUsuario='Juan Mark'
               antiguedadReview='3 dias'
-              comentarioUsuario='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis voluptate, cupiditate suscipit totam maxime est deleniti nulla similique, quae asperiores optio explicabo culpa! Itaque sit veniam ipsam expedita autem quis recusandae molestias qui placeat, officia distinctio perferendis, rerum iste pariatur animi illo nostrum veritatis ex voluptatem, vel id odio. Vel.'/>
-              
+              comentarioUsuario='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officiis voluptate, cupiditate suscipit totam maxime est deleniti nulla similique, quae asperiores optio explicabo culpa! Itaque sit veniam ipsam expedita autem quis recusandae molestias qui placeat, officia distinctio perferendis, rerum iste pariatur animi illo nostrum veritatis ex voluptatem, vel id odio. Vel.'
+              valueReview = {3.5}
+              userPhoto={require('../img/PlacePage/place-user.png')}
+            />
           </div>
         </div>
       </section>
