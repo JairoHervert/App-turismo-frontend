@@ -1,0 +1,67 @@
+/* Estilos para el contenedor principal */
+.resume-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+/* Estilos para el botón de regresar */
+.resume-back-button {
+    background-color: #E4007C;
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 0; /* Reducir el margen inferior */
+}
+
+/* Estilos para el título y subtítulo */
+.resume-title-container {
+    text-align: center; /* Centrar los títulos */
+    margin-top: 0; /* Reducir el margen superior */
+    margin-bottom: 0; /* Eliminar margen inferior */
+    padding: 0; /* Eliminar padding adicional */
+}
+
+.resume-title {
+    font-weight: bold;
+    margin: 0; /* Eliminar margen */
+    font-size: 3rem; /* Ajustar tamaño de fuente */
+}
+
+.resume-subtitle {
+    font-weight: bold;
+    margin: 0; /* Eliminar margen */
+    font-size: 1.5rem; /* Ajustar tamaño de fuente */
+}
+
+/* Estilos para el contenedor del calendario */
+.resume-calendar-container {
+    max-height: 74vh;
+    overflow-y: auto;
+}
+
+/* Estilos para el botón de finalizar y guardar */
+.resume-save-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.resume-save-button button {
+    background-color: #E4007C;
+    color: white;
+    font-size: 1.2rem;
+}
+
+/* Estilos responsivos */
+@media (max-width: 800px) {
+    .resume-back-button {
+        font-size: 0.5rem; /* Ajustar tamaño de fuente */
+    }
+
+    .resume-title {
+        font-size: 1.6rem; /* Ajustar tamaño de fuente */
+    }
+
+    .resume-subtitle {
+        font-size: 0.9rem; /* Ajustar tamaño de fuente */
+    }
+}

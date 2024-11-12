@@ -12,6 +12,7 @@ import HistorialBusqueda from '../pages/HistoryPage';
 import FavoritesPage from '../pages/FavoritesPage';
 import GenerarItinerario from '../pages/GenerarItinerario';
 import CategoriasPage from '../pages/Categorias';
+import ResumePage from '../pages/ResumenPage';
 
 
 function AppRouter() {
@@ -31,6 +32,7 @@ function AppRouter() {
         <Route path='/placepage' element={<PlacePage />} />
         <Route path='/favoritos' element={<FavoritesPage />} />
         <Route path='/generar-itinerario' element={<GenerarItinerario />} />
+        <Route path='/resume-page' element={<ResumePage />}/>
       </Routes>
     </Router>
   );
