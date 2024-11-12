@@ -8,11 +8,13 @@ class loginController{
 
   static async iniciarSesion(req, res){
     const { correo, contraseña } = req.body;
-    const token = (id, correo) => {
-      return jwt.sign({id: id, correo: correo}, process.env.JWT_SECRET, {
-        expiresIn: '1h'
-      });
+
+    const tokenJWT = (id, username, nombre, apellido, correo, imagen) => {
+      return jwt.sign({
+        id: id, username: username, nombre: nombre, apellido: apellido, correo: correo, imagen: imagen},
+      process.env.JWT_SECRET, { expiresIn: '1h' });
     }
+
     try {
       const resultado = await loginModel.iniciarSesion(correo);
 
@@ -26,8 +28,8 @@ class loginController{
         let error = errorHandler('correo_no_confirmado');
         return res.status(400).json({ error: error})
       }
-
-      const newToken = token(resultado.id, correo);
+      
+      const newToken = tokenJWT(resultado.id, resultado.username, resultado.nombre, resultado.apellido, correo, resultado.imagen);
       res.json({resultado: resultado, token: newToken});
 
     } catch (err) {
@@ -42,9 +44,19 @@ class loginController{
 
   static async iniciarSesionGoogle(req, res) {
     const { correo, token } = req.body;
+
+    const tokenJWT = (id, username, nombre, apellido, correo, imagen) => {
+      return jwt.sign({
+        id: id, username: username, nombre: nombre, apellido: apellido, correo: correo, imagen: imagen},
+      process.env.JWT_SECRET, { expiresIn: '1h' });
+    }
+
     try {
       const resultado = await loginModel.iniciarSesionGoogle(correo, token);
-      res.json({id: resultado });
+
+      const newToken = tokenJWT(resultado.id, resultado.username, resultado.nombre, resultado.apellido, correo, resultado.imagen);
+      res.json({resultado: resultado, token: newToken});
+
     } catch (err) {
       if (err.message) {
         let mensajeError = errorHandler(err.message);
@@ -56,9 +68,19 @@ class loginController{
 
   static async iniciarSesionFacebook(req, res) {
     const { token } = req.body;
+
+    const tokenJWT = (id, username, nombre, apellido, imagen) => {
+      return jwt.sign({
+        id: id, username: username, nombre: nombre, apellido: apellido, imagen: imagen},
+      process.env.JWT_SECRET, { expiresIn: '1h' });
+    }
+
     try {
       const resultado = await loginModel.iniciarSesionFacebook(token);
-      res.json({resultado: resultado});
+      
+      const newToken = tokenJWT(resultado.id, resultado.username, resultado.nombre, resultado.apellido, resultado.imagen);
+      res.json({resultado: resultado, token: newToken});
+
     } catch (err) {
       if (err.message) {
         let mensajeError = errorHandler(err.message);

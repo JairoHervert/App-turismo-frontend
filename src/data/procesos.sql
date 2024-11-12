@@ -27,7 +27,7 @@ DELIMITER //
 -- Process `AppTurismo`.`UsuarioRegistro`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioRegistro (
-   IN p_username VARCHAR(255),
+   IN p_username VARCHAR(60),
    IN p_correo VARCHAR(320),
    IN p_contraseña VARCHAR(255)
 )
@@ -85,10 +85,7 @@ CREATE PROCEDURE UsuarioRegistroGoogle (
 BEGIN
    DECLARE correoExistente INT;
    DECLARE googleExistente INT;
-   DECLARE correoExistente INT;
-   DECLARE googleExistente INT;
 
-   SELECT COUNT(*) INTO correoExistente
    SELECT COUNT(*) INTO correoExistente
    FROM Usuario
    WHERE correo = UPPER(p_correo);
@@ -102,27 +99,7 @@ BEGIN
          IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
             INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
             VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
-   
-   SELECT COUNT(*) INTO googleExistente
-   FROM Usuario
-   WHERE tokenGoogle = p_token;
-    
-   IF correoExistente = 0 THEN
-      IF googleExistente = 0 THEN
-         IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
-            INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
-            VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
 
-            SELECT id FROM Usuario
-            WHERE nombre = p_nombre AND correo = UPPER(p_correo);
-         ELSE
-            SELECT 'correo_invalido' AS 'error';
-         END IF;
-      ELSE
-         SELECT 'usuario_ya_registrado' AS 'error';
-      END IF;
-   ELSE
-      SELECT 'correo_ya_registrado' AS 'error';
             SELECT id FROM Usuario
             WHERE nombre = p_nombre AND correo = UPPER(p_correo);
          ELSE
@@ -140,7 +117,7 @@ END //
 -- Process `AppTurismo`.`UsuarioRegistroFacebook`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioRegistroFacebook (
-   IN p_nombre VARCHAR(255),
+   IN p_username VARCHAR(60),
    IN p_imagen VARCHAR(512),
    IN p_token VARCHAR(255)
 )
@@ -155,26 +132,13 @@ BEGIN
       SELECT 'error_conexion' AS 'error';
    ELSE
       IF usuarioExistente = 0 THEN
-         INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
-         VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
-   
-   IF p_token IS NULL OR p_token = '' THEN
-      SELECT 'error_conexion' AS 'error';
-   ELSE
-      IF usuarioExistente = 0 THEN
-         INSERT INTO Usuario (nombre, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
-         VALUES (p_nombre, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
+         INSERT INTO Usuario (username, ligaFotoPerfil, tokenFacebook, confirmacion, auditoria, contraseña, correo)
+         VALUES (p_username, p_imagen, p_token, 1, NOW(), 'facebook', CONCAT('facebook_', p_token));
 
          SELECT id FROM Usuario
          WHERE tokenFacebook = p_token;
-         SELECT id FROM Usuario
-         WHERE tokenFacebook = p_token;
-      
       ELSE
-         SELECT 'usuario_ya_registrado' AS 'error';
-      END IF;
-      ELSE
-         SELECT 'usuario_ya_registrado' AS 'error';
+         SELECT 'cuenta_ya_registrada' AS 'error';
       END IF;
    END IF;
 END //
@@ -231,21 +195,25 @@ END //
 -- Process `AppTurismo`.`IniciarSesion`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioIniciarSesion (
-   IN p_correo VARCHAR(320),
-   IN p_contraseña VARCHAR(255)
+   IN p_correo VARCHAR(320)
 )
 BEGIN
    DECLARE correoInvalido BOOLEAN;
    DECLARE v_id INT;
+   DECLARE v_username VARCHAR(60);
+   DECLARE v_nombre VARCHAR(60);
+   DECLARE v_apellido VARCHAR(60);
    DECLARE v_contraseña VARCHAR(255);
-   DECLARE v_confirmacion INT;
+   DECLARE v_imagen VARCHAR(512);
+   DECLARE v_confirmacion BOOLEAN;
+   
 
    SET correoInvalido = NOT (p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$');
 
    IF correoInvalido THEN
       SELECT 'correo_invalido' AS 'error';
    ELSE
-      SELECT id, contraseña, confirmacion INTO v_id, v_contraseña, v_confirmacion
+      SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_confirmacion
       FROM Usuario
       WHERE correo = UPPER(p_correo);
 
@@ -256,7 +224,11 @@ BEGIN
       ELSE
          SELECT
             v_id AS id,
+            v_username AS username,
+            v_nombre AS nombre,
+            v_apellido AS apellido,
             v_contraseña AS contraseña,
+            v_imagen AS imagen,
             v_confirmacion AS confirmacion;
       END IF;
    END IF;
@@ -272,17 +244,27 @@ CREATE PROCEDURE UsuarioIniciarSesionGoogle (
    IN p_token VARCHAR(255)
 )
 BEGIN
-   DECLARE usuarioExistente INT;
+   DECLARE v_id INT;
+   DECLARE v_username VARCHAR(30);
+   DECLARE v_nombre VARCHAR(60);
+   DECLARE v_apellido VARCHAR(60);
+   DECLARE v_imagen VARCHAR(512);
+   DECLARE v_confirmacion BOOLEAN;
 
-   SELECT COUNT(*) INTO usuarioExistente
+   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion
    FROM Usuario
    WHERE tokenGoogle = p_token;
    
-   IF usuarioExistente = 0 THEN
+   IF v_id IS NULL THEN
       SELECT 'cuenta_no_registrada' AS 'error';
    ELSE
-      SELECT id FROM Usuario
-      WHERE tokenGoogle = p_token;
+      SELECT
+         v_id AS id,
+         v_username AS username,
+         v_nombre AS nombre,
+         v_apellido AS apellido,
+         v_imagen AS imagen,
+         v_confirmacion AS confirmacion;
    END IF;
 END //
 
@@ -293,21 +275,27 @@ CREATE PROCEDURE UsuarioIniciarSesionFacebook (
    IN p_token VARCHAR(255)
 )
 BEGIN
-   DECLARE usuarioExistente INT;
+   DECLARE v_id INT;
+   DECLARE v_username VARCHAR(30);
+   DECLARE v_nombre VARCHAR(60);
+   DECLARE v_apellido VARCHAR(60);
+   DECLARE v_imagen VARCHAR(512);
+   DECLARE v_confirmacion BOOLEAN;
 
-   SELECT COUNT(*) INTO usuarioExistente
+   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion
    FROM Usuario
    WHERE tokenFacebook = p_token;
 
-   IF p_token IS NULL OR p_token = '' THEN
-      SELECT 'error_conexion' AS 'error';
+   IF v_id IS NULL THEN
+      SELECT 'cuenta_no_registrada' AS 'error';
    ELSE
-      IF usuarioExistente = 0 THEN
-         SELECT 'cuenta_no_registrada' AS 'error';
-      ELSE
-	      SELECT id FROM Usuario
-         WHERE tokenFacebook = p_token;
-      END IF;
+      SELECT
+         v_id AS id,
+         v_username AS username,
+         v_nombre AS nombre,
+         v_apellido AS apellido,
+         v_imagen AS imagen,
+         v_confirmacion AS confirmacion;
    END IF;
 END //
 
@@ -337,8 +325,8 @@ END //
 -- Process `AppTurismo`.`UsuarioAñadirDeseado`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioAñadirDeseado (
-   IN p_idUsuario VARCHAR(255),
-   IN p_idLugar VARCHAR(255)
+   IN p_idUsuario INT,
+   IN p_idLugar INT
 )
 BEGIN
    DECLARE usuarioExistente INT;
@@ -350,7 +338,6 @@ BEGIN
    
    IF usuarioExistente = 0 THEN
       SELECT 'usuario_no_existente' AS 'error';
-      SELECT 'usuario_no_existente' AS 'error';
    END IF;   
    
    SELECT COUNT(*) INTO lugarExistente
@@ -358,7 +345,6 @@ BEGIN
    WHERE id = p_idLugar;
    
    IF lugarExistente = 0 THEN
-      SELECT 'lugar_no_existente' AS 'error';
       SELECT 'lugar_no_existente' AS 'error';
    END IF;
    
@@ -385,25 +371,11 @@ BEGIN
       SELECT 'usuario_no_existente' AS 'error';
    ELSE
       SELECT
-   DECLARE usuarioExistente INT;
-   
-   SELECT COUNT(*) INTO usuarioExistente
-   FROM Usuario
-   WHERE id = p_id;
-   
-   IF usuarioExistente = 0 THEN
-      SELECT 'usuario_no_existente' AS 'error';
-   ELSE
-      SELECT
       l.nombre AS nombre,
       l.descripcion AS descripcion,
       l.direccion AS direccion,
       l.costo AS costo
       #AVG()
-      FROM LugarDeseado
-      JOIN Lugar l ON LugarDeseado.idLugar = l.id
-      WHERE LugarDeseado.idUsuario = p_id;
-   END IF;  
       FROM LugarDeseado
       JOIN Lugar l ON LugarDeseado.idLugar = l.id
       WHERE LugarDeseado.idUsuario = p_id;
@@ -417,25 +389,6 @@ CREATE PROCEDURE UsuarioVerFavoritos (
    IN p_id INT
 )
 BEGIN
-   DECLARE usuarioExistente INT;
-   
-   SELECT COUNT(*) INTO usuarioExistente
-   FROM Usuario
-   WHERE id = p_id;
-   
-   IF usuarioExistente = 0 THEN
-      SELECT 'usuario_no_existente' AS 'error';
-   ELSE
-      SELECT
-         l.nombre AS nombre,
-         l.descripcion AS descripcion,
-         l.direccion AS direccion,
-         l.costo AS costo
-         #AVG()
-      FROM LugarFavorito
-      JOIN Lugar l ON LugarFavorito.idLugar = l.id
-      WHERE LugarFavorito.idUsuario = p_id;
-   END IF;
    DECLARE usuarioExistente INT;
    
    SELECT COUNT(*) INTO usuarioExistente
@@ -480,7 +433,6 @@ BEGIN
       INSERT INTO Lugar (nombre, descripcion, direccion, auditoria)
       VALUES (p_nombre, p_descripcion, p_direccion, NOW());
    ELSE
-      SELECT 'lugar_ya_registrado' AS 'error';
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;
 END //

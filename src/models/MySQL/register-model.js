@@ -48,9 +48,11 @@ class registerModel{
           reject(err);
         }
         const resultado = results || null;
-        if (resultado && resultado.error)
-          return reject(new Error(resultado.error));
-        resolve(resultado/*{ id: resultado ? resultado.id : null}*/);
+        if (resultado && resultado.error) {
+          let errorMessage = errorHandler(resultado.error);
+          return reject(new Error(errorMessage));
+        }
+        resolve({ id: resultado ? resultado.id : null});
       });
     });
   }

@@ -11,6 +11,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [userName, setUserName] = useState('Nombre de Usuario'); // Simula el nombre del usuario
+  const [profileImage, setProfileImage] = useState(avatar);
   const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar la apertura del menú
 
   const handleLoginClick = () => {
@@ -28,7 +29,16 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
         const loggedIn = await isLogged();
         console.log(loggedIn);
         setIsLoggedIn(loggedIn.logged);
-        setUserName(loggedIn.data);
+        setUserName(loggedIn.data.username);
+        // Añadir la imagen loggedIn.data.imagen
+        // Verificar si `loggedIn.data.imagen` es un enlace válido
+        if (loggedIn.data.imagen) {
+          // Crear una nueva imagen para validar el enlace
+          const img = new Image();
+          img.onload = () => setProfileImage(loggedIn.data.imagen); // Actualiza si la imagen se carga correctamente
+          img.onerror = () => console.log('No se pudo cargar la imagen del perfil');
+          img.src = loggedIn.data.imagen;
+        }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
       }
@@ -95,7 +105,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                   </div>
                   <div className="order-sm-2">
                     <img
-                      src={avatar}
+                      src={profileImage}
                       alt="Perfil"
                       className="rounded-circle"
                       width="50"

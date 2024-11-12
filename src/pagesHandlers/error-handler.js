@@ -1,6 +1,7 @@
 
 function errorHandler(error) {
-  let resultado = "Algo sucedió mal procesando la solicitud.";
+  //let resultado = "Algo sucedió mal procesando la solicitud.";
+  let resultado = error;
   switch(error) {
     case "correo_no_registrado":
       resultado = "Correo no registrado.";
@@ -19,6 +20,9 @@ function errorHandler(error) {
       break;
     case "cuenta_ya_registrada":
       resultado = "Esta cuenta ya se encuentra registrada.";
+      break;
+    case "error_conexion":
+      resultado = "Error de conexión";
       break;
   }
   return resultado;

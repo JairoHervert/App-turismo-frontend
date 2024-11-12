@@ -222,9 +222,7 @@ const errorGoogleHandler = () => {
 // VERIFICACIÓN CON FACEBOOK
 const responseFacebook = async (response) => {
   console.log(response);
-  console.log(response.status);
-  console.log(response.status == 'unknown');
-  if(response.status == 'unknown') {
+  if(response.status && response.status == 'unknown') {
     return;
   }
   const { accessToken, name, userID } = response;
@@ -237,6 +235,7 @@ const responseFacebook = async (response) => {
       facebookId: userID,
     });
     
+    console.log("res", res);
     console.log(res.data.id);
     console.log(name, picture, userID);
     Swal.fire({
@@ -246,7 +245,7 @@ const responseFacebook = async (response) => {
       timer: 5000,
       showConfirmButton: false,
       willClose: () => {
-        window.location.href = '/'
+        //window.location.href = '/'
       }
     });
   } catch (error) {
