@@ -9,6 +9,7 @@ DROP PROCEDURE IF EXISTS UsuarioConfirmarCuentaId;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
+DROP PROCEDURE IF EXISTS UsuarioDatosBasicos;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
@@ -25,9 +26,8 @@ DELIMITER //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioRegistro`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioRegistro (
-   IN p_nombre VARCHAR(255),
+   IN p_username VARCHAR(255),
    IN p_correo VARCHAR(320),
    IN p_contraseña VARCHAR(255)
 )
@@ -40,8 +40,8 @@ BEGIN
     
    IF usuarioExistente = 0 THEN
       IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
-         INSERT INTO Usuario (nombre, correo, contraseña, auditoria, confirmacion)
-         VALUES (p_nombre, UPPER(p_correo), p_contraseña, NOW(), 0);
+         INSERT INTO Usuario (username, correo, contraseña, auditoria, confirmacion)
+         VALUES (p_username, UPPER(p_correo), p_contraseña, NOW(), 0);
       ELSE
          SELECT 'correo_invalido' AS 'error';
       END IF;
@@ -54,7 +54,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioCrearTokenValidacion`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioValidarCuenta (
    IN p_correo VARCHAR(320)
 )
@@ -76,9 +75,9 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioRegistroGoogle`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioRegistroGoogle (
-   IN p_nombre VARCHAR(255),
+   IN p_nombre VARCHAR(60),
+   IN p_apellido VARCHAR(60),
    IN p_correo VARCHAR(320),
    IN p_imagen VARCHAR(512),
    IN p_token VARCHAR(255)
@@ -117,7 +116,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioRegistroFacebook`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioRegistroFacebook (
    IN p_nombre VARCHAR(255),
    IN p_imagen VARCHAR(512),
@@ -197,29 +195,35 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`IniciarSesion`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioIniciarSesion (
    IN p_correo VARCHAR(320),
    IN p_contraseña VARCHAR(255)
 )
 BEGIN
-   DECLARE usuarioExistente INT;
-   DECLARE contraseñaCorrecta INT;
-   DECLARE confirmacion_ INT;
+   DECLARE correoInvalido BOOLEAN;
+   DECLARE v_id INT;
+   DECLARE v_contraseña VARCHAR(255);
+   DECLARE v_confirmacion INT;
 
-   SELECT COUNT(*) INTO usuarioExistente
-   FROM Usuario
-   WHERE correo = UPPER(p_correo);
-   
-   IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
-      IF usuarioExistente = 0 THEN
-         SELECT 'correo_no_registrado' AS 'error';
-      ELSE
-         SELECT id FROM Usuario
-         WHERE nombre = p_nombre AND correo = UPPER(p_correo);
-      END IF;
-   ELSE
+   SET correoInvalido = NOT (p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$');
+
+   IF correoInvalido THEN
       SELECT 'correo_invalido' AS 'error';
+   ELSE
+      SELECT id, contraseña, confirmacion INTO v_id, v_contraseña, v_confirmacion
+      FROM Usuario
+      WHERE correo = UPPER(p_correo);
+
+      IF v_id IS NULL THEN
+         SELECT 'correo_no_registrado' AS 'error';
+      ELSEIF v_confirmacion = 0 THEN
+         SELECT 'correo_no_confirmado' AS 'error';
+      ELSE
+         SELECT
+            v_id AS id,
+            v_contraseña AS contraseña,
+            v_confirmacion AS confirmacion;
+      END IF;
    END IF;
    
 END //
@@ -227,7 +231,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioIniciarSesionGoogle`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioIniciarSesionGoogle (
    IN p_correo VARCHAR(320),
    IN p_token VARCHAR(255)
@@ -240,17 +243,16 @@ BEGIN
    WHERE tokenGoogle = p_token;
    
    IF usuarioExistente = 0 THEN
-      SELECT 'correo_no_registrado' AS 'error';
+      SELECT 'cuenta_no_registrada' AS 'error';
    ELSE
-	SELECT id FROM Usuario
-        WHERE tokenGoogle = p_token;
+      SELECT id FROM Usuario
+      WHERE tokenGoogle = p_token;
    END IF;
 END //
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioIniciarSesionFacebook`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioIniciarSesionFacebook (
    IN p_token VARCHAR(255)
 )
@@ -273,6 +275,24 @@ BEGIN
    END IF;
 END //
 
+CREATE PROCEDURE UsuarioDatosBasicos ( 
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT username, nombre, apellido, correo, ligaFotoPerfil FROM Usuario
+      WHERE id = p_id;
+   END IF;
+END //
+
 -- ---------------------------------------------------------------------------------------------------
 --                                         USUARIO PREFERENCIAS
 -- ---------------------------------------------------------------------------------------------------
@@ -280,7 +300,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioAñadirDeseado`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioAñadirDeseado (
    IN p_idUsuario VARCHAR(255),
    IN p_idLugar VARCHAR(255)
@@ -314,7 +333,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioVerDeseados`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioVerDeseados (
    IN p_id INT
 )
@@ -343,7 +361,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioVerFavoritos`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE UsuarioVerFavoritos (
    IN p_id INT
 )
@@ -376,7 +393,6 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarRegistro`
 -- -----------------------------------------------------
-
 CREATE PROCEDURE LugarRegistro (
    IN p_nombre VARCHAR(255),
    IN p_descripcion VARCHAR(255),

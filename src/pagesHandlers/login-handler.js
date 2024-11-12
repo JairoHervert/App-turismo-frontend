@@ -29,7 +29,6 @@ const handleLogin = async (e, correo, contraseña) => {
 
   try {
     const response = await axios.post('http://localhost:3001/iniciar-sesion', { correo, contraseña });
-    // console.log(response.data);
     if (response.data.resultado.id) {
       console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
       localStorage.setItem('access_token', response.data.token);
@@ -89,11 +88,6 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
     console.log(localStorage.getItem('access_token'));
     console.log(localStorage.getItem('id'));
 
-    /*if(response.data !== 'El correo ya está registrado.'){
-      window.location.href = '/';
-    } else {
-      console.log("OwO")
-    }*/
     Swal.fire({
       icon: 'success',
       title: 'Inicio de sesión exitoso',

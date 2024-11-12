@@ -9,23 +9,8 @@ class loginModel {
           reject(err);
         }
         const resultado = results[0][0] || null;
-        let error;
-        if (resultado && resultado.error) {
-          switch (resultado.error) {
-            case 'correo_no_registrado':
-              error = 'El correo no está registrado.';
-              break;
-            case 'contraseña_incorrecta':
-              error = 'La contraseña es incorrecta.';
-              break;
-            case 'cuenta_no_confirmada':
-              error = 'La cuenta no ha sido confirmada. Revisa tu correo para confirmar tu cuenta.';
-              break;
-            default:
-              error = 'Credenciales incorrectas.';
-          }
-          return reject(new Error(error));
-        }
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve({ id: resultado ? resultado.id : null, hashedPassword: resultado ? resultado.contraseña : null, confirmacion: resultado ? resultado.confirmacion : null });
       });
     });
@@ -39,9 +24,8 @@ class loginModel {
           reject(err);
         }
         const resultado = results[0][0] || null;
-        if (resultado && resultado.error) {
-          reject(new Error('Cuenta no registrada'));
-        }
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve({id: resultado ? resultado.id : null});
       });
     });
@@ -55,9 +39,8 @@ class loginModel {
           reject(err);
         }
         const resultado = results[0][0] || null;
-        if (resultado && resultado.error) {
-          reject(new Error('cuenta_no_registrada'));
-        }
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve({id: resultado ? resultado.id : null});
       });
     });

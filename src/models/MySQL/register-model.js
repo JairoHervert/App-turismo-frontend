@@ -17,10 +17,10 @@ class registerModel{
     });
   }
 
-  static async registroGoogle(nombre, correo, imagen, token){
-    const query = 'CALL UsuarioRegistroGoogle (?, ?, ?, ?);';
+  static async registroGoogle(nombre, apellido, correo, imagen, token){
+    const query = 'CALL UsuarioRegistroGoogle (?, ?, ?, ?, ?);';
     return new Promise((resolve, reject) => {
-      db.query(query, [nombre, correo, imagen, token], (err, results) => {
+      db.query(query, [nombre, apellido, correo, imagen, token], (err, results) => {
         if (err) {
           reject(err);
         }

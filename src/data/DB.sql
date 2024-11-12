@@ -24,7 +24,9 @@ USE `AppTurismo`;
 DROP TABLE IF EXISTS `Usuario`;
 CREATE TABLE `Usuario` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(255) NOT NULL,
+  `username` VARCHAR(30),
+  `nombre` VARCHAR(60),
+  `apellido` VARCHAR(60),
   `correo` VARCHAR(320) NOT NULL,
   `contraseña` VARCHAR(255) NOT NULL,
   `ligaFotoPerfil` VARCHAR(512),

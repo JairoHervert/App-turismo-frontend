@@ -125,13 +125,14 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
   }
 };
 
-const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
+const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => {
   try {
     const response = await axios.post('http://localhost:3001/registroGoogle', {
-      correo,
-      nombre,
-      imagen,
-      token,
+      nombre: nombre,
+      apellido: apellido,
+      correo: correo,
+      imagen: imagen,
+      token: token,
     });
 
     console.log(response);
@@ -189,13 +190,15 @@ const successGoogleHandler = async (tokenResponse) => {
         },
       }
     );
-    //console.log('Información del usuario:', userInfo.data);
+    console.log('Información del usuario:', userInfo.data);
 
     await handleRegistroGoogle(
+      userInfo.data.given_name,
+      userInfo.data.family_name,
       userInfo.data.email,
-      userInfo.data.name,
       userInfo.data.picture,
-      userInfo.data.sub);
+      userInfo.data.sub
+    );
     console.log(userInfo);
 
   } catch (error) {

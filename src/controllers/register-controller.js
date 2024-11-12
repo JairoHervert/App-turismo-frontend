@@ -28,9 +28,9 @@ class registerController {
   }
 
   static async registroGoogle(req, res) {
-    const { nombre, correo, imagen, token } = req.body;
+    const { nombre, apellido, correo, imagen, token } = req.body;
     registerModel
-      .registroGoogle(nombre, correo, imagen, token)
+      .registroGoogle(nombre, apellido, correo, imagen, token)
       .then((resultado) => {
         res.status(201).json(resultado);
       })
@@ -57,19 +57,6 @@ class registerController {
         }
         res.status(500).json({ error: err.message });
       });
-  }
-  static async registroGoogle(req, res) {
-    const { nombre, correo, imagen, token } = req.body;
-    
-    try {
-      const resultado = registerModel.registroGoogle(nombre, correo, imagen, token)
-      res.status(201).json(resultado);
-    }
-    catch (err) {
-      if(err.message === 'correo_ya_registrado')
-        return res.status(400).json({ error: 'El correo ya está registrado.'});
-      res.status(500).json({ error: err.message });
-    }
   }
 
   static async enviarCorreoVerificacion(req, res){
