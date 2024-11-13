@@ -104,7 +104,9 @@ function FavoritesPage() {
                 />
               ))
             ) : (
-              <p>No se encontraron lugares favoritos.</p>
+              <div className='d-flex justify-content-center'>
+                <h3 className='fw-bold'>No se encontraron lugares favoritos.</h3>
+              </div>
             )}
             {/*
             <ItemFavoritos

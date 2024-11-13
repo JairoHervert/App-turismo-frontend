@@ -127,7 +127,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     Swal.fire({
       icon: 'error',
       title: 'Registro fallido',
-      text: 'Algo falló en la solicitud',
+      text: errorMsg,
       timer: 5000,
       showConfirmButton: false
     });

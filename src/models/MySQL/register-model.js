@@ -13,6 +13,8 @@ class registerModel{
           }
           reject(err);
         }
+        const resultado = results || null;
+        console.log(resultado);
         if (resultado && resultado.error)
           return reject(new Error(resultado.error));
         resolve({ message: 'Usuario creado'});
@@ -28,8 +30,12 @@ class registerModel{
           reject(err);
         }
         const resultado = results || null;
-        if (resultado && resultado.error) {
-          let errorMessage = errorHandler(resultado.error);
+        console.log(resultado);
+        console.log(resultado[0]);
+        console.log(resultado[0][0]);
+        console.log(resultado[0][0].error);
+        if (resultado && resultado[0][0].error) {
+          let errorMessage = errorHandler(resultado[0][0].error);
           return reject(new Error(errorMessage));
         }
         resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}

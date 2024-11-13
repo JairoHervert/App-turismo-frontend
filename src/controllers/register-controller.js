@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const transporter = require('../configs/nodemailer-config');
 const jwt = require('jsonwebtoken');
+const { errorHandler } = require('../pagesHandlers/error-handler');
 
 class registerController {
   static async registroRegular(req, res) {
@@ -19,6 +20,7 @@ class registerController {
         .catch((err) => {
           if (err.message) {
             let mensajeError = errorHandler(err.message);
+            // console.log(mensajeError);
             return res.status(400).json({ error: mensajeError });
           }
           res.status(500).json({ error: err.message });

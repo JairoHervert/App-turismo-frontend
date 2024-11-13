@@ -49,7 +49,7 @@ else{
           <div>
             <h1 className='fw-bolder fontMontserrat co_re-titulo mb-5'>¡Registro no exitoso!</h1>
             <h2 className='fw-medium fs-3'>Lo sentimos, no se ha podido confirmar tu registro.</h2>
-            <h3 className='fs-3'>Por favor, intenta de nuevo o <Link className='co_re-iniciar-sesion' to='/register'>Registrarse nuevamente</Link> para continuar.</h3>
+            <h3 className='fs-3'>Por favor, intenta de nuevo o vuelve a <Link className='co_re-iniciar-sesion' to='/register'>registro</Link> para continuar.</h3>
           </div>
       </div>
       <Footer showIncorporaLugar={false} />
