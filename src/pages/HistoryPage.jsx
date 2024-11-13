@@ -1,5 +1,8 @@
 import React from 'react';
+import { Card, CardMedia, CardActionArea, CardActions, CardContent, Typography, Button, IconButton, Box, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, InputAdornment } from '@mui/material';
+import { Search as SearchIcon, Bookmark as BookmarkIcon } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
+
 import '../css/History.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -47,26 +50,54 @@ function SearchHistoryPageHistory() {
           </b>
 
           <div className="controls-container-history">
-            <div className="search-container position-relative">
-              <i className="bi bi-search position-absolute" style={{ left: '10px', top: '18px', transform: 'translateY(-50%)' }}></i>
-              <input
-                type="text"
-                className="search-bar-history"
-                placeholder="Buscar en el historial"
-                onChange={(e) => console.log('Buscar:', e.target.value)}
-              />
-            </div>
-            <button className='btn btn-primary v' type='button'>
-              <i className="bi bi-funnel-fill"></i> Filtrar
-            </button>
-            <button className='btn btn-primary btn-history ' type='button'>
-              <i className="bi bi-trash-fill"></i> Borrar historial
-            </button>
+          <TextField
+                label="Buscar en el historial"
+                variant="outlined"
+                size="small"
+                sx={{ maxWidth: 250 }}
+                InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                    <SearchIcon />
+                    </InputAdornment>
+                ),
+                }}
+            />
+
+                        <Button
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        marginBottom: '8px',
+                        backgroundColor: '#e4007c',
+                        '&:hover': {
+                          backgroundColor: '#c3006a', // Color al hacer hover (opcional)
+                        },
+                      }}
+                    >
+                      filtrar
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      sx={{
+                        marginBottom: '8px',
+                        backgroundColor: '#e4007c',
+                        '&:hover': {
+                          backgroundColor: '#c3006a', // Color al hacer hover (opcional)
+                        },
+                      }}
+                    >
+                      Borrar historial
+                    </Button>
+
+
           </div>
         </div>
         <SearchHistoryBox searchHistory={searchHistoryHistory} date={todayDate} />
+
       </div>
-      <DropdownMenu />
+      
 
       <Footer showIncorporaLugar={false} />
     </div>

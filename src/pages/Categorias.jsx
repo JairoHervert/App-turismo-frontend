@@ -4,7 +4,7 @@ import '../css/Categorias.css';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import ItemFavoritos from '../components/categoria/ItemCategoria';
-
+import { Card, CardMedia, CardActionArea, CardActions, CardContent, Typography, Button, IconButton, Box, Grid, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, InputAdornment } from '@mui/material';
 import Imagen1 from '../img/Categorias/zocalo.png';
 import Imagen2 from '../img/Categorias/chapultepec.png';
 import Imagen3 from '../img/Categorias/mfk.png';
@@ -27,13 +27,32 @@ function SearchCategoryPage() {
       />
 
       {/* Encabezado de la página */}
-      <div className="text-center-category my-4">
-        <h1 className='fw-bolder fontMontserrat mb-4 us_de-deseados-text text-ptv-category'>Personaliza tu viaje</h1>
-        <button className="btn-category mt-3 btn-config-reg-category">Regresar</button>
-      </div>
+      <div>
+  
 
-      <div className="search-category-background-category d-flex flex-column justify-content-center">
-        
+      <div className="search-category-background-category d-flex flex-column justify-content-center bg-color-category">
+      <div className='item-align-categorias'>
+<div className=''>
+
+
+  </div>
+  <h1 className='it-page-title'>¡Personaliza tu viaje!</h1>
+</div>
+<Button
+    variant="contained"
+    size="large"
+    sx={{
+      marginRight:'1300px',
+      top:'-80px',
+      backgroundColor: '#e4007c',
+      '&:hover': {
+        backgroundColor: '#c3006a', // Color al hacer hover (opcional)
+      },
+    }}
+  >
+    Regresar
+  </Button>
+
         <div className="container-category">
           {/* Caja izquierda con las categorías */}
           <div className="left-box-category">
@@ -94,7 +113,18 @@ function SearchCategoryPage() {
           {/* Caja derecha con las selecciones */}
           <div className="right-box-category">
             <h5 className="selection-title-category">Selecciones</h5>
-            <button className="btn-clear-category">Limpiar selecciones</button> 
+            <Button
+    variant="contained"
+    size="large"
+    sx={{
+      backgroundColor: '#e4007c',
+      '&:hover': {
+        backgroundColor: '#c3006a', // Color al hacer hover (opcional)
+      },
+    }}
+  >
+    Limpiar selecciones
+  </Button>
             {/* bi bi-funnel-fill" */}
             <div className="selection-list-category mt-3">
               {['Restaurantes', 'Museos', 'Bares', 'Zoológicos'].map((item, index) => (
@@ -105,12 +135,24 @@ function SearchCategoryPage() {
               ))}
             </div>
             
-            <button className="btn-category-back mt-3">Regresar</button>
-          </div>
+            <Button
+    variant="contained"
+    size="large"
+    sx={{
+      backgroundColor: '#e4007c',
+      '&:hover': {
+        backgroundColor: '#c3006a', // Color al hacer hover (opcional)
+      },
+      marginTop:'8px'
+    }}
+  >
+    Regresar
+  </Button>          </div>
         </div>
       </div>
 
       <Footer showIncorporaLugar={false} />
+    </div>
     </div>
   );
 }
