@@ -21,3 +21,31 @@
         min-width: auto; 
     }
 }
+
+@media (max-width: 415px) {
+    .it-res-card {
+        flex-direction: column; 
+        min-width: 305px;
+    }
+
+    .it-card-title {
+        font-size: 0.1rem;
+        font-weight: bold;
+    }
+
+    .it-res-card .MuiCardMedia-root { 
+        width: 100%;
+        height: 0%; 
+    }
+
+    .it-res-card .MuiBox-root {
+        flex-direction: column;    
+        padding: 8px; 
+        min-width: 100%;
+    }
+
+    .it-res-card .MuiBox-root {
+        flex-direction: column; 
+        min-width: 50%; 
+    }
+}
