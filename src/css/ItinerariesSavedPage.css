@@ -1,12 +1,12 @@
-.my-4 {
+.it-my-4 {
     margin: 1rem 0;
 }
 
-.mb-4 {
+.it-mb-4 {
     margin-bottom: 1rem;
 }
 
-.mb-2 {
+.it-mb-2 {
     margin-bottom: 0.5rem;
 }
 
@@ -28,9 +28,7 @@
         font-size: 2.2rem;
     }
 
-    .MuiTextField-root {
-        max-width: 200px;
-    }
+
 }
 
 @media (max-width: 745px) {
@@ -42,9 +40,17 @@
         font-size: 1.5rem;
     }
 
-    .MuiTextField-root {
-        max-width: 150px;
+}
+
+@media (max-width: 415px) {
+    .it-page-title {
+        font-size: 1.2rem;
     }
+
+    .it_pag-icono-book {
+        font-size: 1.2rem;
+    }
+
 }
 
 

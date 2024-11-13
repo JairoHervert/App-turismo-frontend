@@ -25,9 +25,9 @@ function ItinirariesSavePage() {
             staticNavbar={false}
         />
 
-        <Container maxWidth='lg' className='my-4'>
-            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
-            <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
+        <Container maxWidth='lg' className='it-my-4'>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='it-mb-4' justifyContent={{ sm: 'space-between' }}>
+            <Stack direction='row' spacing={1} alignItems='center' className='it-mb-2'>
                 <BookmarkIcon color='primary' fontSize='inhert' className='it_pag-icono-book' /> {/* Ahora usa el color primario del tema */}
                 <h1 className='it-page-title'>Itinerarios guardados</h1>
             </Stack>
