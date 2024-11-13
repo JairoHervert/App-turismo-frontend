@@ -405,15 +405,15 @@ BEGIN
       SELECT 'usuario_no_existente' AS 'error';
    ELSE
       SELECT
-      l.id AS id,
-      l.nombre AS nombre,
-      l.descripcion AS descripcion,
-      l.direccion AS direccion,
-      l.imagen AS imagen,
-      l.tiempo AS tiempo,
-      l.costo AS costo,
-      l.accesibilidad AS accesibilidad
-      #AVG()
+         l.id AS id,
+         l.nombre AS nombre,
+         l.descripcion AS descripcion,
+         l.direccion AS direccion,
+         l.imagen AS imagen,
+         l.tiempo AS tiempo,
+         l.costo AS costo,
+         l.accesibilidad AS accesibilidad
+         #AVG()
       FROM LugarDeseado
       JOIN Lugar l ON LugarDeseado.idLugar = l.id
       WHERE LugarDeseado.idUsuario = p_id;
@@ -437,10 +437,14 @@ BEGIN
       SELECT 'usuario_no_existente' AS 'error';
    ELSE
       SELECT
+         l.id AS id,
          l.nombre AS nombre,
          l.descripcion AS descripcion,
          l.direccion AS direccion,
-         l.costo AS costo
+         l.imagen AS imagen,
+         l.tiempo AS tiempo,
+         l.costo AS costo,
+         l.accesibilidad AS accesibilidad
          #AVG()
       FROM LugarFavorito
       JOIN Lugar l ON LugarFavorito.idLugar = l.id

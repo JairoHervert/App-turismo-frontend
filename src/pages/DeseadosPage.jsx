@@ -7,16 +7,16 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
 import CuadroLugar from '../components/deseados/UDCuadroLugar';
 import MenuFiltros from '../components/deseados/MenuFiltros';
+
 import { handleDeseados } from '../pagesHandlers/user_handler';
 import { useEffect, useState } from 'react';
 import { isLogged } from '../schemas/isLogged';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../css/DeseadosPage.css';
 
 function DeseadosPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  //const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [deseados, setDeseados] = useState([]);
-  //const [id, setId] = useState()
   const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
@@ -116,6 +116,7 @@ function DeseadosPage() {
               deseados.map((lugar, index) => (
                 <CuadroLugar
                   key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
+                  idLugar={lugar.id}
                   nombreLugar={lugar.nombre}
                   descripcionLugar={lugar.descripcion}
                   imagenLugar={lugar.imagen}
