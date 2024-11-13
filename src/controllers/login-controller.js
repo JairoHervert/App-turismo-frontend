@@ -6,7 +6,7 @@ const { errorHandler } = require('../pagesHandlers/error-handler');
 
 class loginController{
 
-  static async iniciarSesion(req, res){
+  static async iniciarSesion(req, res) {
     const { correo, contraseña } = req.body;
 
     const tokenJWT = (id, username, nombre, apellido, correo, imagen) => {

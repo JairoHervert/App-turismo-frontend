@@ -12,6 +12,7 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 DROP PROCEDURE IF EXISTS UsuarioDatosBasicos;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
+DROP PROCEDURE IF EXISTS UsuarioAñadirFavorito;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
@@ -355,6 +356,39 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioAñadirFavorito`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioAñadirFavorito (
+   IN p_idUsuario INT,
+   IN p_idLugar INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   DECLARE lugarExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_idUsuario;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   END IF;   
+   
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_idLugar;
+   
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_existente' AS 'error';
+   END IF;
+   
+   IF usuarioExistente = 1 AND lugarExistente = 1 THEN
+      INSERT INTO LugarFavorito (idUsuario, idLugar, auditoria)
+      VALUES (p_idUsuario, p_idLugar, NOW());
+   END IF;
+END //
+
+-- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioVerDeseados`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioVerDeseados (
@@ -371,10 +405,14 @@ BEGIN
       SELECT 'usuario_no_existente' AS 'error';
    ELSE
       SELECT
+      l.id AS id,
       l.nombre AS nombre,
       l.descripcion AS descripcion,
       l.direccion AS direccion,
-      l.costo AS costo
+      l.imagen AS imagen,
+      l.tiempo AS tiempo,
+      l.costo AS costo,
+      l.accesibilidad AS accesibilidad
       #AVG()
       FROM LugarDeseado
       JOIN Lugar l ON LugarDeseado.idLugar = l.id
@@ -418,9 +456,13 @@ END //
 -- Process `AppTurismo`.`LugarRegistro`
 -- -----------------------------------------------------
 CREATE PROCEDURE LugarRegistro (
-   IN p_nombre VARCHAR(255),
-   IN p_descripcion VARCHAR(255),
-   IN p_direccion VARCHAR(255)
+   IN p_nombre VARCHAR(128),
+   IN p_descripcion VARCHAR(1024),
+   IN p_direccion VARCHAR(255),
+   IN p_imagen VARCHAR(512),
+   IN p_tiempo VARCHAR(15),
+   IN p_costo VARCHAR(15),
+   IN p_accesibilidad BOOLEAN
 )
 BEGIN
    DECLARE lugarExistente INT;
@@ -430,8 +472,8 @@ BEGIN
    WHERE nombre = p_nombre;
     
    IF lugarExistente = 0 THEN
-      INSERT INTO Lugar (nombre, descripcion, direccion, auditoria)
-      VALUES (p_nombre, p_descripcion, p_direccion, NOW());
+      INSERT INTO Lugar (nombre, descripcion, direccion, imagen, tiempo, costo, accesibilidad, auditoria)
+      VALUES (p_nombre, p_descripcion, p_direccion, p_imagen, p_tiempo, p_costo, p_accesibilidad, NOW());
    ELSE
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;

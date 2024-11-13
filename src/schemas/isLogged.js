@@ -25,7 +25,7 @@ const isLogged = async() => {
     // Imagen de perfil
     if(response.data.decoded.imagen)
       imagen = response.data.decoded.imagen;
-    return {logged: true, data: {username: nombreUsuario, imagen: imagen}};
+    return {logged: true, data: {id: id, username: nombreUsuario, imagen: imagen}};
   }
   else if(facebookToken) {
     const response = await axios.post('http://localhost:3001/isLogged', {id, token});
@@ -40,7 +40,7 @@ const isLogged = async() => {
     // Imagen de perfil
     if(response.data.decoded.imagen)
       imagen = response.data.decoded.imagen;
-    return {logged: true, data: {username: nombreUsuario, imagen: imagen}};
+    return {logged: true, data: {id: id, username: nombreUsuario, imagen: imagen}};
   }
   else {
     // Aquí solo sería modificar la respuesta de la petición en el backend para que me regrese el username y no el token decoded,
@@ -57,7 +57,7 @@ const isLogged = async() => {
     // Imagen de perfil
     if(response.data.decoded.imagen)
       imagen = response.data.decoded.imagen;
-    return {logged: response.data.logged, data: {username: nombreUsuario, imagen: imagen}};
+    return {logged: response.data.logged, data: {id: id, username: nombreUsuario, imagen: imagen}};
   }
 };
 

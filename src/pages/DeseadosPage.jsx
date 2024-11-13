@@ -7,9 +7,49 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
 import CuadroLugar from '../components/deseados/UDCuadroLugar';
 import MenuFiltros from '../components/deseados/MenuFiltros';
+import { handleDeseados } from '../pagesHandlers/user_handler';
+import { useEffect, useState } from 'react';
+import { isLogged } from '../schemas/isLogged';
+import { Link, useNavigate } from 'react-router-dom';
 import '../css/DeseadosPage.css';
 
 function DeseadosPage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [deseados, setDeseados] = useState([]);
+  //const [id, setId] = useState()
+  const navigate = useNavigate(); // Inicializa useNavigate
+
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        if (!loggedIn.logged) {
+          navigate('/login');
+          return;
+        }
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+        navigate('./login');
+      }
+    };
+
+    const fetchDeseados = async () => {
+      try {
+        const id = localStorage.getItem('id');
+        console.log(id);
+        
+        const resultado = await handleDeseados(id); // Espera la resolución de la promesa
+        setDeseados(resultado);
+        console.log(deseados);
+      } catch (error) {
+        console.error('Error al obtener lugares deseados:', error);
+      }
+    };
+
+    fetchLoginStatus();
+    fetchDeseados(); // Llama a la función para obtener los datos
+  }, []);
+
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -71,8 +111,22 @@ function DeseadosPage() {
         </div> {/* fin-titulo_y_buscador */}
 
         <div className='row'>
-          <div className='col-12 col-xl-9 us_de-scrollable-column'>
-            <CuadroLugar
+          <div id='contenedorDeseados' className='col-12 col-xl-9 us_de-scrollable-column'>
+            {deseados && deseados.length > 0 ? (
+              deseados.map((lugar, index) => (
+                <CuadroLugar
+                  key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
+                  nombreLugar={lugar.nombre}
+                  descripcionLugar={lugar.descripcion}
+                  imagenLugar={lugar.imagen}
+                  tiempoLugar={lugar.tiempo}
+                  costoLugar={lugar.costo}
+                />
+              ))
+            ) : (
+              <p>No se encontraron lugares deseados.</p>
+            )}
+            {/*<CuadroLugar
               nombreLugar='Álvaro Obregón'
               descripcionLugar='Descubre el encanto de Álvaro Obregón, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.'
               imagenLugar='home-places-alvaro-obregon.jpg'
@@ -106,6 +160,7 @@ function DeseadosPage() {
               imagenLugar='home-places-xochimilco.jpg'
               tiempoLugar='3 hrs'
               costoLugar='Gratis' />
+              */}
           </div>
           <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
             <div className='us_de-contenedor-filtros my-4 d-flex flex-column justify-content-center align-items-center'>

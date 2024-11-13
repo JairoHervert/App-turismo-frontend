@@ -46,12 +46,13 @@ ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 DROP TABLE IF EXISTS `Lugar`;
 CREATE TABLE `Lugar` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `descripcion` VARCHAR(255) NOT NULL,
-  #`calificacion` FLOAT NOT NULL,
+  `nombre` VARCHAR(128) NOT NULL,
+  `descripcion` VARCHAR(1024) NOT NULL,
   `direccion` VARCHAR(255) NOT NULL,
-  `costo` FLOAT,
-  #`accesibilidad` INT NOT NULL,
+  `imagen` VARCHAR(512),
+  `tiempo` VARCHAR(15),
+  `costo` VARCHAR(15),
+  `accesibilidad` BOOLEAN DEFAULT 0,
   `auditoria` DATETIME NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

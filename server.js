@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const loginController = require('./src/controllers/login-controller');
 const registerController = require('./src/controllers/register-controller');
+const userController = require('./src/controllers/user-controller');
 const confirmacionRegistroController = require('./src/controllers/confirmacionRegistro-controller');
 const cookieParser = require('cookie-parser');
 const doenv = require('dotenv').config();
@@ -26,6 +27,7 @@ app.post('/registro_Facebook', registerController.registroFacebook);
 app.post('/iniciar-sesion', loginController.iniciarSesion);
 app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/login_Facebook', loginController.iniciarSesionFacebook);
+app.post('/user_deseados', userController.verDeseados);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;
