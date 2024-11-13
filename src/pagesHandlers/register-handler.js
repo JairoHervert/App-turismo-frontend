@@ -126,7 +126,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     console.error(err);
     Swal.fire({
       icon: 'error',
-      title: 'Inicio de sesión fallido',
+      title: 'Registro fallido',
       text: 'Algo falló en la solicitud',
       timer: 5000,
       showConfirmButton: false
@@ -149,7 +149,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
     if(response.data !== 'El correo ya está registrado.'){
       Swal.fire({
         icon: 'success',
-        title: 'Inicio de sesión exitoso',
+        title: 'Registro con Google exitoso',
         text: '¡Bienvenido! Has registrado tu cuenta de Google correctamente.',
         timer: 5000,
         showConfirmButton: false,
@@ -165,7 +165,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
       console.error("Error:", error.response.data.error);
       Swal.fire({
         icon: 'error',
-        title: 'Inicio de sesión fallido',
+        title: 'Registro con Google fallido',
         text: error.response.data.error,
         timer: 5000,
         showConfirmButton: false
@@ -174,7 +174,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
       console.error("Error al intentar iniciar sesión:", error);
       Swal.fire({
         icon: 'error',
-        title: 'Inicio de sesión fallido',
+        title: 'Registro con Googl fallido',
         text: 'Algo falló en la solicitud',
         timer: 5000,
         showConfirmButton: false
@@ -240,19 +240,19 @@ const responseFacebook = async (response) => {
     console.log(name, picture, userID);
     Swal.fire({
       icon: 'success',
-      title: 'Inicio de sesión exitoso',
+      title: 'Registro con Facebook exitoso',
       text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
       timer: 5000,
       showConfirmButton: false,
       willClose: () => {
-        //window.location.href = '/'
+        window.location.href = '/login'
       }
     });
   } catch (error) {
     console.error('Error al registrar usuario con Facebook:', error);
     Swal.fire({
       icon: 'error',
-      title: 'Inicio de sesión fallido',
+      title: 'Registro con Facebook fallido',
       text: error.response.data.error,
       timer: 5000,
       showConfirmButton: false
