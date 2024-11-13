@@ -7,8 +7,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { useGoogleLogin } from '@react-oauth/google';
 
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -272,15 +270,9 @@ function RegisterPage() {
                             <IconButton >
                               <GoogleIcon />
                             </IconButton>
-                            <FacebookLogin
-                              appId="YOUR_APP_ID"
-                              autoLoad={false}
-                              render={(renderProps) => (
-                                <IconButton onClick={renderProps.onClick}>
-                                  <FacebookRoundedIcon />
-                                </IconButton>
-                              )}
-                            />
+                            <IconButton>
+                              <FacebookRoundedIcon />
+                            </IconButton>
                           </Box>
                         </Box>
 
