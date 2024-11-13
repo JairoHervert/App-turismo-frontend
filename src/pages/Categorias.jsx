@@ -105,7 +105,7 @@ function SearchCategoryPage() {
               ))}
             </div>
             
-            <button className="btn-category-back mt-3">Regresar</button>
+            <button className="btn-category-back mt-3">Continuar</button>
           </div>
         </div>
       </div>
