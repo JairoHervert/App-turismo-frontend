@@ -1,7 +1,7 @@
-import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, Grid, TextField, Box, InputAdornment } from '@mui/material';
 import { Search as SearchIcon, FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
+import Pagination from '@mui/material/Pagination';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import ItemFavoritos from '../components/favorites/ItemFavoritos';

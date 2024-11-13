@@ -69,7 +69,6 @@ function LoginPage() {
     e.preventDefault();
     setFormSubmitted(true);
 
-    // Si ambos campos están llenos, puedes realizar tu lógica de inicio de sesión aquí.
     if (correo && contraseña) {
       // Lógica de inicio de sesión...
       console.log("Iniciando sesión...");

@@ -26,7 +26,7 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                     <a className='link-google-maps' href='#'>Ver en GoogleMaps</a>
                     <div className='description-left row gx-0'>
                         <div className='col-1 col-icon'>
-                            <i class="bi bi-geo-alt-fill"></i>
+                            <i className="bi bi-geo-alt-fill"></i>
                         </div>
                         <div className='col'>
                         <p className='place-description'>{placeDireccion}</p>
@@ -34,7 +34,7 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                     </div>
                     <div className='row gx-0'>
                         <div className='col-1 col-icon'>
-                            <i class="bi bi-currency-dollar"></i>
+                            <i className="bi bi-currency-dollar"></i>
                         </div>
                         <div className='col'>
                             <p className='place-description'>{placeCosto}</p>
@@ -43,7 +43,7 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                     </div>
                     <div className='row gx-0'>
                         <div className='col-1 col-icon'>
-                        <i class="bi bi-person-wheelchair"></i>
+                        <i className="bi bi-person-wheelchair"></i>
                         </div>
                         <div className='col'>
                             <p className='place-description'>{placeAccesibilidad}</p>
@@ -51,7 +51,7 @@ function DescripcionLugar({placeDireccion, placeCosto, placeAccesibilidad, place
                     </div>
                     <div className='row gx-0'>
                         <div className='col-1 col-icon'>
-                            <i class="bi bi-clock"></i>
+                            <i className="bi bi-clock"></i>
                         </div>
                         <div className='col'>
                             <p className='place-description'>{placeHorario}</p>
