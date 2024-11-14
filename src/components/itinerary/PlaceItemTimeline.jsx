@@ -31,7 +31,7 @@ function PlaceItemTimeline({ finalItem, placeName, placeImage, placeDescription,
 
             <Box className='d-flex p-1'>
               <img src={placeImage} alt={placeName} className='rounded it_page-img-item' />
-              <Box className='d-flex flex-column mx-4 align-items-center justify-content-center'>
+              <Box className='d-flex flex-column mx-3 align-items-center justify-content-center'>
                 <Typography className='text-center' fontFamily={'poppins'} variant='h6' color='black'>{placeName}</Typography>
                 <Typography className='text-center fw-light' fontFamily={'poppins'} variant='body1' color='black'>{placeDescription}</Typography>
                 <Rating name="read-only" value={4} readOnly />
