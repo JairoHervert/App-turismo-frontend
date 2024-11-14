@@ -17,7 +17,7 @@ function Calendario({ diasMes }) {
                 ))}
             </Grid>
 
-            <Grid container spacing={1} justifyContent="center">
+            <Grid container spacing={1} justifyContent="left">
                 {diasMes.map((dia, index) => (
                     <Grid key={index} item xs={12 / 7} className="ca-dia">
                         <Typography variant="body1">{dia}</Typography>
