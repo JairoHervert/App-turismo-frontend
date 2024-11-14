@@ -100,6 +100,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
                       <li><Link className='dropdown-item' to='/resume-page'>Página de resumen</Link></li>
                       <li><Link className='dropdown-item' to='/itinerary'>Página de itinerario</Link></li>
+                      <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
 
                       {/* <li><Link className='dropdown-item' to='/register'>Registrate</Link></li>  */}
 

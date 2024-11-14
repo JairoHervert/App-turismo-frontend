@@ -14,6 +14,7 @@ import HistorialBusqueda from '../pages/HistoryPage';
 import GenerarItinerario from '../pages/GenerarItinerario';
 import CategoriasPage from '../pages/Categorias';
 import ResumePage from '../pages/ResumenPage';
+import RegisterPlacePage from '../pages/RegisterPlacePage';
 
 
 function AppRouter() {
@@ -35,6 +36,7 @@ function AppRouter() {
         <Route path='/placepage' element={<PlacePage />} />
         <Route path='/generar-itinerario' element={<GenerarItinerario />} />
         <Route path='/resume-page' element={<ResumePage />}/>
+        <Route path='/register-place-page' element={<RegisterPlacePage />}/>
       </Routes>
     </Router>
   );

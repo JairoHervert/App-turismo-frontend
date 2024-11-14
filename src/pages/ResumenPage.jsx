@@ -9,7 +9,7 @@ import { ArrowBackIos as Arrowb } from '@mui/icons-material';
 import CardResume from '../components/resume/CardResume'; // Asegúrate de importar el componente correcto
 
 function ResumePage() {
-    const diasMes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // Ejemplo de días del mes
+    const diasMes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,15]; // Ejemplo de días del mes
 
     return (
         <ThemeProvider theme={ThemeMaterialUI}>
