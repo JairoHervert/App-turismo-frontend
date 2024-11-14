@@ -472,7 +472,8 @@ h2 {
     border: 1px solid white !important;
     /* Cambia el color del borde a blanco */
     border-radius: 0 !important;
-    /* Elimina esquinas redondeadas */
+    /*pone el borde con sombreado*/
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .custom-card .card-img-top {
