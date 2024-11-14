@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../css/RegisterPage.css';
-import Navbar from '../components/NavBar';
-import Footer from '../components/Footer';
-import imgFormulario from '../img/registerIMGA.jpg';
-import { useGoogleLogin } from '@react-oauth/google';
+import { ThemeProvider } from '@mui/material/styles';
+import { Container, Grid, Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { useGoogleLogin } from '@react-oauth/google';
+
+import Navbar from '../components/NavBar';
+import Footer from '../components/Footer';
+import LeftImage from '../components/login/LeftImage';
+
 import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
-import { validateName, validateEmail, validatePassword, validateConfirmPassword } from '../schemas/validacionRegister';
+
+import imgRegister from '../img/registerIMGA.jpg';
+
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
+import '../css/RegisterPage.css';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -18,28 +28,45 @@ function RegisterPage() {
   const [contraseña, setContraseña] = useState('');
   const [contraseña2, setContraseña2] = useState('');
   const [errors, setErrors] = useState({});
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const handleHomeClick = () => {
-    navigate('/');
+  // Validaciones de la contraseña
+  const validarContraseña = (contraseña) => {
+    const rules = {
+      longitudValida: /^(?=.{2,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
+      mayuscula: /[A-Z]/.test(contraseña), // Al menos una mayúscula
+      minuscula: /[a-z]/.test(contraseña), // Al menos una minúscula
+      numero: /\d/.test(contraseña), // Al menos un número
+      noVacio: contraseña.length > 0, // La contraseña no puede estar vacía
+    };
+    return rules;
   };
 
-  // Validación en tiempo real para cada campo
+  // Validación del nombre de usuario
+  const validarUser = (usermame) => {
+    const rules = {
+      longitudValida: /^(?=.{2,60}$)/.test(usermame), // Longitud mínima de 8 y máxima de 60 caracteres
+      noVacio: usermame.length > 0, // El nombre de usuario no puede estar vacío
+    };
+    return rules;
+  };
+
+  const validarConfirmarContraseña = (contraseña, confirmacion) => {
+    return contraseña === confirmacion;
+  };
+
   const handleNameChange = (e) => {
     const value = e.target.value;
     setNombre(value);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      nombre: validateName(value),
+      nombre: validarUser(value),  // Validar nombre de usuario
     }));
   };
 
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setCorreo(value);
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      correo: validateEmail(value),
-    }));
   };
 
   const handlePasswordChange = (e) => {
@@ -47,7 +74,7 @@ function RegisterPage() {
     setContraseña(value);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      contraseña: validatePassword(value),
+      contraseña: validarContraseña(value),
     }));
   };
 
@@ -56,20 +83,57 @@ function RegisterPage() {
     setContraseña2(value);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      contraseña2: validateConfirmPassword(contraseña, value),
+      contraseña2: validarConfirmarContraseña(contraseña, value),
     }));
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    setFormSubmitted(true);
 
-    // Verificar que no haya errores antes de llamar a handleRegistro
-    if (!errors.nombre && !errors.correo && !errors.contraseña && !errors.contraseña2) {
-      handleRegistro(e, nombre, correo, contraseña);
-    } else {
-      alert('Por favor, corrige los errores en el formulario antes de enviar.');
+    // Validar si los campos no están vacíos
+    if (!nombre || !correo || !contraseña || !contraseña2) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        camposObligatorios: true, // Añadir error para campos vacíos
+      }));
+      return;
+    }
+
+    // Validar contraseñas
+    const passwordRules = validarContraseña(contraseña);
+    const passwordsMatch = validarConfirmarContraseña(contraseña, contraseña2);
+
+    // Si la contraseña no cumple las reglas
+    if (!passwordRules.longitudValida || !passwordRules.mayuscula || !passwordRules.minuscula || !passwordRules.numero || !passwordRules.noVacio) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        contraseña: passwordRules,
+      }));
+    }
+
+    // Si las contraseñas no coinciden
+    if (!passwordsMatch) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        contraseña2: false, // Marcar error en confirmar contraseña
+      }));
+    }
+
+    // Si todo está correcto, proceder con el registro
+    if (nombre && correo && contraseña && contraseña2 && passwordsMatch && passwordRules.longitudValida && passwordRules.mayuscula && passwordRules.minuscula && passwordRules.numero) {
+      handleRegistro(e, nombre, correo, contraseña, contraseña2);
     }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
+  const handleMouseDownPassword = (e) => e.preventDefault();
+
+  const handleHomeClick = () => navigate('/');
 
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: successGoogleHandler,
@@ -77,125 +141,175 @@ function RegisterPage() {
   });
 
   return (
-    <div className='vh-100 vw-100'>
-      <Navbar
-        showingresa={true}
-        showRegistrate={false}
-        transparentNavbar={false}
-        lightLink={false}
-        staticNavbar={false}
-      />
+    <ThemeProvider theme={ThemeMaterialUI}>
+      <Box className="register-background">
+        <Box className="lo_pa-container-tool">
+          <Navbar
+            showingresa={false}
+            showRegistrate={false}
+            transparentNavbar={false}
+            lightLink={false}
+            staticNavbar={false}
+          />
+          <Container maxWidth="md" disableGutters className="my-5 py-4 d-flex align-items-center justify-content-center">
+            <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
+              {/* Left Image Section */}
+              <Grid item xs={12} md={6} className="register-left-container">
+                <LeftImage
+                  imageUrl={imgRegister}
+                  nombreFotografo="Daniel Zepeda"
+                />
+              </Grid>
 
-      <div className="register-background vh-100 vw-100 d-flex justify-content-center align-items-center">
-        <div className="register-box d-flex flex-column rounded">
-          <div className="close-icon" onClick={handleHomeClick}>✕</div>
-          <div className="register-content d-flex">
+              {/* Form Section */}
+              <Grid item xs={12} md={6}>
+                <Box className="register-right-form bg-light">
+                  <Box className="mx-3 pb-5 pt-3">
+                    <Box className="d-flex justify-content-end">
+                      <IconButton aria-label="cerrar" onClick={handleHomeClick}>
+                        <CloseIcon />
+                      </IconButton>
+                    </Box>
+                    <Box className="mx-4">
+                      <Typography variant="h4" className="fw-bold">Regístrate</Typography>
+                      <Typography variant="subtitle1">Completa el formulario para continuar</Typography>
 
-            <div className="register-left">
-              <img src={imgFormulario} alt="Register background" className="register-left-image" />
-              <div className='register-left-overlay text-start d-flex flex-column justify-content-center pb-5'>
-                <h4 className='fw-semibold fs-2 fontMontserrat'>Únete a nuestra comunidad</h4>
-                <small className='fw-light'>Descubre un espacio donde se fomenta la creatividad, las conexiones son valiosas y cada experiencia es inolvidable. Únete y da el primer paso hacia nuevas aventuras.</small>
-                <div className="photo-credit">
-                  Fotografía de
-                  <p><span className="fw-bold">Nombre del Fotógrafo</span></p>
-                </div>
-              </div>
-            </div>
+                      <form className="register-form" onSubmit={handleFormSubmit}>
+                        <Box className="my-4">
+                          <TextField
+                            label="Nombre de usuario"
+                            value={nombre}
+                            onChange={handleNameChange}
+                            fullWidth
+                            size="small"
+                            required
+                            error={formSubmitted && !errors.nombre?.longitudValida}
+                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 8 y 60 caracteres." : ""}
+                          />
+                        </Box>
 
-            <div className="register-right d-flex flex-column justify-content-center">
-              <h3 className="fw-normal mb-3 pb-3 fontMontserrat fw-semibold">Registrar usuario</h3>
+                        <Box className="my-3">
+                          <ul>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 2 y 60 caracteres.</li>
+                          </ul>
+                        </Box>
 
-              <form className="login-form" onSubmit={(e) => handleRegistro(e, nombre, correo, contraseña, contraseña2)}>
-                <div className="mb-3">
-                  <label htmlFor="registerInputName" className="form-label">Nombre de usuario</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="registerInputName"
-                    value={nombre}
-                    onChange={handleNameChange}
-                  />
-                  {errors.nombre && <p className="error-text">{errors.nombre}</p>}
-                </div>
 
-                <div className="mb-3">
-                  <label htmlFor="registerInputEmail" className="form-label">Correo electrónico</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="registerInputEmail"
-                    value={correo}
-                    onChange={handleEmailChange}
-                  />
-                  {errors.correo && <p className="error-text">{errors.correo}</p>}
-                </div>
+                        <Box className="my-4">
+                          <TextField
+                            label="Correo electrónico"
+                            value={correo}
+                            onChange={handleEmailChange}
+                            fullWidth
+                            size="small"
+                            required
+                          />
+                        </Box>
 
-                <div className="mb-3">
-                  <label htmlFor="registerInputPassword" className="form-label">Contraseña</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="registerInputPassword"
-                    value={contraseña}
-                    onChange={handlePasswordChange}
-                  />
-                  {errors.contraseña && <p className="error-text">{errors.contraseña}</p>}
-                </div>
+                        <Box className="my-4">
+                          <FormControl fullWidth size="small" error={formSubmitted && !!errors.contraseña}>
+                            <InputLabel>Contraseña</InputLabel>
+                            <OutlinedInput
+                              type={showPassword ? 'text' : 'password'}
+                              value={contraseña}
+                              onChange={handlePasswordChange}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                  >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                  </IconButton>
+                                </InputAdornment>
+                              }
+                              label="Contraseña"
+                              required
+                            />
+                          </FormControl>
+                        </Box>
 
-                <div className="mb-3">
-                  <label htmlFor="registerConfirmPassword" className="form-label">Confirmar contraseña</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="registerConfirmPassword"
-                    value={contraseña2}
-                    onChange={handleConfirmPasswordChange}
-                  />
-                  {errors.contraseña2 && <p className="error-text">{errors.contraseña2}</p>}
-                </div>
+                        <Box className="my-4">
+                          <FormControl fullWidth size="small" error={formSubmitted && !errors.contraseña2}>
+                            <InputLabel>Confirmar contraseña</InputLabel>
+                            <OutlinedInput
+                              type={showPassword2 ? 'text' : 'password'}
+                              value={contraseña2}
+                              onChange={handleConfirmPasswordChange}
+                              endAdornment={
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    onClick={handleClickShowPassword2}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                  >
+                                    {showPassword2 ? <VisibilityOff /> : <Visibility />}
+                                  </IconButton>
+                                </InputAdornment>
+                              }
+                              label="Confirmar contraseña"
+                              required
+                            />
+                          </FormControl>
+                        </Box>
 
-                <div className="pt-1 mb-4 mt-4">
-                  <button type="submit" className="btn btn-primary">Registrarse</button>
-                </div>
+                        <Box className="my-3">
+                          <ul>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.longitudValida ? 'text-success fw-semibold' : ''}`}>Debe tener entre 8 y 128 caracteres.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.mayuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra mayúscula.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.minuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra minúscula.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.numero ? 'text-success fw-semibold' : ''}`}>Debe contener al menos un número.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña2 ? 'text-success fw-semibold' : ''}`}>Las contraseñas coinciden.</li>
+                          </ul>
+                        </Box>
 
-                <div className="text-center mt-4 mb-5">
-                  <p>o regístrate con:</p>
-                  <button type='button' className='btn btn-link btn-floating mx-1' onClick={() => handleGoogleLogin()}>
-                    <i className='bi bi-google'></i>
-                    
-                    
-                  </button>
-                  <FacebookLogin
-                    appId="1276060800080687"
-                    autoLoad={false}
-                    callback={responseFacebook}
-                    render={(renderProps) => (
-                      <button type="button" className="btn btn-link btn-floating mx-1" onClick={renderProps.onClick}>
-                        <i className="bi bi-facebook"></i>
-                      </button>
-                    )}
-                  />
-                </div>
+                                               {/* Botón de registro */}
+                        <Box className="my-4">
+                          <Button fullWidth variant="contained" type="submit">
+                            Registrarse
+                          </Button>
+                        </Box>
 
-                <p>¿Ya tienes una cuenta? <Link to="/login" className="fontRosaMexicano">Inicia sesión aquí</Link></p>
-                
+                        {/* Opciones de login */}
+                        <Box className="my-4">
+                          <Typography variant="body2" className="text-center">O regístrate con</Typography>
+                          <Box className="d-flex justify-content-center gap-3">
+                            <IconButton onClick={handleGoogleLogin}>
+                              <GoogleIcon />
+                            </IconButton>
+                            <FacebookLogin
+                              appId="1276060800080687"
+                              autoLoad={false}
+                              callback={responseFacebook}
+                              render={(renderProps) => (
+                                <IconButton onClick={renderProps.onClick}>
+                                  <FacebookRoundedIcon />
+                                </IconButton>
+                              )}
+                            />
+                          </Box>
+                        </Box>
 
-                <div className="mt-4">
-                  <small>
-                    Al registrarte, aceptas nuestros
-                    <Link to="/terminos-condiciones" className="fontAzulMayaOscuro"> Términos de Servicio</Link> y
-                    <Link to="/politica-privacidad" className="fontAzulMayaOscuro"> Política de Privacidad</Link>.
-                  </small>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <Footer showIncorporaLugar={false} />
-    </div>
+                        {/* Enlaces a los Términos de Servicio y Política de Privacidad */}
+                        <div className="mt-4">
+                          <small>
+                            Al registrarte, aceptas nuestros
+                            <Link to="/terminos-condiciones" className="fontAzulMayaOscuro"> Términos de Servicio</Link> y
+                            <Link to="/politica-privacidad" className="fontAzulMayaOscuro"> Política de Privacidad</Link>.
+                          </small>
+                        </div>
+                      </form>
+                    </Box>
+                  </Box>
+                </Box>
+              </Grid>
+            </Grid>
+          </Container>
+          <Footer />
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 }
 
