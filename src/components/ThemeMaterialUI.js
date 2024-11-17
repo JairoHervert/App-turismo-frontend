@@ -4,7 +4,7 @@ const ThemeMaterialUI = createTheme({
   palette: {
     primary: {
       main: '#e4007c', // Rosa Mexicano
-      dark: '#b30063', // Rosa Mexicano más oscuro (hover)
+      dark: '#ca006b', // Rosa Mexicano más oscuro (hover)
       light: '#ff66a1', // Opcional: Rosa Mexicano claro
     },
     secondary: {

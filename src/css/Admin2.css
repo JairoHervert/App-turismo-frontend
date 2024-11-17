@@ -1,0 +1,312 @@
+/* Estilos generales para la barra lateral */
+.sidebar-container-admin {
+    width: 250px;
+    background-color: #e8f6fc;
+    padding-top: 2rem;
+    border-radius: 20px;
+    margin-top: -105px;
+    margin-left: -20px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .list-item-button-admin {
+    display: flex;
+    align-items: center;
+  }
+  
+  .list-item-text-admin {
+    flex-grow: 1;
+  }
+  
+  .submenu-item-admin {
+    padding-left: 2rem;
+  }
+  
+  .list-item-icon-admin {
+    min-width: 30px;
+  }
+  
+  /* Estilos para el formulario */
+  .formulario-container-admin {
+    width: 900px;
+    background-color: #e8f6fc;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 4rem;
+    margin: 4rem auto;
+  }
+  
+  .formulario-header-title-admin {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #ff007f;
+  }
+  
+  .formulario-subtitle-admin {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 3rem;
+  }
+  
+  .formulario-subtitle-section-admin {
+    font-weight: bold;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 1rem;
+  }
+  
+  .formulario-box-admin {
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 8px;
+  }
+  
+  .formulario-grid-item-admin {
+    padding: 0.5rem;
+  }
+  
+  .formulario-input-admin {
+    width: 100%;
+  }
+  
+  .formulario-button-reject-admin {
+    color: #ff007f;
+    border-color: #ff007f;
+  }
+  
+  .formulario-button-accept-admin {
+    background-color: #007bb2;
+    color: #fff;
+  }
+  
+  .formulario-button-accept-admin:hover {
+    background-color: #005f85;
+  }
+  
+  .formulario-button-reject-admin:hover {
+    background-color: #ffeef6;
+    border-color: #ff007f;
+  }
+  
+  /* Estilos para la sección Recibidos */
+  .recibidos-container-admin {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+  }
+  
+  .recibidos-header-admin {
+    background-color: #a2dcee;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .recibidos-header-title-admin {
+    color: black;
+    text-align: center;
+    font-size: 1.2rem;
+  }
+  
+  .recibidos-filter-buttons-admin {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+  
+  .recibidos-filter-button-admin {
+    margin: 5px;
+    background-color: #e4007c;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;  /* Ajuste inicial */
+    font-size: 1rem;      /* Ajuste inicial */
+  }
+  
+  .recibidos-filter-button-active-admin {
+    border: 2px solid #fff;
+  }
+  
+  .recibidos-filter-button-admin:hover {
+    background-color: #d1006f;
+  }
+  
+  /* Estilos para el contenedor de controles */
+  .controls-container-admin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .controls-container-admin .MuiTextField-root {
+    max-width: 250px;
+  }
+  
+  .controls-container-admin .MuiInputAdornment-root {
+    color: #e4007c;
+  }
+  
+  /* Media Queries para hacerlo responsivo */
+  
+  /* Pantallas pequeñas (móviles) */
+  @media (max-width: 600px) {
+    .sidebar-container-admin {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0;
+    }
+  
+    .formulario-container-admin {
+      width: 100%;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+  
+    .recibidos-header-title-admin {
+      font-size: 1rem;
+    }
+  
+    .recibidos-filter-buttons-admin {
+      margin-top: 20px;
+    }
+  
+    .controls-container-admin .MuiTextField-root {
+      max-width: 100%;
+    }
+  }
+  
+  /* Pantallas medianas (tabletas) */
+  @media (max-width: 900px) {
+    .sidebar-container-admin {
+      width: 200px;
+    }
+  
+    .formulario-container-admin {
+      width: 80%;
+      padding: 3rem;
+    }
+  
+    .recibidos-header-title-admin {
+      font-size: 1.1rem;
+    }
+  }
+  
+  /* Pantallas grandes (escritorios) */
+  @media (min-width: 1200px) {
+    .formulario-container-admin {
+      width: 900px;
+    }
+  
+    .sidebar-container-admin {
+      width: 250px;
+    }
+
+    /* Sidebar */
+.sidebar-container-admin {
+    width: 250px;
+    background-color: #e8f6fc;
+    padding-top: 2rem;
+    border-radius: 20px;
+    margin-top: -105px;
+    margin-left: -20px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    transition: width 0.3s ease; /* Para animar el cambio de tamaño */
+  }
+  
+  @media (max-width: 808px) {
+    .sidebar-container-admin {
+      width: 200px; /* Reducir el ancho en pantallas pequeñas */
+    }
+  }
+  
+  /* Formulario */
+  .formulario-container-admin {
+    width: 900px;
+    background-color: #e8f6fc;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 4rem;
+    margin: 4rem auto;
+    transition: width 0.3s ease; /* Animación de cambio de tamaño */
+  }
+  
+  @media (max-width: 808px) {
+    .formulario-container-admin {
+      width: 95%; /* Ajusta el ancho a un 95% en pantallas más pequeñas */
+      padding: 2rem; /* Reduce el padding */
+      margin: 2rem auto; /* Reduce el margen */
+    }
+  }
+  
+  /* Botones */
+  .formulario-button-reject-admin,
+  .formulario-button-accept-admin {
+    background-color: #e4007c;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  @media (max-width: 808px) {
+    .formulario-button-reject-admin,
+    .formulario-button-accept-admin {
+      width: 100%; /* Los botones ocuparán el 100% del ancho en pantallas pequeñas */
+      margin-top: 1rem; /* Añadir margen entre los botones */
+    }
+  }
+  
+  /* TextField */
+  .MuiTextField-root {
+    width: 100%;
+  }
+  
+  /* Campos de formulario */
+  .formulario-grid-item-admin {
+    padding: 0.5rem;
+  }
+  
+  @media (max-width: 808px) {
+    .formulario-grid-item-admin {
+      padding: 0.2rem; /* Reducir el padding en pantallas pequeñas */
+    }
+  }
+  
+  /* Ajustes generales para pantallas pequeñas */
+  @media (max-width: 808px) {
+    .formulario-header-title-admin,
+    .formulario-subtitle-admin {
+      font-size: 1rem; /* Reducir el tamaño de fuente */
+    }
+  
+    .formulario-input-admin {
+      font-size: 0.9rem; /* Reducir el tamaño de fuente de los inputs */
+    }
+  }
+  
+
+  @media (max-width: 768px) {
+    .recibidos-filter-button-admin {
+      font-size: 0.9rem;    /* Reducir tamaño de texto */
+      padding: 8px 12px;    /* Reducir padding */
+    }
+  }
+  
+  /* Pantallas muy pequeñas */
+  @media (max-width: 480px) {
+    .recibidos-filter-button-admin {
+      font-size: 0.8rem;    /* Reducir más el tamaño de texto */
+      padding: 6px 10px;    /* Reducir más el padding */
+    }
+  }
+  }
+  

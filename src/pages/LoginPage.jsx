@@ -1,26 +1,14 @@
 // modulos importados
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, Box, Typography, Input } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid2';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
+import { Container, Box, Typography } from '@mui/material';
+import { TextField, Grid2 as Grid, FormControl, InputLabel, Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FormHelperText from '@mui/material/FormHelperText';
 
 // modulos de iconos
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import GoogleIcon from '@mui/icons-material/Google';
-import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
-import CloseIcon from '@mui/icons-material/Close';
+import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import { Visibility, VisibilityOff, Google as GoogleIcon, FacebookRounded as FacebookRoundedIcon, Close as CloseIcon } from '@mui/icons-material';
 
 // componentes importados
 import Navbar from '../components/NavBar';
@@ -109,7 +97,7 @@ function LoginPage() {
           />
           <Container maxWidth='md' disableGutters className='my-5 py-4 d-flex align-items-center justify-content-center' >
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
-              {/* lado izquiero imagen con texto */}
+              {/* lado izquierdo imagen con texto */}
               <Grid size={{ xs: 10, md: 6 }} className='login-left-container'>
                 <LeftImage
                   imageUrl={casaLeon}

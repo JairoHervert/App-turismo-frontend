@@ -146,7 +146,7 @@ function SearchCategoryPage() {
       marginTop:'8px'
     }}
   >
-    Regresar
+    Continuar
   </Button>          </div>
         </div>
       </div>
