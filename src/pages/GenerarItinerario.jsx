@@ -49,7 +49,7 @@ const GenerarItinerario = () => {
         transparentNavbar={false}
         lightLink={false} />
 
-      <Container maxWidth='lg' className='my-4'>
+      <Container maxWidth='lg' className='sm-4'>
         <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
           <MapIcon fontSize='large' sx={{ color: '#E4007C' }} className='map-icon-itinerario' />
           <h1 className='fw-bold h1-itinerario-title'>Generar Itinerario</h1>
