@@ -91,7 +91,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                      <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
+                      <li><Link className="dropdown-item" to="/perfil-page">Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
                       <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
                       <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
