@@ -1,18 +1,16 @@
 import React from 'react';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 // estilos
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/Perfil.css';
 
-import { Container, Avatar, Stack, Card, Typography, CardHeader, CardContent, Badge, Select, MenuItem, CardMedia } from '@mui/material';
-import { FormControl, Divider, Chip, FormGroup, FormControlLabel, Checkbox, Box, Slider, TextField, Button, InputLabel } from '@mui/material';
+import { Container, Avatar, Stack, Card, Typography, CardHeader, CardContent } from '@mui/material';
+import { Divider, Chip, Box, Button } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 
-import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Map as MapIcon, FavoriteRounded as FavoriteRoundedIcon, Phone} from '@mui/icons-material';
+import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Map as MapIcon, FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import {Star as StarIcon, Edit as EditIcon, Category as CategoryIcon, Phone as PhoneIcon, Flag as FlagIcon} from '@mui/icons-material';
 
 const categorias = ['Parques', 'Museos', 'Restaurantes', 'Cafeterías', 'Playas', 'Atracciones', 'Familiares', 'Hospitales', 'Empresas', 'Aeropuerto', 'Bar', 'Gym','Galería de Arte', 'Iglesia'];

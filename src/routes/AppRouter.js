@@ -18,6 +18,7 @@ import RegisterPlacePage from '../pages/RegisterPlacePage';
 import AdminPage from '../pages/Administrador'; 
 import Perfil from '../pages/Perfil';
 
+
 function AppRouter() {
   return (
     <Router>
@@ -38,6 +39,8 @@ function AppRouter() {
         <Route path='/generar-itinerario' element={<GenerarItinerario />} />
         <Route path='/resume-page' element={<ResumePage />}/>
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>
+        <Route path='/Admin-Page' element={<AdminPage />}/>
+        <Route path='/perfil-page' element={<Perfil />}/>
       </Routes>
     </Router>
   );
