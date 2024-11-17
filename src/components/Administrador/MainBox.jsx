@@ -247,14 +247,14 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
 
           {/* Botones */}
           <Box
-  sx={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    mt: 4,
-    gap: 2, // Asegura que haya un espacio constante entre los botones
-  }}
->
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                mt: 4,
+                gap: 2, // Asegura que haya un espacio constante entre los botones
+              }}
+            >
             <Button
               className="formulario-button-reject-admin"
               variant="contained"

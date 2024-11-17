@@ -23,13 +23,11 @@ function SearchHistoryPageHistory() {
   return (
     <div className='vh-100 vw-100'>
       <Navbar />
-      <Stack direction='row' spacing={1} alignItems='flex-start' sx={{ ml: 3, mb: 3 }}>
-  <HistoryIcon color="primary" fontSize="inherit" sx={{ fontSize: '4rem', }} />
-  <h1 className='history-page-title'>Historial de búsqueda</h1>
-</Stack>
+ 
 
 
       <div className="search-history-background-history">
+
         <div className='cont-hist-bus-history'>
           <div className="controls-container-history">
             <TextField
@@ -74,9 +72,16 @@ function SearchHistoryPageHistory() {
               Borrar historial
             </Button>
           </div>
+         <div>
+          <Stack direction='row' spacing={1} alignItems='flex-start' sx={{ ml: -30, mb: 3 }}>
+            <HistoryIcon color="primary" fontSize="Montserrat" sx={{ fontSize: '4rem'}} />
+            <h1 className='history-page-title '>Historial de búsqueda</h1>
+          </Stack>
+          </div>
         </div>
         <SearchHistoryBox searchHistory={searchHistoryHistory} date={todayDate} />
       </div>
+      
       <Footer />
     </div>
   );
