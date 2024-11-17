@@ -14,7 +14,8 @@ import HistorialBusqueda from '../pages/HistoryPage';
 import GenerarItinerario from '../pages/GenerarItinerario';
 import CategoriasPage from '../pages/Categorias';
 import ResumePage from '../pages/ResumenPage';
-import RegisterPlacePage from '../pages/RegisterPlacePage';
+import RegisterPlacePage from '../pages/RegisterPlacePage'; 
+import AdminPage from '../pages/Administrador'; 
 
 
 function AppRouter() {
@@ -37,6 +38,7 @@ function AppRouter() {
         <Route path='/generar-itinerario' element={<GenerarItinerario />} />
         <Route path='/resume-page' element={<ResumePage />}/>
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>
+        <Route path='/Admin-Page' element={<AdminPage />}/>
       </Routes>
     </Router>
   );

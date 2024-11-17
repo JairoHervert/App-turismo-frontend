@@ -16,14 +16,19 @@
   margin-top: 20px; /* Proporcionar un espacio visual sin romper el diseño */
   line-height: 20px;
   padding: 6px 16px;
+  text-align: left; /* Alinea el texto a la izquierda */
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 30px; /* Margen inferior pequeño */
 }
-.btn-history{
-padding: 6px 16px;
 
-height: auto;
-width: 200px;
-
+/* Botones */
+.btn-history {
+  padding: 6px 16px;
+  height: auto;
+  width: 200px;
 }
+
 /* Contenedor de controles */
 .controls-container-history {
   display: flex;
@@ -46,16 +51,6 @@ width: 200px;
   width: 100%;
 }
 
-/* Botones */
-.button {
-  height: 38px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 16px;
-  font-size: 14px;
-}
-
 /* Caja de historial */
 .search-history-box-history {
   background: #f8f8f8;
@@ -75,7 +70,6 @@ width: 200px;
   flex-direction: row;
   box-shadow: 6;
 }
-
 
 /* Scrollbar personalizado */
 ::-webkit-scrollbar {
@@ -119,7 +113,6 @@ width: 200px;
   left: 10px; /* Margen más seguro en pantallas pequeñas */
 }
 
-
 /* Opciones de filtro */
 .filter-option-history {
   font-size: 18px;
@@ -151,10 +144,9 @@ width: 200px;
   flex-grow: 1;
 }
 
-/*HOVER DE LA CAJA*/
+/* HOVER DE LA CAJA */
 .item-left-history:hover {
   background-color: #a2dcee; /* Cambia el fondo al pasar el mouse */
- 
   transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -168,8 +160,6 @@ width: 200px;
   margin-right: 8px;
 }
 
-
-
 .query-text-history {
   font-weight: bold;
   color: #1a0dab;
@@ -179,6 +169,7 @@ width: 200px;
 .query-text-history:hover {
   text-decoration: underline;
 }
+
 
 .menu-icon-history {
   font-size: 18px;
@@ -196,21 +187,60 @@ width: 200px;
   font-weight: bold;
 }
 
+/* Título del historial */
+.history-page-title {
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: left; /* Alinea el texto a la izquierda */
+  margin-left: 30px; /* Agrega margen a la izquierda */
+  margin-bottom: 15px; /* Margen inferior */
+}
+
 /* Diseño adaptable */
+
+@media (max-width: 600px) {
+  /* Para pantallas aún más pequeñas (móviles) */
+  .history-page-title {
+    font-size: 1.6rem; /* Ajusta el tamaño del texto */
+    margin-left: 12px; /* Ajusta el margen izquierdo */
+  
+    margin-bottom: 10px; /* Ajusta el margen inferior */
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Para pantallas grandes (escritorios) */
+  .history-page-title {
+    font-size: 3.5rem; /* Aumenta el tamaño del texto */
+    margin-left: 40px; /* Aumenta el margen izquierdo */
+    margin-bottom: 20px; /* Ajusta el margen inferior */
+    
+  }
+}
 @media (max-width: 768px) {
   .controls-container-history {
     flex-direction: column;
     width: auto;
-    
   }
 
   .filter-box-history {
-    top: auto; /* Permitir que se ubique dinámicamente */
+    top: auto; 
   }
 
-  
-
+  /* Pantallas pequeñas (menos de 600px) */
+  .history-page-title {
+    font-size: 1.8rem; 
+    margin-bottom: 15px; 
   }
 
+  .history-page-title {
+    font-size: 2.5rem; 
+    margin-bottom: 20px;
+  }
 
-
+  /* Pantallas grandes (más de 1200px) */
+  .history-page-title {
+    font-size: 3.0rem; /* Aumenta el tamaño del texto en pantallas grandes */
+    margin-bottom: 30px;
+  }
+}
