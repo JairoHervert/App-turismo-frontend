@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Typography, Box } from '@mui/material';
 import { CheckCircle as CheckCircleIcon, Cancel as CancelIcon, MailOutline as MailOutlineIcon } from '@mui/icons-material';
+import '../../css/Admin2.css';
 
 const Recibidos = () => {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
@@ -21,43 +22,42 @@ const Recibidos = () => {
   return (
     <Box className="recibidos-container-admin" marginTop={'65px'} maxHeight={'300px'}>
       {/* Header del componente Recibidos */}
-      <Box className="recibidos-header-admin">
-        <MailOutlineIcon sx={{ color: 'black' }} />
-        <Typography variant="h5" className="recibidos-header-title-admin">
+      <Box className="recibidos-header-admin" display="flex" alignItems="center">
+        <MailOutlineIcon sx={{ color: 'black', fontSize: { xs: 16, sm: 20 } }} />
+        <Typography 
+          variant="h5" 
+          className="recibidos-header-title-admin" 
+          sx={{ fontSize: { xs: '0.9rem', sm: '1.2rem' }, fontWeight: 600 }}
+        >
           Recibidos
         </Typography>
       </Box>
 
       {/* Botones de filtro, organizados en columna */}
-      <Box className="recibidos-filter-buttons-admin">
+      <Box className="recibidos-filter-buttons-admin" display="flex" flexDirection="column" gap={1}>
         {categories.map((category) => (
           <Button
-          sx={{
-            backgroundColor: '#e4007c',
-            '&:hover': {
-              backgroundColor: '#c3006a',
-            },
-          }}
             key={category.title}
             variant="contained"
             onClick={() => handleCategoryChange(category.title)}
             className={`recibidos-filter-button-admin ${selectedCategory === category.title ? 'recibidos-filter-button-active-admin' : ''}`}
+            sx={{
+              backgroundColor: '#e4007c',
+              '&:hover': {
+                backgroundColor: '#c3006a',
+              },
+              fontSize: { xs: '0.6rem', sm: '0.8rem' }, 
+              padding: { xs: '4px 8px', sm: '6px 12px' }, 
+            }}
           >
-            {category.title === 'Aceptados' ? <CheckCircleIcon /> : null}
-            {category.title === 'Rechazados' ? <CancelIcon /> : null}
+            {category.title === 'Aceptados' ? <CheckCircleIcon sx={{ fontSize: { xs: 14, sm: 18 } }} /> : null}
+            {category.title === 'Rechazados' ? <CancelIcon sx={{ fontSize: { xs: 14, sm: 18 } }} /> : null}
             {category.title}
           </Button>
         ))}
       </Box>
 
-      {/* Lista filtrada de items */}
-      {/* <Box className="recibidos-item-list-admin">
-        {filteredItems.map((item, index) => (
-          <Typography key={index} variant="body1" className="recibidos-item-admin">
-            {item}
-          </Typography>
-        ))}
-      </Box> */}
+
     </Box>
   );
 };

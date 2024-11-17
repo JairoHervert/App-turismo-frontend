@@ -8,7 +8,6 @@
   min-height: 100vh; /* Ajustar para que ocupe el viewport completo */
   box-sizing: border-box;
   margin-bottom: 50px;
-  overflow-x: hidden; /* Evitar scroll horizontal */
 }
 
 /* Título del historial */
@@ -20,6 +19,27 @@
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 30px; /* Margen inferior pequeño */
+}
+
+/*NO QUITAR, EVITA EL DESBORDE DE LA PÁGINA EN X*/
+
+.search-history-box-history {
+  -webkit-overflow-scrolling: touch; /* Desplazamiento suave en dispositivos móviles */
+}
+
+/* Quitar el scrollbar de cualquier otro contenedor con overflow */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px; /* Eliminar el scrollbar horizontal también */
+}
+
+/* Eliminar el track y el thumb si ya están definidos */
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
 }
 
 /* Botones */
@@ -71,23 +91,6 @@
   box-shadow: 6;
 }
 
-/* Scrollbar personalizado */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #c3c3c3;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-
-::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
-}
 
 /* Caja de filtro */
 .filter-box-history {

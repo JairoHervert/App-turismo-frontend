@@ -37,8 +37,7 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
 
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
-      // Aquí puedes agregar código adicional si necesitas controlar el tamaño
-      // y el ajuste de los componentes.
+     
     });
 
     const formContainer = document.querySelector('.formulario-container-admin');

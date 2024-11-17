@@ -1,11 +1,8 @@
 import React from 'react';
-import {
-  DialogContentText, DialogActions, TextField, InputAdornment
-} from '@mui/material';
+import {TextField, InputAdornment} from '@mui/material';
 import { Search as SearchIcon, Bookmark as BookmarkIcon } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
-import '../css/Administrador.css';
-import Navbar from '../components/NavBar';
+import NavbarAD from '../components/NavBarA';
 import Footer from '../components/Footer';
 import Recibidos from '../components/Administrador/Recibidos';
 import Dashboard from '../components/Administrador/Dashboard';
@@ -16,38 +13,24 @@ function SearchHistoryPageHistory() {
 
   return (
     <div className='vh-100 vw-100'>
-      <Navbar
+      <NavbarAD
         showingresa={false}
         showRegistrate={false}
-        transparentNavbar={false}
+        transparentNavbarAD={false}
         lightLink={false}
-        staticNavbar={false}
+        staticNavbarAD={false}
       />
 
-      <div className="search-history-background-history d-flex flex-column align-items-center p-4">
-
-        {/* Contenedor de la barra de búsqueda */}
-        <div className="controls-container-admin mb-4">
-  <TextField
-    label="Buscar"
-    variant="outlined"
-    size="small"
-    sx={{ maxWidth: 250 }}
-    InputProps={{
-      startAdornment: (
-        <InputAdornment position="start">
-          <SearchIcon />
-        </InputAdornment>
-      ),
-    }}
-  />
-</div>
+{/*       <div className="search-history-background-history d-flex flex-column align-items-center p-4">
+ */}
 
 
         {/* Contenedor principal para Dashboard y Recibidos */}
         <div className='contenedor-cajas-admin d-flex justify-content-between w-100'>
-          <div className='contenedor-cajas-admin d-flex justify-content-between w-100'>
+          <div className='contenedor-cajas-admin d-flex justify-content-between w-100 '>
+            
             <Dashboard />
+
             <FormularioLugar
                   addplace="Museo Frida Kahlo"
                   nombre="Miranda Rojo"
@@ -56,19 +39,17 @@ function SearchHistoryPageHistory() {
                   hour="2:30 p.m."
                 
             />
-
             <Recibidos />
-          </div>
+            </div>
 
 
         </div>
 
 
-      </div>
 
       <Footer showIncorporaLugar={false} />
     </div>
   );
 }
 
-export default SearchHistoryPageHistory;
+export default SearchHistoryPageHistory;   
