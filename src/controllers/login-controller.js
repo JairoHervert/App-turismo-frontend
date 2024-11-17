@@ -67,7 +67,7 @@ class loginController{
   }
 
   static async iniciarSesionFacebook(req, res) {
-    const { token } = req.body;
+    const { token, imagen } = req.body;
 
     const tokenJWT = (id, username, nombre, apellido, imagen) => {
       return jwt.sign({
@@ -76,7 +76,7 @@ class loginController{
     }
 
     try {
-      const resultado = await loginModel.iniciarSesionFacebook(token);
+      const resultado = await loginModel.iniciarSesionFacebook(token, imagen);
       
       const newToken = tokenJWT(resultado.id, resultado.username, resultado.nombre, resultado.apellido, resultado.imagen);
       res.json({resultado: resultado, token: newToken});

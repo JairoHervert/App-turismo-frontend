@@ -273,7 +273,8 @@ END //
 -- Process `AppTurismo`.`UsuarioIniciarSesionFacebook`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioIniciarSesionFacebook (
-   IN p_token VARCHAR(255)
+   IN p_token VARCHAR(255),
+   IN p_imagen VARCHAR(512)
 )
 BEGIN
    DECLARE v_id INT;
@@ -290,6 +291,9 @@ BEGIN
    IF v_id IS NULL THEN
       SELECT 'cuenta_no_registrada' AS 'error';
    ELSE
+      UPDATE Usuario SET ligaFotoPerfil = p_imagen
+      WHERE tokenFacebook = p_token;
+
       SELECT
          v_id AS id,
          v_username AS username,

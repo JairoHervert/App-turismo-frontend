@@ -149,20 +149,22 @@ const errorGoogleHandler = () => {
 
 const responseFacebook = async (response) => {
   console.log(response);
-  if(response.statuts && response.status == 'unknown') {
+  if(response.status && response.status == 'unknown') {
     return;
   }
 
   const { userID, accessToken } = response;
+  const picture = `https://graph.facebook.com/${userID}/picture?type=large&access_token=${accessToken}`;
 
   try {
     const res = await axios.post('http://localhost:3001/login_Facebook', {
       token: userID,
+      imagen: picture,
     });
     
     console.log(res.data);
-    console.log(res.data.resultado.id);
-    console.log(accessToken);
+    //console.log(res.data.resultado.id);
+    //console.log(accessToken);
 
     if (res.data.resultado.id) {
       
