@@ -45,7 +45,7 @@ ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `Lugar`;
 CREATE TABLE `Lugar` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` VARCHAR(40) NOT NULL,
   `nombre` VARCHAR(128) NOT NULL,
   `descripcion` VARCHAR(1024) NOT NULL,
   `direccion` VARCHAR(255) NOT NULL,
@@ -64,7 +64,7 @@ ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 DROP TABLE IF EXISTS `Resena`;
 CREATE TABLE `Resena` (
    `idUsuario` INT NOT NULL,
-   `idLugar` INT NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
    `calificacion` INT NOT NULL,
    `resena` VARCHAR(1000),
    `auditoria` DATETIME NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE `Resena` (
 DROP TABLE IF EXISTS `LugarDeseado`;
 CREATE TABLE `LugarDeseado` (
    `idUsuario` INT NOT NULL,
-   `idLugar` INT NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
@@ -94,12 +94,54 @@ CREATE TABLE `LugarDeseado` (
 DROP TABLE IF EXISTS `LugarFavorito`;
 CREATE TABLE `LugarFavorito` (
    `idUsuario` INT NOT NULL,
-   `idLugar` INT NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Table `appturismo`.`categorias`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `appturismo`.`categorias` (
+  `idCategorias` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idCategorias`)
+)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Tabla `clasificaciones`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `clasificaciones`;
+CREATE TABLE IF NOT EXISTS `clasificaciones` (
+  `Categorias_idCategorias` INT NOT NULL,
+  `lugar_id` VARCHAR(40) NOT NULL,  
+  PRIMARY KEY (`Categorias_idCategorias`, `lugar_id`),
+  FOREIGN KEY (`Categorias_idCategorias`)
+    REFERENCES `categorias` (`idCategorias`)
+    ON DELETE CASCADE,
+  FOREIGN KEY (`lugar_id`)
+    REFERENCES `Lugar` (`id`)
+    ON DELETE CASCADE
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- -----------------------------------------------------
+-- Tabla `categoriasfavoritas`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `categoriasfavoritas`;
+CREATE TABLE IF NOT EXISTS `categoriasfavoritas` (
+  `Categorias_idCategorias` INT NOT NULL,
+  `usuario_id` INT NOT NULL,
+  PRIMARY KEY (`Categorias_idCategorias`, `usuario_id`),
+  FOREIGN KEY (`Categorias_idCategorias`)
+    REFERENCES `categorias` (`idCategorias`)
+    ON DELETE CASCADE,
+  FOREIGN KEY (`usuario_id`)
+    REFERENCES `Usuario` (`id`)
+    ON DELETE CASCADE
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              VISTAS
