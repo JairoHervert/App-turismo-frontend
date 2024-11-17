@@ -17,8 +17,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 
-import { Map as MapIcon, EventNote as EventNoteIcon, TipsAndUpdates as TipsAndUpdatesIcon, SwapHorizontalCircle as SwapHorizontalCircleIcon } from '@mui/icons-material';
-import { Restaurant as RestaurantIcon, Festival as FestivalIcon, RadioButtonUncheckedRounded as RadioButtonUncheckedRoundedIcon } from '@mui/icons-material';
+import { Map as MapIcon, EventNote as EventNoteIcon, TipsAndUpdates as TipsAndUpdatesIcon } from '@mui/icons-material';
+import { Restaurant as RestaurantIcon, Festival as FestivalIcon } from '@mui/icons-material';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import AttachMoneyRoundedIcon from '@mui/icons-material/AttachMoneyRounded';
 import TuneIcon from '@mui/icons-material/Tune';
@@ -29,12 +29,7 @@ const GenerarItinerario = () => {
 
   const [numeroViajantes, setNumeroViajantes] = useState('');
 
-  const [isFirstEnabled, setIsFirstEnabled] = useState(true);
-
-  const handleIconClick = () => {
-    // Cambia el estado de los TextFields (habilitar/deshabilitar)
-    setIsFirstEnabled((prev) => !prev);
-  };
+  const [isFirstEnabled] = useState(true);
 
   const navigate = useNavigate();
 
