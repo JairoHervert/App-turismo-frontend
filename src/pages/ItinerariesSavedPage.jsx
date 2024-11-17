@@ -51,21 +51,21 @@ function ItinirariesSavePage() {
                 
                     <ItemItinerarios
                     imagen={Imagen1}
-                    titulo="Itinerario para un domingo"
+                    titulo="Itinerario número 1"
                     detalles="Restaurante 'Fernando', florería 'Daniela', trajineras 'Xochimilco'"
                     fecha="26/07/2019"
                     />
 
                     <ItemItinerarios
                     imagen={Imagen2}
-                    titulo="Itinerario para ir de vacaciones"
+                    titulo="Itinerario número 2"
                     detalles="Hotel 'Estrella', restaurante 'El señor', gruta 'Tolantongo'"
                     fecha="26/07/2019"
                     />
 
                     <ItemItinerarios
                     imagen={Imagen3}
-                    titulo="Itinerario de lugares especiales"
+                    titulo="Itinerario número 3"
                     detalles="Museo 'Soumaya', museo 'Jumex', cafetería 'Hello Kitty', plaza 'Antara', acuario 'Inbursa'"
                     fecha="26/07/2019"
                     />
