@@ -69,16 +69,22 @@ function MenuFiltros({ modal }) {
           >
             <div className='accordion-body ud_de-accordion-body'>
               <ul className='list-unstyled'>
-                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Turísticos</label></li>
-                <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>No convencionales</label></li>
-                <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Gastronomía</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Naturaleza</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Familiar</label></li>
-                <li><input type='checkbox' id='option24' /> <label htmlFor='option24'>Museos</label></li>
-                <li><input type='checkbox' id='option17' /> <label htmlFor='option17'>Música</label></li>
-                <li><input type='checkbox' id='option20' /> <label htmlFor='option20'>Cultura</label></li>
-                <li><input type='checkbox' id='option23' /> <label htmlFor='option23'>Danza</label></li>
-                <li><input type='checkbox' id='option25' /> <label htmlFor='option25'>Sitios religiosos</label></li>
+                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Salud y Bienestar</label></li>
+                <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>Deportes</label></li>
+                <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Comida Rápida</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Restaurante</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Cafetería</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Bar</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Arte</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Historia</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Museos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Educativos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Compras</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Juegos recreativos al aire libre</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Juegos recreativos bajo techo</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Zoológicos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Religión</label></li>
               </ul>
             </div>
           </div>
