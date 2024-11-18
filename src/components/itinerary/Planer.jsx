@@ -217,13 +217,13 @@ function Planer({ onPlaceClick, itineraryDays }) {
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Box className='mx-4 d-flex flex-column align-items-start'>
-        <Box className='d-flex align-items-center'>
+        <Box className='d-flex align-items-center' sx={{ overflowX: 'auto', whiteSpace: 'nowrap', width: '100%' }}>
           <IconButton color='black' aria-label='left arrow' onClick={handlePrevWeek}>
             <LeftRow sx={{ fontSize: '2.2rem' }} />
           </IconButton>
           <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>L</Typography>
 
-          <Box className='d-flex mx-2'>
+          <Box className='d-flex mx-2' sx={{ overflowX: 'auto', whiteSpace: 'nowrap', scrollbarWidth: 'thin', }}>
             {renderDays()}
           </Box>
           <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>D</Typography>
