@@ -1,0 +1,28 @@
+.IP-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .IP-stack {
+    margin-bottom: 16px;
+  }
+  
+  .IP-title {
+    margin-bottom: 8px;
+  }
+  
+  .IP-tabs {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    gap: 16px;
+  }
+  
+  .IP-tabs .fw-normal {
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .IP-tabs .fw-normal.active {
+    border-bottom-color: #e6007e;
+  }

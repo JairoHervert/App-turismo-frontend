@@ -17,13 +17,8 @@ function Preferencias() {
     const [discapacidad, setDiscapacidad] = useState(false);
     const [preferenciaAlimenticia, setPreferenciaAlimenticia] = useState("ninguna");
 
-    const handleOmitir = () => {
-        // Cierra el modal sin guardar la información
-        document.getElementById("exampleModalToggle").click();
-    };
 
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
-
     const categorias = [
         { id: 1, nombre: "Turísticos", imagen: img1 },
         { id: 2, nombre: "No convencionales", imagen: img2 },
@@ -40,6 +35,12 @@ function Preferencias() {
         setCategoriasSeleccionadas((prev) =>
             prev.includes(id) ? prev.filter((catId) => catId !== id) : [...prev, id]
         );
+    };
+
+
+    const handleOmitir = () => {
+        // Cierra el modal sin guardar la información
+        document.getElementById("exampleModalToggle").click();
     };
 
     return (
@@ -92,42 +93,43 @@ function Preferencias() {
                     </div>
                 </div>
             </div>
+
             <div>
-            {/* Segundo Modal */}
-            <div className="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabIndex="-1">
-                <div className="modal-dialog modal-lg modal-dialog-centered">
-                    <div className="modal-content pref-border-modal">
-                        <div className="modal-header">
-                            <h5 className="modal-title pref-titulo" id="exampleModalToggleLabel2">Categorías de agrado</h5>
-                        </div>
-                        <div className="modal-body pref-content">
-                            <p>Selecciona las categorías de actividades que más te interesan.</p>
-                            <div className="row">
-                                {categorias.map((categoria) => (
-                                    <div key={categoria.id}  className="col-6 col-md-4 col-lg-3 mb-3" >
-                                        <div
-                                            onClick={() => toggleSeleccion(categoria.id)}
-                                            className={`pref-categoriaUser ${categoriasSeleccionadas.includes(categoria.id) ? 'seleccionada' : ''}`}
-                                            style={{
-                                                backgroundImage: `url(${categoria.imagen})`,
-                                            }}
-                                        >
-                                            <div className="titulo">
-                                                {categoria.nombre}
+                {/* Segundo Modal */}
+                <div className="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabIndex="-1">
+                    <div className="modal-dialog modal-lg modal-dialog-centered">
+                        <div className="modal-content pref-border-modal">
+                            <div className="modal-header">
+                                <h5 className="modal-title pref-titulo" id="exampleModalToggleLabel2">Categorías de agrado</h5>
+                            </div>
+                            <div className="modal-body pref-content">
+                                <p>Selecciona las categorías de actividades que más te interesan.</p>
+                                <div className="row">
+                                    {categorias.map((categoria) => (
+                                        <div key={categoria.id} className="col-6 col-md-4 col-lg-3 mb-3" >
+                                            <div
+                                                onClick={() => toggleSeleccion(categoria.id)}
+                                                className={`pref-categoriaUser ${categoriasSeleccionadas.includes(categoria.id) ? 'seleccionada' : ''}`}
+                                                style={{
+                                                    backgroundImage: `url(${categoria.imagen})`,
+                                                }}
+                                            >
+                                                <div className="titulo">
+                                                    {categoria.nombre}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
-                            <button className="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                            <div className="modal-footer">
+                                <button className="btn btn-secondary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Volver</button>
+                                <button className="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     );
 }
