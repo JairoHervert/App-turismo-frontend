@@ -46,10 +46,10 @@ class loginModel {
     });
   }
 
-  static async iniciarSesionFacebook(token) {
-    const query = 'CALL UsuarioIniciarSesionFacebook(?);';
+  static async iniciarSesionFacebook(token, imagen) {
+    const query = 'CALL UsuarioIniciarSesionFacebook(?, ?);';
     return new Promise((resolve, reject) => {
-      db.query(query, [token], (err, results) => {
+      db.query(query, [token, imagen], (err, results) => {
         if(err) {
           reject(err);
         }

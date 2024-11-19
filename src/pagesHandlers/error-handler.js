@@ -15,7 +15,7 @@ function errorHandler(error) {
     case "correo_invalido":
       resultado = "Dirección de correo inválida.";
       break;
-    case "cuenta_no_registada":
+    case "cuenta_no_registrada":
       resultado = "Cuenta no registrada."
       break;
     case "cuenta_ya_registrada":
