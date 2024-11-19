@@ -310,7 +310,7 @@ const GenerarItinerario = () => {
 
                     <FormGroup>
                       <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares para toda la familia' sx={{marginLeft: 0, marginRight: 0}}/>
-                      <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Vegan-Fiendly' sx={{marginLeft: 0, marginRight: 0,}}/>
+                      <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Vegan-Friendly' sx={{marginLeft: 0, marginRight: 0,}}/>
                       <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Pet-Friendly' sx={{marginLeft: 0, marginRight: 0,}}/>
                       <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Impedimento físico' sx={{marginLeft: 0, marginRight: 0,}}/>
                     </FormGroup>
