@@ -7,23 +7,12 @@
 .place-page-img {
     width: 100%;
     height: 140px;
-    background-image: url('../img/HomePage/places/home-places-miguel-hidalgo.jpg');
-    background-size: cover;
-    background-position: center;
     background-attachment: fixed;
 }
 
 .place-img {
     display: flex;
     margin-top: 70px;
-}
-
-.big-img {
-    width: 100%;
-    aspect-ratio: 1;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
 }
 
 .fila-1, .fila-2 {
@@ -152,17 +141,9 @@
 /* --------------- Botones ---------------------- */
 
 .btn-place-page {
+    position: absolute;
     margin-top: 2%;
     margin-left: 4%;
-    background-color: var(--color-secondary);
-    color: #fff;
-}
-
-.btn-place-page:hover {
-    background-color: #fff;
-    border-color: var(--color-secondary);
-    color: var(--color-secondary);
-    transition: 0.5s;
 }
 
 .btn-placePage-button {
