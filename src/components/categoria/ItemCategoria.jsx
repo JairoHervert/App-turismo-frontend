@@ -3,7 +3,7 @@ import { Grid, Card, CardActionArea, CardMedia, Typography } from '@mui/material
 function ItemFavoritos({ imagen, nombre}) {
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Card sx={{ maxWidth: 380, margin: 'auto', backgroundColor: '#b9e6f79f' }}>
+      <Card sx={{ maxWidth: 300, margin: 'auto', backgroundColor: '#b9e6f79f' }}>
         <CardActionArea>
           <div style={{ position: 'relative' }}>
             <CardMedia

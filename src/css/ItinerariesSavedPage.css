@@ -1,23 +1,56 @@
-/* Estilos para el contenedor principal de la página */
-.itineraries-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
+.it-my-4 {
+    margin: 1rem 0;
 }
 
-/* Estilos generales para el contenedor */
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
+.it-mb-4 {
+    margin-bottom: 1rem;
 }
 
-/* Título de la página */
-.page-title {
-    font-size: 3 rem;
+.it-mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.it-page-title {
+    font-size: 3rem;
     font-weight: bold;
-    color: #333;
-    margin: 20px 0;
-    text-align: center;
 }
+
+.it_pag-icono-book {
+    font-size: 3rem;
+}
+
+@media (max-width: 905px) {
+    .it-page-title {
+        font-size: 2.2rem;
+    }
+
+    .it_pag-icono-book {
+        font-size: 2.2rem;
+    }
+
+
+}
+
+@media (max-width: 745px) {
+    .it-page-title {
+        font-size: 1.5rem;
+    }
+
+    .it_pag-icono-book {
+        font-size: 1.5rem;
+    }
+
+}
+
+@media (max-width: 415px) {
+    .it-page-title {
+        font-size: 1.2rem;
+    }
+
+    .it_pag-icono-book {
+        font-size: 1.2rem;
+    }
+
+}
+
 

@@ -1,0 +1,63 @@
+.resume-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.resume-back-button {
+    background-color: #E4007C;
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 0; 
+}
+
+.resume-title-container {
+    text-align: center; 
+    margin-top: 0;
+    margin-bottom: 0; 
+    padding: 0; 
+}
+
+.resume-title {
+    font-weight: bold;
+    margin: 0; 
+    font-size: 3rem; 
+}
+
+.resume-subtitle {
+    font-weight: bold;
+    margin: 0; 
+    font-size: 1.5rem;
+}
+
+
+.resume-calendar-container {
+    max-height: 74vh;
+    overflow-y: auto;
+}
+
+
+.resume-save-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.resume-save-button button {
+    background-color: #E4007C;
+    color: white;
+    font-size: 1.2rem;
+}
+
+@media (max-width: 800px) {
+    .resume-back-button {
+        font-size: 0.5rem;
+    }
+
+    .resume-title {
+        font-size: 1.6rem; 
+    }
+
+    .resume-subtitle {
+        font-size: 0.9rem;
+    }
+}

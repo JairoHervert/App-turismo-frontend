@@ -1,7 +1,7 @@
-import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, Grid, TextField, Box, InputAdornment } from '@mui/material';
+import { Container, Stack, Grid, TextField, Box, InputAdornment, Typography } from '@mui/material';
 import { Search as SearchIcon, FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
+import Pagination from '@mui/material/Pagination';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import ItemFavoritos from '../components/favorites/ItemFavoritos';
@@ -29,8 +29,8 @@ function FavoritesPage() {
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
           <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
-            <FavoriteRoundedIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' /> {/* Ahora usa el color primario del tema */}
-            <h1 className='fw-bold fav_pag-titulo'>Favoritos</h1>
+            <FavoriteRoundedIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' sx={{ fontSize: '3rem' }}/> {/* El atributo color, es para ajustar el color a partir del archivo de theme MaterialUI */}
+            <Typography variant='h1' className='fw-bold' sx={{ fontSize: '3rem' }}>Favoritos</Typography>
           </Stack>
 
           <TextField 

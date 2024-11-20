@@ -140,9 +140,22 @@
     position: relative;
     top: auto;
 }
+.bg-color-category{
+    background-color: white;
+}
 
+.item-align-categorias {
+    display: flex;  /* Usamos flexbox */
+    justify-content: space-between; /* Distribuye el espacio entre los elementos */
+    align-items: center; /* Alinea verticalmente los elementos al centro */
+}
+.back.category-x{
+    margin-left: 800px;
+    }
 .text-ptv-category {
     margin-left: 38%;
+    text-align: left;
+
 }
 
 .btn-category:hover {
@@ -239,6 +252,8 @@
     .search-category-background-category {
         padding-top: 40px;
     }
+
+    
 }
 
 /* Pantallas medianas (resoluciones mayores a 768px pero menores a 1256px) */
@@ -283,5 +298,5 @@
 
     .text-center-category h2-category {
         font-size: 1.8em;
-    }
+    } 
 }

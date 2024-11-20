@@ -1,0 +1,41 @@
+.ca-container {
+    padding: 16px;
+}
+
+.ca-header {
+    margin-bottom: 16px;
+}
+
+.ca-dia-semana {
+    text-align: center;
+    background-color: #e3f2fd;
+    padding: 8px; 
+
+}
+
+.ca-dia-semana h6 {
+
+    font-weight: bold;
+    color: #6c757d; 
+    font-size: 1rem; 
+}
+
+.ca-dia {
+    border: 1px solid #489abb;
+    border-radius: 4px;
+    padding: 16px;
+    text-align: left;
+    min-height: 200px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+    .ca-dia {
+        padding: 8px;
+        min-height: 40px;
+    }
+
+    .ca-dia-semana h6 {
+        font-size: 0.875rem;
+    }
+}

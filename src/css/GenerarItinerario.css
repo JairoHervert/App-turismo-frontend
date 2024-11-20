@@ -30,21 +30,16 @@
 
 .card-consideraciones-generarItinerario {
     margin-left: 20px !important;
+    margin-top: 20px !important;
 }
 
 .checkbox-consideraciones {
     border-radius: 5px;
-    background-color: #d8f4ff;
     margin-bottom: 7px;
 }
 
 .checkbox-consideraciones:hover {
     background-color: var(--color-primary);
-}
-
-.css-19opgx6-MuiFormControlLabel-root {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
 }
 
 .numero-viajantes {
@@ -57,6 +52,7 @@
 
 .btn-generarItinerario {
     margin-top: 30px;
+    margin-bottom: 30px;
     padding-left: 16px;
     display: flex;
     justify-content: flex-end;

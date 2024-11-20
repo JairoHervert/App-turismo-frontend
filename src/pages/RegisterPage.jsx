@@ -7,14 +7,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { useGoogleLogin } from '@react-oauth/google';
 
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/login/LeftImage';
 
-import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
 
 import imgRegister from '../img/registerIMGA.jpg';
 
@@ -121,9 +118,7 @@ function RegisterPage() {
     }
 
     // Si todo está correcto, proceder con el registro
-    if (nombre && correo && contraseña && contraseña2 && passwordsMatch && passwordRules.longitudValida && passwordRules.mayuscula && passwordRules.minuscula && passwordRules.numero) {
-      handleRegistro(e, nombre, correo, contraseña);
-    }
+    
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -135,10 +130,7 @@ function RegisterPage() {
 
   const handleHomeClick = () => navigate('/');
 
-  const handleGoogleLogin = useGoogleLogin({
-    onSuccess: successGoogleHandler,
-    onError: errorGoogleHandler,
-  });
+
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -275,19 +267,12 @@ function RegisterPage() {
                         <Box className="my-4">
                           <Typography variant="body2" className="text-center">O regístrate con</Typography>
                           <Box className="d-flex justify-content-center gap-3">
-                            <IconButton onClick={handleGoogleLogin}>
+                            <IconButton >
                               <GoogleIcon />
                             </IconButton>
-                            <FacebookLogin
-                              appId="YOUR_APP_ID"
-                              autoLoad={false}
-                              callback={responseFacebook}
-                              render={(renderProps) => (
-                                <IconButton onClick={renderProps.onClick}>
-                                  <FacebookRoundedIcon />
-                                </IconButton>
-                              )}
-                            />
+                            <IconButton>
+                              <FacebookRoundedIcon />
+                            </IconButton>
                           </Box>
                         </Box>
 

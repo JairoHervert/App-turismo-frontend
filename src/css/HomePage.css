@@ -63,19 +63,6 @@
 
  /* --------------- Botones -------------- */
 
-.btn-home {
-    background-color: var(--color-secondary);
-    border-color: var(--color-secondary);
-    color: #fff;
- }
-
- .btn-home:hover {
-    background-color: #fff;
-    border-color: var(--color-secondary);
-    color: var(--color-secondary);
-    transition: 0.5s;
- }
-
  .btn-cardAlcaldia {
     background-color: #fff;
     border-color: var(--color-secondary);
@@ -489,7 +476,8 @@ h2 {
     border: 1px solid white !important;
     /* Cambia el color del borde a blanco */
     border-radius: 0 !important;
-    /* Elimina esquinas redondeadas */
+    /*pone el borde con sombreado*/
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .custom-card .card-img-top {

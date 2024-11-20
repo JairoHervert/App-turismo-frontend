@@ -1,0 +1,78 @@
+/* NavbarAD - Nombres actualizados */
+
+/* Clase de nombre de la navbar */
+.navbarAD-name {
+    font-weight: bold;
+ }
+ 
+ /* Hover para los enlaces */
+ .navbarAD .nav-item .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border-radius: 0.25rem;
+    color: #E4007C;
+ }
+ 
+ /* Estilos para botones */
+ .btn-primary {
+    background-color: #E4007C;
+    border-color: #E4007C;
+ }
+
+ .nav-AD-align{
+    justify-content: center;
+ }
+ 
+ .btn-primary:hover {
+    background-color: #E4007C;
+    border-color: #E4007C;
+ }
+ 
+ .btn-primary:active {
+    background-color: #E4007C;
+    border-color: #E4007C;
+ }
+ 
+ .btn-outline-primary {
+    border-color: #E4007C;
+    color: #E4007C;
+ }
+ 
+ .btn-outline-primary:hover {
+    background-color: #E4007C;
+    color: white;
+    border-color: #E4007C;
+ }
+ 
+ /* Estilos para el logo */
+ .logo-img {
+    width: 70px;
+    height: 70px;
+ }
+ 
+ /* Navbar en posición fija o normal */
+ .navbarAD .posit-fixed {
+    position: fixed;
+ }
+ 
+ .navbarAD .position-initial {
+    position: initial;
+ }
+ 
+ /* Estilos del menú hamburguesa */
+ .navbarAD-toggler {
+    outline: none;
+    box-shadow: none;
+    border: none;
+    background-color: transparent;
+ }
+ 
+ .navbarAD-toggler .bi-list {
+    color: #e4007d;
+    font-size: 1.5rem;
+ }
+ 
+ .navbarAD-toggler:focus .bi-list,
+ .navbarAD-toggler:active .bi-list {
+    color: #b30064;
+ }

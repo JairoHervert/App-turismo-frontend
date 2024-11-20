@@ -1,159 +1,51 @@
-/* Tarjeta de itinerario */
-.itinerary-card {
-    display: grid;
-    grid-template-columns: 100px 1fr 100px; 
-    align-items: center;
-    background-color: white;
-    border: 2px solid #b3e0ff;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 15px 0;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    gap: 20px;
-}
-
-/* Imagen */
-.itinerary-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-/* Contenedor de información */
-.itinerary-info {
+.it-res-card {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-left: 30px;
+    flex-direction: row;
 }
 
-/* Título */
-.itinerary-info h2 {
-    font-size: 1.4em;
-    color: #333;
-    font-weight: bold;
-    margin: 0;
-}
-
-/* Detalles */
-.itinerary-info p {
-    font-size: 1em;
-    color: #555;
-    margin: 5px 0;
-}
-
-/* Contenedor de acciones (botones) */
-.actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Botón "Repetir" */
-.repeat-button {
-    background-color: #E4007C;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-}
-
-.repeat-button:hover {
-    background-color: #E4007C;
-}
-
-/* Botón "Más información" */
-.more-info-button {
-    color: #000000;
-    background: none;
-    border: none;
-    font-size: 0.9em;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 5px;
-    text-align: left;
-}
-
-/* Contenedor de iconos PDF y Eliminar */
-.icons {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-/* Estilos para los iconos PDF y Eliminar */
-.pdf-icon, .delete-icon {
-    background-color: #e0f2ff;
-    color: #333;
-    border: none;
-    font-size: 0.8em;
-    padding: 5px 8px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.pdf-icon:hover {
-    background-color: #b3e0ff;
-}
-
-.delete-icon:hover {
-    background-color: #ffcccc;
-}
-
-/* Responsivo*/
-@media (max-width: 768px) {
-    .itinerary-card {
-        grid-template-columns: 80px 1fr;
-        padding: 15px;
+@media (max-width: 660px) {
+    .it-res-card {
+        flex-direction: column; 
     }
 
-    .itinerary-image {
-        width: 80px;
-        height: 80px;
+    .it-res-card .MuiCardMedia-root {
+        width: 100%;
+        height: 100%; 
     }
 
-    .repeat-button {
-        padding: 8px 16px;
-        font-size: 0.9em;
+    .it-res-card .MuiCardContent-root {
+        padding: 8px; 
     }
 
-    .icons {
-        justify-content: start;
+    .it-res-card .MuiBox-root {
+        min-width: auto; 
     }
 }
 
-/* Responsivo*/
-@media (max-width: 480px) {
-    .itinerary-card {
-        grid-template-columns: 1fr;
-        text-align: center;
+@media (max-width: 415px) {
+    .it-res-card {
+        flex-direction: column; 
+        min-width: 305px;
     }
 
-    .itinerary-image {
-        margin: 0 auto;
+    .it-card-title {
+        font-size: 0.1rem;
+        font-weight: bold;
     }
 
-    .itinerary-info {
-        margin: 10px 0;
+    .it-res-card .MuiCardMedia-root { 
+        width: 100%;
+        height: 0%; 
     }
 
-    .repeat-button {
-        padding: 8px 16px;
-        width: auto;
+    .it-res-card .MuiBox-root {
+        flex-direction: column;    
+        padding: 8px; 
+        min-width: 100%;
     }
 
-    .icons {
-        justify-content: center;
+    .it-res-card .MuiBox-root {
+        flex-direction: column; 
+        min-width: 50%; 
     }
 }

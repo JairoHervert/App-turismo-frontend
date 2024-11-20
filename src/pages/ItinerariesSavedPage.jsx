@@ -15,64 +15,68 @@ import Imagen3 from '../img/ItinerariesPage/places/itineraries-Acuario.jpg';
 
 function ItinirariesSavePage() {
 
-  return (
-    <ThemeProvider theme={ThemeMaterialUI}>
-      <Navbar
-        showingresa={false}
-        showRegistrate={false}
-        transparentNavbar={false}
-        lightLink={false}
-        staticNavbar={false}
-      />
-
-      <Container maxWidth='lg' className='my-4'>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
-          <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
-            <BookmarkIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' /> {/* Ahora usa el color primario del tema */}
-            <h1 className='page-title'>Itinerarios guardados</h1>
-          </Stack>
-
-          <TextField
-            label="Buscar en itinerarios guardados"
-            variant="outlined"
-            size="small"
-            sx={{ maxWidth: 250 }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Stack>
-
-        <ItemItinerarios
-          imagen={Imagen1}
-          titulo="Xochimilco"
-          detalles="Restaurante 'Fernando', florería 'Daniela', trajineras 'Xochimilco'"
-          fecha="26/07/2019"
+    return (
+        <ThemeProvider theme={ThemeMaterialUI}>
+        <Navbar
+            showingresa={false}
+            showRegistrate={false}
+            transparentNavbar={false}
+            lightLink={false}
+            staticNavbar={false}
         />
 
-        <ItemItinerarios
-          imagen={Imagen2}
-          titulo="Grutas de Tolantongo"
-          detalles="Hotel 'Estrella', restaurante 'El señor', gruta 'Tolantongo'"
-          fecha="26/07/2019"
-        />
+        <Container maxWidth='lg' className='it-my-4'>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='it-mb-4' justifyContent={{ sm: 'space-between' }}>
+            <Stack direction='row' spacing={1} alignItems='center' className='it-mb-2'>
+                <BookmarkIcon color='primary' fontSize='inhert' className='it_pag-icono-book' /> {/* Ahora usa el color primario del tema */}
+                <h1 className='it-page-title'>Itinerarios guardados</h1>
+            </Stack>
 
-        <ItemItinerarios
-          imagen={Imagen3}
-          titulo="Acuario Inbursa"
-          detalles="Museo 'Soumaya', museo 'Jumex', cafetería 'Hello Kitty', plaza 'Antara', acuario 'Inbursa'"
-          fecha="26/07/2019"
-        />
+            <TextField
+                label="Buscar en itinerarios guardados"
+                variant="outlined"
+                size="small"
+                sx={{ maxWidth: 250 }}
+                InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                    <SearchIcon />
+                    </InputAdornment>
+                ),
+                }}
+            />
+            </Stack>
 
-      </Container>
+            <Box className="resume-calendar-container" sx={{ maxHeight: '65vh', overflowY: 'auto' }}>
+                
+                    <ItemItinerarios
+                    imagen={Imagen1}
+                    titulo="Itinerario número 1"
+                    detalles="Restaurante 'Fernando', florería 'Daniela', trajineras 'Xochimilco'"
+                    fecha="26/07/2019"
+                    />
 
-      <Footer showIncorporaLugar={true} />
-    </ThemeProvider>
-  );
+                    <ItemItinerarios
+                    imagen={Imagen2}
+                    titulo="Itinerario número 2"
+                    detalles="Hotel 'Estrella', restaurante 'El señor', gruta 'Tolantongo'"
+                    fecha="26/07/2019"
+                    />
+
+                    <ItemItinerarios
+                    imagen={Imagen3}
+                    titulo="Itinerario número 3"
+                    detalles="Museo 'Soumaya', museo 'Jumex', cafetería 'Hello Kitty', plaza 'Antara', acuario 'Inbursa'"
+                    fecha="26/07/2019"
+                    />
+
+            </Box>
+                
+        </Container>
+
+        <Footer showIncorporaLugar={true} />
+        </ThemeProvider>
+    );
 
 }
 
