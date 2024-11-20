@@ -145,8 +145,10 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
     });
 
     console.log(response);
+    console.log(response.data);
+    console.log(response.data.resultado);
 
-    if(response.data !== 'El correo ya está registrado.'){
+    if(response.data.resultado.id){
       Swal.fire({
         icon: 'success',
         title: 'Registro con Google exitoso',
@@ -154,7 +156,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
         timer: 5000,
         showConfirmButton: false,
         willClose: () => {
-          window.location.href = '/login'
+          //window.location.href = '/login'
         }
       })
     } else {
@@ -174,7 +176,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
       console.error("Error al intentar iniciar sesión:", error);
       Swal.fire({
         icon: 'error',
-        title: 'Registro con Googl fallido',
+        title: 'Registro con Google fallido',
         text: 'Algo falló en la solicitud',
         timer: 5000,
         showConfirmButton: false

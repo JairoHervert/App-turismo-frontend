@@ -15,7 +15,7 @@ class registerController {
       registerModel
         .registroRegular(nombre, correo, hashedPassword)
         .then((resultado) => {
-          res.status(201).json(resultado);
+          res.status(201).json({resultado: resultado});
         })
         .catch((err) => {
           if (err.message) {

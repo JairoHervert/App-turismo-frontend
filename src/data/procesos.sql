@@ -107,7 +107,7 @@ BEGIN
             SELECT 'correo_invalido' AS 'error';
          END IF;
       ELSE
-         SELECT 'usuario_ya_registrado' AS 'error';
+         SELECT 'cuenta_ya_registrada' AS 'error';
       END IF;
    ELSE
       SELECT 'correo_ya_registrado' AS 'error';
