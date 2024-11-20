@@ -82,10 +82,10 @@ const Perfil = () => {
         
         {/* Perfil Usuario Header */}
         <InformacionHeader
-          nombreUsuario={datos && datos.username ? datos.username : 'username'}
+          nombreUsuario={datos && datos.username ? datos.username : 'Usuario'}
           itinerariosCreados={'46'}
-          favoritos={datos && datos.nFavoritos ? datos.nFavoritos : '0'}
-          deseados={datos && datos.nDeseados ? datos.nDeseados : '23'}
+          favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
+          deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
         />    
 
         { /* Información Personal Usuario */}
