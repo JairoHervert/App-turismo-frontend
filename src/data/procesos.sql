@@ -11,6 +11,7 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 DROP PROCEDURE IF EXISTS UsuarioDatosBasicos;
 # Usuario Preferencias
+DROP PROCEDURE IF EXISTS UsuarioGetDatos;
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAñadirFavorito;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
@@ -319,6 +320,41 @@ BEGIN
    ELSE
       SELECT username, nombre, apellido, correo, ligaFotoPerfil FROM Usuario
       WHERE id = p_id;
+   END IF;
+END //
+
+-- ---------------------------------------------------------------------------------------------------
+--                                          USUARIO INFORMACIÓN
+-- ---------------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioGetDatos`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioGetDatos (
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT
+         u.username AS 'username',
+         u.nombre AS 'nombre',
+         u.apellido AS 'apellido',
+         u.correo AS 'correo',
+         u.ligaFotoPerfil AS 'imagen',
+         DATE(u.fechaNacimiento) AS 'fechaNacimiento',
+         u.ultimaConexion AS 'ultimaConexion',
+         (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
+         (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos'
+         FROM Usuario u
+         WHERE u.id = p_id;
    END IF;
 END //
 

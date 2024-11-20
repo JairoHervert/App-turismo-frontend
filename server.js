@@ -27,6 +27,7 @@ app.post('/registro_Facebook', registerController.registroFacebook);
 app.post('/iniciar-sesion', loginController.iniciarSesion);
 app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/login_Facebook', loginController.iniciarSesionFacebook);
+app.post('/user_datos', userController.getDatos);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
 app.post('/isLogged', (req, res) => {
