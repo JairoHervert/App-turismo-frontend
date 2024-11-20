@@ -41,6 +41,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
+        setIsLoggedIn(false);
       }
     };
 

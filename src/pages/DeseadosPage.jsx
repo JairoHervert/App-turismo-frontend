@@ -17,6 +17,9 @@ import { useNavigate } from 'react-router-dom';
 import '../css/DeseadosPage.css';
 
 function DeseadosPage() {
+  const navigate = useNavigate(); // Inicializa useNavigate
+  // Declara el estado `deseados`
+  const [deseados, setDeseados] = useState([]);
   // Datos de prueba, tuve que hacerlo así porque no tengo acceso a la base de datos (no quiero instalar mysql xd)
   const lugares = [
     { nombre: 'Álvaro Obregón', descripcion: 'Descubre el encanto de Álvaro Obregón, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.', imagen: 'home-places-alvaro-obregon.jpg', tiempo: '2 hrs', costo: 'Gratis' },
@@ -35,17 +38,14 @@ function DeseadosPage() {
   const [page, setPage] = useState(1);
   const itemsPorPagina = 3;
 
-  // Calcula los cuadros de lugares a mostrar en la página actual
+  // Calcula los cuadros de lugares a mostrar en la página actual basado en `deseados`
   const startIndex = (page - 1) * itemsPorPagina;
-  const currentItems = lugares.slice(startIndex, startIndex + itemsPorPagina);
+  const currentItems = deseados.slice(startIndex, startIndex + itemsPorPagina);
 
+  // Función para manejar el cambio de página
   const handleChangePage = (e, value) => {
     setPage(value);
   };
-
-  //const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [deseados, setDeseados] = useState([]);
-  const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -57,7 +57,7 @@ function DeseadosPage() {
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
-        navigate('./login');
+        navigate('/login');
       }
     };
 
@@ -68,7 +68,7 @@ function DeseadosPage() {
         
         const resultado = await handleDeseados(id); // Espera la resolución de la promesa
         setDeseados(resultado);
-        console.log(deseados);
+        console.log(resultado);
       } catch (error) {
         console.error('Error al obtener lugares deseados:', error);
       }
@@ -113,8 +113,8 @@ function DeseadosPage() {
 
         <div className='row'>
         <div className='col-12 col-xl-9'>
-          {/*{deseados && deseados.length > 0 ? (
-            deseados.map((lugar, index) => (
+          {currentItems && currentItems.length > 0 ? (
+            currentItems.map((lugar, index) => (
               <CuadroLugar
                 key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
                 idLugar={lugar.id}
@@ -129,17 +129,18 @@ function DeseadosPage() {
             <p>No se encontraron lugares deseados.</p>
           )}
           <Box className='d-flex justify-content-center mt-4 mb-4'>
-              <Stack spacing={2} className='d-flex justify-content-center'>
-                <Pagination 
-                  count={Math.ceil(deseados.length / itemsPorPagina)} 
-                  page={page} 
-                  onChange={handleChangePage} 
-                  color='secondary' 
-                />
-              </Stack>
-            </Box>*/}
+            <Stack spacing={2} className='d-flex justify-content-center'>
+              <Pagination 
+                count={Math.ceil(deseados.length / itemsPorPagina)} 
+                page={page} 
+                onChange={handleChangePage} 
+                color='secondary' 
+              />
+            </Stack>
+          </Box>
+
           
-            {currentItems.map((lugar, index) => (
+            {/*{currentItems.map((lugar, index) => (
               <CuadroLugar
                 key={index}
                 nombreLugar={lugar.nombre}
@@ -159,7 +160,7 @@ function DeseadosPage() {
                   color='secondary' 
                 />
               </Stack>
-            </Box>
+            </Box>*/}
           
           </div>
           <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
