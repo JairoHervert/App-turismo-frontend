@@ -156,7 +156,7 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
         timer: 5000,
         showConfirmButton: false,
         willClose: () => {
-          //window.location.href = '/login'
+          window.location.href = '/login'
         }
       })
     } else {

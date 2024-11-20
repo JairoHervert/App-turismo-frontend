@@ -35,7 +35,7 @@ class registerController {
     registerModel
       .registroGoogle(nombre, apellido, correo, imagen, token)
       .then((resultado) => {
-        res.status(201).json(resultado);
+        res.status(201).json({resultado: resultado});
       })
       .catch((err) => {
         if (err.message) {
