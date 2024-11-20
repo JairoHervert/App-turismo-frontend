@@ -135,16 +135,10 @@ function RegisterPage() {
 
   const handleHomeClick = () => navigate('/');
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
-
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
-  const handleMouseDownPassword = (e) => e.preventDefault();
-
-  const handleHomeClick = () => navigate('/');
-
-
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: successGoogleHandler,
+    onError: errorGoogleHandler,
+  });
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>

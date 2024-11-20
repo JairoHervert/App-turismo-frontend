@@ -40,7 +40,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     });
     return;
   }
-
+/*
   const nameRegex =  /^[A-ZÁÉÍÓÚÜ][a-záéíóúü]+(?:\s[A-ZÁÉÍÓÚÜa-záéíóúü]+|('[A-ZÁÉÍÓÚÜa-záéíóúü]+))*$/; 
   if (!nameRegex.test(nombre) || nombre.length < 3) {
     Swal.fire({
@@ -76,7 +76,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     });
     return;
   }
-  
+
   if(contraseña != contraseña2) {
     Swal.fire({
       icon: 'error',
@@ -87,7 +87,7 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     });
     return;
   }
-
+*/
   try {
     
     const response = await axios.post('http://localhost:3001/registro', {
