@@ -16,7 +16,7 @@ import '../css/HomePage.css';
 import CatHome from '../components/categories/CategoryHome';
 import CardAlcaldia from '../components/CardAlcaldia';
 
-const isLogged = Logged();
+const isLogged = false;
 console.log(isLogged);
 
 const HomePage = () => {
