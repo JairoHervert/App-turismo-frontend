@@ -4,6 +4,9 @@ import '../../css/FavoritesPage.css';
 import ButtonsMod from '../ButtonsMod';
 
 function ItemFavoritos({ imagen, nombre, descripcion }) {
+  const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
+  const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
+  
   return (
     <Grid item xs={12} sm={6} md={4} lg={3} >
       <Card sx={{ maxWidth: 380, margin: 'auto' }}>
@@ -11,7 +14,7 @@ function ItemFavoritos({ imagen, nombre, descripcion }) {
           <CardMedia
             component='img'
             height='250'
-            image={imagen}
+            image={imagenSrc}
             alt='Lugar 1'
           />
           <CardContent>

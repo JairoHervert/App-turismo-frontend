@@ -1,3 +1,4 @@
+const { errorHandler } = require('../../pagesHandlers/error-handler');
 const db = require('./db');
 
 class registerModel{
@@ -8,41 +9,32 @@ class registerModel{
       db.query(query, [nombre, correo, contraseña], (err, results) => {
         if (err) {
           if (err.sqlState === '45000') {
-              return resolve('El correo ya está registrado.');
+              return reject(new Error('El correo ya está registrado.'));
           }
           reject(err);
         }
+        const resultado = results || null;
+        console.log(resultado);
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
         resolve({ message: 'Usuario creado'});
       });
     });
   }
 
-  static async registroGoogle(nombre, correo, imagen, token){
-    const query = 'CALL UsuarioRegistroGoogle (?, ?, ?, ?);';
+  static async registroGoogle(nombre, apellido, correo, imagen, token){
+    const query = 'CALL UsuarioRegistroGoogle (?, ?, ?, ?, ?);';
     return new Promise((resolve, reject) => {
-      db.query(query, [nombre, correo, imagen, token], (err, results) => {
+      db.query(query, [nombre, apellido, correo, imagen, token], (err, results) => {
         if (err) {
-          reject(err);
+          return reject(err);
         }
         const resultado = results[0][0] || null;
-        let error = '';
-        // console.log(resultado);
-        if (resultado && resultado.error) {
-          switch (resultado.error) {
-            case 'correo_ya_registrado':
-              error = 'El correo ya está registrado. Inicia sesión con tu correo y contraseña.';
-              break;
-            case 'usuario_ya_registrado':
-              error = 'El usuario ya está registrado.';
-              break;
-            case 'correo_invalido':
-              error = 'El correo no es válido.';
-              break;
-          }
-          // return resolve({ error });
-          reject(new Error(error));
-        }
-        return resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        if(!resultado)
+          return reject(new Error(''))
+        resolve({ id: resultado ? resultado.id : null}); // { id: resultado ? resultado.id : null}*/
       });
     });
   }
@@ -52,13 +44,12 @@ class registerModel{
     return new Promise((resolve, reject) => {
       db.query(query, [nombre, imagen, facebookId], (err, results) => {
         if (err) {
-          if (err.sqlState === '45000') {
-            return resolve('El correo ya está registrado.');
-          }
           reject(err);
         }
-        const resultado = results || null;
-        resolve(resultado/*{ id: resultado ? resultado.id : null}*/);
+        const resultado = results[0][0] || null;
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({ id: resultado ? resultado.id : null});
       });
     });
   }

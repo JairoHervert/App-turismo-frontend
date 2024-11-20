@@ -10,6 +10,11 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import CuadroLugar from '../components/deseados/UDCuadroLugar';
 import MenuFiltros from '../components/deseados/MenuFiltros';
+
+import { handleDeseados } from '../pagesHandlers/user_handler';
+import { useEffect, useState } from 'react';
+import { isLogged } from '../schemas/isLogged';
+import { useNavigate } from 'react-router-dom';
 import '../css/DeseadosPage.css';
 
 function DeseadosPage() {
@@ -38,6 +43,41 @@ function DeseadosPage() {
   const handleChangePage = (e, value) => {
     setPage(value);
   };
+
+  //const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [deseados, setDeseados] = useState([]);
+  const navigate = useNavigate(); // Inicializa useNavigate
+
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        if (!loggedIn.logged) {
+          navigate('/login');
+          return;
+        }
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+        navigate('./login');
+      }
+    };
+
+    const fetchDeseados = async () => {
+      try {
+        const id = localStorage.getItem('id');
+        console.log(id);
+        
+        const resultado = await handleDeseados(id); // Espera la resolución de la promesa
+        setDeseados(resultado);
+        console.log(deseados);
+      } catch (error) {
+        console.error('Error al obtener lugares deseados:', error);
+      }
+    };
+
+    fetchLoginStatus();
+    fetchDeseados(); // Llama a la función para obtener los datos
+  }, []);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -73,31 +113,45 @@ function DeseadosPage() {
         </div>
 
         <div className='row'>
-          <div className='col-12 col-xl-9'>
-
-            {/* Mapea los lugares a mostrar en la página, crea un componente 'Cuadrolugar' por cada elemento, en este caso del array */}
-            {/* En teoria solito se deberia generar una vez se asignen lugares */}
-            {currentItems.map((lugar, index) => (
-              <CuadroLugar
-                key={index}
-                nombreLugar={lugar.nombre}
-                descripcionLugar={lugar.descripcion}
-                imagenLugar={lugar.imagen}
-                tiempoLugar={lugar.tiempo}
-                costoLugar={lugar.costo}
-              />
-            ))}
-
-            <Box className='d-flex justify-content-center mt-4 mb-4'>
-              <Stack spacing={2} className='d-flex justify-content-center'>
-                <Pagination 
-                  count={Math.ceil(lugares.length / itemsPorPagina)} 
-                  page={page} 
-                  onChange={handleChangePage} 
-                  color='secondary' 
+        <div className='col-12 col-xl-9'>
+        {deseados && deseados.length > 0 ? (
+              deseados.map((lugar, index) => (
+                <CuadroLugar
+                  key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
+                  idLugar={lugar.id}
+                  nombreLugar={lugar.nombre}
+                  descripcionLugar={lugar.descripcion}
+                  imagenLugar={lugar.imagen}
+                  tiempoLugar={lugar.tiempo}
+                  costoLugar={lugar.costo}
                 />
-              </Stack>
-            </Box>
+              ))
+            ) : (
+              <p>No se encontraron lugares deseados.</p>
+            )}
+          {/*
+                      {currentItems.map((lugar, index) => (
+          <CuadroLugar
+            key={index}
+            nombreLugar={lugar.nombre}
+            descripcionLugar={lugar.descripcion}
+            imagenLugar={lugar.imagen}
+            tiempoLugar={lugar.tiempo}
+            costoLugar={lugar.costo}
+          />
+        ))}
+
+        <Box className='d-flex justify-content-center mt-4 mb-4'>
+          <Stack spacing={2} className='d-flex justify-content-center'>
+            <Pagination 
+              count={Math.ceil(lugares.length / itemsPorPagina)} 
+              page={page} 
+              onChange={handleChangePage} 
+              color='secondary' 
+            />
+          </Stack>
+        </Box>
+          */}
           </div>
           <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
             <div className='us_de-contenedor-filtros my-4 d-flex flex-column justify-content-center align-items-center'>

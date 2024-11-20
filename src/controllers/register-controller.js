@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const transporter = require('../configs/nodemailer-config');
 const jwt = require('jsonwebtoken');
+const { errorHandler } = require('../pagesHandlers/error-handler');
 
 class registerController {
   static async registroRegular(req, res) {
@@ -14,17 +15,35 @@ class registerController {
       registerModel
         .registroRegular(nombre, correo, hashedPassword)
         .then((resultado) => {
-          res.status(201).json(resultado);
+          res.status(201).json({resultado: resultado});
         })
         .catch((err) => {
-          if (err === "El correo ya está registrado.") {
-            return res.status(400).json({ error: err });
+          if (err.message) {
+            let mensajeError = errorHandler(err.message);
+            // console.log(mensajeError);
+            return res.status(400).json({ error: mensajeError });
           }
           res.status(500).json({ error: err.message });
         });
     } catch (err) {
       res.status(500).json({ error: 'Error al encriptar la contraseña' });
     }
+  }
+
+  static async registroGoogle(req, res) {
+    const { nombre, apellido, correo, imagen, token } = req.body;
+    registerModel
+      .registroGoogle(nombre, apellido, correo, imagen, token)
+      .then((resultado) => {
+        res.status(201).json(resultado);
+      })
+      .catch((err) => {
+        if (err.message) {
+          let mensajeError = errorHandler(err.message);
+          return res.status(400).json({ error: mensajeError });
+        }
+        res.status(500).json({ error: err });
+      });
   }
 
   static async registroFacebook(req, res) {
@@ -36,25 +55,12 @@ class registerController {
         res.status(201).json(resultado);
       })
       .catch((err) => {
-        if (err === 'El correo ya está registrado.') {
-          return res.status(400).json({ error: err });
+        if (err.message) {
+          let mensajeError = errorHandler(err.message);
+          return res.status(400).json({ error: mensajeError });
         }
         res.status(500).json({ error: err.message });
       });
-  }
-  static async registroGoogle(req, res) {
-    const { nombre, correo, imagen, token } = req.body;
-    
-    try {
-      const resultado = await registerModel.registroGoogle(nombre, correo, imagen, token)
-      res.status(201).json(resultado);
-    }
-    catch (err) {
-      if(err.message === 'correo_ya_registrado')
-        return res.status(400).json({ error: 'El correo ya está registrado.'});
-      console.log(err);
-      res.status(500).json({ error: err.message });
-    }
   }
 
   static async enviarCorreoVerificacion(req, res){
@@ -70,7 +76,33 @@ class registerController {
       from: 'canastabasica2024@gmail.com',
       to: email,
       subject: 'Confirma tu registro en App Turismo',
-      html: `<p>Hola ${name},</p><p>Gracias por registrarte en AppTurismo.</p><p>Para concluir tu registro y poder ingresar a tu cuenta haz clic en el enlace de abajo para confirmar tu correo:</p><a href="http://localhost:3000/confirm/${newToken}">Confirmar Registro</a>`
+      html: `<div style="background-color: #f6f6f6; font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #ffffff;">
+      <div style="background-color: #9bd8f0; padding: 20px; border-radius: 10px;">
+        <!-- Logo de la aplicación -->
+        <img src="../img/logo-provicional.png" alt="Logo de AppTurismo" style="max-width: 100px; margin-bottom: 10px;" />
+        <h1 style="color: #FFFFFF; font-size: 24px; margin: 0;">¡Bienvenido a AppTurismo!</h1>
+      </div>
+      <p style="color: #333333; font-size: 16px; margin: 20px 0;">
+        Hola <strong>${nombre}</strong>, gracias por registrarte con nosotros.
+      </p>
+      <p style="color: #333333; font-size: 16px; margin: 20px 0;">
+        Para concluir tu registro y comenzar a explorar todas las funciones de nuestra plataforma, haz clic en el botón de abajo:
+      </p>
+      <a href="http://localhost:3000/confirm/${newToken}" style="
+        display: inline-block;
+        background-color: #FF0080;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 20px;">
+        Confirmar Registro
+      </a>
+      <p style="color: #333333; font-size: 14px; margin: 20px 0;">
+        Si no solicitaste este registro, puedes ignorar este correo.
+      </p>
+    </div>`
     };
   
     try {

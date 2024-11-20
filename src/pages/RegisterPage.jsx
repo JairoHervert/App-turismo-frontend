@@ -7,11 +7,14 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { useGoogleLogin } from '@react-oauth/google';
 
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/login/LeftImage';
 
+import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
 
 import imgRegister from '../img/registerIMGA.jpg';
 
@@ -30,7 +33,7 @@ function RegisterPage() {
   // Validaciones de la contraseña
   const validarContraseña = (contraseña) => {
     const rules = {
-      longitudValida: /^(?=.{8,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
+      longitudValida: /^(?=.{2,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
       mayuscula: /[A-Z]/.test(contraseña), // Al menos una mayúscula
       minuscula: /[a-z]/.test(contraseña), // Al menos una minúscula
       numero: /\d/.test(contraseña), // Al menos un número
@@ -42,7 +45,7 @@ function RegisterPage() {
   // Validación del nombre de usuario
   const validarUser = (usermame) => {
     const rules = {
-      longitudValida: /^(?=.{8,60}$)/.test(usermame), // Longitud mínima de 8 y máxima de 60 caracteres
+      longitudValida: /^(?=.{2,60}$)/.test(usermame), // Longitud mínima de 8 y máxima de 60 caracteres
       noVacio: usermame.length > 0, // El nombre de usuario no puede estar vacío
     };
     return rules;
@@ -118,8 +121,19 @@ function RegisterPage() {
     }
 
     // Si todo está correcto, proceder con el registro
-    
+    if (nombre && correo && contraseña && contraseña2 && passwordsMatch && passwordRules.longitudValida && passwordRules.mayuscula && passwordRules.minuscula && passwordRules.numero) {
+      handleRegistro(e, nombre, correo, contraseña, contraseña2);
+    }
   };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
+  const handleMouseDownPassword = (e) => e.preventDefault();
+
+  const handleHomeClick = () => navigate('/');
 
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
@@ -182,7 +196,7 @@ function RegisterPage() {
 
                         <Box className="my-3">
                           <ul>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 8 y 60 caracteres.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 2 y 60 caracteres.</li>
                           </ul>
                         </Box>
 
@@ -267,12 +281,19 @@ function RegisterPage() {
                         <Box className="my-4">
                           <Typography variant="body2" className="text-center">O regístrate con</Typography>
                           <Box className="d-flex justify-content-center gap-3">
-                            <IconButton >
+                            <IconButton onClick={handleGoogleLogin}>
                               <GoogleIcon />
                             </IconButton>
-                            <IconButton>
-                              <FacebookRoundedIcon />
-                            </IconButton>
+                            <FacebookLogin
+                              appId="1276060800080687"
+                              autoLoad={false}
+                              callback={responseFacebook}
+                              render={(renderProps) => (
+                                <IconButton onClick={renderProps.onClick}>
+                                  <FacebookRoundedIcon />
+                                </IconButton>
+                              )}
+                            />
                           </Box>
                         </Box>
 

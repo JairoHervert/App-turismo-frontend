@@ -126,34 +126,37 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     console.error(err);
     Swal.fire({
       icon: 'error',
-      title: 'Inicio de sesión fallido',
-      text: 'Algo falló en la solicitud',
+      title: 'Registro fallido',
+      text: errorMsg,
       timer: 5000,
       showConfirmButton: false
     });
   }
 };
 
-const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
+const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => {
   try {
     const response = await axios.post('http://localhost:3001/registroGoogle', {
-      correo,
-      nombre,
-      imagen,
-      token,
+      nombre: nombre,
+      apellido: apellido,
+      correo: correo,
+      imagen: imagen,
+      token: token,
     });
 
     console.log(response);
+    console.log(response.data);
+    console.log(response.data.resultado);
 
-    if(response.data !== 'El correo ya está registrado.'){
+    if(response.data.resultado.id){
       Swal.fire({
         icon: 'success',
-        title: 'Inicio de sesión exitoso',
+        title: 'Registro con Google exitoso',
         text: '¡Bienvenido! Has registrado tu cuenta de Google correctamente.',
         timer: 5000,
         showConfirmButton: false,
         willClose: () => {
-          window.location.href = '/login'
+          //window.location.href = '/login'
         }
       })
     } else {
@@ -164,7 +167,7 @@ const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
       console.error("Error:", error.response.data.error);
       Swal.fire({
         icon: 'error',
-        title: 'Inicio de sesión fallido',
+        title: 'Registro con Google fallido',
         text: error.response.data.error,
         timer: 5000,
         showConfirmButton: false
@@ -173,7 +176,7 @@ const handleRegistroGoogle = async (correo, nombre, imagen, token) => {
       console.error("Error al intentar iniciar sesión:", error);
       Swal.fire({
         icon: 'error',
-        title: 'Inicio de sesión fallido',
+        title: 'Registro con Google fallido',
         text: 'Algo falló en la solicitud',
         timer: 5000,
         showConfirmButton: false
@@ -198,13 +201,15 @@ const successGoogleHandler = async (tokenResponse) => {
         },
       }
     );
-    //console.log('Información del usuario:', userInfo.data);
+    console.log('Información del usuario:', userInfo.data);
 
     await handleRegistroGoogle(
+      userInfo.data.given_name,
+      userInfo.data.family_name,
       userInfo.data.email,
-      userInfo.data.name,
       userInfo.data.picture,
-      userInfo.data.sub);
+      userInfo.data.sub
+    );
     console.log(userInfo);
 
   } catch (error) {
@@ -219,10 +224,7 @@ const errorGoogleHandler = () => {
 // VERIFICACIÓN CON FACEBOOK
 const responseFacebook = async (response) => {
   console.log(response);
-
-  console.log(response.status);
-  console.log(response.status == 'unknown');
-  if(response.status == 'unknown') {
+  if(response.status && response.status == 'unknown') {
     return;
   }
   const { accessToken, name, userID } = response;
@@ -235,23 +237,24 @@ const responseFacebook = async (response) => {
       facebookId: userID,
     });
     
+    console.log("res", res);
     console.log(res.data.id);
     console.log(name, picture, userID);
     Swal.fire({
       icon: 'success',
-      title: 'Inicio de sesión exitoso',
+      title: 'Registro con Facebook exitoso',
       text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
       timer: 5000,
       showConfirmButton: false,
       willClose: () => {
-        window.location.href = '/'
+        window.location.href = '/login'
       }
     });
   } catch (error) {
     console.error('Error al registrar usuario con Facebook:', error);
     Swal.fire({
       icon: 'error',
-      title: 'Inicio de sesión fallido',
+      title: 'Registro con Facebook fallido',
       text: error.response.data.error,
       timer: 5000,
       showConfirmButton: false

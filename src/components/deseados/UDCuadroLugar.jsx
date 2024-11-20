@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../../css/DeseadosPage.css';
 
-function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar }) {
+function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar, idLugar }) {
   const navigate = useNavigate();
 
   const informacionLugar = () => {
@@ -12,6 +12,9 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
     // Acción al hacer clic en el ícono de corazón, por ahora solo imprime un mensaje en la consola
     console.log('Lugar agregado a favoritos');
   };
+
+  const esURL = imagenLugar.startsWith('http://') || imagenLugar.startsWith('https://');
+  const imagenSrc = esURL ? imagenLugar : require(`../../img/HomePage/places/${imagenLugar}`);
 
   return (
     <div 
@@ -26,7 +29,7 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
       </div>
 
       <div className='col-12 col-md-4 ud_contenedor-imagen-lugar'>
-        <img src={require(`../../img/HomePage/places/${imagenLugar}`)} className='us_de-imagen-lugar rounded' alt={nombreLugar} />
+        <img src={imagenSrc} className='us_de-imagen-lugar rounded' alt={nombreLugar} />
       </div>
 
       <div className='col-12 col-md-8 d-flex flex-column justify-content-center align-items-center ud-lugar-info-col'>
