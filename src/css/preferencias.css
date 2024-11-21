@@ -46,3 +46,8 @@
     font-size: 1.2rem; /* Ajusta el tamaño de la letra */
     text-shadow: 4px 3px 2.2px rgba(0, 0, 0, 1); /* Añade una sombra negra */
 }
+
+.modal-body {
+    max-height: 500px;
+    overflow-y: auto;
+}

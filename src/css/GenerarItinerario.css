@@ -35,7 +35,6 @@
 
 .checkbox-consideraciones {
     border-radius: 5px;
-    background-color: #d8f4ff;
     margin-bottom: 7px;
 }
 
@@ -53,6 +52,7 @@
 
 .btn-generarItinerario {
     margin-top: 30px;
+    margin-bottom: 30px;
     padding-left: 16px;
     display: flex;
     justify-content: flex-end;
