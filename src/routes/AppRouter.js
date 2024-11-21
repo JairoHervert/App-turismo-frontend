@@ -16,6 +16,7 @@ import CategoriasPage from '../pages/Categorias';
 import ResumePage from '../pages/ResumenPage';
 import RegisterPlacePage from '../pages/RegisterPlacePage'; 
 import AdminPage from '../pages/Administrador'; 
+import AdminPagePlaces from '../pages/AdministradorLugares'; 
 import Perfil from '../pages/Perfil';
 
 
@@ -40,6 +41,7 @@ function AppRouter() {
         <Route path='/resume-page' element={<ResumePage />}/>
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>
         <Route path='/Admin-Page' element={<AdminPage />}/>
+        <Route path='/Admin-Page-Places' element={<AdminPagePlaces />}/>
         <Route path='/perfil-page' element={<Perfil />}/>
       </Routes>
     </Router>

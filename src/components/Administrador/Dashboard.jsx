@@ -16,15 +16,25 @@ const DashboardSidebar = () => {
   };
 
   return (
-
-    <Box className="sidebar-container-admin" boxShadow={'2px 2px 4px rgba(0, 0, 0, 0.5)'}>
-      <List>
+ 
+        <Box 
+          className="sidebar-container-admin"
+          boxShadow="0px 0px 0px rgba(0, 0, 0, 0)" 
+          maxHeight="800px"   // Usa un valor razonable, como 800px
+          overflow="auto" 
+          backgroundColor="#F8F9FA"
+          marginLeft={"-40px"}
+          marginTop={'-40px'}
+          height="100%"        // Esto asegura que ocupe el 100% de su contenedor
+        >      
+        <List>
         {/* Dashboard */}
+        <div className='dash-cuentas-admin'>
         <ListItem button className="list-item-button-admin">
-          <ListItemIcon className="list-item-icon-admin">
+          <ListItemIcon className="list-item-icon-admin" >
             <Home />
           </ListItemIcon>
-          <ListItemText className="list-item-text-admin" primary="Dashboard" />
+          <ListItemText className="list-item-text-admin" primary="Dashboard" primaryTypographyProps={{style: {fontWeight: 'bold'}}}/>
         </ListItem>
 
         {/* Solicitudes */}
@@ -82,7 +92,10 @@ const DashboardSidebar = () => {
           </List>
         </Collapse>
 
+        </div>
+
         {/* Soporte */}
+        <div className='ajustes-soporte-admin'>
         <ListItem button className="list-item-button-admin">
           <ListItemIcon className="list-item-icon-admin">
             <Support />
@@ -97,6 +110,8 @@ const DashboardSidebar = () => {
           </ListItemIcon>
           <ListItemText className="list-item-text-admin" primary="Ajustes" />
         </ListItem>
+        </div>
+
       </List>
     </Box>
   );

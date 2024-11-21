@@ -1,6 +1,4 @@
 import React from 'react';
-import {TextField, InputAdornment} from '@mui/material';
-import { Search as SearchIcon, Bookmark as BookmarkIcon } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 import NavbarAD from '../components/NavBarA';
 import Footer from '../components/Footer';
@@ -9,7 +7,6 @@ import Dashboard from '../components/Administrador/Dashboard';
 import FormularioLugar from '../components/Administrador/MainBox';
 
 function SearchHistoryPageHistory() { 
-  const navigate = useNavigate();
 
   return (
     <div className='vh-100 vw-100'>
@@ -26,11 +23,15 @@ function SearchHistoryPageHistory() {
 
 
         {/* Contenedor principal para Dashboard y Recibidos */}
-        <div className='contenedor-cajas-admin d-flex justify-content-between w-100'>
-          <div className='contenedor-cajas-admin d-flex justify-content-between w-100 '>
+        <div className='contenedor-cajas-admin d-flex  w-100'>
+          <div className='contenedor-cajas-admin  '>
             
             <Dashboard />
 
+
+            </div>
+            <div className='second-container-admin'>
+            <Recibidos />
             <FormularioLugar
                   addplace="Museo Frida Kahlo"
                   nombre="Miranda Rojo"
@@ -39,10 +40,7 @@ function SearchHistoryPageHistory() {
                   hour="2:30 p.m."
                 
             />
-            <Recibidos />
-            </div>
-
-
+          </div>
         </div>
 
 

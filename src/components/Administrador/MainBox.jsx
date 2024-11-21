@@ -85,19 +85,16 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
 
           {/* Categoría */}
           <Grid item xs={12} className="formulario-grid-item-admin">
-            <Select
+            <TextField
               fullWidth
-              name="categoria"
-              value={formData.categoria}
+              label="Categoria"
+              name="ArteCategoria"
+              value="Arte"
               onChange={handleChange}
               variant="outlined"
               size="small"
               className="formulario-input-admin"
-            >
-              <MenuItem value="Educativo">Educativo</MenuItem>
-              <MenuItem value="Cultural">Cultural</MenuItem>
-              <MenuItem value="Turístico">Turístico</MenuItem>
-            </Select>
+            />
           </Grid>
 
           {/* Dirección */}

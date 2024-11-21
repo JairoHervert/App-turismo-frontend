@@ -106,7 +106,8 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
-
+                      <li><Link className='dropdown-item' to='/Admin-Page-Places'>Página de solicitud de administrador</Link></li>
+                      <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>
                   </div>

@@ -1,151 +1,157 @@
 
-.sidebar-container-admin {
+
+.sidebar-container-admin-places {
     background-color: #e8f6fc;
     padding-top: 2rem; /* Aumenta el espacio superior */
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     position: relative;
     transition: width 0.3s ease;
     margin-top: 0px;
-    
-
 }
-.second-container-admin
-{
+
+.second-container-admin-places {
   display: flex ;
   gap: 1rem;
 }
-.contenedor-cajas-admin{
+
+.contenedor-cajas-admin-places {
     padding: 20px;
 }
-  .list-item-button-admin {
+
+.list-item-button-admin-places {
     display: flex;
     align-items: center;
-  }
-.ajustes-soporte-admin{
+}
+
+.ajustes-soporte-admin-places {
   position: sticky;
   margin-top: 15rem;
 }
-.dash-cuentas-admin{
+
+.dash-cuentas-admin-places {
   display: flex ;
   flex-direction:column;
   gap: 8px;
 }
-  .list-item-text-admin {
+
+.list-item-text-admin-places {
     flex-grow: 1;
     font-weight: bold;
-  }
-  
-  .submenu-item-admin {
+}
+
+.submenu-item-admin-places {
     padding-left: 2rem;
-  }
-  
-  .list-item-icon-admin {
+}
+
+.list-item-icon-admin-places {
     min-width: 30px;
-  }
-  
-  /* Estilos para el formulario */
-  .formulario-container-admin {
+}
+
+/* Estilos para el formulario */
+.formulario-container-admin-places {
     width: 900px;
     background-color: #000405;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     padding: 4rem;
     margin: 4rem auto;
     transition: width 0.3s ease;
-  }
-  
-  .formulario-header-title-admin {
+}
+
+.formulario-header-title-admin-places {
     font-weight: bold;
     margin-bottom: 1rem;
     color: #ff007f;
-  }
-  
-  .formulario-subtitle-admin {
+}
+
+.formulario-subtitle-admin-places {
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 3rem;
-  }
-  
-  .formulario-subtitle-section-admin {
+}
+
+.formulario-subtitle-section-admin-places {
     font-weight: bold;
     margin-bottom: 2rem;
     border-bottom: 2px solid #ccc;
     padding-bottom: 1rem;
-  }
-  
-  .formulario-box-admin {
+}
+
+.formulario-box-admin-places {
     background-color: #fff;
     padding: 3rem;
-  }
-  
-  .formulario-grid-item-admin {
-    padding: 0.5rem;
-  }
-  
-  .formulario-input-admin {
-    width: 100%;
-  }
-  
+}
 
-  .formulario-button-reject-admin {
+.formulario-grid-item-admin-places {
+    padding: 0.5rem;
+}
+
+.formulario-input-admin-places {
+    width: 100%;
+}
+
+.formulario-button-reject-admin-places {
     color: #ff007f;
     border-color: #ff007f;
-  }
-  /*hook*/
-  .formulario-button-accept-admin {
+}
+
+.formulario-button-accept-admin-places {
     background-color: #e8f6fc;
     color: #fff;
-  }
-  
-  .formulario-button-accept-admin:hover {
+}
+
+.formulario-button-accept-admin-places:hover {
     background-color: #005f85;
-  }
-  
-  .formulario-button-reject-admin:hover {
+}
+
+.formulario-button-reject-admin-places:hover {
     background-color: #ffeef6;
     border-color: #ff007f;
-  }
-  
-  /* Estilos para la sección Recibidos */
-  .recibidos-container-admin {
+}
+
+/* Estilos para la sección Recibidos */
+.recibidos-container-admin-places {
     overflow: hidden;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-top: 30px;
-  }
-  /*hook2*/
-  .recibidos-header-admin {
+}
+.formulario-container-admin-places{
+max-width: 1200px;
+}
+
+.recibidos-header-admin-places {
     background-color: #e4f7ff;
     padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 1rem;
-  }
-  
-  .recibidos-header-title-admin {
+}
+
+.recibidos-header-title-admin-places {
     color: black;
     text-align: center;
     font-size: 15rem;
-  }
-    /* Formulario */
-    .formulario-container-admin {
-      width: 900px;
-      background-color: #e8f6fc;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      padding: 4rem;
-      margin: 4rem auto;
-      transition: width 0.3s ease;
-    }
-  
-  .recibidos-filter-buttons-admin {
+}
+
+.formulario-container-admin-places {
+    width: 900px;
+    background-color: #e8f6fc;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 4rem;
+    margin: 4rem auto;
+    transition: width 0.3s ease;
+}
+
+.recibidos-filter-buttons-admin-places {
     margin-top: 80px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     margin: 1rem 0;
     padding: 1rem;
-  }
-  
-  .recibidos-filter-button-admin {
+}
+
+.recibidos-filter-button-admin-places {
     margin: 5px;
     background-color: #e4007c;
     color: #fff;
@@ -155,40 +161,41 @@
     gap: 8px;
     padding: 10px 15px;
     font-size: 1rem;
-  }
-  
-  .recibidos-filter-button-active-admin {
+}
+
+.recibidos-filter-button-active-admin-places {
     border: 2px solid #fff;
-  }
-  
-  .recibidos-filter-button-admin:hover {
+}
+
+.recibidos-filter-button-admin-places:hover {
     background-color: #d1006f;
-  }
-  
-  /* Estilos para el contenedor de controles */
-  .controls-container-admin {
+}
+
+/* Estilos para el contenedor de controles */
+.controls-container-admin-places {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 16px;
-  }
-  
-  .controls-container-admin .MuiTextField-root {
+}
+
+.controls-container-admin-places .MuiTextField-root {
     max-width: 250px;
-  }
-  
-  .controls-container-admin .MuiInputAdornment-root {
+}
+
+.controls-container-admin-places .MuiInputAdornment-root {
     color: #e4007c;
-  }
-  /* Media query para pantallas pequeñas */
+}
+
+/* Media query para pantallas pequeñas */
 @media (max-width: 480px) {
-  .contenedor-cajas-admin {
+  .contenedor-cajas-admin-places {
     flex-direction: column; /* Cambia a columna en pantallas aún más pequeñas */
     gap: 10px; /* Espacio entre las cajas cuando se apilen */
     justify-content: center;  /* Centra las cajas cuando estén apiladas */
   }
 
-  .contenedor-cajas-admin .caja {
+  .contenedor-cajas-admin-places .caja {
     min-width: 100%; /* Las cajas ocupan todo el ancho disponible */
     max-width: 100%; /* Elimina el límite máximo de ancho */
   }
@@ -196,41 +203,39 @@
 
 /* Media query para pantallas pequeñas */
 @media (max-width: 600px) {
-  .sidebar-container-admin {
-    width: 100%;
+  .sidebar-container-admin-places {
     margin-left: 0;
     margin-top: 0;
   }
 
-  .formulario-container-admin {
+  .formulario-container-admin-places {
     width: 100%;
     padding: 2rem;
     margin: 2rem 0;
   }
 
-  .recibidos-header-title-admin {
+  .recibidos-header-title-admin-places {
     font-size: 1rem;
   }
 
-  .recibidos-filter-buttons-admin {
+  .recibidos-filter-buttons-admin-places {
     margin-top: 20px;
   }
 
-  .controls-container-admin .MuiTextField-root {
+  .controls-container-admin-places .MuiTextField-root {
     max-width: 100%;
   }
 }
 
+
 @media (max-width: 768px) {
-  .contenedor-cajas-admin {
-    
+  .contenedor-cajas-admin-places {
     flex-direction: row; /* Alinea las cajas en fila en pantallas pequeñas */
-    margin-left:15px ;
-    
     justify-content: center;  /* Centra las cajas horizontalmente */
   }
 
-  .contenedor-cajas-admin .caja {
+
+  .contenedor-cajas-admin-places .caja {
     flex: 1;
     min-width: 150px;  /* Ajusta el tamaño mínimo de las cajas */
     max-width: 200px;  /* Ajusta el tamaño máximo de las cajas */
@@ -239,34 +244,40 @@
 }
 
 @media (max-width: 808px) {
-  .sidebar-container-admin {
-    width: 200px;
-  }
+  .sidebar-container-admin-places {
+    width: 95%;
+    white-space: normal; /* Asegura que el texto se ajuste dentro del ancho */
+    overflow: hidden;   /* Oculta contenido que podría desbordarse */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+    word-wrap: break-word; /* Rompe palabras largas */
+    display: flex; /* Ajusta el contenido de manera flexible si es necesario */
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
+    align-items: center; /* Centra el contenido */  }
 
-  .formulario-button-reject-admin,
-  .formulario-button-accept-admin {
+  .formulario-button-reject-admin-places,
+  .formulario-button-accept-admin-places {
     width: 100%;
     margin-top: 1rem;
   }
 
-  .formulario-grid-item-admin {
+  .formulario-grid-item-admin-places {
     padding: 0.2rem;
   }
 }
 
 @media (max-width: 2000px) {
-  .sidebar-container-admin {
+  .sidebar-container-admin-places {
     background-color: #e8f6fc;
 
-}
+  }
 
-  .formulario-container-admin {
+  .formulario-container-admin-places {
     width: 80%;
     padding: 3rem;
     margin-left: -5px;
   }
 
-  .recibidos-header-title-admin {
+  .recibidos-header-title-admin-places {
     font-size: 1.1rem;
   }
 }
