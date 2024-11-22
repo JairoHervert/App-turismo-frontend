@@ -3,15 +3,14 @@ import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// estilos
+// estilos y componentes
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/GenerarItinerario.css';
 import ButtonsMod from '../components/ButtonsMod';
 
 import { Container, Stack, Card, Typography, CardHeader, CardContent, Select, MenuItem, CardMedia } from '@mui/material';
-import { FormControl, FormGroup, FormControlLabel, Checkbox, Box, Slider, TextField, Button, InputLabel } from '@mui/material';
+import { FormControl, FormGroup, FormControlLabel, Checkbox, Box, Slider, TextField, InputAdornment, InputLabel } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -28,29 +27,55 @@ const GenerarItinerario = () => {
 
   // CARD - DETALLES DE VIAJE -> NÚMERO DE VIAJANTES **POR DEFECTO ES 1 VIAJANTE
   const [numeroViajantes, setNumeroViajantes] = useState('1');
-
   const [isFirstEnabled] = useState(true);
 
   // MOVERSE A LA SIGUIENTE PÁGINA
   const navigate = useNavigate();
   const handleClick = () => {
+    // Validaciones presupuesto
     if(presupuesto === '') {
       setError(true);
       setHelperText('Este campo no debe estar vacío');
       return;
     }
-    const regex = /^[1-9][0-9]*$/;
+    const regex = /^0$|^[1-9][0-9]*$/;
     if (!regex.test(presupuesto)) {
       setError(true);
       setHelperText('Ingresa solo valores numéricos enteros');
       return; 
     }
-      navigate('/Categorias-page');
-   };
+
+    // Validaciones fecha de inicio y fin
+    if(fechaFin.isBefore(fechaInicio)) {
+      setErrorFechaFin(true);
+      return;
+    }
+
+    navigate('/Categorias-page');
+   }
 
   // CARD - FECHA DE INICIO Y FIN **POR DEFECTO SE LLENA CON LA FECHA DE HOY
   const [fechaInicio, setFechaInicio] = useState(dayjs());
   const [fechaFin, setFechaFin] = useState(dayjs());
+  const [errorFechaFin, setErrorFechaFin] = useState(false);
+
+  const handleFechaInicioChange = (nuevaFechaInicio) => {
+    setFechaInicio(nuevaFechaInicio);
+    if(nuevaFechaInicio.isAfter(fechaFin)) {
+      setErrorFechaFin(true);
+    } else {
+      setErrorFechaFin(false);
+    }
+  }
+
+  const hanldeFechaFinChange = (nuevoFechaFin) => {
+    setFechaFin(nuevoFechaFin);
+    if(nuevoFechaFin.isBefore(fechaInicio)) {
+      setErrorFechaFin(true);
+    } else {
+      setErrorFechaFin(false);
+    }
+  }
 
   // CARD - PRESUPUESTO 
   const [presupuesto, setPresupuesto] = useState('');
@@ -59,7 +84,7 @@ const GenerarItinerario = () => {
 
   const validarPresupuesto = (valor) => {
     setPresupuesto(valor);
-    const regex = /^[1-9][0-9]*$/;
+    const regex = /^0$|^[1-9][0-9]*$/;
     if(valor === '') { 
       setError(true);
       setHelperText('Este campo no debe estar vacío');
@@ -81,24 +106,27 @@ const GenerarItinerario = () => {
         lightLink={false} />
 
       <Container maxWidth='lg' className='sm-4'>
+        { /* Sección - Header */}
         <Stack direction='row' spacing={1} alignItems='center' className='mb-2' sx={{marginTop: '30px'}}>
-          <MapIcon fontSize='large' sx={{ color: '#E4007C'}} className='map-icon-itinerario' />
-          <h1 className='fw-bold h1-itinerario-title'>Generar Itinerario</h1>
+          <MapIcon fontSize='large' sx={{ color: '#E4007C', fontSize: '3rem'}} />
+          <h1 className='fw-bold gi-header-titulo-h1'>Generar Itinerario</h1>
         </Stack>
 
-        <Typography sx={{ marginBottom: '7px' }}>
+        <Typography variant='body1'>
           Para mejorar su experiencia, necesitamos algunos detalles de su viaje.
         </Typography>
 
-
-        <Stack direction={{ xs: 'column', md: 'row' }}
+        { /* Sección - Contenido Generar Itinerario */}
+        <Stack 
+          className='gi-contenido'
+          direction={{ xs: 'column', md: 'row' }}
           spacing={1}
-          className='content-generarItinerario'
           sx={{
             width: '100%',
             justifyContent: 'space-between'
           }}
         >
+          { /* Sección - Fechas de viaje */}
           <Stack
             direction='column'
             spacing={1}
@@ -110,8 +138,8 @@ const GenerarItinerario = () => {
             }}
           >
 
-            {/* CARD - FECHA DE INICIO Y FIN DEL VIAJE */}
-            <Card className='card-fechaViaje-generarItinerario'
+            {/* Card - Fechas de inicio y fin del viaje */}
+            <Card className='gi-card-fechasViaje'
               sx={{
                 width: '100%'
               }}
@@ -129,32 +157,43 @@ const GenerarItinerario = () => {
                 }}
               />
               <CardContent>
-                <Typography sx={{ marginBottom: '30px' }} className='subtitulos-generarItinerario'>
+
+                <Typography className='gi-card-titulo-apartados' sx={{ marginBottom: '30px' }}>
                     Selecciona la fecha de inicio y la fecha de fin de tu viaje.
                 </Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mt={2} alignItems='center' justifyContent={{ sm: 'center' }} sx={{ marginTop: '0px' }}>
-                  { /* AQUÍ SE SELECCIONA LA FECHA DE INICIO Y FIN */}
+
+                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mt={2} alignItems='flex-start' justifyContent={{ sm: 'center' }} sx={{ marginTop: '0px' }}>
+                  
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <Stack direction='column' sx={{ width: '100%' }}>
-                      <DatePicker
+                    { /* Fecha de inicio */ }
+                    <Stack direction='column' sx={{ width: '100%'}}>
+                      <DatePicker 
                         sx={{ width: '100%', }}
                         label='Fecha de inicio'
                         minDate={dayjs()} // fecha mínima como hoy
                         value={fechaInicio} // asigna la fecha de hoy por defecto
-                        onChange={(newValue) => setFechaInicio(newValue)} // se actualiza al elegir una nueva fecha
+                        onChange={handleFechaInicioChange} // se actualiza al elegir una nueva fecha
                         format='DD-MM-YYYY'
                         margin='dense'
                       />
                     </Stack>
+                    { /* Fecha de fin */ }
                     <Stack direction='column' sx={{ width: '100%' }}>
-                      <DatePicker
+                      <DatePicker 
                         sx={{ width: '100%', }}
                         label='Fecha de fin'
                         minDate={fechaInicio} // fecha mínima será la de inicio
                         value={fechaFin}
-                        onChange={(newValue => setFechaFin(newValue))}
+                        onChange={hanldeFechaFinChange}
                         format='DD-MM-YYYY'
                         margin='dense'
+                        slotProps={{
+                          textField: {
+                            // marca un error si la fecha de fin es antes de la de inicio
+                            error: errorFechaFin,
+                            helperText: errorFechaFin ? 'Selecciona una fecha de fin válida' : '',
+                          }
+                        }}
                       />
                     </Stack>
 
@@ -163,8 +202,8 @@ const GenerarItinerario = () => {
               </CardContent>
             </Card>
             
-            { /* CARD PRESUPUESTO / DISPOSICIÓN DEL PRESUPUESTO */}
-            <Card className='card-presupuesto-generarItinerario'
+            { /* Sección - Card Presupuesto / Disposición del presupuesto */}
+            <Card className='gi-card-presupuesto'
               sx={{
                 width: '100%'
               }}
@@ -182,25 +221,34 @@ const GenerarItinerario = () => {
                 }}
               />
               <CardContent>
-                <Typography sx={{ marginBottom: '20px', justifyContent: 'center', textAlign: 'justify',}} className='subtitulos-generarItinerario'>
+                { /* Sección - Presupuesto */}
+                <Typography sx={{ marginBottom: '20px', justifyContent: 'center', textAlign: 'justify',}} className='gi-card-titulo-apartados'>
                   Para crear un itinerario adaptado a tus necesidades, es importante que ingreses el presupuesto disponible.
                 </Typography>
-                {/* VALIDACIONES PARA PRESUPUESTO */}
+
                 <Stack spacing={2} direction='row' sx={{ alignItems: 'center', mb: 1 }}>
                     <TextField
+                      required
                       disabled={!isFirstEnabled}
                       label='Presupuesto total'
-                      placeholder='$'
                       value={presupuesto}
                       onChange={(e) => validarPresupuesto(e.target.value)}
+                      sx = {{ width: '100%' }}
                       // errores
                       helperText={helperText}
                       error={error}
+                      slotProps={{
+                        input: {
+                          startAdornment: (
+                            <InputAdornment position='start'>$</InputAdornment>
+                          ),
+                        },
+                      }}
                     />
                 </Stack>
 
               </CardContent>
-
+              
               <CardHeader
                   avatar={
                     <TuneIcon sx={{ color: '#E4007C'}} />
@@ -213,35 +261,34 @@ const GenerarItinerario = () => {
                     }
                   }}
               />
+              { /* Sección - Disposición del presupuesto */}
               <CardContent>
                 <Typography sx={{ marginBottom: '20px' }}>
                   Utiliza los controles deslizantes para asignar el porcentaje del total disponible a cada opción según tus preferencias.
                 </Typography>
-                <Box sx={{ width: '100%', marginTop: '20px' }}>
 
+                <Box sx={{ width: '100%', marginTop: '20px' }}>
+                  {/* Control deslizante - Comida */}
                   <Stack spacing={2} direction='row' sx={{ alignItems: 'center', mb: 1 }}>
                     <Stack direction='column' sx={{ alignItems: 'center', mb: 1 }}>
                       <RestaurantIcon sx={{ color: '#E4007C' }} />
                       <span>Comida</span>
                     </Stack>
-
-                    <Slider defaultValue={50} aria-label='Default' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
+                    <Slider defaultValue={5} min ={1} max={10} step={1} aria-label='Comida' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
                   </Stack>
-
+                  { /* Control deslizante - Sitios */}
                   <Stack spacing={2} direction='row' sx={{ alignItems: 'center', mb: 1 }}>
                     <Stack direction='column' sx={{ alignItems: 'center', mb: 1 }}>
                       <FestivalIcon sx={{ color: '#E4007C' }} />
                       <span>Sitios</span>
                     </Stack>
-
-                    <Slider defaultValue={50} aria-label='Default' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
+                    <Slider defaultValue={5} min ={1} max={10} step={1} aria-label='Sitios' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
                   </Stack>
-
                 </Box>
               </CardContent>
             </Card>
           </Stack>
-
+          { /* Sección - Card Detalles del viaje */}
           <Stack 
             direction='column'
             spacing={1}
@@ -267,8 +314,7 @@ const GenerarItinerario = () => {
                     }}
                   />
                 </Card>
-                {/* CARD - DETALLES DEL VIAJE --> NÚMERO DE VIAJANTES / CONSIDERACIONES */}
-                <Card className='card-consideraciones-generarItinerario'
+                <Card className='gi-card-detallesViaje'
                   sx={{
                     width: '100%'
                   }}
@@ -286,7 +332,7 @@ const GenerarItinerario = () => {
                     }}
                   />
                   <CardContent>
-                    <div className='numero-viajantes'>
+                    <Box className='gi-card-detallesViaje-numeroViajantes'>
                       <FormControl fullWidth>
                         {/* ESTABLECES NÚMERO DE VIAJANTES, POR DEFAULT 1 */}
                       <InputLabel id='numero-viajantes-label'>Número de viajantes</InputLabel>
@@ -296,23 +342,25 @@ const GenerarItinerario = () => {
                           value={numeroViajantes}
                           onChange={(event) => setNumeroViajantes(event.target.value)}
                         >
-                          {Array.from({ length: 10 }, (_, i) => (
+                          {/* Length se puede modificar, de momento son 10 */}
+                          {Array.from({ length: 10 }, (_, i) => ( 
                             <MenuItem key={i + 1} value={i + 1}>
                               {i + 1}
                             </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
-                    </div>
+                    </Box>
+
                     <Typography sx={{ marginBottom: '7px' }}>
                       ¿Alguna consideración especial?
                     </Typography>
 
                     <FormGroup>
-                      <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares para toda la familia' sx={{marginLeft: 0, marginRight: 0}}/>
-                      <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Vegan-Friendly' sx={{marginLeft: 0, marginRight: 0,}}/>
-                      <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Pet-Friendly' sx={{marginLeft: 0, marginRight: 0,}}/>
-                      <FormControlLabel className='checkbox-consideraciones' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Impedimento físico' sx={{marginLeft: 0, marginRight: 0,}}/>
+                      <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares para toda la familia' sx={{marginLeft: 0, marginRight: 0}}/>
+                      <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Vegan-Friendly' sx={{marginLeft: 0, marginRight: 0,}}/>
+                      <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Pet-Friendly' sx={{marginLeft: 0, marginRight: 0,}}/>
+                      <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Impedimento físico' sx={{marginLeft: 0, marginRight: 0,}}/>
                     </FormGroup>
 
                   </CardContent>
@@ -321,13 +369,13 @@ const GenerarItinerario = () => {
 
           
         </Stack>
-        <div className='btn-generarItinerario'>
+        <Box className='gi-btn-continuar'>
           <ButtonsMod
             variant='principal'
             textCont='Continuar'
             clickEvent={handleClick}
           />
-        </div>
+        </Box>
 
       </Container>
 
