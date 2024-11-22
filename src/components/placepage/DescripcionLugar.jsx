@@ -1,9 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
+import React, {useState} from 'react';
+// Material UI
 import { Rating } from '@mui/material';
 import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
+// Íconos
+import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon} from '@mui/icons-material';
 
-function DescripcionLugar({nombreLugar, resumenLugar, placeDireccion, placeCosto, placeAccesibilidad, placeHorario, lugarImagenes, value}) {
+function DescripcionLugar({nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, horarioLugar, imagenesLugar, value}) {
     const [isClickedDeseados, setIsClickedDeseados] = useState(false);
     const [isClickedFavoritos, setIsClickedFavoritos] = useState(false);
 
@@ -18,7 +20,7 @@ function DescripcionLugar({nombreLugar, resumenLugar, placeDireccion, placeCosto
     const breakPoint = useMediaQuery('(max-width: 960px');
 
     const galeria = () => {
-        if (!lugarImagenes || lugarImagenes.length === 0) {
+        if (!imagenesLugar || imagenesLugar.length === 0) {
           return <p>No hay imágenes disponibles.</p>;
         }
         return (
@@ -29,7 +31,7 @@ function DescripcionLugar({nombreLugar, resumenLugar, placeDireccion, placeCosto
                 gap={8}
             >
                 {/* se muestran máximo 10 imágenes, pero la pueden cambiar si son más */}
-                {lugarImagenes.slice(0, 10).map((imagen, index) => (
+                {imagenesLugar.slice(0, 10).map((imagen, index) => (
                     /* para que la primera imagen ocupe más espacio */
                     <ImageListItem key={index} cols={index === 0 ? 2 : 1} rows={index === 0 ? 2 : 1}>
                         <img
@@ -44,62 +46,74 @@ function DescripcionLugar({nombreLugar, resumenLugar, placeDireccion, placeCosto
     };
 
     return (
-      <section className='place-page container-fluid'>
-        <div className='place-row row justify-content-center gx-0'>
-            {/* Left Site */}
-            <div className='col-md-4 place-left-site'>
-                <div className='card card-descripcion-lugar'>
-                    <div className='map-placeholder'>
-                    {/* para poner el mapa */}
+      <section className='pp-descripcion-lugar container-fluid'>
+        
+        <div className='row gx-0 pp-descripcion-lugar-row'>
+
+            {/* Sección - Tarjeta azul con Información del Lugar */}
+            <div className='col-md-4 pp-informacion-lugar'>
+                <div className='card pp-informacion-lugar-card'>
+                    
+                    { /* Subsección - Mapa del lugar */}
+                    <div className='pp-informacion-lugar-card-mapa'>
+                    {/* para poner el mapa, de a mientras es una imagen*/}
                     </div>
-                    <a className='link-google-maps' href='#'>Ver en GoogleMaps</a>
-                    <div className='description-left row gx-0'>
-                        <div className='col-1 col-icon'>
-                            <i className="bi bi-geo-alt-fill"></i>
+                    <a className='pp-informacion-lugar-card-link-GoogleMaps' href='#'>Ver en GoogleMaps</a>
+                    
+                    { /* Subsección - Información del lugar */}
+                    { /* Direccion */}
+                    <div className='row gx-0 pp-informacion-lugar-contenido'>
+                        <div className='col-1 pp-informacion-lugar-iconos'>
+                            <i className='bi bi-geo-alt-fill'></i>
                         </div>
                         <div className='col'>
-                        <p className='place-description'>{placeDireccion}</p>
+                            <p>{direccionLugar}</p>
                         </div>
                     </div>
+                    { /* Costo del lugar */}
                     <div className='row gx-0'>
-                        <div className='col-1 col-icon'>
-                            <i className="bi bi-currency-dollar"></i>
+                        <div className='col-1 pp-informacion-lugar-iconos'>
+                            <i className='bi bi-currency-dollar'></i>
                         </div>
                         <div className='col'>
-                            <p className='place-description'>{placeCosto}</p>
+                            <p>{costoLugar}</p>
                         </div>
-                        
                     </div>
+                    { /* Accesibilidad Silla de Ruedas */}
                     <div className='row gx-0'>
-                        <div className='col-1 col-icon'>
-                        <i className="bi bi-person-wheelchair"></i>
+                        <div className='col-1 pp-informacion-lugar-iconos'>
+                        <i className='bi bi-person-wheelchair'></i>
                         </div>
                         <div className='col'>
-                            <p className='place-description'>{placeAccesibilidad}</p>
+                            <p>{accesibilidadLugar}</p>
                         </div>
                     </div>
+                    { /* Horario */}
                     <div className='row gx-0'>
-                        <div className='col-1 col-icon'>
-                            <i className="bi bi-clock"></i>
+                        <div className='col-1 pp-informacion-lugar-iconos'>
+                            <i className='bi bi-clock'></i>
                         </div>
                         <div className='col'>
-                            <p className='place-description'>{placeHorario}</p>
+                            <p>{horarioLugar}</p>
                         </div>
-                        
                     </div>
+
                 </div>
             </div>
-            {/* Right Site */}
-            <div className='col-md-8 place-right-site'>
-                <h2 className='place-title'>
+
+            {/* Sección - Información Principal: Nombre lugar, Calificación, Drescripción, Imágenes */}
+            <div className='col-md-8 pp-informacion-principal'>
+                { /* Nombre del lugar */}
+                <h2 className='pp-informacion-principal-nombre-lugar'>
                     {nombreLugar}
                 </h2>
-                <div className='row gx-0 place-score'>
-                    <div className='place-score-stars'>
-                        <div className='score'>
-                            <h2 className='score-text'>4.8</h2>
+                { /* Calificación del lugar */}
+                <div className='row gx-0 pp-informacion-principal-calificacion'>
+                    <div className='pp-informacion-principal-calificacion-contenido'>
+                        <div className='pp-informacion-principal-calificacion-titulo'>
+                            <h2>{value}</h2>
                         </div>
-                        <div className='stars'>
+                        <div className='pp-informacion-principal-calificacion-valor'>
                             <Rating 
                                 name='read-only' 
                                 defaultValue={value} 
@@ -108,28 +122,27 @@ function DescripcionLugar({nombreLugar, resumenLugar, placeDireccion, placeCosto
                                 precision={0.1}/>
                         </div>
                     </div>
-                    <div className='place-buttons'>
-                        <button className={`btn ${isClickedDeseados ? 'btn-placeOnClick' : 'btn-light'} btn-placePage-button`} onClick={handleButtonDeseadosClick}>
-                            <i className='bi bi-bookmark'></i>
+                    { /* Guardar en Favoritos y Deseados */}
+                    <div className='pp-informacion-principal-btns'>
+                        <button className={`btn ${isClickedDeseados ? 'pp-btnOnClick' : 'btn-light'} pp-btn-deseados`} onClick={handleButtonDeseadosClick}>
+                            <StarBorderIcon/>
                         </button>
-                        <button className={`btn ${isClickedFavoritos ? 'btn-placeOnClick' : 'btn-light'} btn-placePage-button`} onClick={handleButtonFavoritosClick}>
-                            <i className='bi bi-star'></i>
+                        <button className={`btn ${isClickedFavoritos ? 'pp-btnOnClick' : 'btn-light'} pp-btn-favoritos`} onClick={handleButtonFavoritosClick}>
+                            <FavoriteBorderIcon/>
                         </button>
                     </div>
                 </div>
-                <p className='place-text'>
+                {/* Descripción del lugar */}
+                <p>
                     {resumenLugar}
                 </p>
-
-                {/* Sección galería */}
-                <div className="place-img">
+                {/* Impagenes del lugar */}
+                <div className='pp-informacion-principal-imagenes'>
                     {galeria()}
                 </div>
-
             </div>
+
         </div>
-        
-        
       </section>
       
     );
