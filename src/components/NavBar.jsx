@@ -119,7 +119,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
                 {/* Versión para pantallas pequeñas */}
                 <div className='d-lg-none'>
-                  <hr class="my-3"></hr>
+                  <hr className="my-3"></hr>
                   <ul className=" d-flex navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item">
                       <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/perfil-page'>Mi Perfil</Link>

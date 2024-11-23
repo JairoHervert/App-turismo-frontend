@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// componentes online
+import { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import { Container, Stack, TextField, InputAdornment } from '@mui/material';
@@ -21,12 +22,8 @@ import MoreInfoPlace from '../components/itinerary/MoreInfoPlace';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 
 function ItineraryPage() {
+  // hook para manejar el estado de la pestaña activa, ya sea 'Plan' o 'Ruta'
   const [activeTab, setActiveTab] = useState('Plan');
-  const [selectedPlace, setSelectedPlace] = useState(null);
-
-  const handlePlaceClick = (place) => {
-    setSelectedPlace(place);
-  };
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -40,6 +37,7 @@ function ItineraryPage() {
 
       <Container maxWidth='lg' className='my-4'>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
+
           {/* Titulo */}
           <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
             <MapRoundedIcon color='google' fontSize='inhert' sx={{ fontSize: '3rem' }} />
@@ -60,14 +58,16 @@ function ItineraryPage() {
               ),
             }}
           />
-        </Stack>
+        </Stack>  {/* Cierre de Stack que aloja el titulo y el buscador */}
+
 
         <Grid container spacing={2}>
           {/* Lado izquierdo del itinerario, planer y ruta */}
-          <Grid size={{ xs: 12, md: 8 }}>
-          <Card sx={{ p: 2 }}>
-          <Box sx={{ mx: 4, display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-            <Typography variant='h3' fontFamily={'poppins'} className='fw-semibold' sx={{ fontSize: '1.9rem' }}>Plan por día</Typography>
+          <Grid size={{ xs: 10, md: 8 }}>
+            <Card>
+              {/* Titulo y botones de pestañas 'Plan' y 'Ruta' */}
+              <Box className='mx-4 d-flex flex-column align-items-start'>
+                <Typography variant='h3' fontFamily={'poppins'} className='fw-semibold mt-3' sx={{ fontSize: '1.9rem' }}>Plan por día</Typography>
 
                 <Box className='d-flex my-4 gap-4'>
                   <Typography
@@ -93,29 +93,28 @@ function ItineraryPage() {
                     }}
                     onClick={() => setActiveTab('Ruta')}
                   >Ruta</Typography>
-                </Box>
-              </Box>
 
-              {activeTab === 'Plan' ? (<Planer onPlaceClick={handlePlaceClick} itineraryDays={['2024-11-17', '2024-11-18', '2024-11-19']} />) : (<PlanRoute />)}
+                </Box>
+              </Box>  {/* Cierre de Box que aloja el titulo y los botones de pestaña */}
+
+              {activeTab === 'Plan' ? (<Planer />) : (<PlanRoute />)}  {/* Renderizado condicional de la pestaña activa */}
             </Card>
           </Grid>
 
           {/* Lado derecho del itinerario, mas informacion del lugar */}
-          <Grid size={{ xs: 12, md: 4 }}>
-  <Card
-    sx={{
-      marginTop: { xs: 0.5, md: 8 },
-    }}
-  >
-    <MoreInfoPlace place={selectedPlace} />
-  </Card>
-</Grid>
+          <Grid size={{ xs: 10, md: 4 }}>
+            <Card>
+              <MoreInfoPlace />
+            </Card>
+          </Grid>
+
         </Grid>
-      </Container>
+
+      </Container> {/* Cierre de Container principal */}
 
       <Footer showIncorporaLugar={true} />
     </ThemeProvider>
-  );
+  )
 }
 
-export default ItineraryPage;
+export default ItineraryPage

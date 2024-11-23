@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
-import mapImage from '../../img/HomePage/mapa.png'; // Asegúrate de tener una imagen de mapa en esta ruta
+import mapImage from '../../img/HomePage/mapa.png';
 
 function PlanRoute() {
   return (

@@ -20,6 +20,17 @@
    align-items: center;
 }
 
+.planer-dot-day-today {
+   background-color: #f3f3f3;
+   border: solid 0.12rem #489abb;
+   border-radius: 50%;
+   width: 2rem;
+   height: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
 .it_page-img-item {
    width: 100%;
    max-width: 15rem;
