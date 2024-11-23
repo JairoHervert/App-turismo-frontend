@@ -84,14 +84,14 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                     </div>
                     <div className="order-lg-2 dropdown">
                       <button
-                          onClick={toggleMenu}
-                          aria-expanded={menuOpen}
-                          data-bs-toggle="dropdown"
-                          id="userDropdown"
-                          className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
-                        >
-                          <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
-                        </button>
+                        onClick={toggleMenu}
+                        aria-expanded={menuOpen}
+                        data-bs-toggle="dropdown"
+                        id="userDropdown"
+                        className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
+                      >
+                        <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
+                      </button>
                       <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         {/* Opciones del menú */}
                         <li><Link className="dropdown-item" to='/perfil-page'>Mi Perfil</Link></li>
@@ -119,33 +119,33 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
                 {/* Versión para pantallas pequeñas */}
                 <div className='d-lg-none'>
-                <hr class="my-3"></hr>
-                <ul className=" d-flex navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/perfil-page'>Mi Perfil</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/settings">Configuración</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/deseados'>Deseados User</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerariesSaved'>Itinerarios guardados</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/HistoryPage'>Historial de búsqueda</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerary'>Página de itinerario</Link>
-                  </li>
-                  <li className="nav-item">
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li className="nav-item">
-                    <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/logout">Cerrar Sesión</Link>
-                  </li>
-                </ul>
+                  <hr class="my-3"></hr>
+                  <ul className=" d-flex navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/perfil-page'>Mi Perfil</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/settings">Configuración</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/deseados'>Deseados User</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerariesSaved'>Itinerarios guardados</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/HistoryPage'>Historial de búsqueda</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerary'>Página de itinerario</Link>
+                    </li>
+                    <li className="nav-item">
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/logout">Cerrar Sesión</Link>
+                    </li>
+                  </ul>
                 </div>
               </>
             ) : (
