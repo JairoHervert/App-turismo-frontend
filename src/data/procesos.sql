@@ -11,7 +11,6 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 DROP PROCEDURE IF EXISTS UsuarioDatosBasicos;
 # Usuario Preferencias
-DROP PROCEDURE IF EXISTS UsuarioGetDatos;
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAñadirFavorito;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
@@ -324,41 +323,6 @@ BEGIN
 END //
 
 -- ---------------------------------------------------------------------------------------------------
---                                          USUARIO INFORMACIÓN
--- ---------------------------------------------------------------------------------------------------
-
--- -----------------------------------------------------
--- Process `AppTurismo`.`UsuarioGetDatos`
--- -----------------------------------------------------
-CREATE PROCEDURE UsuarioGetDatos (
-   IN p_id INT
-)
-BEGIN
-   DECLARE usuarioExistente INT;
-   
-   SELECT COUNT(*) INTO usuarioExistente
-   FROM Usuario
-   WHERE id = p_id;
-   
-   IF usuarioExistente = 0 THEN
-      SELECT 'usuario_no_existente' AS 'error';
-   ELSE
-      SELECT
-         u.username AS 'username',
-         u.nombre AS 'nombre',
-         u.apellido AS 'apellido',
-         u.correo AS 'correo',
-         u.ligaFotoPerfil AS 'imagen',
-         DATE(u.fechaNacimiento) AS 'fechaNacimiento',
-         u.ultimaConexion AS 'ultimaConexion',
-         (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
-         (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos'
-         FROM Usuario u
-         WHERE u.id = p_id;
-   END IF;
-END //
-
--- ---------------------------------------------------------------------------------------------------
 --                                         USUARIO PREFERENCIAS
 -- ---------------------------------------------------------------------------------------------------
 
@@ -447,13 +411,32 @@ BEGIN
       SELECT
          l.id AS id,
          l.nombre AS nombre,
-         l.descripcion AS descripcion,
          l.direccion AS direccion,
+         l.descripcion AS descripcion,
          l.imagen AS imagen,
-         l.tiempo AS tiempo,
-         l.costo AS costo,
-         l.accesibilidad AS accesibilidad
-         #AVG()
+         l.attributions AS attributions,
+         l.latitud AS latitud,
+         l.longitud AS longitud,
+         l.fotos AS fotos,
+         l.tipos AS tipos,
+         l.teléfono AS teléfono,
+         l.precioNivel AS precioNivel,
+         l.precioRango AS precioRango,
+         l.rating AS rating,
+         l.regularOpeningHours AS regularOpeningHours,
+         l.userRatingCount AS userRatingCount,
+         l.website AS website,
+         l.goodForChildren AS goodForChildren,
+         l.goodForGroups AS goodForGroups,
+         l.paymentOptions AS paymentOptions,
+         l.reservable AS reservable,
+         l.servesVegetarianFood AS servesVegetarianFood,
+         l.allowsDogs AS allowsDogs,
+         l.reviewsGoogle AS reviewsGoogle,
+         l.accesibilidadParking AS accesibilidadParking,
+         l.accesibilidadEntrance AS accesibilidadEntrance,
+         l.accesibilidadRestroom AS accesibilidadRestroom,
+         l.accesibilidadSeating AS accesibilidadSeating
       FROM LugarDeseado
       JOIN Lugar l ON LugarDeseado.idLugar = l.id
       WHERE LugarDeseado.idUsuario = p_id;
@@ -479,13 +462,32 @@ BEGIN
       SELECT
          l.id AS id,
          l.nombre AS nombre,
-         l.descripcion AS descripcion,
          l.direccion AS direccion,
+         l.descripcion AS descripcion,
          l.imagen AS imagen,
-         l.tiempo AS tiempo,
-         l.costo AS costo,
-         l.accesibilidad AS accesibilidad
-         #AVG()
+         l.attributions AS attributions,
+         l.latitud AS latitud,
+         l.longitud AS longitud,
+         l.fotos AS fotos,
+         l.tipos AS tipos,
+         l.teléfono AS teléfono,
+         l.precioNivel AS precioNivel,
+         l.precioRango AS precioRango,
+         l.rating AS rating,
+         l.regularOpeningHours AS regularOpeningHours,
+         l.userRatingCount AS userRatingCount,
+         l.website AS website,
+         l.goodForChildren AS goodForChildren,
+         l.goodForGroups AS goodForGroups,
+         l.paymentOptions AS paymentOptions,
+         l.reservable AS reservable,
+         l.servesVegetarianFood AS servesVegetarianFood,
+         l.allowsDogs AS allowsDogs,
+         l.reviewsGoogle AS reviewsGoogle,
+         l.accesibilidadParking AS accesibilidadParking,
+         l.accesibilidadEntrance AS accesibilidadEntrance,
+         l.accesibilidadRestroom AS accesibilidadRestroom,
+         l.accesibilidadSeating AS accesibilidadSeating
       FROM LugarFavorito
       JOIN Lugar l ON LugarFavorito.idLugar = l.id
       WHERE LugarFavorito.idUsuario = p_id;
@@ -500,13 +502,34 @@ END //
 -- Process `AppTurismo`.`LugarRegistro`
 -- -----------------------------------------------------
 CREATE PROCEDURE LugarRegistro (
+   IN p_id VARCHAR(40),
    IN p_nombre VARCHAR(128),
-   IN p_descripcion VARCHAR(1024),
    IN p_direccion VARCHAR(255),
+   IN p_descripcion VARCHAR(1024),
    IN p_imagen VARCHAR(512),
-   IN p_tiempo VARCHAR(15),
-   IN p_costo VARCHAR(15),
-   IN p_accesibilidad BOOLEAN
+   IN p_attributions VARCHAR(150),
+   IN p_latitud VARCHAR(45),
+   IN p_longitud VARCHAR(45),
+   IN p_fotos VARCHAR(1024),
+   IN p_tipos VARCHAR(1024),
+   IN p_telefono VARCHAR(20),
+   IN p_precioNivel TINYINT,
+   IN p_precioRango VARCHAR(45),
+   IN p_rating VARCHAR(10),
+   IN p_regularOpeningHours TEXT,
+   IN p_userRatingCount VARCHAR(45),
+   IN p_website VARCHAR(80),
+   IN p_goodForChildren BOOLEAN,
+   IN p_goodForGroups BOOLEAN,
+   IN p_paymentOptions VARCHAR(10),
+   IN p_reservable BOOLEAN,
+   IN p_servesVegetarianFood VARCHAR(10),
+   IN p_allowsDogs VARCHAR(10),
+   IN p_reviewsGoogle VARCHAR(4096),
+   IN p_accesibilidadParking BOOLEAN,
+   IN p_accesibilidadEntrance BOOLEAN,
+   IN p_accesibilidadRestroom BOOLEAN,
+   IN p_accesibilidadSeating BOOLEAN
 )
 BEGIN
    DECLARE lugarExistente INT;
@@ -516,8 +539,14 @@ BEGIN
    WHERE nombre = p_nombre;
     
    IF lugarExistente = 0 THEN
-      INSERT INTO Lugar (nombre, descripcion, direccion, imagen, tiempo, costo, accesibilidad, auditoria)
-      VALUES (p_nombre, p_descripcion, p_direccion, p_imagen, p_tiempo, p_costo, p_accesibilidad, NOW());
+      INSERT INTO Lugar (id, nombre, direccion, descripcion, imagen, attributions, latitud, longitud, fotos,
+      tipos, teléfono, precioNivel, precioRango, rating, regularOpeningHours, userRatingCount, website,
+      goodForChildren, goodForGroups, paymentOptions, reservable, servesVegetarianFood, allowsDogs, reviewsGoogle,
+      accesibilidadParking, accesibilidadEntrance, accesibilidadRestroom, accesibilidadSeating, auditoria)
+      VALUES (p_id, p_nombre, p_direccion, p_descripcion, p_imagen, p_attributions, p_latitud, p_longitud, p_fotos,
+      p_tipos, p_telefono, p_precioNivel, p_precioRango, p_rating, p_regularOpeningHours, p_userRatingCount, p_website,
+      p_goodForChildren, p_goodForGroups, p_paymentOptions, p_reservable, p_servesVegetarianFood, p_allowsDogs, p_reviewsGoogle,
+      p_accesibilidadParking, p_accesibilidadEntrance, p_accesibilidadRestroom, p_accesibilidadSeating, NOW());
    ELSE
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;
