@@ -17,16 +17,14 @@ const DashboardSidebar = () => {
 
   return (
  
-        <Box 
-          className="sidebar-container-admin"
-          boxShadow="0px 0px 0px rgba(0, 0, 0, 0)" 
-          maxHeight="800px"   // Usa un valor razonable, como 800px
-          overflow="auto" 
-          backgroundColor="#F8F9FA"
-          marginLeft={"-40px"}
-          marginTop={'-40px'}
-          height="100%"        // Esto asegura que ocupe el 100% de su contenedor
-        >      
+    <Box 
+      className="sidebar-container-admin"
+      backgroundColor="#F8F9FA"
+      boxShadow="0px 0px 0px rgba(0, 0, 0, 0)" 
+      width="250px"
+      overflow="auto" 
+      
+    >     
         <List>
         {/* Dashboard */}
         <div className='dash-cuentas-admin'>
