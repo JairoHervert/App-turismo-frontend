@@ -1,41 +1,57 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Grid2 from '@mui/material/Grid2';
-import '../../css/AdministradorLugares.css';
+import { useNavigate } from 'react-router-dom';
 
-const MainBox = ({ lugares = [] }) => {
-  useEffect(() => {
-    const resizeObserver = new ResizeObserver(() => {
-      // Aquí puedes manejar los cambios de tamaño si es necesario.
-    });
+const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
+  const navigate = useNavigate();
 
-    const formContainer = document.querySelector('.formulario-container-admin-places');
-    if (formContainer) {
-      resizeObserver.observe(formContainer);
+  // Filtrar los lugares según la categoría seleccionada
+  const filteredLugares = lugares.filter(
+    (lugar) =>
+      selectedCategory === 'Todos' || lugar.categoria === selectedCategory
+  );
+
+  const handleAction = (lugar, action) => {
+    // Evitar duplicados: Solo se realiza la acción si el lugar no tiene una categoría
+    if (lugar.categoria === 'Ninguna') {
+      const updatedLugares = lugares.map((l) =>
+        l.nombreLugar === lugar.nombreLugar
+          ? { ...l, categoria: action }
+          : l
+      );
+      setLugares(updatedLugares); // Actualizar el estado con el nuevo arreglo de lugares
     }
 
-    return () => {
-      resizeObserver.disconnect();
-    };
-  }, []);
+    // Si es aceptado, redirigir a una nueva página con los datos del lugar
+    if (action === 'Leídos') {
+      navigate('/Admin-Page', { state: { lugar } }); // Pasar datos del lugar como estado en la URL
+    }
+  };
 
   return (
     <Box
-      className="formulario-container-admin-places"
-      sx={{ overflow: 'hidden', padding: 2, backgroundColor: 'white', borderRadius: 2 }}
+      className="formulario-container-admin-places us_de-deseados-text"
+      sx={{
+        overflow: 'hidden',
+        padding: 2,
+        backgroundColor: 'white',
+        borderRadius: 2,
+        maxHeight: '500px',
+        overflowY: 'auto',
+      }}
     >
-      {/* Encabezado "Solicitudes" */}
-      <Typography 
-        variant="h4" 
-        className="fw-bolder fontMontserrat mb-4 us_de-deseados-text" 
-        sx={{ fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '1.8rem', textAlign:'center' }}
+      <Typography
+        variant="h4"
+        className="fw-bolder fontMontserrat mb-4 us_de-deseados-text"
+        sx={{ fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '1.8rem', textAlign: 'center' }}
       >
         Solicitudes
       </Typography>
 
       <Grid2 container spacing={0}>
-        {lugares.length > 0 ? (
-          lugares.map((lugar, index) => (
+        {filteredLugares.length > 0 ? (
+          filteredLugares.map((lugar, index) => (
             <Grid2
               item
               xs={12}
@@ -46,36 +62,48 @@ const MainBox = ({ lugares = [] }) => {
                 width: '100%',
               }}
             >
-              <Button
-                variant="text"
-                fullWidth
-                sx={{
-                  display: 'flex',
-                  fontFamily: 'Montserrat',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  textTransform: 'none', // Quitar el texto en mayúsculas
-                  padding: '8px 16px',
-                  color: 'inherit', // Mantener el color del texto
-                  transition: 'background-color 0.3s ease',
-                  '&:hover': {
-                    backgroundColor: '#e0f7fa', // Cambiar color al pasar el puntero
-                  },
-                }}
-              >
-                <Typography variant="body1" sx={{ flex: 1 }}>
-                  {lugar.NombrePersona}
+              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Typography variant="body1" sx={{ flex: 1, fontWeight: 'bold', fontFamily: 'montserrat' }}>
+                  {lugar.NombrePersona} ({lugar.correoPersona})
                 </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ color: '#ff007f', fontWeight: 'bold', flex: 1, textAlign: 'center' }}
-                >
+                <Typography variant="body1" sx={{ color: '#ff007f', fontWeight: 'bold', flex: 2, textAlign: 'center', fontFamily: 'montserrat' }}>
                   Agregar: {lugar.nombreLugar}
                 </Typography>
-                <Typography variant="body1" sx={{ flex: 1, textAlign: 'right' }}>
-                  Categoría: {lugar.categoria}
+                <Typography variant="body1" sx={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontFamily: 'montserrat' }}>
+                  Categoría: {lugar.categoria || 'Ninguna'}
                 </Typography>
-              </Button>
+              </Box>
+
+              {/* Deshabilitar botones si ya tiene categoría asignada */}
+              {lugar.categoria === 'Ninguna' ? (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'flex-end', marginTop: '10px' }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleAction(lugar, 'Leídos')}
+                    sx={{ fontSize: '0.8rem', padding: '4px 8px', width: '120px' }}
+                  >
+                    Leer
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleAction(lugar, 'Aceptados')}
+                    sx={{ fontSize: '0.8rem', padding: '4px 8px', width: '120px' }}
+                  >
+                    Aceptar
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => handleAction(lugar, 'Rechazados')}
+                    sx={{ fontSize: '0.8rem', padding: '4px 8px', width: '120px' }}
+                  >
+                    Rechazar
+                  </Button>
+                </Box>
+              ) : (
+                <Typography variant="body2" sx={{ color: '#888', textAlign: 'center', marginTop: '10px' }}>
+                  Ya {lugar.categoria.toLowerCase()}
+                </Typography>
+              )}
             </Grid2>
           ))
         ) : (
