@@ -78,7 +78,7 @@
     margin-bottom: 5px;
 }
 
-.pp-informacion-lugar-card-link-GoogleMaps {
+.pp-informacion-lugar-card-link {
     color: var(--color-secondary);
 }
 
@@ -89,10 +89,18 @@
 .pp-informacion-lugar-iconos {
     display: flex;
     justify-content: flex-start;
-    align-items: start;
+    align-items: flex-start;
+    margin-top: 1px;
+    margin-right: 3px;
 }
 
+.pp-informacion-lugar-horario-item {
+    margin-bottom: 3px;
+}
 
+.pp-icono-SitioWeb {
+    margin-bottom: 3px;
+}
 /* ---------- DescripcionLugar.jsx --> Nombre del Lugar, Calificación, Descripcion, Imagenes ----- */
 
 .pp-informacion-principal {
@@ -144,6 +152,11 @@
     display: flex;
     margin-top: 70px;
 }
+
+.pp-informacion-lugar-categoria {
+    margin-top: 10px;
+}
+
 /* --------> Botones */
 .pp-informacion-principal-btns { 
     width: fit-content;

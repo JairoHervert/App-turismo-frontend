@@ -102,6 +102,31 @@ const PlacePage = () => {
     setCurrentPage(value);
   };
 
+  /* Para los horarios - Le puse cualquier cosa porque no sé cómo van a manejar los datos aaaaaa */
+  const horariosDeApertura = [
+    { open: { day: 1, time: "0900" }, close: { day: 1, time: "1800" } },
+    { open: { day: 2, time: "1000" }, close: { day: 2, time: "1700" } }
+  ];
+  
+  const formatHorarios = (periods) => {
+    const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  
+    if (!periods || periods.length === 0) {
+      return 'Horario no disponible';
+    }
+  
+    return periods.map(({ open, close }) => {
+      const openDay = daysOfWeek[open.day];
+      const closeDay = daysOfWeek[close.day];
+      const openTime = `${open.time.slice(0, 2)}:${open.time.slice(2)}`;
+      const closeTime = `${close.time.slice(0, 2)}:${close.time.slice(2)}`;
+  
+      return `${openDay}: ${openTime} - ${closeTime}${openDay !== closeDay ? ` (${closeDay})` : ''}`;
+    });
+  }
+
+  const horarioLugar = formatHorarios(horariosDeApertura);
+
   return (
     <div>
       <NavBarHome 
@@ -138,13 +163,38 @@ const PlacePage = () => {
       
       <DescripcionLugar
         nombreLugar='Biblioteca de México'
+        value = {4.6}
         resumenLugar='Desde su fundación, a comienzos de 1990, la revista Biblioteca de México ha publicado 172 números impresos y 4 números digitales. A lo largo de más de 30 años, ha dado espacio a trabajos de creación, investigación y crítica a autores de habla hispana y de otros idiomas. Pensada originalmente como una revista de letras en el sentido clásico y más generoso del término, que busca dar relieve y difusión a obras inasequibles de los acervos de la biblioteca misma, en esta nueva etapa digital también se tiene el propósito de acercarse a las nuevas generaciones de lectores, publicando a jóvenes escritores e ilustradores. Se trata, así, de sostener un esfuerzo de divulgación literaria que, de la manera más incluyente, brinde hospitalidad a la belleza y la inteligencia de la creación.'
         direccionLugar='De La Ciudadela 4, Colonia Centro, Centro, Cuauhtémoc, 06040 Ciudad de México, CDMX'
-        costoLugar='Sin costo'
-        accesibilidadLugar='Accesible con silla de ruedas'
-        horarioLugar='Todos los días de 8:30 a 19:30 hrs'
+        /* Para el siguiente parámetro [costoLugar]
+           Si se cuenta con la información, se mandan como parámetros 1/2/3/4
+           Ejemplo:
+           Gratis -> {0} 
+           Barato -> {1}
+           ...
+           Sino,
+           Costo desconocido -> {null} */
+        costoLugar={1}
+        /* Para los siguientes parámetros [accesibilidad, petFriendly, veganFriendy]
+           Si se cuenta con la información, se mandan como parámetros null/true/false 
+           Ejemplo:
+           Es accesible a silla de ruedas -> {true} 
+           No es accesible a silla de ruedas -> {false} 
+           No se cuenta con la información -> {null} [Si no cuenta con la información, no aparecerá] */
+        accesibilidadLugar={true}
+        petFriendly={false}
+        veganFriendly={null}
+        familiar={false}
+        goodForGroups={true}
+        metodoPago={null}
+        website='https://unsplash.com/es/ilustraciones/-u8mPV6Fd3s'
+        /* Esta sección de horarios puede cambiar dependiendo de cómo traten la información */
+        horarioLugar={horarioLugar}
+        /*  */
+        categoria='Cómida Rápida'
+        /* Si no hay imágenes -> {null} */
         imagenesLugar={imagenes}
-        value = {3.6}
+        
       />
 
       <section className='pp-reviews'>

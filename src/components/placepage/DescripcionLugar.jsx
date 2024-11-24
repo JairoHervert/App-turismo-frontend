@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 // Material UI
-import { Rating } from '@mui/material';
+import { Rating, Box, Chip } from '@mui/material';
 import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
 // Íconos
-import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon} from '@mui/icons-material';
+import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
+import { Accessible as AccessibleIcon, AccessTime as AccessTimeIcon, FamilyRestroom as FamilyRestroomIcon, Grass as GrassIcon, Language as LanguageIcon, Category as CategoryIcon, Groups as GroupsIcon } from '@mui/icons-material';
 
-function DescripcionLugar({nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, horarioLugar, imagenesLugar, value}) {
+function DescripcionLugar({nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value}) {
     const [isClickedDeseados, setIsClickedDeseados] = useState(false);
     const [isClickedFavoritos, setIsClickedFavoritos] = useState(false);
 
@@ -58,45 +59,142 @@ function DescripcionLugar({nombreLugar, resumenLugar, direccionLugar, costoLugar
                     <div className='pp-informacion-lugar-card-mapa'>
                     {/* para poner el mapa, de a mientras es una imagen*/}
                     </div>
-                    <a className='pp-informacion-lugar-card-link-GoogleMaps' href='#'>Ver en GoogleMaps</a>
+                    <a className='pp-informacion-lugar-card-link' href='#'>Ver en GoogleMaps</a>
                     
                     { /* Subsección - Información del lugar */}
                     { /* Direccion */}
                     <div className='row gx-0 pp-informacion-lugar-contenido'>
                         <div className='col-1 pp-informacion-lugar-iconos'>
-                            <i className='bi bi-geo-alt-fill'></i>
+                            <PlaceIcon fontSize='small' className='pp-informacion-lugar-iconos' />
                         </div>
                         <div className='col'>
                             <p>{direccionLugar}</p>
                         </div>
                     </div>
                     { /* Costo del lugar */}
-                    <div className='row gx-0'>
-                        <div className='col-1 pp-informacion-lugar-iconos'>
-                            <i className='bi bi-currency-dollar'></i>
+                    {costoLugar !== undefined && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <AttachMoneyIcon fontSize='small' className='pp-informacion-lugar-iconos' />
+                            </div>
+                            <div className='col'>
+                                <p>{{
+                                    0: 'Gratis',
+                                    1: 'Barato',
+                                    2: 'Moderado',
+                                    3: 'Caro',
+                                    4: 'Muy caro'
+                                    }[costoLugar] || 'Costo desconocido'}
+                                </p>
+                            </div>
                         </div>
-                        <div className='col'>
-                            <p>{costoLugar}</p>
-                        </div>
-                    </div>
+                    )}
                     { /* Accesibilidad Silla de Ruedas */}
-                    <div className='row gx-0'>
-                        <div className='col-1 pp-informacion-lugar-iconos'>
-                        <i className='bi bi-person-wheelchair'></i>
+                    {accesibilidadLugar !== null && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <AccessibleIcon fontSize='small' className='pp-informacion-lugar-iconos' />
+                            </div>
+                            <div className='col'>
+                                <p>{accesibilidadLugar ? 'Accesible con silla de ruedas' : 'No es accesible con silla de ruedas'}</p>
+                            </div>
                         </div>
-                        <div className='col'>
-                            <p>{accesibilidadLugar}</p>
+                    )}
+                    { /* Pet Friendly */}
+                    {petFriendly !== null && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <PetsIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                            </div>
+                            <div className='col'>
+                                <p>{petFriendly ? 'Pet-Friendly' : 'No se permiten mascotas'}</p>
+                            </div>
                         </div>
-                    </div>
+                    )}
+                    { /* Vegan Friendly */}
+                    {veganFriendly !== null && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <GrassIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                            </div>
+                            <div className='col'>
+                                <p>{veganFriendly ? 'Vegan Friendly' : 'No es Vegan-Friendly'}</p>
+                            </div>
+                        </div>
+                    )}
+                    { /* Familiar */}
+                    {familiar !== null && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <FamilyRestroomIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                            </div>
+                            <div className='col'>
+                                <p>{familiar ? 'Familiar' : 'Solo mayores de 18 años'}</p>
+                            </div>
+                        </div>
+                    )}
+                    { /* Good for Groups 
+                    --------- En esta sección cambien la descripción, pues no sé
+                              cómo te lo da la API */}
+                    {goodForGroups !== null && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <GroupsIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                            </div>
+                            <div className='col'>
+                                <p>{goodForGroups ? 'Grupal' : 'No grupal weon'}</p>
+                            </div>
+                        </div>
+                    )}
+                    { /* Método de pago
+                    --------- En esta sección cambien la descripción, pues no sé
+                              cómo te lo da la API */}
+                    {metodoPago !== null && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <PaymentIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                            </div>
+                            <div className='col'>
+                                <p>{metodoPago ? 'Método' : 'Un método'}</p>
+                            </div>
+                        </div>
+                    )}
                     { /* Horario */}
                     <div className='row gx-0'>
                         <div className='col-1 pp-informacion-lugar-iconos'>
-                            <i className='bi bi-clock'></i>
+                            <AccessTimeIcon fontSize='small' className='pp-informacion-lugar-iconos' />
                         </div>
                         <div className='col'>
-                            <p>{horarioLugar}</p>
+                        {horarioLugar && horarioLugar.length > 0 ? (
+                            horarioLugar.map((horario, index) => (
+                                <p key={index} className='pp-informacion-lugar-horario-item'> {horario} </p>
+                            ))
+                        ) : (
+                            <p>No hay horarios disponibles</p>
+                        )}
                         </div>
                     </div>
+                    { /* Web Site Sitio */}
+                    {website && website.trim() !== '' && (
+                        <div className='row gx-0'>
+                            <div className='col-1 pp-informacion-lugar-iconos'>
+                                <LanguageIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                            </div>
+                            <div className='col'>
+                                <a className='pp-informacion-lugar-card-link' href={website}>Sitio Web</a>
+                            </div>
+                        </div>
+                    )}
+                    { /* Categoría */}
+                    <div className='row gx-0 pp-informacion-lugar-categoria'>
+                        <div className='col-1 pp-informacion-lugar-iconos'>
+                            <CategoryIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
+                        </div>
+                        <div className='col'>
+                            <p>{categoria}</p>
+                        </div>
+                    </div>
+                  
 
                 </div>
             </div>
