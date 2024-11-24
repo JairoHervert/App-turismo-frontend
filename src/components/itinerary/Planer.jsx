@@ -130,7 +130,7 @@ function Planer({ setSelectedPlace }) {
 
           <Box className='mx-3 d-flex it_pa-datepicker-container'>
             {/* DatePicker */}
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>  {/* quitar el dapterLocale si se perciben errores del input (undefined o NaN) */}
               <DatePicker
                 className='it_pa-datepicker'
                 label='Consulta por fecha'

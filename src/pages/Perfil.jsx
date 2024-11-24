@@ -11,9 +11,10 @@ import '../css/Perfil.css';
 
 import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import { Box } from '@mui/system';
 
 
-const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre','Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
+const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
 
 const Perfil = () => {
 
@@ -25,16 +26,15 @@ const Perfil = () => {
         transparentNavbar={false}
         lightLink={false} />
 
-    <div className='perfil-usuario-background'>
-    </div>
+      <Box className='perfil-usuario-background'></Box>
       <Container maxWidth='lg' className='md-4'>
-        
+
         {/* Perfil Usuario Header */}
         <InformacionHeader
           nombreUsuario='paola_reyes'
           /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
-             inicio sesión con fb o google), se le puede mandar como parámetro la
-             imagen */
+            inicio sesión con fb o google), se le puede mandar como parámetro la
+            imagen */
           avatar='https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg'
           /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
              la primera letra de su nombre de usuario */
@@ -42,7 +42,7 @@ const Perfil = () => {
           itinerariosCreados='46'
           favoritos='0'
           deseados='23'
-        />    
+        />
 
         { /* Información Personal Usuario */}
         <InformacionPersonal
@@ -51,14 +51,14 @@ const Perfil = () => {
           apellido=''
           fechaNacimiento={null}
         />
-                
+
         { /* Categorías de Interés Usuario */}
         <CategoriasInteres
           categoriasUsuario={categorias}
         />
 
       </Container>
-    
+
 
       <Footer
         showIncorporaLugar={false} />
