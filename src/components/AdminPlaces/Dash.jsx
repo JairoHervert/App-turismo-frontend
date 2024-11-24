@@ -23,8 +23,7 @@ const DashboardSidebar = () => {
       boxShadow="0px 0px 0px rgba(0, 0, 0, 0)" 
       maxHeight="2000px"
       overflow="auto" 
-      marginLeft={"-40px"}
-      marginTop={'-40px'}
+
     >      
 
       <List>

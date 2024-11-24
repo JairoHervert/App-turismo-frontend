@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import NavbarAD from '../components/NavBarA';
 import Footer from '../components/Footer';
-import Recibidos from '../components/Administrador/Recibidos';
 import Dashboard from '../components/Administrador/Dashboard';
 import FormularioLugar from '../components/Administrador/MainBox';
 
 function SearchHistoryPageHistory() { 
+  const location = useLocation();
+  const lugar = location.state?.lugar;  // Aquí obtenemos los datos del lugar
 
   return (
     <div className='vh-100 vw-100'>
@@ -18,36 +19,33 @@ function SearchHistoryPageHistory() {
         staticNavbarAD={false}
       />
 
-{/*       <div className="search-history-background-history d-flex flex-column align-items-center p-4">
- */}
-
-
-        {/* Contenedor principal para Dashboard y Recibidos */}
-        <div className='contenedor-cajas-admin d-flex  w-100'>
-          <div className='contenedor-cajas-admin  '>
-            
-            <Dashboard />
-
-
-            </div>
-            <div className='second-container-admin'>
-            <Recibidos />
-            <FormularioLugar
-                  addplace="Museo Frida Kahlo"
-                  nombre="Miranda Rojo"
-                  correo="AnaHola11@gmail.com"
-                  date="16 de octubre del 2024"
-                  hour="2:30 p.m."
-                
-            />
-          </div>
+      {/* Contenedor principal para Dashboard y Recibidos */}
+      <div className='contenedor-cajas-admin d-flex w-100'>
+        <div className='contenedor-cajas-admin'>
+          <Dashboard />
         </div>
+        <div className='second-container-admin'>
+          {/* Este componente, ya no tiene sentido usarlo para esta página
+          <Recibidos /> */}
 
-
+          {/* Usamos los datos del lugar aquí en FormularioLugar */}
+          {lugar ? (
+            <FormularioLugar
+              addplace={lugar.nombreLugar}  // Aquí pasamos el nombre del lugar
+              nombre={lugar.NombrePersona}  // Aquí pasamos el nombre de la persona
+              correo={lugar.correoPersona}  // Aquí pasamos el correo de la persona
+              date="16 de octubre del 2024"  // Si tienes una fecha, úsala aquí
+              hour="2:30 p.m."  // Si tienes una hora, úsala aquí
+            />
+          ) : (
+            <p>No se encontraron datos del lugar.</p>  // Si no hay lugar, mostramos un mensaje
+          )}
+        </div>
+      </div>
 
       <Footer showIncorporaLugar={false} />
     </div>
   );
 }
 
-export default SearchHistoryPageHistory;   
+export default SearchHistoryPageHistory;

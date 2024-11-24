@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Grid, Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
+import { Container, Grid , Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
-
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
-import LeftImage from '../components/login/LeftImage';
-
+import LeftImage from '../components/register/LeftImageR';
 
 import imgRegister from '../img/registerIMGA.jpg';
 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
+import { style } from '@mui/system';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -163,14 +162,15 @@ function RegisterPage() {
             lightLink={false}
             staticNavbar={false}
           />
-          <Container maxWidth="md" disableGutters className="my-5 py-4 d-flex align-items-center justify-content-center">
+          <Container maxWidth="md" disableGutters className="my-5 py-4 d-flex align-items-center justify-content-center ">
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
               {/* Left Image Section */}
-              <Grid item xs={12} md={6} className="register-left-container">
+              <Grid item xs={2} md={6} className="register-left-container  " >
                 <LeftImage
-                  imageUrl={imgRegister}
+                  imageUrl={imgRegister}              
                   nombreFotografo="Daniel Zepeda"
-                />
+
+                    />
               </Grid>
 
               {/* Form Section */}
@@ -198,6 +198,9 @@ function RegisterPage() {
                             error={formSubmitted && !errors.nombre?.longitudValida}
                             helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 8 y 60 caracteres." : ""}
                           />
+                        <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
+                          El username debe cumplir con las siguientes reglas:
+                        </Typography>
                         </Box>
 
                         <Box className="my-3">
@@ -208,26 +211,26 @@ function RegisterPage() {
 
 
                         <Box className="my-4">
-  <TextField
-    label="Correo electrónico"
-    value={correo}
-    onChange={handleEmailChange}
-    fullWidth
-    size="small"
-    required
-    error={formSubmitted && !errors.correo?.noVacio}
-    helperText={formSubmitted && !errors.correo?.noVacio ? "El correo no debe estar vacío." : ""}
-  />
-  <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
-    El correo debe cumplir con las siguientes reglas:
-  </Typography>
-  <ul>
-    <li className={`lo_pa-rule-input fw-medium ${errors.correo?.noVacio ? 'text-success fw-semibold' : ''}`}>No debe estar vacío.</li>
-    <li className={`lo_pa-rule-input fw-medium ${errors.correo?.sinEspacios ? 'text-success fw-semibold' : ''}`}>No debe contener espacios.</li>
-    <li className={`lo_pa-rule-input fw-medium ${errors.correo?.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbolo @.</li>
-    <li className={`lo_pa-rule-input fw-medium ${errors.correo?.dominioConPunto ? 'text-success fw-semibold' : ''}`}>Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).</li>
-  </ul>
-</Box>
+                          <TextField
+                            label="Correo electrónico"
+                            value={correo}
+                            onChange={handleEmailChange}
+                            fullWidth
+                            size="small"
+                            required
+                            error={formSubmitted && !errors.correo?.noVacio}
+                            helperText={formSubmitted && !errors.correo?.noVacio ? "El correo no debe estar vacío." : ""}
+                          />
+                          <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
+                            El correo debe cumplir con las siguientes reglas:
+                          </Typography>
+                          <ul>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.noVacio ? 'text-success fw-semibold' : ''}`}>No debe estar vacío.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.sinEspacios ? 'text-success fw-semibold' : ''}`}>No debe contener espacios.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbolo @.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.dominioConPunto ? 'text-success fw-semibold' : ''}`}>Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).</li>
+                          </ul>
+                        </Box>
 
                         <Box className="my-4">
                           <FormControl fullWidth size="small" error={formSubmitted && !!errors.contraseña}>
@@ -275,6 +278,9 @@ function RegisterPage() {
                               required
                             />
                           </FormControl>
+                          <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
+                          La contraseña debe cumplir con las siguientes reglas:
+                            </Typography>
                         </Box>
 
                         <Box className="my-3">
