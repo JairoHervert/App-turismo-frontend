@@ -13,7 +13,7 @@ import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
 
-const categorias = ['Parques', 'Museos', 'Restaurantes', 'Cafeterías', 'Playas', 'Atracciones', 'Familiares', 'Hospitales', 'Empresas', 'Aeropuerto', 'Bar', 'Gym','Galería de Arte', 'Iglesia', 'Acuático'];
+const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre','Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
 
 const Perfil = () => {
 
@@ -31,7 +31,14 @@ const Perfil = () => {
         
         {/* Perfil Usuario Header */}
         <InformacionHeader
-          nombreUsuario='juan-molina'
+          nombreUsuario='paola_reyes'
+          /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
+             inicio sesión con fb o google), se le puede mandar como parámetro la
+             imagen */
+          avatar='https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg'
+          /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
+             la primera letra de su nombre de usuario */
+          //avatar={null}
           itinerariosCreados='46'
           favoritos='0'
           deseados='23'
@@ -40,10 +47,9 @@ const Perfil = () => {
         { /* Información Personal Usuario */}
         <InformacionPersonal
           correoElectronico='uncorreo@gmail.com'
-          nombreCompleto='César Peso Pluma'
-          fechaNacimiento='10/10/2024'
-          telefono='+52 4455060396' // ESTA INFORMACIÓN SÓLO ES DE RELLENO HASTA QUE 
-          pais='México'             // DEFINAN BIEN QUÉ VAN A PEDIR DE INFORMACIÓN
+          nombre=''
+          apellido=''
+          fechaNacimiento={null}
         />
                 
         { /* Categorías de Interés Usuario */}

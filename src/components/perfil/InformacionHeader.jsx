@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../css/Perfil.css';
 
 import { Box, Avatar, Stack, Card, Typography } from '@mui/material';
 
 import {Map as MapIcon, FavoriteRounded as FavoriteRoundedIcon, Star as StarIcon, Edit as EditIcon } from '@mui/icons-material';
 
-function InformacionHeader({ nombreUsuario, itinerariosCreados, favoritos, deseados }) {
+function InformacionHeader({ nombreUsuario, avatar, itinerariosCreados, favoritos, deseados }) {
+
+    const [avatarNuevo, setAvatar] = useState(avatar);
+    const obtenerInicial = nombreUsuario?.charAt(0).toUpperCase();
+
+    const handleAvatarChange = (event) => {
+      const file = event.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setAvatar(reader.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    }
 
     return (
         <Card className='perfil-usuario-header'>
@@ -17,9 +31,11 @@ function InformacionHeader({ nombreUsuario, itinerariosCreados, favoritos, desea
                     width: 150,
                     height: 150,
                     backgroundColor: '#999999',
+                    fontSize: 48,
                   }}
+                  src={avatarNuevo}
                 >
-                  JM
+                  {!avatarNuevo && obtenerInicial}
                 </Avatar>
                 <Box
                   sx={{
@@ -38,9 +54,17 @@ function InformacionHeader({ nombreUsuario, itinerariosCreados, favoritos, desea
                     fontWeight: 'bold',
                     border: '1px solid #E4007C',
                   }}
+                  onClick={() => document.getElementById('avatar-input').click()}
                 >
                   <EditIcon color='primary'></EditIcon>
                 </Box>
+                <input
+                  id='avatar-input'
+                  type='file'
+                  accept='image/*'
+                  style={{display: 'none'}}
+                  onChange={handleAvatarChange}  
+                />
               </Box>
               
               {/* Perfil Usuario Header Informacion */}
