@@ -26,18 +26,17 @@ import Imagen4 from '../../img/PlacePage/place-img-cafeterias.jpg';
 import Imagen5 from '../../img/piramides-teotihuacan.webp';
 
 
-function Planer() {
-  // obtencion del dia actual y mes en formato de texto
-  const daysOfWeek = ['domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+function Planer({ setSelectedPlace }) {
+  // arrays para el formato de la fecha
+  const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
   const today = new Date(); // fecha actual
 
-  // Enconrar el lunes de la semana actual
+  // Encontrar el lunes de la semana actual
   const initialMonday = new Date(today);
   if (today.getDay() !== 1) {
     initialMonday.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
-    //console.log(monday.getDate());  // lunes anterior de la semana, para iniciar la barra de dias
   }
 
   // state pra la fecha del lunes de la semana
@@ -56,17 +55,21 @@ function Planer() {
     nextMonday.setDate(monday.getDate() + 7);
     setMonday(nextMonday);
   };
-
-
-  // simulacion de un itinerario de 4 dias usando un objeto de javascript
+  
+  // simulacion de un itinerario usando un objeto de javascript
   const itinerario = {
     '23 noviembre 2024': [
       {
         placeTime: '10:00 am',
-        placeName: 'Cafeterías',
-        placeDescription: 'Disfruta de un café en las icónicas cafeterías de la Ciudad de México.',
-        placeThings: ['Ambiente tranquilo', 'Buena música'],
-        placeImage: Imagen4,
+        placeName: 'Fuente de Tláloc',
+        placeDescription: 'Monumento en la Ciudad de México que representa a Tláloc, dios de la lluvia.',
+        placeLongDescription: 'La Fuente de Tláloc es un monumento en la Ciudad de México que representa a Tláloc, dios de la lluvia. Se encuentra en la cima del cerro del Chiquihuite, en la alcaldía de Gustavo A. Madero. La fuente fue construida en 1951 por el arquitecto Luis Leduc y el escultor Jesús Fructuoso Contreras. La escultura de Tláloc mide 22 metros de altura y está hecha de concreto recubierto de piedra volcánica. La fuente es un símbolo de la cultura prehispánica y de la importancia del agua en la vida de los mexicanos.',
+        placeThings: ['Arte moderno', 'Historia prehispánica', 'Jardines hermosos'],
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '6:00 pm',
+        placeAddress: 'Cerro del Chiquihuite, Gustavo A. Madero, Ciudad de México.',
+        placePhone: '55 1234 5678',
+        placeImages: [Imagen1, Imagen2, Imagen3],
         placeRating: 4,
         finalItem: false
       },
@@ -74,8 +77,13 @@ function Planer() {
         placeTime: '11:00 am',
         placeName: 'Casa de León',
         placeDescription: 'Museo en la Ciudad de México que fue hogar de León Trotsky.',
+        placeLongDescription: 'La Casa de León es un museo en la Ciudad de México que fue hogar de León Trotsky. El museo se encuentra en la colonia Del Carmen, en la alcaldía de Coyoacán. La casa fue adquirida por el gobierno mexicano en 1982 y convertida en museo en 1990. En el museo se pueden ver objetos personales de Trotsky, así como exposiciones sobre la historia de la Revolución Rusa y la lucha obrera en México. El museo también cuenta con jardines hermosos que invitan a la reflexión y al descanso.',
         placeThings: ['Arte moderno', 'Historia revolucionaria', 'Jardines hermosos'],
-        placeImage: Imagen2,
+        placeOpenHour: '7:00 am',
+        placeCloseHour: '6:00 pm',
+        placeAddress: 'Río Churubusco 410, Del Carmen, Coyoacán, Ciudad de México.',
+        placePhone: '55 8765 4321',
+        placeImages: [Imagen2, Imagen4, Imagen3],
         placeRating: 3,
         finalItem: false
       },
@@ -83,8 +91,13 @@ function Planer() {
         placeTime: '12:00 pm',
         placeName: 'Palacio Postal',
         placeDescription: 'Edificio de estilo ecléctico que alberga Correos de México.',
+        placeLongDescription: 'El Palacio Postal es un edificio de estilo ecléctico en la Ciudad de México que alberga la sede de Correos de México. El edificio fue construido entre 1902 y 1907 por el arquitecto italiano Adamo Boari. El Palacio Postal es uno de los edificios más emblemáticos de la Ciudad de México y es famoso por su arquitectura y decoración. En su interior se pueden ver murales, vitrales y esculturas que representan la historia de la comunicación y el correo en México.',
         placeThings: ['Arquitectura colonial', 'Historia postal'],
-        placeImage: Imagen3,
+        placeOpenHour: '9:00 am',
+        placeCloseHour: '5:00 pm',
+        placeAddress: 'Tacuba 1, Centro Histórico, Ciudad de México.',
+        placePhone: '55 2468 1357',
+        placeImages: [Imagen3, Imagen1, Imagen5],
         placeRating: 5,
         finalItem: false
       },
@@ -92,39 +105,98 @@ function Planer() {
         placeTime: '2:00 pm',
         placeName: 'Pirámides de Teotihuacán',
         placeDescription: 'Sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides.',
+        placeLongDescription: 'Las Pirámides de Teotihuacán son un sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides. Teotihuacán fue una de las ciudades más grandes de Mesoamérica y su nombre significa "lugar donde los dioses nacen". En el sitio se pueden ver las pirámides del Sol y de la Luna, así como la Calzada de los Muertos y los templos de Quetzalcóatl y de los Jaguares. Teotihuacán es un lugar sagrado para los mexicas y un importante centro ceremonial y político en la época prehispánica.',
         placeThings: ['Construcciones antiguas', 'Cultura prehispánica'],
-        placeImage: Imagen5,
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '5:00 pm',
+        placeAddress: 'San Juan Teotihuacán, Estado de México.',
+        placePhone: '55 9876 5432',
+        placeImages: [Imagen5, Imagen2, Imagen1],
         placeRating: 5,
         finalItem: true
       }
     ],
     '24 noviembre 2024': [
       {
-        placeTime: '10:00 am',
-        placeName: 'Cafeterías',
-        placeDescription: 'Disfruta de un café en las icónicas cafeterías de la Ciudad de México.',
-        placeThings: ['Ambiente tranquilo', 'Buena música'],
-        placeImage: Imagen4,
-        placeRating: 4,
+        placeTime: '11:00 am',
+        placeName: 'Pirámides de Teotihuacán',
+        placeDescription: 'Sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides.',
+        placeLongDescription: 'Las Pirámides de Teotihuacán son un sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides. Teotihuacán fue una de las ciudades más grandes de Mesoamérica y su nombre significa "lugar donde los dioses nacen". En el sitio se pueden ver las pirámides del Sol y de la Luna, así como la Calzada de los Muertos y los templos de Quetzalcóatl y de los Jaguares. Teotihuacán es un lugar sagrado para los mexicas y un importante centro ceremonial y político en la época prehispánica.',
+        placeThings: ['Construcciones antiguas', 'Cultura prehispánica'],
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '5:00 pm',
+        placeAddress: 'San Juan Teotihuacán, Estado de México.',
+        placePhone: '55 9876 5432',
+        placeImages: [Imagen5, Imagen2, Imagen1],
+        placeRating: 5,
         finalItem: false
       },
       {
         placeTime: '11:00 am',
         placeName: 'Casa de León',
         placeDescription: 'Museo en la Ciudad de México que fue hogar de León Trotsky.',
+        placeLongDescription: 'La Casa de León es un museo en la Ciudad de México que fue hogar de León Trotsky. El museo se encuentra en la colonia Del Carmen, en la alcaldía de Coyoacán. La casa fue adquirida por el gobierno mexicano en 1982 y convertida en museo en 1990. En el museo se pueden ver objetos personales de Trotsky, así como exposiciones sobre la historia de la Revolución Rusa y la lucha obrera en México. El museo también cuenta con jardines hermosos que invitan a la reflexión y al descanso.',
         placeThings: ['Arte moderno', 'Historia revolucionaria', 'Jardines hermosos'],
-        placeImage: Imagen2,
+        placeOpenHour: '7:00 am',
+        placeCloseHour: '6:00 pm',
+        placeAddress: 'Río Churubusco 410, Del Carmen, Coyoacán, Ciudad de México.',
+        placePhone: '55 8765 4321',
+        placeImages: [Imagen4, Imagen2, Imagen3],
         placeRating: 3,
         finalItem: false
+      },
+      {
+        placeTime: '12:00 pm',
+        placeName: 'Palacio Postal',
+        placeDescription: 'Edificio de estilo ecléctico que alberga Correos de México.',
+        placeLongDescription: 'El Palacio Postal es un edificio de estilo ecléctico en la Ciudad de México que alberga la sede de Correos de México. El edificio fue construido entre 1902 y 1907 por el arquitecto italiano Adamo Boari. El Palacio Postal es uno de los edificios más emblemáticos de la Ciudad de México y es famoso por su arquitectura y decoración. En su interior se pueden ver murales, vitrales y esculturas que representan la historia de la comunicación y el correo en México.',
+        placeThings: ['Arquitectura colonial', 'Historia postal'],
+        placeOpenHour: '9:00 am',
+        placeCloseHour: '5:00 pm',
+        placeAddress: 'Tacuba 1, Centro Histórico, Ciudad de México.',
+        placePhone: '55 2468 1357',
+        placeImages: [Imagen1, Imagen1, Imagen5],
+        placeRating: 5,
+        finalItem: true
+      }
+    ],
+    '25 noviembre 2024': [
+      {
+        placeTime: '11:00 am',
+        placeName: 'Pirámides de Teotihuacán',
+        placeDescription: 'Sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides.',
+        placeLongDescription: 'Las Pirámides de Teotihuacán son un sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides. Teotihuacán fue una de las ciudades más grandes de Mesoamérica y su nombre significa "lugar donde los dioses nacen". En el sitio se pueden ver las pirámides del Sol y de la Luna, así como la Calzada de los Muertos y los templos de Quetzalcóatl y de los Jaguares. Teotihuacán es un lugar sagrado para los mexicas y un importante centro ceremonial y político en la época prehispánica.',
+        placeThings: ['Construcciones antiguas', 'Cultura prehispánica'],
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '5:00 pm',
+        placeAddress: 'San Juan Teotihuacán, Estado de México.',
+        placePhone: '55 9876 5432',
+        placeImages: [Imagen5, Imagen2, Imagen1],
+        placeRating: 5,
+        finalItem: false
+      },
+      {
+        placeTime: '1:00 pm',
+        placeName: 'Fuente de Tláloc',
+        placeDescription: 'Monumento en la Ciudad de México que representa a Tláloc, dios de la lluvia.',
+        placeLongDescription: 'La Fuente de Tláloc es un monumento en la Ciudad de México que representa a Tláloc, dios de la lluvia. Se encuentra en la cima del cerro del Chiquihuite, en la alcaldía de Gustavo A. Madero. La fuente fue construida en 1951 por el arquitecto Luis Leduc y el escultor Jesús Fructuoso Contreras. La escultura de Tláloc mide 22 metros de altura y está hecha de concreto recubierto de piedra volcánica. La fuente es un símbolo de la cultura prehispánica y de la importancia del agua en la vida de los mexicanos.',
+        placeThings: ['Arte moderno', 'Historia prehispánica', 'Jardines hermosos'],
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '6:00 pm',
+        placeAddress: 'Cerro del Chiquihuite, Gustavo A. Madero, Ciudad de México.',
+        placePhone: '55 1234 5678',
+        placeImages: [Imagen1, Imagen2, Imagen3],
+        placeRating: 4,
+        finalItem: true
       }
     ],
   }
 
-  console.log(itinerario.lenght);
-
-  console.log(itinerario['24 noviembre 24']);
-
-
+  // state para el dia seleccionado en la barra de dias
+  // se inicializa con el dia ACTUAL si este forma parte del itinerario, de lo contrario se selecciona el primer dia del itinerario
+  const actualDay = today.getDate() + ' ' + months[today.getMonth()] + ' ' + today.getFullYear(); //nn mes 202x
+  const initialSelectedDay = (actualDay in itinerario) ? actualDay : Object.keys(itinerario)[0];
+  const [selectedDay, setSelectedDay] = useState(initialSelectedDay);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -144,17 +216,24 @@ function Planer() {
             {/* Días de la semana a partir del lunes encontrado en la variable monday */}
             {[...Array(7).keys()].map((i) => {
               const day = new Date(monday);
-              day.setDate(monday.getDate() + i);
-              console.log(day.getDate() + ' ' + months[day.getMonth()] + ' ' + day.getFullYear());
+              day.setDate(monday.getDate() + i);  // se recorre a partir del lunes obtenido
 
-              let dayInItinerary = (day.getDate() + ' ' + months[day.getMonth()] + ' ' + day.getFullYear()) in itinerario;
+              const dayInItinerary = (day.getDate() + ' ' + months[day.getMonth()] + ' ' + day.getFullYear()) in itinerario;
+              const dayFormatted = `${day.getDate()} ${months[day.getMonth()]} ${day.getFullYear()}`;
+
+              // verificar condiciones para determinar la apariencia de los botones de los días
+              let dayStyle = 'fw-light';
+              if (dayFormatted === actualDay) dayStyle += ' planer-dot-day-today';  // clase para el dia actual
+              if (dayFormatted === selectedDay) dayStyle += ' planer-dot-day-selected fw-medium'; // clase para el dia que seleccione el usuario
+              if (dayInItinerary) dayStyle += ' planer-dot-day-enabled';  // clase para los dias que forman parte del itinerario
+              else dayStyle += ' planer-dot-day-disabled';  // clase para los dias que no forman parte del itinerario
 
               return (
-                <IconButton key={i}>
+                <IconButton key={i} onClick={() => setSelectedDay(dayFormatted)} disabled={!dayInItinerary}>
                   <Typography
                     fontFamily={'poppins'}
                     color='dark'
-                    className={`fw-light ${dayInItinerary ? 'planer-dot-day-enabled' : 'planer-dot-day-disabled'}`}
+                    className={dayStyle}
                   >
                     {day.getDate()}
                   </Typography>
@@ -171,9 +250,9 @@ function Planer() {
         </Box> {/* Cierre de Box que aloja los botones de flecha y los días de la semana */}
 
         <Box className='ms-2 mt-4'>
-          <Typography fontFamily={'poppins'} className='fw-normal' sx={{ fontSize: '1.5rem' }}>
-            {/* Fecha actual en formato de texto */}
-            {daysOfWeek[today.getDay()]}, {today.getDate()} de {months[today.getMonth()]} del {today.getFullYear()}
+          <Typography fontFamily={'poppins'} className='fw-normal it_pa-format-day-selected' sx={{ fontSize: '1.5rem' }}>
+            {/* Fecha seleccionada en la barra de días en formato de texto */}
+            {daysOfWeek[new Date(selectedDay).getDay()]}, {selectedDay}
           </Typography>
         </Box>  {/* Cierre de Box que aloja el dia de la semana */}
 
@@ -192,23 +271,26 @@ function Planer() {
           >
 
             {/* Iteración de los lugares del itinerario, segun el dia que se le pase */}
-            {itinerario['23 noviembre 2024'].map((place, index) => (
+            {itinerario[selectedDay]?.map((place, index) => (
               <PlaceTimeLine
                 key={index}
                 placeTime={place.placeTime}
                 placeName={place.placeName}
                 placeDescription={place.placeDescription}
                 placeThings={place.placeThings}
-                placeImage={place.placeImage}
+                placeImages={place.placeImages}
                 placeRating={place.placeRating}
                 finalItem={place.finalItem}
+                obtainPlace={() => {
+                  //console.log(`Lugar seleccionado: ${place.placeName}`);
+                  setSelectedPlace(place);
+                }}
+                
               />
             ))}
 
           </Timeline>
         </Box>
-
-
 
       </Box>
     </ThemeProvider>

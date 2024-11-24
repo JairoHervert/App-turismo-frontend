@@ -1,149 +1,48 @@
+// componentes online
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, Typography, Rating } from '@mui/material';
+import { Box, Typography, Rating, Card } from '@mui/material';
 import ThemeMaterialUI from '../ThemeMaterialUI';
-import imagen from '../../img/PlacePage/place-img-cafeterias.jpg';
+
+// componentes locales
+import InfoPlace from './InfoPlace';
+
+import imagenTursita from '../../img/Itinerary/turist-for-another.jpg';
 
 function MoreInfoPlace({ place }) {
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Box
-        className='d-flex flex-column align-items-center m-4'
-        sx={{
-          height: '780px', // Alto fijo
-          overflow: 'hidden', // Ocultar desbordamiento para mantener el tamaño fijo
-        }}
+        className='d-flex flex-column align-items-center mx-1'
       >
+        <Card>
+          <Box className='d-flex flex-column align-items-center justify-content-center mt-2 mx-3'>
+            <img src={imagenTursita} alt='Turista' className='it_pa-imagen-turista' />
+            <Typography variant='subtitle1' className='text-center fw-medium fst-italic my-2'>"Viajar es abrir el alma a lo desconocido y volver con historias".</Typography>
+          </Box>
+        </Card>
         {place ? (
-          <>
-            {/* Carrusel de imágenes */}
-            <div
-              id='carouselMoreInfoPlace'
-              className='carousel slide'
-              data-bs-ride='carousel'
-              style={{ width: '100%', height: 'auto' }}
-            >
-              <div className='carousel-inner'>
-                {place.images.map((image, index) => (
-                  <div
-                    className={`carousel-item ${index === 0 ? 'active' : ''}`}
-                    key={index}
-                  >
-                    <img
-                      src={image}
-                      className='d-block w-100 lugar-imagen rounded'
-                      alt={`${place.name} ${index + 1}`}
-                      style={{ maxHeight: '200px', objectFit: 'cover' }}
-                    />
-                  </div>
-                ))}
-              </div>
-              <button
-                className='carousel-control-prev'
-                type='button'
-                data-bs-target='#carouselMoreInfoPlace'
-                data-bs-slide='prev'
-              >
-                <span
-                  className='carousel-control-prev-icon'
-                  aria-hidden='true'
-                ></span>
-                <span className='visually-hidden'>Previous</span>
-              </button>
-              <button
-                className='carousel-control-next'
-                type='button'
-                data-bs-target='#carouselMoreInfoPlace'
-                data-bs-slide='next'
-              >
-                <span
-                  className='carousel-control-next-icon'
-                  aria-hidden='true'
-                ></span>
-                <span className='visually-hidden'>Next</span>
-              </button>
-            </div>
-
-            {/* Contenedor desplazable para el contenido textual */}
-            <Box
-              sx={{
-                overflowY: 'auto',
-                padding: 2,
-              }}
-            >
-              <Typography
-                variant='h3'
-                fontWeight='bold'
-                sx={{ marginBottom: 2 }}
-              >
-                {place.name}
-              </Typography>
-              <Typography variant='body2' sx={{ marginBottom: 1 }}>
-                <span style={{ fontWeight: 'bold' }}>Hora de estancia:</span>{' '}
-                {place.time}
-              </Typography>
-              <Typography variant='body2' sx={{ marginBottom: 1 }}>
-                <span style={{ fontWeight: 'bold' }}>Dirección:</span>{' '}
-                {place.address}
-              </Typography>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginBottom: 2,
-                }}
-              >
-                <Typography variant='body2'>
-                  <span style={{ fontWeight: 'bold' }}>Calificación:</span>{' '}
-                  {place.rating}
-                </Typography>
-                <Rating
-                  name='read-only'
-                  value={place.rating}
-                  readOnly
-                  sx={{ marginLeft: 1 }}
-                />
-              </Box>
-              <Typography variant='body1' sx={{ marginBottom: 2 }}>
-                <span style={{ fontWeight: 'bold' }}>Descripción:</span>{' '}
-                {place.longDescription}
-              </Typography>
-            </Box>
-          </>
+          <Card className='my-2'>
+            <InfoPlace
+              name={place.placeName}
+              longDescription={place.placeLongDescription}
+              images={place.placeImages}
+              openHour={place.placeOpenHour}
+              closeHour={place.placeCloseHour}
+              address={place.placeAddress}
+              phone={place.placePhone}
+              rating={place.placeRating}
+            />
+          </Card>
         ) : (
           <>
-            {/* Contenido genérico cuando no se ha seleccionado ningún lugar */}
-            <img
-              src={imagen}
-              alt='Lugar genérico'
-              className='rounded it_page-img-item'
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxWidth: '600px',
-                maxHeight: '200px',
-                objectFit: 'cover',
-              }}
-            />
-            <Box
-              sx={{
-                overflowY: 'auto',
-                maxHeight: 'calc(100% - 220px)', // Altura máxima ajustada restando el espacio de la imagen y márgenes
-                width: '100%',
-                padding: 2,
-              }}
-            >
-              <Typography
-                variant='h3'
-                sx={{ marginBottom: 2, textAlign: 'center' }}
-              >
-                Disfruta de tu día :)
-              </Typography>
-              <Typography variant='body1' sx={{ textAlign: 'center' }}>
-                Este día será muy emocionante, muchas aventuras y buenos
-                momentos te esperan.
-              </Typography>
-            </Box>
+            <Card className='mt-2'>
+              {/* Si no hay lugar seleccionado, se muestra este contenido por default */}
+              <Box className='d-flex flex-column align-items-center justify-content-center mx-3'>
+                <Typography variant='subtitle1' className='text-center fw-semibold mt-4 mb-2' fontFamily={'Poppins'} sx={{ fontSize: '1.1rem' }}>Explora los detalles de cada lugar.</Typography>
+                <Typography variant='subtitle1' className='text-center mb-4' fontFamily={'Poppins'}><span className='fw-semibold'>Tip de Viaje:</span> Selecciona un lugar de tu itinerario y explora todo lo que tiene para ofrecer.</Typography>
+              </Box>
+            </Card>
           </>
         )}
       </Box>

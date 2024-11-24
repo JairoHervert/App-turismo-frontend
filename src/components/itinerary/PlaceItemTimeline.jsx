@@ -7,12 +7,16 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import '../../css/ItineraryPage.css';
 
-function PlaceItemTimeline({ finalItem, placeName, placeImage, placeDescription, placeTime, placeThings, placeRating }) {
+function PlaceItemTimeline({ finalItem, placeName, placeImages, placeDescription, placeTime, placeThings, placeRating, obtainPlace }) {
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
-      <Box className='mb-3'>
+      <Box className='mb-3' sx= {{ cursor: 'pointer' }}
+        onClick={() => {
+          //console.log(`PlaceItemTimeline onClick called for: ${placeName}`);
+          obtainPlace();
+        }}>
         <TimelineItem>
-          <TimelineOppositeContent className='me-3 mt-1' sx={{ padding: '0', margin: '0' }} color="black">
+          <TimelineOppositeContent className='me-3 mt-1' sx={{ padding: '0', margin: '0' }} color='black'>
             <Typography fontFamily={'poppins'} variant='subtitle2'>{placeTime}</Typography>
           </TimelineOppositeContent>
 
@@ -30,12 +34,12 @@ function PlaceItemTimeline({ finalItem, placeName, placeImage, placeDescription,
 
           <TimelineContent>
 
-            <Box className='d-flex p-1'>
-              <img src={placeImage} alt={placeName} className='rounded it_page-img-item' />
+            <Box className='d-flex p-1 it_pa-item'>
+              <img src={placeImages[0]} alt={placeName} className='rounded it_page-img-item' />
               <Box className='d-flex flex-column mx-3 align-items-center justify-content-center'>
                 <Typography className='text-center' fontFamily={'poppins'} variant='h6' color='black'>{placeName}</Typography>
                 <Typography className='text-center fw-light' fontFamily={'poppins'} variant='body1' color='black'>{placeDescription}</Typography>
-                <Rating name="read-only" value={placeRating} readOnly />
+                <Rating name='read-only' value={placeRating} readOnly />
 
                 <Box>
                   {placeThings && placeThings.length > 0 && (
@@ -43,7 +47,7 @@ function PlaceItemTimeline({ finalItem, placeName, placeImage, placeDescription,
                       {placeThings.map((thing, index) => (
                         <li key={index} style={{ display: 'flex', alignItems: 'center' }}>
                           <span className='it_pa-list-dot fontPoppins'>•</span>
-                          <Typography fontFamily={'poppins'} variant="body2">{thing}</Typography>
+                          <Typography fontFamily={'poppins'} variant='body2'>{thing}</Typography>
                         </li>
                       ))}
                     </ul>

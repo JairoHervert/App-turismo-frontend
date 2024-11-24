@@ -6,6 +6,9 @@ import { Container, Stack, TextField, InputAdornment } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
+import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 // iconos
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
@@ -22,8 +25,14 @@ import MoreInfoPlace from '../components/itinerary/MoreInfoPlace';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 
 function ItineraryPage() {
-  // hook para manejar el estado de la pestaña activa, ya sea 'Plan' o 'Ruta'
+  // estado para manejar el estado de la pestaña activa, ya sea 'Plan' o 'Ruta'
   const [activeTab, setActiveTab] = useState('Plan');
+
+  // estado para el lugar seleccionado
+  const [selectedPlace, setSelectedPlace] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -61,9 +70,9 @@ function ItineraryPage() {
         </Stack>  {/* Cierre de Stack que aloja el titulo y el buscador */}
 
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className='it_pa-planer-and-moreinfo-container'>
           {/* Lado izquierdo del itinerario, planer y ruta */}
-          <Grid size={{ xs: 10, md: 8 }}>
+          <Grid className='it_pa-planer-container'>
             <Card>
               {/* Titulo y botones de pestañas 'Plan' y 'Ruta' */}
               <Box className='mx-4 d-flex flex-column align-items-start'>
@@ -97,16 +106,45 @@ function ItineraryPage() {
                 </Box>
               </Box>  {/* Cierre de Box que aloja el titulo y los botones de pestaña */}
 
-              {activeTab === 'Plan' ? (<Planer />) : (<PlanRoute />)}  {/* Renderizado condicional de la pestaña activa */}
+              {activeTab === 'Plan' ? (<Planer
+                setSelectedPlace={(place) => {
+                  setSelectedPlace(place);
+                  setIsModalOpen(true);
+                }}
+              />
+              ) : (<PlanRoute />)}  {/* Renderizado condicional de la pestaña activa */}
             </Card>
           </Grid>
 
           {/* Lado derecho del itinerario, mas informacion del lugar */}
-          <Grid size={{ xs: 10, md: 4 }}>
-            <Card>
-              <MoreInfoPlace />
-            </Card>
+          <Grid className='it_pa-more-info-container'>
+            <MoreInfoPlace place={selectedPlace} />
           </Grid>
+
+          <Box className='it_pa-modal-info-place'>
+            <Dialog
+              open={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              fullWidth
+              maxWidth="md"
+            >
+              <DialogTitle className='it_pa-modal-info-place'>
+                <Typography fontFamily={'poppins'} variant="h6">
+                  Información del Lugar
+                </Typography>
+                <IconButton
+                  aria-label="close"
+                  onClick={() => setIsModalOpen(false)}
+                  sx={{ position: 'absolute', right: 8, top: 8 }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </DialogTitle>
+              <DialogContent>
+                <MoreInfoPlace place={selectedPlace} />
+              </DialogContent>
+            </Dialog>
+          </Box>
 
         </Grid>
 
