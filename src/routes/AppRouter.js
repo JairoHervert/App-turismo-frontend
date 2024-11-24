@@ -17,6 +17,7 @@ import ResumePage from '../pages/ResumenPage';
 import RegisterPlacePage from '../pages/RegisterPlacePage'; 
 import AdminPage from '../pages/Administrador'; 
 import Perfil from '../pages/Perfil';
+import AdminDash from '../pages/AdminDashboard';
 
 
 function AppRouter() {
@@ -41,6 +42,7 @@ function AppRouter() {
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>
         <Route path='/Admin-Page' element={<AdminPage />}/>
         <Route path='/perfil-page' element={<Perfil />}/>
+        <Route path='/admin-dashboard' element={<AdminDash />}/>
       </Routes>
     </Router>
   );
