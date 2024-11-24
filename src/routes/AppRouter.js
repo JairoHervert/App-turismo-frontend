@@ -18,6 +18,7 @@ import RegisterPlacePage from '../pages/RegisterPlacePage';
 import AdminPage from '../pages/Administrador'; 
 import AdminPagePlaces from '../pages/AdministradorLugares'; 
 import Perfil from '../pages/Perfil';
+import Alcaldias from '../pages/AlcaldiasTotales';
 
 
 function AppRouter() {
@@ -43,6 +44,7 @@ function AppRouter() {
         <Route path='/Admin-Page' element={<AdminPage />}/>
         <Route path='/Admin-Page-Places' element={<AdminPagePlaces />}/>
         <Route path='/perfil-page' element={<Perfil />}/>
+        <Route path='/alcaldias' element={<Alcaldias/>} />
       </Routes>
     </Router>
   );

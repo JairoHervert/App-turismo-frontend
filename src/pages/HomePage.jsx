@@ -27,6 +27,11 @@ const HomePage = () => {
       navigate('/generar-itinerario');
   };
 
+  const handlePlaceAlcaldiasClick = () => {
+    navigate('/alcaldias');
+  }
+  
+
   const settings = {
     className: "center",
     dots: true,
@@ -97,6 +102,7 @@ const HomePage = () => {
           <ButtonsMod
             variant='principal'
             textCont='Ver más'
+            clickEvent={handlePlaceAlcaldiasClick}
           />
         </div>
       </section>
