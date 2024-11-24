@@ -1,33 +1,27 @@
-import React, { useState } from 'react';
-import { Button, Typography, Box } from '@mui/material';
+import React from 'react';
+import { Button, Box, Typography } from '@mui/material';
 import { CheckCircle as CheckCircleIcon, Cancel as CancelIcon, MailOutline as MailOutlineIcon } from '@mui/icons-material';
-import '../../css/AdministradorLugares.css';
 
-const Recibidos = () => {
-  const [selectedCategory, setSelectedCategory] = useState('Todos');
-
+const Recibidos = ({ setSelectedCategory }) => {
   const categories = [
-    { title: 'Todos', items: ['Ejemplo 1', 'Ejemplo 2', 'Ejemplo 3'] },
-    { title: 'No leídos', items: ['Ejemplo 1'] },
-    { title: 'Aceptados', items: ['Ejemplo 2'] },
-    { title: 'Rechazados', items: ['Ejemplo 3'] },
+    { title: 'Todos', icon: null },
+/*     { title: 'Leídos' },
+ */    { title: 'Aceptados', icon: <CheckCircleIcon /> },
+    { title: 'Rechazados', icon: <CancelIcon /> },
   ];
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
   };
 
-  const filteredItems = categories.find(category => category.title === selectedCategory)?.items || [];
-
-  return ( 
-    
-    <Box className="recibidos-container-admin-places" marginTop={'65px'} maxHeight={'300px'}>
+  return (
+    <Box className="recibidos-container-admin-places" marginTop={'95px'} maxHeight={'250px'}>
       {/* Header del componente Recibidos */}
       <Box className="recibidos-header-admin-places" display="flex" alignItems="center">
         <MailOutlineIcon sx={{ color: 'black', fontSize: { xs: 16, sm: 20 } }} />
-        <Typography 
-          variant="h5" 
-          className="recibidos-header-title-admin-places" 
+        <Typography
+          variant="h5"
+          className="recibidos-header-title-admin-places"
           sx={{ fontSize: { xs: '0.9rem', sm: '1.2rem' }, fontWeight: 600 }}
         >
           Recibidos
@@ -41,19 +35,16 @@ const Recibidos = () => {
             key={category.title}
             variant="contained"
             onClick={() => handleCategoryChange(category.title)}
-            className={`recibidos-filter-button-admin-places ${selectedCategory === category.title ? 'recibidos-filter-button-active-admin-places' : ''}`}
             sx={{
               backgroundColor: '#e4007c',
               '&:hover': {
                 backgroundColor: '#c3006a',
               },
-              fontSize: { xs: '0.6rem', sm: '0.8rem' }, 
-              padding: { xs: '4px 8px', sm: '6px 12px' }, 
+              fontSize: { xs: '0.6rem', sm: '0.8rem' },
+              padding: { xs: '4px 8px', sm: '6px 12px' },
             }}
           >
-            {category.title === 'Aceptados' ? <CheckCircleIcon sx={{ fontSize: { xs: 14, sm: 18 } }} /> : null}
-            {category.title === 'Rechazados' ? <CancelIcon sx={{ fontSize: { xs: 14, sm: 18 } }} /> : null}
-            {category.title}
+            {category.icon} {category.title}
           </Button>
         ))}
       </Box>

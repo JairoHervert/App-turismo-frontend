@@ -133,7 +133,7 @@ const GenerarItinerario = () => {
             alignItems='center'
             className='mb-2'
             sx={{
-              width: {xs: '95%', sm: '100%'},
+              width: '100%',
               paddingRight: { xs: 0, md: '1%' }
             }}
           >
@@ -294,7 +294,7 @@ const GenerarItinerario = () => {
             spacing={1}
             alignItems='center'
             sx={{
-              width: {xs: '95%', sm: '100%'}, 
+              width: '100%', 
               alignItems: { xs: 'center', sm: 'end' },
               justifyContent: 'flex-start',
               display: 'flex',
