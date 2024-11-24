@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 // Componentes
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
+import HeaderLugar from '../components/placepage/HeaderLugar';
 import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
 // CSS
 import '../css/PlacePage.css';
 // Material UI
 import { Pagination } from '@mui/material';
-import ButtonsMod from '../components/ButtonsMod';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const PlacePage = () => {
 
@@ -32,12 +31,6 @@ const PlacePage = () => {
     'https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg',
     'https://www.sopitas.com/wp-content/uploads/2023/05/bibliotecas-personales-biblioteca-de-mexico-portada.jpg'
   ];
-
-  const navigate = useNavigate();
-
-  const handleHomePageClick = () => {
-        navigate('/');
-   };
   
    const allReviews = [
     {
@@ -135,31 +128,9 @@ const PlacePage = () => {
         transparentNavbar={false}
         lightLink={false} />
 
-      {/* Imagen de fondo del header la página de lugares turísticos */}
-      <div className='pp-header-img'
-        style={{
-          /* Agarra la primera imagen de la lista */
-          backgroundImage: imagenes?.[0]
-            ? `url(${imagenes[0]})`
-            : 'none',
-          backgroundColor: imagenes?.[0]
-            ? 'transparent'
-            : '#d3d3d3', /* Fondo genérico si no encuentra una imagn */
-          backgroundSize: 'cover',
-          backgroundPosition: 'center', 
-        }}
-      >
-        
-        <div className='pp-header-btn'>
-          <ButtonsMod
-            variant='principal'
-            textCont='Regresar'
-            clickEvent={handleHomePageClick}
-            startIcon={<ArrowBackIcon />}
-          />
-        </div>
-
-      </div>
+      <HeaderLugar
+        categoria='Museos'
+      />
       
       <DescripcionLugar
         nombreLugar='Biblioteca de México'
@@ -191,7 +162,7 @@ const PlacePage = () => {
         /* Esta sección de horarios puede cambiar dependiendo de cómo traten la información */
         horarioLugar={horarioLugar}
         /*  */
-        categoria='Cómida Rápida'
+        categoria='Deportes'
         /* Si no hay imágenes -> {null} */
         imagenesLugar={imagenes}
         
