@@ -6,7 +6,7 @@ import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Logged } from '../pagesHandlers/home-handler';
+import ButtonsMod from '../components/ButtonsMod';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -16,7 +16,7 @@ import '../css/HomePage.css';
 import CatHome from '../components/categories/CategoryHome';
 import CardAlcaldia from '../components/CardAlcaldia';
 
-const isLogged = Logged();
+const isLogged = false;
 console.log(isLogged);
 
 const HomePage = () => {
@@ -61,9 +61,11 @@ const HomePage = () => {
         <div className='home-text'>
           <h5 className='home-h5'>Planea tu próximo <strong>viaje</strong> con nosotros a la</h5>
           <h1 className='home-h1'>Ciudad de México</h1>
-          <button onClick={handlePlacePageClick} className='btn btn-home' type='button'>
-              Comienza ahora
-          </button>
+          <ButtonsMod
+            variant='principal'
+            textCont='Comienza ahora'
+            clickEvent={handlePlacePageClick}
+          />
         </div>
       </section>
       
@@ -94,9 +96,10 @@ const HomePage = () => {
 
         {/* Agregar boton de ver mas que redirige a ver todas las alcaldias*/ }
         <div className='alc-vermas'>
-          <button className='btn btn-primary' type='button'>
-            Ver más
-          </button>
+          <ButtonsMod
+            variant='principal'
+            textCont='Ver más'
+          />
         </div>
       </section>
 

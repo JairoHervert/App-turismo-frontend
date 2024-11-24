@@ -35,7 +35,7 @@ class registerController {
     registerModel
       .registroGoogle(nombre, apellido, correo, imagen, token)
       .then((resultado) => {
-        res.status(201).json(resultado);
+        res.status(201).json({resultado: resultado});
       })
       .catch((err) => {
         if (err.message) {
@@ -83,7 +83,7 @@ class registerController {
         <h1 style="color: #FFFFFF; font-size: 24px; margin: 0;">¡Bienvenido a AppTurismo!</h1>
       </div>
       <p style="color: #333333; font-size: 16px; margin: 20px 0;">
-        Hola <strong>${nombre}</strong>, gracias por registrarte con nosotros.
+        Hola <strong>${name}</strong>, gracias por registrarte con nosotros.
       </p>
       <p style="color: #333333; font-size: 16px; margin: 20px 0;">
         Para concluir tu registro y comenzar a explorar todas las funciones de nuestra plataforma, haz clic en el botón de abajo:

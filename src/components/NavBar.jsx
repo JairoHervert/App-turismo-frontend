@@ -41,6 +41,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
+        setIsLoggedIn(false);
       }
     };
 
@@ -123,13 +124,17 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                      <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
+                      <li><Link className="dropdown-item" to='/perfil-page'>Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
                       <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
                       <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
                       <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
                       <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
                       <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
+                      <li><Link className='dropdown-item' to='/resume-page'>Página de resumen</Link></li>
+                      <li><Link className='dropdown-item' to='/itinerary'>Página de itinerario</Link></li>
+                      <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
+                      <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
 
                       {/* <li><Link className='dropdown-item' to='/register'>Registrate</Link></li>  */}
 

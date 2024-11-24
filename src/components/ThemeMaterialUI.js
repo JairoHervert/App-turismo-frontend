@@ -4,7 +4,7 @@ const ThemeMaterialUI = createTheme({
   palette: {
     primary: {
       main: '#e4007c', // Rosa Mexicano
-      dark: '#b30063', // Rosa Mexicano más oscuro (hover)
+      dark: '#ca006b', // Rosa Mexicano más oscuro (hover)
       light: '#ff66a1', // Opcional: Rosa Mexicano claro
     },
     secondary: {
@@ -17,10 +17,20 @@ const ThemeMaterialUI = createTheme({
       dark: '#c17900', // Amarillo más oscuro (hover)
       light: '#ffdb56', // Opcional: Amarillo claro
     },
+    black: {
+      main: '#000000',
+      dark: '#000000',
+      light: '#000000',
+    },
     dark: {
       main: '#333333', // Gris oscuro
       dark: '#000000', //
       light: '#666666', // Gris claro
+    },
+    gray: {
+      main: '#6c6c6c', // Gris
+      dark: '#4a4a4a', // Gris más oscuro
+      light: '#999999', // Gris claro
     },
     google: {
       main: '#db4437', // Rojo Google

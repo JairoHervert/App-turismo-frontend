@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../css/PlacePage.css';
-import userPhoto from '../../img/PlacePage/place-user.png';
+import { Rating } from '@mui/material';
 
-function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario }) {
+function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario, valueReview, userPhoto}) {
 
 
   return (
@@ -21,14 +21,13 @@ function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario }) {
       <div className='card review-description'>
         <div className='card-body'>
           <div className='row review-description-score'>
-            <div className='col stars'>
-              {/* de a mientras */}
-              <i class="bi bi-star"></i>
-              <i class="bi bi-star"></i>
-              <i class="bi bi-star"></i>
-              <i class="bi bi-star"></i>
-              <i class="bi bi-star"></i>
-            </div>
+          <Rating 
+              name='read-only' 
+              defaultValue={valueReview} 
+              readOnly 
+              size='small'
+              precision={0.1}
+          />
           </div>
           <div className='review-description-opinion'>
             <p>{comentarioUsuario}</p>

@@ -1,0 +1,312 @@
+
+.sidebar-container-admin {
+    width: 250px;
+    background-color: #e8f6fc;
+    padding-top: 4rem; /* Aumenta el espacio superior */
+    margin-top: -50px; /* Ajusta el margen superior para mover más hacia abajo */
+    margin-left: -20px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    transition: width 0.3s ease;
+    margin-top: 0px;
+}
+.contenedor-cajas-admin{
+    padding: 20px;
+}
+  .list-item-button-admin {
+    display: flex;
+    align-items: center;
+  }
+  
+  .list-item-text-admin {
+    flex-grow: 1;
+  }
+  
+  .submenu-item-admin {
+    padding-left: 2rem;
+  }
+  
+  .list-item-icon-admin {
+    min-width: 30px;
+  }
+  
+  /* Estilos para el formulario */
+  .formulario-container-admin {
+    width: 900px;
+    background-color: #e8f6fc;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 4rem;
+    margin: 4rem auto;
+    transition: width 0.3s ease;
+  }
+  
+  .formulario-header-title-admin {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #ff007f;
+  }
+  
+  .formulario-subtitle-admin {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 3rem;
+  }
+  
+  .formulario-subtitle-section-admin {
+    font-weight: bold;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 1rem;
+  }
+  
+  .formulario-box-admin {
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 8px;
+  }
+  
+  .formulario-grid-item-admin {
+    padding: 0.5rem;
+  }
+  
+  .formulario-input-admin {
+    width: 100%;
+  }
+  
+  .formulario-button-reject-admin {
+    color: #ff007f;
+    border-color: #ff007f;
+  }
+  
+  .formulario-button-accept-admin {
+    background-color: #007bb2;
+    color: #fff;
+  }
+  
+  .formulario-button-accept-admin:hover {
+    background-color: #005f85;
+  }
+  
+  .formulario-button-reject-admin:hover {
+    background-color: #ffeef6;
+    border-color: #ff007f;
+  }
+  
+  /* Estilos para la sección Recibidos */
+  .recibidos-container-admin {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-top: 30px;
+  }
+  
+  .recibidos-header-admin {
+    background-color: #a2dcee;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .recibidos-header-title-admin {
+    color: black;
+    text-align: center;
+    font-size: 15rem;
+  }
+  
+  .recibidos-filter-buttons-admin {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+  
+  .recibidos-filter-button-admin {
+    margin: 5px;
+    background-color: #e4007c;
+    color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+  
+  .recibidos-filter-button-active-admin {
+    border: 2px solid #fff;
+  }
+  
+  .recibidos-filter-button-admin:hover {
+    background-color: #d1006f;
+  }
+  
+  /* Estilos para el contenedor de controles */
+  .controls-container-admin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  .controls-container-admin .MuiTextField-root {
+    max-width: 250px;
+  }
+  
+  .controls-container-admin .MuiInputAdornment-root {
+    color: #e4007c;
+  }
+  
+  /* Media Queries para hacerlo responsivo */
+  @media (max-width: 600px) {
+    .sidebar-container-admin {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0;
+    }
+  
+    .formulario-container-admin {
+      width: 100%;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+  
+    .recibidos-header-title-admin {
+      font-size: 1rem;
+    }
+  
+    .recibidos-filter-buttons-admin {
+      margin-top: 20px;
+    }
+  
+    .controls-container-admin .MuiTextField-root {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    .sidebar-container-admin {
+      width: 200px;
+      
+    }
+  
+    .formulario-container-admin {
+      width: 80%;
+      padding: 3rem;
+    }
+  
+    .recibidos-header-title-admin {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .formulario-container-admin {
+      width: 900px;
+      gap: 20px;
+    }
+  
+    .sidebar-container-admin {
+      width: 250px;
+    }
+
+      /* Sidebar */
+
+  }
+  
+
+  
+  @media (max-width: 808px) {
+    .sidebar-container-admin {
+      width: 200px;
+    }
+  }
+  
+  /* Formulario */
+  .formulario-container-admin {
+    width: 900px;
+    background-color: #e8f6fc;
+    border-radius: 12px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 4rem;
+    margin: 4rem auto;
+    transition: width 0.3s ease;
+  }
+  
+  @media (max-width: 808px) {
+    .formulario-container-admin {
+      width: 95%;
+      padding: 2rem;
+      margin: 2rem auto;
+    }
+  }
+  
+  /* Botones */
+  .formulario-button-reject-admin,
+  .formulario-button-accept-admin {
+    background-color: #e4007c;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  @media (max-width: 808px) {
+    .formulario-button-reject-admin,
+    .formulario-button-accept-admin {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
+  
+  /* TextField */
+  .MuiTextField-root {
+    width: 100%;
+  }
+  
+  /* Campos de formulario */
+  .formulario-grid-item-admin {
+    padding: 0.5rem;
+  }
+  
+  @media (max-width: 808px) {
+    .formulario-grid-item-admin {
+      padding: 0.2rem;
+    }
+  }
+  
+
+  /* Media query para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .contenedor-cajas-admin {
+      flex-direction: row; /* Alinea las cajas en fila en pantallas pequeñas */
+      gap: 10px;  /* Reduce el espacio entre las cajas */
+      justify-content: center;  /* Centra las cajas horizontalmente */
+    }
+  
+    .contenedor-cajas-admin .caja {
+      flex: 1;
+      min-width: 150px;  /* Ajusta el tamaño mínimo de las cajas */
+      max-width: 200px;  /* Ajusta el tamaño máximo de las cajas */
+      padding: 0.8rem;  /* Reduce el padding en pantallas pequeñas */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .contenedor-cajas-admin {
+      flex-direction: column; /* Cambia a columna en pantallas aún más pequeñas */
+      gap: 10px; /* Espacio entre las cajas cuando se apilen */
+      justify-content: center;  /* Centra las cajas cuando estén apiladas */
+    }
+  
+    .contenedor-cajas-admin .caja {
+      min-width: 100%; /* Las cajas ocupan todo el ancho disponible */
+      max-width: 100%; /* Elimina el límite máximo de ancho */
+    }
+  }
+  
+  /* Añadir espacio extra en pantallas grandes */

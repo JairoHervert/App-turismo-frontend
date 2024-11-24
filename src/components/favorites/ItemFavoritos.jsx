@@ -1,6 +1,7 @@
-import { Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button } from '@mui/material';
+import { Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import '../../css/FavoritesPage.css';
+import ButtonsMod from '../ButtonsMod';
 
 function ItemFavoritos({ imagen, nombre, descripcion }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
@@ -26,9 +27,12 @@ function ItemFavoritos({ imagen, nombre, descripcion }) {
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="outlined" startIcon={<DeleteIcon />}>  {/* Añade el icono de eliminar */}
-            Eliminar
-          </Button>
+          <ButtonsMod
+            textCont='Eliminar'
+            variant='secundario'
+            startIcon={<DeleteIcon />}
+            clickEvent={() => alert('Eliminar')}
+          />
         </CardActions>
 
       </Card>

@@ -84,12 +84,12 @@
    border-top: 1.5px solid #2b6379;
 }
 
-/* Contenedor desplazable para la columna de lugares */
+/* Contenedor desplazable para la columna de lugares 
 .us_de-scrollable-column {
    max-height: 95vh;
    overflow-y: auto;
 }
-
+*/
 
 /* Estilos para el ícono de corazón en la esquina superior derecha */
 .us_de-favorite-icon {

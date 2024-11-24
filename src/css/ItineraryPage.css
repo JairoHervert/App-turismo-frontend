@@ -1,0 +1,37 @@
+.planer-dot-day-enabled {
+   background-color: #b9e7f781;
+   border: solid 0.12rem #489abb;
+   border-radius: 50%;
+   width: 2rem;
+   height: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.planer-dot-day-disabled {
+   background-color: #f3f3f3;
+   border: solid 0.12rem #929292;
+   border-radius: 50%;
+   width: 2rem;
+   height: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.it_page-img-item {
+   width: 100%;
+   max-width: 15rem;
+   object-fit: cover;
+}
+
+.it_pa-list-things {
+   list-style-type: none;
+   padding-left: 0;
+}
+
+.it_pa-list-dot {
+   margin-right: 0.5rem;
+   color: #E4007C;
+}

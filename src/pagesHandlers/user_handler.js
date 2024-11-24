@@ -1,5 +1,22 @@
 import axios from 'axios';
 
+const handleDatosUsuario = async (id) => {
+  try {
+    const response = await axios.post('http://localhost:3001/user_datos', { id });
+    if(response.data.resultado.datos) {
+      const datos = response.data.resultado.datos;
+      return datos;
+    }
+
+  } catch (error) {
+    if(error.response.data.error) {
+      console.error("Error: ", error.response.data.error)
+    } else {
+      console.error("Error: ", error);
+    }
+  }
+}
+
 const handleDeseados = async (id) => {
 
   try {
@@ -44,6 +61,7 @@ const handleFavoritos = async (id) => {
 
 }
 export {
+  handleDatosUsuario,
   handleDeseados,
   handleFavoritos,
 }

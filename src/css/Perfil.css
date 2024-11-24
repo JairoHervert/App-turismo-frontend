@@ -1,0 +1,97 @@
+.perfil-usuario-background {
+    position: absolute;
+    /* background: linear-gradient(45deg, #BC3CFF, #317FFF); */
+    /*background-color: #E4007C;*/
+    background-image: url('../img/HomePage/places/home-places-alvaro-obregon.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 10rem;
+    width: 100%;
+}
+
+.perfil-usuario-background::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+}
+
+.perfil-usuario-header {
+    position: relative;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    z-index: 2 !important;
+    margin-top: 6rem;
+}
+
+.perfil-usuario-header-username {
+    color: white;
+}
+
+.perfil-usuario-header-informacion {
+    margin-left: 50px;
+}
+
+.perfil-usuario-header-icon {
+    color: #E4007C !important;
+    font-size: 2.5rem !important;
+    opacity: 0.5;
+}
+
+.perfil-btn-categorias-interes {
+    background-color: #FFFF !important;
+    color: #E4007C !important;
+    text-transform: inherit !important;
+    border: 1px solid #E4007C !important;
+    border-radius: 15px !important;
+}
+
+.perfil-usuario-listado {
+    margin-right: 50px;
+}
+
+.perfil-informacion-personal-items {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    width: 100% !important;
+}
+
+.perfil-usuario-card-informacion-personal {
+    margin-top: 90px;
+}
+
+.perfil-usuario-header-font {
+    font-size: 1.9rem !important;
+}
+
+@media (max-width: 600px) {
+    .perfil-usuario-header-username {
+        color: black;
+        font-size: 2rem !important;
+        text-align: center;
+    }
+    .perfil-usuario-header-informacion {
+        margin: 0 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .perfil-usuario-listado {
+        margin: 10px;
+    }
+    .perfil-usuario-header-span {
+        font-size: 10px;
+    }
+    .perfil-usuario-header-font,
+    .perfil-usuario-header-icon {
+        font-size: 1.7rem !important;
+    }
+    .perfil-usuario-card-informacion-personal {
+        margin-top: 30px;
+    }
+}
