@@ -179,7 +179,7 @@ function LoginPage() {
                             Iniciar sesión
                           </Button>
 
-                          <Link href="#" underline="hover">
+                          <Link href="/recuperar-contrasena" underline="hover">
                             <Typography variant='subtitle2' color='dark' className='mt-4 pb-2' sx={{ fontSize: '1rem' }}>¿Olvidaste tu contraseña?</Typography>
                           </Link>
                         </Box>

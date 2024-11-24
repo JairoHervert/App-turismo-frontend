@@ -42,6 +42,11 @@ const ThemeMaterialUI = createTheme({
       dark: '#115fba', // Azul Facebook más oscuro (hover)
       light: '#4c8cfa', // Opcional: Azul Facebook claro
     },
+    lemon: {
+      main: '#8bc34a', // Verde Lima
+      dark: '#5a9216', // Verde Lima más oscuro (hover)
+      light: '#bef67a', // Opcional: Verde Lima claro
+    },
   },
   typography: {
     fontFamily: '"Montserrat", "Poppins", "Roboto", "Helvetica", "Arial", sans-serif',

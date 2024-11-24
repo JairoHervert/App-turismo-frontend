@@ -16,8 +16,11 @@ import CategoriasPage from '../pages/Categorias';
 import ResumePage from '../pages/ResumenPage';
 import RegisterPlacePage from '../pages/RegisterPlacePage'; 
 import AdminPage from '../pages/Administrador'; 
+import AdminPagePlaces from '../pages/AdministradorLugares'; 
 import Perfil from '../pages/Perfil';
-import AdminDash from '../pages/AdminDashboard';
+import Alcaldias from '../pages/AlcaldiasTotales';
+import RecuperarContrasena from '../pages/RecuperarConstrasena';
+import IngresarNuevaContrasena from '../pages/IngresarNuevaContrasena';
 
 
 function AppRouter() {
@@ -41,8 +44,11 @@ function AppRouter() {
         <Route path='/resume-page' element={<ResumePage />}/>
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>
         <Route path='/Admin-Page' element={<AdminPage />}/>
+        <Route path='/Admin-Page-Places' element={<AdminPagePlaces />}/>
         <Route path='/perfil-page' element={<Perfil />}/>
-        <Route path='/admin-dashboard' element={<AdminDash />}/>
+        <Route path='/alcaldias' element={<Alcaldias/>} />
+        <Route path='/recuperar-contrasena' element={<RecuperarContrasena />} />
+        <Route path='/ingresar-nueva-contrasena' element={<IngresarNuevaContrasena />} />
       </Routes>
     </Router>
   );

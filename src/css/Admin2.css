@@ -1,15 +1,17 @@
 
 .sidebar-container-admin {
-    width: 250px;
-    background-color: #e8f6fc;
-    padding-top: 4rem; /* Aumenta el espacio superior */
-    margin-top: -50px; /* Ajusta el margen superior para mover más hacia abajo */
-    margin-left: -20px;
-    border-radius: 20px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    position: relative;
-    transition: width 0.3s ease;
-    margin-top: 0px;
+  background-color: #e8f6fc;
+  padding-top: 2rem; /* Aumenta el espacio superior */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: width 0.3s ease;
+  margin-top: -40px;
+  margin-left: -40px;
+}
+.second-container-admin
+{
+  display: flex ;
+  gap: 1rem;
 }
 .contenedor-cajas-admin{
     padding: 20px;
@@ -18,29 +20,54 @@
     display: flex;
     align-items: center;
   }
-  
+.ajustes-soporte-admin{
+  position: sticky;
+  margin-top: 15rem;
+}
+.dash-cuentas-admin{
+  display: flex ;
+  flex-direction:column;
+  gap: 8px;
+}
   .list-item-text-admin {
     flex-grow: 1;
+    font-weight: bold;
   }
   
   .submenu-item-admin {
     padding-left: 2rem;
   }
-  
+  /* Selección de scrollbars solo para elementos con la clase "-dash-admin" */
+.-dash-admin::-webkit-scrollbar {
+  width: 10px; /* Ancho de la scrollbar */
+  height: 10px; /* Altura de la scrollbar horizontal */
+}
+
+.-dash-admin::-webkit-scrollbar-track {
+  background: #f4f4f4; /* Fondo del track */
+  border-radius: 5px; /* Bordes redondeados */
+}
+
+.-dash-admin::-webkit-scrollbar-thumb {
+  background: #6c757d; /* Color del pulgar */
+  border-radius: 5px; /* Bordes redondeados del pulgar */
+}
+
+.-dash-admin::-webkit-scrollbar-thumb:hover {
+  background: #495057; /* Cambia de color al pasar el mouse */
+}
+
+/* Firefox */
+.-dash-admin {
+  scrollbar-width: thin; /* Barra delgada */
+  scrollbar-color: #6c757d #f4f4f4; /* Color del pulgar y del track */
+}
+
   .list-item-icon-admin {
     min-width: 30px;
   }
   
   /* Estilos para el formulario */
-  .formulario-container-admin {
-    width: 900px;
-    background-color: #e8f6fc;
-    border-radius: 12px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 4rem;
-    margin: 4rem auto;
-    transition: width 0.3s ease;
-  }
   
   .formulario-header-title-admin {
     font-weight: bold;
@@ -64,7 +91,6 @@
   .formulario-box-admin {
     background-color: #fff;
     padding: 3rem;
-    border-radius: 8px;
   }
   
   .formulario-grid-item-admin {
@@ -75,13 +101,14 @@
     width: 100%;
   }
   
+
   .formulario-button-reject-admin {
     color: #ff007f;
     border-color: #ff007f;
   }
-  
+  /*hook*/
   .formulario-button-accept-admin {
-    background-color: #007bb2;
+    background-color: #e8f6fc;
     color: #fff;
   }
   
@@ -96,14 +123,13 @@
   
   /* Estilos para la sección Recibidos */
   .recibidos-container-admin {
-    border-radius: 20px;
     overflow: hidden;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     margin-top: 30px;
   }
-  
+  /*hook2*/
   .recibidos-header-admin {
-    background-color: #a2dcee;
+    background-color: #e4f7ff;
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -116,6 +142,15 @@
     text-align: center;
     font-size: 15rem;
   }
+    /* Formulario */
+    .formulario-container-admin {
+      width: 900px;
+      background-color: #e8f6fc;
+      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      padding: 4rem;
+      margin: 4rem auto;
+      transition: width 0.3s ease;
+    }
   
   .recibidos-filter-buttons-admin {
     margin-top: 80px;
@@ -161,152 +196,42 @@
   .controls-container-admin .MuiInputAdornment-root {
     color: #e4007c;
   }
-  
-  /* Media Queries para hacerlo responsivo */
-  @media (max-width: 600px) {
-    .sidebar-container-admin {
-      width: 100%;
-      margin-left: 0;
-      margin-top: 0;
-    }
-  
-    .formulario-container-admin {
-      width: 100%;
-      padding: 2rem;
-      margin: 2rem 0;
-    }
-  
-    .recibidos-header-title-admin {
-      font-size: 1rem;
-    }
-  
-    .recibidos-filter-buttons-admin {
-      margin-top: 20px;
-    }
-  
-    .controls-container-admin .MuiTextField-root {
-      max-width: 100%;
-    }
-  }
-  
-  @media (max-width: 900px) {
-    .sidebar-container-admin {
-      width: 200px;
-      
-    }
-  
-    .formulario-container-admin {
-      width: 80%;
-      padding: 3rem;
-    }
-  
-    .recibidos-header-title-admin {
-      font-size: 1.1rem;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .formulario-container-admin {
-      width: 900px;
-      gap: 20px;
-    }
-  
-    .sidebar-container-admin {
-      width: 250px;
-    }
+  /* Media query para pantallas pequeñas */
 
-      /* Sidebar */
 
-  }
-  
+/* Media query para pantallas pequeñas */
 
-  
-  @media (max-width: 808px) {
-    .sidebar-container-admin {
-      width: 200px;
-    }
+
+
+
+@media (max-width: 808px) {
+  .sidebar-container-admin {
+    width: 200px;
   }
-  
-  /* Formulario */
-  .formulario-container-admin {
-    width: 900px;
-    background-color: #e8f6fc;
-    border-radius: 12px;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 4rem;
-    margin: 4rem auto;
-    transition: width 0.3s ease;
-  }
-  
-  @media (max-width: 808px) {
-    .formulario-container-admin {
-      width: 95%;
-      padding: 2rem;
-      margin: 2rem auto;
-    }
-  }
-  
-  /* Botones */
+
   .formulario-button-reject-admin,
   .formulario-button-accept-admin {
-    background-color: #e4007c;
-    color: #fff;
-    border: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  @media (max-width: 808px) {
-    .formulario-button-reject-admin,
-    .formulario-button-accept-admin {
-      width: 100%;
-      margin-top: 1rem;
-    }
-  }
-  
-  /* TextField */
-  .MuiTextField-root {
     width: 100%;
+    margin-top: 1rem;
   }
-  
-  /* Campos de formulario */
-  .formulario-grid-item-admin {
-    padding: 0.5rem;
-  }
-  
-  @media (max-width: 808px) {
-    .formulario-grid-item-admin {
-      padding: 0.2rem;
-    }
-  }
-  
 
-  /* Media query para pantallas pequeñas */
-  @media (max-width: 768px) {
-    .contenedor-cajas-admin {
-      flex-direction: row; /* Alinea las cajas en fila en pantallas pequeñas */
-      gap: 10px;  /* Reduce el espacio entre las cajas */
-      justify-content: center;  /* Centra las cajas horizontalmente */
-    }
-  
-    .contenedor-cajas-admin .caja {
-      flex: 1;
-      min-width: 150px;  /* Ajusta el tamaño mínimo de las cajas */
-      max-width: 200px;  /* Ajusta el tamaño máximo de las cajas */
-      padding: 0.8rem;  /* Reduce el padding en pantallas pequeñas */
-    }
+  .formulario-grid-item-admin {
+    padding: 0.2rem;
   }
-  
-  @media (max-width: 480px) {
-    .contenedor-cajas-admin {
-      flex-direction: column; /* Cambia a columna en pantallas aún más pequeñas */
-      gap: 10px; /* Espacio entre las cajas cuando se apilen */
-      justify-content: center;  /* Centra las cajas cuando estén apiladas */
-    }
-  
-    .contenedor-cajas-admin .caja {
-      min-width: 100%; /* Las cajas ocupan todo el ancho disponible */
-      max-width: 100%; /* Elimina el límite máximo de ancho */
-    }
+}
+
+@media (max-width: 2000px) {
+  .sidebar-container-admin {
+    background-color: #e8f6fc;
+
+}
+
+  .formulario-container-admin {
+    width: 80%;
+
   }
-  
-  /* Añadir espacio extra en pantallas grandes */
+
+  .recibidos-header-title-admin {
+    font-size: 1.1rem;
+  }
+}
