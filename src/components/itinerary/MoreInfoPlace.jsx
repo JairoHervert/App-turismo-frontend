@@ -15,7 +15,7 @@ function MoreInfoPlace({ place }) {
       <Box
         className='d-flex flex-column align-items-center mx-1'
       >
-        <Card>
+        <Card className='it_pa-header-default'>
           <Box className='d-flex flex-column align-items-center justify-content-center mt-2 mx-3'>
             <img src={imagenTursita} alt='Turista' className='it_pa-imagen-turista' />
             <Typography variant='subtitle1' className='text-center fw-medium fst-italic my-2'>"Viajar es abrir el alma a lo desconocido y volver con historias".</Typography>

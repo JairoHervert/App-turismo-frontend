@@ -75,11 +75,6 @@
    width: 30%;
 }
 
-
-.it_pa-modal-info-place {
-   display: none;
-}
-
 @media (max-width: 1200px) {
    .it_pa-more-info-container {
       display: none;
@@ -91,10 +86,16 @@
    .it_pa-planer-container {
       width: 100%;
    }
-   .it_pa-modal-info-place {
-      display: block;
+   .it_pa-header-default {
+      display: none;
+   }
+   .it_pa-image-carousel {
+      height: 18rem;
+      object-fit: cover;
    }
 }
+
+
 @media (max-width: 700px) {
    .it_pa-item{
       display: flex;
@@ -107,6 +108,10 @@
       height: 100%;
       max-height: 12rem;
       margin-bottom: 0.5rem;
+      object-fit: cover;
+   }
+   .it_pa-image-carousel {
+      height: 14rem;
       object-fit: cover;
    }
 }

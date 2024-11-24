@@ -10,6 +10,11 @@ import Timeline from '@mui/lab/Timeline';
 import { timelineOppositeContentClasses, } from '@mui/lab/TimelineOppositeContent';
 import PlaceTimeLine from '../../components/itinerary/PlaceItemTimeline';
 
+// date picker
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 
 // iconos
 import { KeyboardArrowLeftRounded as LeftRow, KeyboardArrowRightRounded as RightRow } from '@mui/icons-material';
@@ -31,13 +36,18 @@ function Planer({ setSelectedPlace }) {
   const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
-  const today = new Date(); // fecha actual
 
-  // Encontrar el lunes de la semana actual
-  const initialMonday = new Date(today);
-  if (today.getDay() !== 1) {
-    initialMonday.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
-  }
+  // Encontrar el lunes de la semana actual mediante una funcion
+  const searchMonday = (date) => {
+    const monday = new Date(date);
+    if (monday.getDay() !== 1) {
+      monday.setDate(monday.getDate() - monday.getDay() + (monday.getDay() === 0 ? -6 : 1));
+    }
+    return monday;
+  };
+
+  const today = new Date(); // fecha actual
+  const initialMonday = searchMonday(today);
 
   // state pra la fecha del lunes de la semana
   const [monday, setMonday] = useState(initialMonday);
@@ -55,7 +65,7 @@ function Planer({ setSelectedPlace }) {
     nextMonday.setDate(monday.getDate() + 7);
     setMonday(nextMonday);
   };
-  
+
   // simulacion de un itinerario usando un objeto de javascript
   const itinerario = {
     '23 noviembre 2024': [
@@ -190,6 +200,36 @@ function Planer({ setSelectedPlace }) {
         finalItem: true
       }
     ],
+    '17 diciembre 2024': [
+      {
+        placeTime: '11:00 am',
+        placeName: 'Pirámides de Teotihuacán',
+        placeDescription: 'Sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides.',
+        placeLongDescription: 'Las Pirámides de Teotihuacán son un sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides. Teotihuacán fue una de las ciudades más grandes de Mesoamérica y su nombre significa "lugar donde los dioses nacen". En el sitio se pueden ver las pirámides del Sol y de la Luna, así como la Calzada de los Muertos y los templos de Quetzalcóatl y de los Jaguares. Teotihuacán es un lugar sagrado para los mexicas y un importante centro ceremonial y político en la época prehispánica.',
+        placeThings: ['Construcciones antiguas', 'Cultura prehispánica'],
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '5:00 pm',
+        placeAddress: 'San Juan Teotihuacán, Estado de México.',
+        placePhone: '55 9876 5432',
+        placeImages: [Imagen5, Imagen2, Imagen1],
+        placeRating: 5,
+        finalItem: false
+      },
+      {
+        placeTime: '1:00 pm',
+        placeName: 'Fuente de Tláloc',
+        placeDescription: 'Monumento en la Ciudad de México que representa a Tláloc, dios de la lluvia.',
+        placeLongDescription: 'La Fuente de Tláloc es un monumento en la Ciudad de México que representa a Tláloc, dios de la lluvia. Se encuentra en la cima del cerro del Chiquihuite, en la alcaldía de Gustavo A. Madero. La fuente fue construida en 1951 por el arquitecto Luis Leduc y el escultor Jesús Fructuoso Contreras. La escultura de Tláloc mide 22 metros de altura y está hecha de concreto recubierto de piedra volcánica. La fuente es un símbolo de la cultura prehispánica y de la importancia del agua en la vida de los mexicanos.',
+        placeThings: ['Arte moderno', 'Historia prehispánica', 'Jardines hermosos'],
+        placeOpenHour: '8:00 am',
+        placeCloseHour: '6:00 pm',
+        placeAddress: 'Cerro del Chiquihuite, Gustavo A. Madero, Ciudad de México.',
+        placePhone: '55 1234 5678',
+        placeImages: [Imagen1, Imagen2, Imagen3],
+        placeRating: 4,
+        finalItem: true
+      }
+    ],
   }
 
   // state para el dia seleccionado en la barra de dias
@@ -219,7 +259,7 @@ function Planer({ setSelectedPlace }) {
               day.setDate(monday.getDate() + i);  // se recorre a partir del lunes obtenido
 
               const dayInItinerary = (day.getDate() + ' ' + months[day.getMonth()] + ' ' + day.getFullYear()) in itinerario;
-              const dayFormatted = `${day.getDate()} ${months[day.getMonth()]} ${day.getFullYear()}`;
+              const dayFormatted = day.getDate() + ' ' + months[day.getMonth()] + ' ' + day.getFullYear();
 
               // verificar condiciones para determinar la apariencia de los botones de los días
               let dayStyle = 'fw-light';
@@ -240,6 +280,8 @@ function Planer({ setSelectedPlace }) {
                 </IconButton>
               );
             })}
+
+
           </Box>
 
           <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>D</Typography>
@@ -247,12 +289,39 @@ function Planer({ setSelectedPlace }) {
           <IconButton color='black' aria-label='right arrow' onClick={handleNextWeek}>
             <RightRow sx={{ fontSize: '2.2rem' }} />
           </IconButton>
+
+
+
+          {/* DatePicker */}
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              sx={{ alignItems: 'end', width: '14rem' }}
+              label='Consulta por fecha'
+              value={dayjs(selectedDay)}
+
+              onChange={(newValue) => {
+                console.log(daysOfWeek[newValue.day()] + ', ' + newValue.date() + ' de ' + months[newValue.month()] + ' ' + newValue.year());
+                setSelectedDay(newValue.date() + ' ' + months[newValue.month()] + ' ' + newValue.year());
+                setMonday(searchMonday(newValue));
+              }}
+            />
+          </LocalizationProvider>
+
         </Box> {/* Cierre de Box que aloja los botones de flecha y los días de la semana */}
+
 
         <Box className='ms-2 mt-4'>
           <Typography fontFamily={'poppins'} className='fw-normal it_pa-format-day-selected' sx={{ fontSize: '1.5rem' }}>
             {/* Fecha seleccionada en la barra de días en formato de texto */}
-            {daysOfWeek[new Date(selectedDay).getDay()]}, {selectedDay}
+            {/* Convierte selectedDay a un objeto Date y muestra la fecha */}
+            {(() => {
+              console.log(selectedDay);
+              
+              const dateObject = new Date(selectedDay);
+              console.log(dateObject);
+              
+              return `${daysOfWeek[dateObject.getDay()]}, ${dateObject.getDate()} de ${months[dateObject.getMonth()]} ${dateObject.getFullYear()}`;
+            })()}
           </Typography>
         </Box>  {/* Cierre de Box que aloja el dia de la semana */}
 
@@ -285,7 +354,7 @@ function Planer({ setSelectedPlace }) {
                   //console.log(`Lugar seleccionado: ${place.placeName}`);
                   setSelectedPlace(place);
                 }}
-                
+
               />
             ))}
 

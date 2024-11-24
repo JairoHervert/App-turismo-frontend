@@ -1,5 +1,5 @@
 // componentes online
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import { Container, Stack, TextField, InputAdornment } from '@mui/material';
@@ -31,8 +31,30 @@ function ItineraryPage() {
   // estado para el lugar seleccionado
   const [selectedPlace, setSelectedPlace] = useState(null);
 
+  // estados para manejar el estado del modal de informacion del lugar
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    // Agregar evento de resize al montar el componente
+    window.addEventListener('resize', handleResize);
+
+    // Limpiar el evento de resize cuando se desmonte el componente
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const handlePlaceSelect = (place) => {
+    setSelectedPlace(place);
+    if (windowWidth < 1200) {
+      setIsModalOpen(true);
+    }
+  };
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -106,29 +128,28 @@ function ItineraryPage() {
                 </Box>
               </Box>  {/* Cierre de Box que aloja el titulo y los botones de pestaña */}
 
-              {activeTab === 'Plan' ? (<Planer
-                setSelectedPlace={(place) => {
-                  setSelectedPlace(place);
-                  setIsModalOpen(true);
-                }}
-              />
-              ) : (<PlanRoute />)}  {/* Renderizado condicional de la pestaña activa */}
+              {/* Renderizado condicional de la pestaña activa */}
+              {activeTab === 'Plan' ? (
+                <Planer setSelectedPlace={handlePlaceSelect} />
+              ) : (
+                <PlanRoute />
+              )}
             </Card>
           </Grid>
 
           {/* Lado derecho del itinerario, mas informacion del lugar */}
-          <Grid className='it_pa-more-info-container'>
-            <MoreInfoPlace place={selectedPlace} />
-          </Grid>
+          {windowWidth >= 1200 && (
+            <Grid className='it_pa-more-info-container'>
+              <MoreInfoPlace place={selectedPlace} />
+            </Grid>
+          )}
 
-          <Box className='it_pa-modal-info-place'>
+          <Box>
             <Dialog
               open={isModalOpen}
               onClose={() => setIsModalOpen(false)}
-              fullWidth
-              maxWidth="md"
             >
-              <DialogTitle className='it_pa-modal-info-place'>
+              <DialogTitle>
                 <Typography fontFamily={'poppins'} variant="h6">
                   Información del Lugar
                 </Typography>
@@ -140,7 +161,7 @@ function ItineraryPage() {
                   <CloseIcon />
                 </IconButton>
               </DialogTitle>
-              <DialogContent>
+              <DialogContent sx={{ maxWidth:'35rem' }}>
                 <MoreInfoPlace place={selectedPlace} />
               </DialogContent>
             </Dialog>
