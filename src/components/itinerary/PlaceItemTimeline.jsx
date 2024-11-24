@@ -1,7 +1,7 @@
 import { TimelineConnector, TimelineDot, TimelineItem, TimelineSeparator, TimelineContent, TimelineOppositeContent } from '@mui/lab';
 import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
-import ThemeMaterialUI from '../ThemeMaterialUI'; // Asegúrate de que esta ruta sea la correcta
+import ThemeMaterialUI from '../ThemeMaterialUI';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
@@ -12,7 +12,6 @@ function PlaceItemTimeline({ finalItem, placeName, placeImages, placeDescription
     <ThemeProvider theme={ThemeMaterialUI}>
       <Box className='mb-3' sx= {{ cursor: 'pointer' }}
         onClick={() => {
-          //console.log(`PlaceItemTimeline onClick called for: ${placeName}`);
           obtainPlace();
         }}>
         <TimelineItem>

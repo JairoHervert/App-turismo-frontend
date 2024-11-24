@@ -75,6 +75,10 @@
    width: 30%;
 }
 
+.it_pa-datepicker {
+   width: 14rem;
+}
+
 @media (max-width: 1200px) {
    .it_pa-more-info-container {
       display: none;
@@ -84,7 +88,11 @@
       justify-content: center;
    }
    .it_pa-planer-container {
-      width: 100%;
+      width: 80%;
+   }
+   .it_pa-title-search{
+      margin-left: 6rem;
+      margin-right: 7rem;
    }
    .it_pa-header-default {
       display: none;
@@ -93,8 +101,47 @@
       height: 18rem;
       object-fit: cover;
    }
+   .it_pa-datepicker {
+      width: 16rem;
+   }
+}
+@media (max-width: 1070px) {
+   .it_pa-planer-container {
+      width: 90%;
+   }
+   .it_pa-title-search{
+      margin-left: 2.5rem;
+      margin-right: 3.5rem;
+   }
+   .it_pa-datepicker {
+      width: 100%;
+   }
 }
 
+.it_pa-week-days {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+@media (max-width: 880px) {
+   .it_pa-week-days {
+      display: none;
+   }
+   .it_pa-datepicker {
+      width: 100%;
+   }
+   .it_pa-planer-container {
+      width: 100%;
+   }
+   .it_pa-datepicker-container {
+      margin-top: 1rem;
+   }
+   .it_pa-title-search{
+      margin-left: 0;
+      margin-right: 0;
+   }
+}
 
 @media (max-width: 700px) {
    .it_pa-item{

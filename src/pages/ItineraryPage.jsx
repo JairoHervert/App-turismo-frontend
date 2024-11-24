@@ -67,7 +67,7 @@ function ItineraryPage() {
       />
 
       <Container maxWidth='lg' className='my-4'>
-        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4 it_pa-title-search' justifyContent={{ sm: 'space-between' }}>
 
           {/* Titulo */}
           <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
@@ -77,13 +77,13 @@ function ItineraryPage() {
 
           {/* Buscador */}
           <TextField
-            label="Buscar algun lugar en tu itinerario"
-            variant="outlined"
-            size="small"
+            label='Buscar algun lugar en tu itinerario'
+            variant='outlined'
+            size='small'
             sx={{ maxWidth: 250 }}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position='start'>
                   <SearchIcon />
                 </InputAdornment>
               ),
@@ -150,11 +150,11 @@ function ItineraryPage() {
               onClose={() => setIsModalOpen(false)}
             >
               <DialogTitle>
-                <Typography fontFamily={'poppins'} variant="h6">
+                <Typography fontFamily={'poppins'} variant='h6'>
                   Información del Lugar
                 </Typography>
                 <IconButton
-                  aria-label="close"
+                  aria-label='close'
                   onClick={() => setIsModalOpen(false)}
                   sx={{ position: 'absolute', right: 8, top: 8 }}
                 >
