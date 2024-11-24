@@ -90,26 +90,222 @@ CREATE TABLE `Resena` (
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+-- ---------------------------------------------------------------------------------------------------
+--                                              CATEGORÍAS
+-- ---------------------------------------------------------------------------------------------------
+
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`Categoria`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Categoria`;
 CREATE TABLE `Categoria` (
    `id` INT NOT NULL AUTO_INCREMENT,
-   `nombre` VARCHAR(45) NOT NULL,
+   `nombre` VARCHAR(45) UNIQUE NOT NULL,
    PRIMARY KEY (`id`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+    
+INSERT INTO `categoria` (`nombre`) VALUES 
+('Salud y Bienestar'), 
+('Deportes'),
+('Restaurante'),
+('Comida Rápida'),
+('Cafetería'),
+('Bar'),
+('Arte'),
+('Historia'),
+('Museos'),
+('Educativos'),
+('Compras'),
+('Parques'),
+('Juegos Recreativos al Aire Libre'),
+('Juegos Recreativos Bajo Techo'),
+('Zoológicos'),
+('Religión');
+    
 -- -----------------------------------------------------
 -- Table `appturismo`.`Subcategoria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `appturismo`.`Subcategoria` (
-   `id` INT NOT NULL AUTO_INCREMENT,
-   `nombre` VARCHAR(45) NOT NULL,
+   `id` VARCHAR(40) NOT NULL,
+   `nombre` VARCHAR(65) NOT NULL,
    `idCategoria` INT NOT NULL,
    PRIMARY KEY (`id`, `idCategoria`),
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Salud y Bienestar
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('sauna', 'Sauna', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
+('spa', 'Spa', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
+('tanning_studio', 'Estudio de bronceado', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
+('yoga_studio', 'Estudio de yoga', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
+('nail_salon', 'Salón de uñas', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar'));
+
+-- Deportes
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('arena', 'Arena de luchas', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('athletic_field', 'Campo de atletismo', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('golf_course', 'Campo de golf', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('ice_skating_rink', 'Pista de patinaje sobre hielo', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('playground', 'Campo de juegos', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('sports_activity_location', 'Lugar de actividad deportiva', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('sports_club', 'Club de deportes', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
+('swimming_pool', 'Piscina', (SELECT id FROM categoria WHERE nombre = 'Deportes'));
+
+-- Comida Rápida
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('bagel_shop', 'Tienda de bagels', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
+('acai_shop', 'Tienda de açai', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
+('bakery', 'Panadería', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
+('fast_food_restaurant', 'Restaurante de comida rápida', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
+('ice_cream_shop', 'Heladería', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida'));
+
+-- Cafetería
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('cafe', 'Café', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('cafeteria', 'Cafetería/Comedor', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('cat_cafe', 'Cat café', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('chocolate_shop', 'Chocolatería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('coffee_shop', 'Cafetería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('confectionery', 'Confitería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('dessert_restaurant', 'Restaurante de postres', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('dessert_shop', 'Postrería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('diner', 'Comedor', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('dog_cafe', 'Dog café', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('donut_shop', 'Tienda de donas', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('fine_dining_restaurant', 'Restaurante de lujo', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('food_court', 'Patio de comidas', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('juice_shop', 'Tienda de jugos', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('meal_takeaway', 'Comida para llevar', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('sandwich_shop', 'Sandwichería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('steak_house', 'Steak house', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
+('tea_house', 'Casa de té', (SELECT id FROM categoria WHERE nombre = 'Cafetería'));
+
+-- Restaurantes
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('afghani_restaurant', 'Restaurante afgano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('african_restaurant', 'Restaurante africano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('american_restaurant', 'Restaurante americano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('asian_restaurant', 'Restaurante asian', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('barbecue_restaurant', 'Restaurante de barbacoa', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('brazilian_restaurant', 'Restaurante brazileño', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('breakfast_restaurant', 'Restaurante de desayunos', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('brunch_restaurant', 'Restaurante de brunch', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('buffet_restaurant', 'Buffet', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('chinese_restaurant', 'Restaurante chino', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('french_restaurant', 'Restaurante francés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('greek_restaurant', 'Restaurante griego', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('hamburger_restaurant', 'Restaurante de hamburguesas', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('indian_restaurant', 'Restaurante hindú', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('indonesian_restaurant', 'Restaurante indonesio', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('italian_restaurant', 'Restaurante italiano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('japanese_restaurant', 'Restaurante japonés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('korean_restaurant', 'Restaurante coreano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('lebanese_restaurant', 'Restaurante libanés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('mediterranean_restaurant', 'Restaurante mediterráneo', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('mexican_restaurant', 'Restaurante mexicano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('middle_eastern_restaurant', 'Restaurante de oriente medio', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('pizza_restaurant', 'Pizzería', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('ramen_restaurant', 'Restaurante de ramen', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('restaurant', 'Restaurante', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('seafood_restaurant', 'Marisquería', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('spanish_restaurant', 'Restaurante español', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('sushi_restaurant', 'Restaurante de sushi', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('thai_restaurant', 'Restaurante tailandés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('turkish_restaurant', 'Restaurante turco', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('vegan_restaurant', 'Restaurante vegano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('vegetarian_restaurant', 'Restaurante vegetariano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
+('vietnamese_restaurant', 'Restaurante vietnamita', (SELECT id FROM categoria WHERE nombre = 'Restaurante'));
+
+-- Bar
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('wine_bar', 'Bar de vinos', (SELECT id FROM categoria WHERE nombre = 'Bar')),
+('bar', 'Bar', (SELECT id FROM categoria WHERE nombre = 'Bar')),
+('night_club', 'Club nocturno', (SELECT id FROM categoria WHERE nombre = 'Bar')),
+('karaoke', 'Karaoke', (SELECT id FROM categoria WHERE nombre = 'Bar')),
+('dance_hall', 'Salón de baile', (SELECT id FROM categoria WHERE nombre = 'Bar')),
+('comedy_club', 'Club de comedia', (SELECT id FROM categoria WHERE nombre = 'Bar')),
+('bar_and_grill', 'Bar y parrilla', (SELECT id FROM categoria WHERE nombre = 'Bar'));
+
+-- Arte
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('art_gallery', 'Galería de arte', (SELECT id FROM categoria WHERE nombre = 'Arte')),
+('art_studio', 'Estudio de arte', (SELECT id FROM categoria WHERE nombre = 'Arte')),
+('auditorium', 'Auditorio', (SELECT id FROM categoria WHERE nombre = 'Arte')),
+('cultural_landmark', 'Lugar de referencia cultural', (SELECT id FROM categoria WHERE nombre = 'Arte')),
+('performing_arts_theater', 'Teatro de artes performativas', (SELECT id FROM categoria WHERE nombre = 'Arte')),
+('sculpture', 'Escultura', (SELECT id FROM categoria WHERE nombre = 'Arte')),
+('body_art_service', 'Servicio de arte corporal', (SELECT id FROM categoria WHERE nombre = 'Arte'));
+
+-- Historia
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('historical_place', 'Lugar histórico', (SELECT id FROM categoria WHERE nombre = 'Historia')),
+('monument', 'Monumento', (SELECT id FROM categoria WHERE nombre = 'Historia')),
+('historical_landmark', 'Punto de referencia histórico', (SELECT id FROM categoria WHERE nombre = 'Historia'));
+
+-- Museos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('museum', 'Museo', (SELECT id FROM categoria WHERE nombre = 'Museos'));
+
+-- Educativos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('library', 'Biblioteca', (SELECT id FROM categoria WHERE nombre = 'Educativos')),
+('planetarium', 'Planetario', (SELECT id FROM categoria WHERE nombre = 'Educativos'));
+
+-- Compras
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('store', 'Tienda', (SELECT id FROM categoria WHERE nombre = 'Compras')),
+('shoe_store', 'Zapatería', (SELECT id FROM categoria WHERE nombre = 'Compras')),
+('shopping_mall', 'Plaza comercial', (SELECT id FROM categoria WHERE nombre = 'Compras')),
+('market', 'Mercado', (SELECT id FROM categoria WHERE nombre = 'Compras')),
+('book_store', 'Libería', (SELECT id FROM categoria WHERE nombre = 'Compras')),
+('gift_shop', 'Tienda de regalos', (SELECT id FROM categoria WHERE nombre = 'Compras'));
+
+-- Parques
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('park', 'Parque', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('state_park', 'Parque estatal', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('national_park', 'Parque nacional', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('botanical_garden', 'Jardín botánico', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('garden', 'Jardín', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('wildlife_park', 'Parque de vida silvestre', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('wildlife_refuge', 'Refugio silvestre', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('dog_park', 'Parque canino', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('picnic_ground', 'Campo de picnic', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('barbecue_area', 'Área de barbacoa', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('marina', 'Puerto pequeño', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('children''s_camp', 'Campo para niños', (SELECT id FROM categoria WHERE nombre = 'Parques')),
+('hiking_area', 'Campo de caminata', (SELECT id FROM categoria WHERE nombre = 'Parques'));
+
+-- Juegos Recreativos al Aire Libre
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('amusement_park', 'Parque de diversiones', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('amusement_center', 'Centro de diversiones', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('water_park', 'Parque acuático', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('roller_coaster', 'Montaña rusa', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('ferris_wheel', 'Rueda de la fortuna', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('skateboard_park', 'Parque de skateboard', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('off_roading_area', 'Área de offroad', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('adventure_sports_center', 'Centro de deportes de aventura', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
+('cycling_park', 'Parque de cicilismo', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre'));
+
+-- Juegos Recreativos Bajo Techo
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('video_arcade', 'Arcade', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos Bajo Techo')),
+('bowling_alley', 'Sala de boliche', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos Bajo Techo'));
+
+-- Zoológicos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('zoo', 'Zoológico', (SELECT id FROM categoria WHERE nombre = 'Zoológicos')),
+('aquarium', 'Acuario', (SELECT id FROM categoria WHERE nombre = 'Zoológicos'));
+
+-- Religión
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('place_of_worship', 'Lugar de culto', (SELECT id FROM categoria WHERE nombre = 'Religión')),
+('mosque', 'Mezquita', (SELECT id FROM categoria WHERE nombre = 'Religión')),
+('hindu_temple', 'Templo hindú', (SELECT id FROM categoria WHERE nombre = 'Religión')),
+('synagogue', 'Sinagoga', (SELECT id FROM categoria WHERE nombre = 'Religión')),
+('church', 'Iglesia', (SELECT id FROM categoria WHERE nombre = 'Religión'));
 
 -- ---------------------------------------------------------------------------------------------------
 --                                           TABLAS INTERMEDIAS
@@ -159,14 +355,14 @@ CREATE TABLE `CategoriaFavorita` (
 DROP TABLE IF EXISTS `LugarSubcategoria`;
 CREATE TABLE `LugarSubcategoria` (
    `idLugar` VARCHAR(40) NOT NULL,
-   `idSubcategoria` INT NOT NULL,
+   `idSubcategoria` VARCHAR(40) NOT NULL,
    PRIMARY KEY (idLugar, idSubcategoria),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION,
    FOREIGN KEY (idSubcategoria) REFERENCES Subcategoria(id) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- -----------------------------------------------------
--- Table `appturismo`.`subcategoria_has_lugar`
+-- Table `appturismo`.`LugarFotos`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `LugarFotos`;
 CREATE TABLE `LugarFotos` (
@@ -190,3 +386,13 @@ SELECT
    ultimaConexion,
    auditoria
 FROM Usuario;
+
+DROP VIEW IF EXISTS verSubcategorias;
+CREATE VIEW verSubcategorias AS
+SELECT
+   s.id,
+   s.nombre,
+   c.nombre AS 'Categoria'
+FROM Subcategoria s
+JOIN Categoria c WHERE s.idCategoria = c.id
+ORDER BY c.nombre;
