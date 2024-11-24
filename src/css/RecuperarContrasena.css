@@ -1,0 +1,9 @@
+
+@media (max-width: 680px) {
+    .rc-header-icono {
+        font-size: 1.8rem !important;
+    }
+    .inc-header-icono {
+        font-size: 1.6rem !important;
+    }
+}
