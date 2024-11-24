@@ -362,7 +362,7 @@ CREATE TABLE `LugarSubcategoria` (
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- -----------------------------------------------------
--- Table `appturismo`.`LugarFotos`
+-- Table `AppTurismo`.`LugarFotos`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `LugarFotos`;
 CREATE TABLE `LugarFotos` (
@@ -376,6 +376,9 @@ CREATE TABLE `LugarFotos` (
 --                                              VISTAS
 -- ---------------------------------------------------------------------------------------------------
 
+-- -----------------------------------------------------
+-- View `AppTurismo`.`verUsuarios`
+-- -----------------------------------------------------
 DROP VIEW IF EXISTS verUsuarios;
 CREATE VIEW verUsuarios AS
 SELECT
@@ -387,12 +390,15 @@ SELECT
    auditoria
 FROM Usuario;
 
+-- -----------------------------------------------------
+-- View `AppTurismo`.`verSubcategorias`
+-- -----------------------------------------------------
 DROP VIEW IF EXISTS verSubcategorias;
 CREATE VIEW verSubcategorias AS
 SELECT
    s.id,
    s.nombre,
-   c.nombre AS 'Categoria'
+   c.nombre AS 'categoria'
 FROM Subcategoria s
 JOIN Categoria c WHERE s.idCategoria = c.id
 ORDER BY c.nombre;
