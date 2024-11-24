@@ -39,19 +39,39 @@ const IngresarNuevaContrasena = () => {
     const handlePasswordChange = (e) => {
       const value = e.target.value;
       setContraseña(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        contraseña: validarContraseña(value),
-      }));
+
+      setErrors((prevErrors) => {
+        const passwordRules = validarContraseña(value);
+        const newErrors = {
+          ...prevErrors,
+          contraseña: passwordRules,
+        }
+
+        if (value) {
+          delete newErrors.camposObligatorios;
+        }
+
+        return newErrors;
+      });
     };
   
     const handleConfirmPasswordChange = (e) => {
       const value = e.target.value;
       setContraseña2(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        contraseña2: validarConfirmarContraseña(contraseña, value),
-      }));
+
+      setErrors((prevErrors) => {
+        const passwordsMatch = validarConfirmarContraseña(contraseña, value);
+        const newErrors = {
+          ...prevErrors,
+          contraseña2: passwordsMatch,
+        }
+
+        if (value) {
+          delete newErrors.camposObligatorios;
+        }
+
+        return newErrors;
+      });
     };
   
     const handleFormSubmit = (e) => {
@@ -91,7 +111,7 @@ const IngresarNuevaContrasena = () => {
         console.log('Error: Las contraseñas no coinciden');
         return;
       } 
-      console.log('Se restableció tu contrasea');
+      console.log('Se restableció tu contraseña');
     }
   
     const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -124,7 +144,7 @@ const IngresarNuevaContrasena = () => {
             <CardContent>
                 {/* Contraseña */}
                 <Box className='my-4' sx={{marginTop: '0 !important'}}>
-                <FormControl fullWidth size='small' error={formSubmitted && !!errors.contraseña}>
+                <FormControl fullWidth size='small' error={formSubmitted && !!errors.camposObligatorios}>
                     <InputLabel>Contraseña</InputLabel>
                     <OutlinedInput
                         type={showPassword ? 'text' : 'password'}
@@ -144,7 +164,12 @@ const IngresarNuevaContrasena = () => {
                         label='Contraseña'
                         required
                     />
-                    {formSubmitted && !errors.contraseña?.longitudValida && (
+                    {formSubmitted && errors.camposObligatorios && (
+                        <Typography color='error' variant='body2'>
+                            Los campos no deben estar vacíos
+                        </Typography>
+                    )}
+                    {formSubmitted && !errors.contraseña?.longitudValida && !errors.camposObligatorios && (
                         <Typography color='error' variant='body2'>
                             El formato de la contraseña es inválido
                         </Typography>
@@ -173,6 +198,16 @@ const IngresarNuevaContrasena = () => {
                             label='Confirmar contraseña'
                             required
                         />
+                        {formSubmitted && errors.camposObligatorios && (
+                          <Typography color='error' variant='body2'>
+                              Los campos no deben estar vacíos
+                          </Typography>
+                        )}
+                        {formSubmitted && !errors.contraseña2 && !errors.camposObligatorios && (
+                            <Typography color='error' variant='body2'>
+                                Las contraseñas no coinciden
+                            </Typography>
+                        )}
                 </FormControl>
                 </Box>
 
