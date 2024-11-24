@@ -111,7 +111,7 @@ function AlcaldiasTotales() {
     return (
         <>
             <NavBarHome />
-            <Grid sx={{ marginBottom: '1.5rem' }} >
+            <Grid sx={{ marginBottom: '1.5rem', padding: { xs: '0 2rem', sm: '0 2rem', md: '0 3rem' } }}>
             <Grid item xs={12} container justifyContent="center" alignItems="center" sx={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
                 <PlaceIcon sx={{ fontSize: '2.5rem', marginRight: '0.5rem', color: '#C80164' }} />
                 <Typography
@@ -127,7 +127,7 @@ function AlcaldiasTotales() {
                 </Typography>
             </Grid>
 
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
+            <Grid container spacing={2} justifyContent="center" alignItems="center" >
                 {datosTarjetas.map((datos) => (
                     <Grid
                         item
