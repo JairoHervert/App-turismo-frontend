@@ -69,6 +69,10 @@
     font-size: 1.9rem !important;
 }
 
+.perfil-informacion-personal-tp {
+    width: 80%;
+}
+
 @media (max-width: 600px) {
     .perfil-usuario-header-username {
         color: black;
@@ -93,5 +97,11 @@
     }
     .perfil-usuario-card-informacion-personal {
         margin-top: 30px;
+    }
+}
+
+@media (max-width: 900px) {
+    .perfil-informacion-personal-tp {
+        width: 100%;
     }
 }

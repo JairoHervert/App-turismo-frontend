@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import '../css/NavBarA.css';  // Actualiza el nombre del archivo CSS
+import '../css/NavBarA.css';
 import { TextField, InputAdornment } from '@mui/material';
-import { Search as SearchIcon, Bookmark as BookmarkIcon } from '@mui/icons-material';
+import { Search as SearchIcon } from '@mui/icons-material';
 
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
@@ -12,8 +12,8 @@ import Detalles from './modalDetalleIt';
 function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [userName, setUserName] = useState('Nombre de Usuario'); // Simula el nombre del usuario
-  const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar la apertura del menú
+  const [userName, setUserName] = useState('Nombre de Usuario');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLoginClick = () => {
     navigate('/login');
@@ -23,24 +23,21 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
     navigate('/register');
   };
 
-  // Función para manejar la apertura y cierre del menú
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'posit-fixed' : 'bg-light position-initial'} ${staticNavbar ? 'position-absolute' : ''}`}>
+      <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'posit-fixed' : 'bg-light position-initial'} ${staticNavbar ? 'position-absolute' : ''}`} >
         <div className="mx-3 container-fluid">
           {/* Logo */}
           <Link className="navbar-brand" to="/">
-            <img className='logo-img' src={logo} alt="Logo-canasta-basica" />
+            <img className="logo-img" src={logo} alt="Logo-canasta-basica" />
           </Link>
 
           {/* Botón de colapso para móvil */}
           <button
-
-          
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
@@ -49,7 +46,6 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            
             <i className="bi bi-list"></i>
           </button>
 
@@ -62,10 +58,10 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
                   variant="outlined"
                   size="small"
                   sx={{
-                    maxWidth: 250,  // Limita el tamaño máximo
-                    flexGrow: 1,  // El campo de texto puede crecer
-                    marginLeft: 'auto',  // Alineado a la derecha
-                    marginRight: 0,  // Sin espacio adicional a la derecha
+                    maxWidth: 250,
+                    flexGrow: 1,
+                    marginLeft: 'auto',
+                    marginRight: 0,
                   }}
                   InputProps={{
                     startAdornment: (
@@ -77,6 +73,7 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
                 />
               </li>
             </ul>
+
             {/* Sección de perfil de usuario */}
             <div className="d-flex align-items-center justify-content-end justify-content-sm-end">
               {isLoggedIn ? (
@@ -106,7 +103,8 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
                     </button>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
-
+                      <li><Link className="dropdown-item" to="/Admin-Page-Places">Página de solicitud de administrador</Link></li>
+                      <li><Link className="dropdown-item" to="/Admin-Page">Página de administrador</Link></li>
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>
                   </div>

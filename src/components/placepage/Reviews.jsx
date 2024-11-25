@@ -4,12 +4,18 @@ import { Rating } from '@mui/material';
 
 function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario, valueReview, userPhoto}) {
 
-
   return (
-    <div className='review-content'>
-      <div className='review-user-section-left'>
-        <img src={userPhoto} alt='user-photo' className='review-user-photo' />
-        <div className='review-user-information'>
+    <div className='pp-reviews-contenido'>
+      { /* Información del Usuario en Review: Nombre de usuario, antigüedad, avatar*/}
+      <div className='pp-reviews-informacion-usuario'>
+        { /* Avatar del usuario */}
+        <img 
+          src={userPhoto}
+          alt='user-photo'
+          className='pp-reviews-avatar-usuario'
+        />
+        { /* Nombre del usuario y antigüedad */}
+        <div className='pp-reviews-nombreUsuario-antiguedadComentario'>
           <div className='row gx-0'>
             <p className='mb-2'>{nombreUsuario}</p>
           </div>
@@ -17,10 +23,11 @@ function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario, valueRevi
             <p>Hace {antiguedadReview}</p>
           </div>
         </div>
+
       </div>
-      <div className='card review-description'>
+      { /* Opinion Usuario y Calificación */}
+      <div className='card pp-reviews-card-opinion-calificacion'>
         <div className='card-body'>
-          <div className='row review-description-score'>
           <Rating 
               name='read-only' 
               defaultValue={valueReview} 
@@ -28,12 +35,10 @@ function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario, valueRevi
               size='small'
               precision={0.1}
           />
-          </div>
-          <div className='review-description-opinion'>
-            <p>{comentarioUsuario}</p>
-          </div>
+          <p>{comentarioUsuario}</p>
         </div>
       </div>
+      
     </div>
   );
 }

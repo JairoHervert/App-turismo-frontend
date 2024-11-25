@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 // componentes
@@ -12,12 +13,12 @@ import '../css/Perfil.css';
 
 import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import { Box } from '@mui/system';
 
 import { handleDatosUsuario } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
-import { useNavigate } from 'react-router-dom';
 
-const categorias = ['Parques', 'Museos', 'Restaurantes', 'Cafeterías', 'Playas', 'Atracciones', 'Familiares', 'Hospitales', 'Empresas', 'Aeropuerto', 'Bar', 'Gym','Galería de Arte', 'Iglesia', 'Acuático'];
+const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
 
 const Perfil = () => {
   const navigate = useNavigate(); // Inicializa useNavigate
@@ -75,38 +76,44 @@ const Perfil = () => {
         transparentNavbar={false}
         lightLink={false} />
 
-    <div className='perfil-usuario-background'>
-    </div>
+      <Box className='perfil-usuario-background'></Box>
       <Container maxWidth='lg' className='md-4'>
-        
+
         {/* Perfil Usuario Header */}
         <InformacionHeader
           nombreUsuario={datos && datos.username ? datos.username : 'Usuario'}
+          /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
+            inicio sesión con fb o google), se le puede mandar como parámetro la
+            imagen */
+          avatar='https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg'
+          /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
+             la primera letra de su nombre de usuario */
+          //avatar={null}
           itinerariosCreados={'46'}
           favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
           deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
-        />    
+        />
 
         { /* Información Personal Usuario */}
         {datos ? (
           <InformacionPersonal
-            correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
-            nombreCompleto={obtenerNombreCompleto(datos.nombre, datos.apellido)}
-            fechaNacimiento={datos && datos.fechaNacimiento ? datos.fechaNacimiento : '10/10/2024'}
-            telefono='+52 4455060396' // ESTA INFORMACIÓN SÓLO ES DE RELLENO HASTA QUE 
-            pais='México'             // DEFINAN BIEN QUÉ VAN A PEDIR DE INFORMACIÓN
-          />
-        ) : (
+          correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
+          nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
+          apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}
+          fechaNacimiento={datos && datos.fechaNacimiento ? datos.fechaNacimiento : 'Sin especificar'}
+        />
+
+        ):(
           // Puedes agregar un mensaje de carga si lo prefieres
           <p>Cargando datos...</p>
-        )}        
+        )}
         { /* Categorías de Interés Usuario */}
         <CategoriasInteres
           categoriasUsuario={categorias}
         />
 
       </Container>
-    
+
 
       <Footer
         showIncorporaLugar={false} />

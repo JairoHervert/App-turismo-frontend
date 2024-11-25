@@ -9,7 +9,7 @@ class userModel {
         if (err) {
           reject(err);
         }
-        const resultado = results[0][0] || null;
+        const resultado = results[0] || null;
         if(resultado && resultado.error)
           return reject(new Error(resultado.error));
         resolve({datos: resultado});
@@ -32,7 +32,7 @@ class userModel {
     });
   }
 
-  static async UsuarioVerFavoritos(id){
+  static async UsuarioVerFavoritos(id){ 
     const query = 'CALL UsuarioVerFavoritos(?);';
     return new Promise((resolve, reject) => {
       db.query(query, [id], (err, results) => {

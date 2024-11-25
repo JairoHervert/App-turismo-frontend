@@ -75,7 +75,8 @@ function SearchHistoryPageHistory() {
          <div>
           <Stack direction='row' spacing={1} alignItems='flex-start' sx={{ ml: -30, mb: 3 }}>
             <HistoryIcon color="primary" fontSize="Montserrat" sx={{ fontSize: '4rem'}} />
-            <h1 className='history-page-title '>Historial de búsqueda</h1>
+            <h1 className='history-page-title fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Historial de búsqueda</h1>
+
           </Stack>
           </div>
         </div>
