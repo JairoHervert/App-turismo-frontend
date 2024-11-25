@@ -6,14 +6,16 @@ const registerController = require('./src/controllers/register-controller');
 const userController = require('./src/controllers/user-controller');
 const confirmacionRegistroController = require('./src/controllers/confirmacionRegistro-controller');
 const cookieParser = require('cookie-parser');
-const doenv = require('dotenv').config();
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const placesRoutes = require('./src/routes/places');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use('/api/places', placesRoutes);
 
 const PORT = 3001;
 

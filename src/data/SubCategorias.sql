@@ -32,6 +32,27 @@ BEGIN
     ('fast_food_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Comida Rápida')),
     ('ice_cream_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Comida Rápida'));
 
+    -- Cafetería
+    INSERT INTO `subcategoria` (`nombre`, `categoria_idCategoria`) VALUES
+    ('cafe', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('cafeteria', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('cat_cafe', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('chocolate_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('coffee_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('confectionery', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('dessert_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('dessert_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('diner', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('dog_cafe', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('donut_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('fine_dining_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('food_court', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('juice_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('meal_takeaway', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('sandwich_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('steak_house', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
+    ('tea_house', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería'));
+
     -- Restaurantes
     INSERT INTO `subcategoria` (`nombre`, `categoria_idCategoria`) VALUES
     ('afghani_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Restaurante')),
@@ -67,27 +88,6 @@ BEGIN
     ('vegan_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Restaurante')),
     ('vegetarian_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Restaurante')),
     ('vietnamese_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Restaurante'));
-
-    -- Cafetería
-    INSERT INTO `subcategoria` (`nombre`, `categoria_idCategoria`) VALUES
-    ('cafe', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('cafeteria', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('cat_cafe', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('chocolate_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('coffee_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('confectionery', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('dessert_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('dessert_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('diner', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('dog_cafe', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('donut_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('fine_dining_restaurant', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('food_court', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('juice_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('meal_takeaway', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('sandwich_shop', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('steak_house', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería')),
-    ('tea_house', (SELECT idCategoria FROM categoria WHERE nombre = 'Cafetería'));
 
     -- Bar
     INSERT INTO `subcategoria` (`nombre`, `categoria_idCategoria`) VALUES
