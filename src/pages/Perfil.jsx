@@ -21,20 +21,10 @@ import { isLogged } from '../schemas/isLogged';
 const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
 
 const Perfil = () => {
+  console.log("PERFIL.JSX")
   const navigate = useNavigate(); // Inicializa useNavigate
-  const [datos, setDatos] = useState();
-
-  const obtenerNombreCompleto = (nombre, apellido) => {
-    if (nombre && apellido) {
-      return `${nombre} ${apellido}`;
-    } else if (nombre) {
-      return nombre;
-    } else if (apellido) {
-      return apellido;
-    } else {
-      return "";
-    }
-  };
+  const [datos, setDatos] = useState(null);
+  const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg');
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -56,9 +46,12 @@ const Perfil = () => {
         console.log(id);
         
         const resultado = await handleDatosUsuario(id); // Espera la resolución de la promesa
-        
+        if(!resultado)
+          navigate('/');
         setDatos(resultado);
-        console.log(resultado);
+        setProfileImage(resultado.imagen);
+        console.log("Resultado consulta", resultado);
+        console.log("Resultado imagen", resultado.imagen);
       } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
       }
@@ -85,11 +78,11 @@ const Perfil = () => {
           /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
             inicio sesión con fb o google), se le puede mandar como parámetro la
             imagen */
-          avatar='https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg'
+          avatar={profileImage}
           /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
              la primera letra de su nombre de usuario */
           //avatar={null}
-          itinerariosCreados={'46'}
+          itinerariosCreados={'-'}
           favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
           deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
         />

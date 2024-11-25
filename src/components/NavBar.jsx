@@ -108,7 +108,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                     </div>
                     <div className="order-lg-1">
                       <img
-                        src={avatar}
+                        src={profileImage}
                         alt="Perfil"
                         className="rounded-circle"
                         width="50"
