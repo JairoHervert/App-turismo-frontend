@@ -145,7 +145,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                         <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
                         <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
                         <li><hr className="dropdown-divider" /></li>
-                        <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
+                        <li><Link className="dropdown-item" to="/logout" onClick={handleLogout}>Cerrar Sesión</Link></li>
                       </ul>
                     </div>
                   </div>
@@ -178,7 +178,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <hr className="dropdown-divider" />
                     </li>
                     <li className="nav-item">
-                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/logout">Cerrar Sesión</Link>
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/logout" onClick={handleLogout}>Cerrar Sesión</Link>
                     </li>
                   </ul>
                 </div>
