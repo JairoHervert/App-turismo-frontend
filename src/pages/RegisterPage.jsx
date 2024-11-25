@@ -7,11 +7,15 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CloseIcon from '@mui/icons-material/Close';
 import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { useGoogleLogin } from '@react-oauth/google';
+
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/register/LeftImageR';
 
 import imgRegister from '../img/registerIMGA.jpg';
+import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
