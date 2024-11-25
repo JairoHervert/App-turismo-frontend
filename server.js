@@ -34,6 +34,7 @@ app.post('/user_datos', userController.getDatos);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
 app.post('/lugar_datos', placeController.getDatos);
+app.post('/lugar_fotos', placeController.getFotos);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;

@@ -366,8 +366,9 @@ CREATE TABLE `LugarSubcategoria` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `LugarFotos`;
 CREATE TABLE `LugarFotos` (
-   idLugar VARCHAR(40) NOT NULL,
-   URL VARCHAR(512) NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
+   `URL` VARCHAR(512) NOT NULL,
+   `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`idLugar`, `URL`),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

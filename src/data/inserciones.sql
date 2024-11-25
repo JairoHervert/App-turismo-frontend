@@ -2,7 +2,7 @@ CALL UsuarioRegistro('Juan Molina', 'jlma-113@hotmail.com', '$2b$10$L6gRdyuAeFxF
 UPDATE Usuario SET confirmacion = 1 WHERE correo = 'jlma-113@hotmail.com';
 UPDATE Usuario SET nombre = 'Juan' WHERE correo = 'jlma-113@hotmail.com';
 UPDATE Usuario SET apellido = 'Molina' WHERE correo = 'jlma-113@hotmail.com';
-UPDATE Usuario SET fechaNacimiento = STR_TO_DATE('01/01/2004', '%d/%m/%Y') 
+UPDATE Usuario SET fechaNacimiento = STR_TO_DATE('01/01/2004', '%d/%m/%Y'); 
 UPDATE Usuario SET ligaFotoPerfil = 'https://cdn2.steamgriddb.com/icon/5b915c0e379a039d9fe77cc124f6a4c4.ico' WHERE correo = 'jlma-113@hotmail.com';
 
 CALL LugarRegistro(
@@ -55,6 +55,10 @@ CALL LugarRegistro(
 63, 'https://www.escom.ipn.mx/', 0, 0, '1,1,0,1', 0, 0, 0, 'Calidad',
 1, 1, 1, 0
 );
+CALL RegistrarFoto('5', 'https://www.cec.escom.ipn.mx/images/frente_ESCOM.jpg');
+CALL RegistrarFoto('5', 'https://lh3.googleusercontent.com/proxy/wjELjXCrO5rb8W6TTm4yNytWK6w2_6MUr6OUeBmVj6aq4Mv837i_D0ApSNN6mI99eDrFO7qo2wBNoPlHBfOCDUa2uvuzwLVGSViqOWwRkHKtLjDdgwgcdjFavcxL3p5sJ0JhKwP_0L9qWECbfA');
+CALL RegistrarFoto('5', 'https://www.efekto.tv/wp-content/uploads/2019/08/WhatsApp-Image-2019-08-14-at-11.23.01-AM.jpeg');
+CALL RegistrarFoto('5', 'https://citai.mx/wp-content/uploads/2024/04/ESCOM1.jpg');
 
 CALL LugarRegistro(
 '6', 'ESFM - Escuela Superior de Física y Matemáticas - IPN', 'Avenida Instituto Politécnico Nacional s/n Edificio 9 Unidad Profesional “Adolfo López Mateos” Col. San Pedro Zacatenco Del, Nueva Industrial Vallejo, Gustavo A. Madero, 07700 Ciudad de México',

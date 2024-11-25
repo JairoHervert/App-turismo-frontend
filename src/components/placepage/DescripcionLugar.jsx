@@ -96,7 +96,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   <AccessibleIcon fontSize='small' className='pp-informacion-lugar-iconos' />
                 </div>
                 <div className='col'>
-                  <p>{accesibilidadLugar ? 'Accesible con silla de ruedas' : 'No es accesible con silla de ruedas'}</p>
+                  <p>{accesibilidadLugar != "" ? accesibilidadLugar : 'No es accesible para personas con capacidades diferentes.'}</p>
                 </div>
               </div>
             )}
@@ -129,7 +129,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   <FamilyRestroomIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
                 </div>
                 <div className='col'>
-                  <p>{familiar ? 'Familiar' : 'Solo mayores de 18 años'}</p>
+                  <p>{familiar ? 'Familiar' : 'No recomendado para niños'}</p>
                 </div>
               </div>
             )}
@@ -142,7 +142,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   <GroupsIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
                 </div>
                 <div className='col'>
-                  <p>{goodForGroups ? 'Grupal' : 'No grupal weon'}</p>
+                  <p>{goodForGroups ? 'Bueno para grupos grandes' : 'No ideal para grupos grandes'}</p>
                 </div>
               </div>
             )}

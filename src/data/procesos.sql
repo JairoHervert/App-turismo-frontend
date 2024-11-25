@@ -18,6 +18,9 @@ DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
+DROP PROCEDURE IF EXISTS LugarGetDatos;
+DROP PROCEDURE IF EXISTS RegistrarFoto;
+DROP PROCEDURE IF EXISTS LugarGetFotos;
 
 DELIMITER //
 
@@ -584,7 +587,7 @@ BEGIN
    WHERE id = p_id;
     
    IF lugarExistente = 0 THEN
-      SELECT 'lugar_ya_registrado' AS 'error';
+      SELECT 'lugar_no_registrado' AS 'error';
    ELSE
       SELECT
          id,
@@ -616,6 +619,49 @@ BEGIN
          accesibilidadRestroom,
          accesibilidadSeating
       FROM Lugar WHERE id = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`RegistrarFoto`
+-- -----------------------------------------------------
+CREATE PROCEDURE RegistrarFoto (
+   IN p_id VARCHAR(40),
+   IN p_url VARCHAR(512)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      INSERT INTO LugarFotos (idLugar, URL, auditoria)
+      VALUES (p_id, p_url, NOW());
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetFotos`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetFotos (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      SELECT URL FROM LugarFotos
+      WHERE idLugar = p_id;
    END IF;
 END //
 
