@@ -36,7 +36,7 @@ function AppRouter() {
         <Route path='/terminos-condiciones' element={<TerminosCondiciones />} />
         <Route path='/politica-privacidad' element={<PoliticasPrivacidad />} />
         <Route path="/confirm/:token" element={<ConfirmacionRegistro />} />
-        <Route path='/placepage' element={<PlacePage />} />
+        <Route path='/placepage/:id' element={<PlacePage />} />
         <Route path='/generar-itinerario' element={<GenerarItinerario />} />
         <Route path='/resume-page' element={<ResumePage />}/>
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>

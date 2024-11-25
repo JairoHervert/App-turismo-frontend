@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
 import '../css/PlacePage.css';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
 import ButtonsMod from '../components/ButtonsMod';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import { handleDatosLugar } from '../pagesHandlers/place-handler';
+
 const PlacePage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [place, setPlace] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 3;
 
   const imagenes = [
     'https://media.timeout.com/images/106046734/image.jpg',
@@ -30,13 +38,39 @@ const PlacePage = () => {
     'https://www.sopitas.com/wp-content/uploads/2023/05/bibliotecas-personales-biblioteca-de-mexico-portada.jpg'
   ];
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!id) {
+      navigate("/");
+      return;
+    }
+
+    const fetchPlace = async () => {
+      try {
+        console.log("Id lugar", id);
+        
+        const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
+        if(!resultado) {
+          navigate("/");
+        }
+        setPlace(resultado);
+        console.log(resultado);
+      } catch (error) {
+        console.error('Error al obtener datos del lugar', error);
+      }
+    };
+
+    fetchPlace();
+  }, [id, navigate]);
+
+  if (!place) {
+    return <div>Cargando...</div>; // Muestra un loader mientras se obtiene el lugar
+  }
 
   const handleHomePageClick = () => {
-        navigate('/');
-   };
+    navigate('/');
+  };
   
-   const allReviews = [
+  const allReviews = [
     {
       nombreUsuario: 'Brandon Segura',
       antiguedadReview: '10 meses',
@@ -87,9 +121,6 @@ const PlacePage = () => {
       userPhoto: require('../img/PlacePage/place-user.png'),
     },
   ];
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const reviewsPerPage = 3;
 
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;

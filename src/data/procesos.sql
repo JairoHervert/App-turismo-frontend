@@ -570,4 +570,53 @@ BEGIN
    END IF;
 END //
 
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetDatos`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetDatos (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_ya_registrado' AS 'error';
+   ELSE
+      SELECT
+         id,
+         nombre,
+         direccion,
+         descripcion,
+         imagen,
+         attributions,
+         latitud,
+         longitud,
+         fotos,
+         tipos,
+         teléfono,
+         precioNivel,
+         precioRango,
+         rating,
+         regularOpeningHours,
+         userRatingCount,
+         website,
+         goodForChildren,
+         goodForGroups,
+         paymentOptions,
+         reservable,
+         servesVegetarianFood,
+         allowsDogs,
+         reviewsGoogle,
+         accesibilidadParking,
+         accesibilidadEntrance,
+         accesibilidadRestroom,
+         accesibilidadSeating
+      FROM Lugar WHERE id = p_id;
+   END IF;
+END //
+
 DELIMITER ;

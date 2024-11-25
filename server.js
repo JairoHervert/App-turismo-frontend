@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const loginController = require('./src/controllers/login-controller');
 const registerController = require('./src/controllers/register-controller');
 const userController = require('./src/controllers/user-controller');
+const placeController = require('./src/controllers/place-controller');
 const confirmacionRegistroController = require('./src/controllers/confirmacionRegistro-controller');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
@@ -32,6 +33,7 @@ app.post('/login_Facebook', loginController.iniciarSesionFacebook);
 app.post('/user_datos', userController.getDatos);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
+app.post('/lugar_datos', placeController.getDatos);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;

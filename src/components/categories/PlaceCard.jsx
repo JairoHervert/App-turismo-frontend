@@ -1,6 +1,12 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
-function PlaceCard({ imagen, name, description }) {
+function PlaceCard({ imagen, name, description, id}) {
+  const navigate = useNavigate();
+  const idPrueba = 1;
+  const handleViewMore = () => {
+    navigate(`/placepage/${idPrueba}`);
+  };
 
   const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.png`) : '';
   return (
@@ -15,7 +21,12 @@ function PlaceCard({ imagen, name, description }) {
       <div className="card-body d-flex flex-column">
         <h5 className="card-title">{name}</h5>
         <p className="card-text description-text">{description}</p>
-        <button className="btn btn-sm btn-outline-primary learn-more-btn">Ver más</button>
+        <button
+        className="btn btn-sm btn-outline-primary learn-more-btn"
+        onClick={handleViewMore}
+        >
+          Ver más
+        </button>
       </div>
     </div>
   );

@@ -17,7 +17,6 @@ import { handleDatosUsuario } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
 import { useNavigate } from 'react-router-dom';
 
-
 const categorias = ['Parques', 'Museos', 'Restaurantes', 'Cafeterías', 'Playas', 'Atracciones', 'Familiares', 'Hospitales', 'Empresas', 'Aeropuerto', 'Bar', 'Gym','Galería de Arte', 'Iglesia', 'Acuático'];
 
 const Perfil = () => {
