@@ -19,6 +19,8 @@ DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
 DROP PROCEDURE IF EXISTS LugarGetDatos;
+DROP PROCEDURE IF EXISTS RegistrarSubcategoria;
+DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
 DROP PROCEDURE IF EXISTS RegistrarFoto;
 DROP PROCEDURE IF EXISTS LugarGetFotos;
 
@@ -619,6 +621,64 @@ BEGIN
          accesibilidadRestroom,
          accesibilidadSeating
       FROM Lugar WHERE id = p_id;
+   END IF;
+END //
+
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`RegistrarSubcategoria`
+-- -----------------------------------------------------
+CREATE PROCEDURE RegistrarSubcategoria (
+   IN p_idLugar VARCHAR(40),
+   IN p_idSubcategoria VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+   DECLARE subcategoriaExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_idLugar;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   END IF;
+   
+   SELECT COUNT(*) INTO subcategoriaExistente
+   FROM Subcategoria
+   WHERE id = p_idSubcategoria;
+   
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   END IF;
+   
+   IF lugarExistente = 1 AND subcategoriaExistente = 1 THEN
+      INSERT INTO LugarSubcategoria (idLugar, idSubcategoria)
+      VALUES (p_idLugar, p_idSubcategoria);
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetSubcategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetSubcategorias (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      SELECT s.nombre AS subcategoria, c.nombre AS categoria
+      FROM LugarSubcategoria ls
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE ls.idLugar = p_id;
    END IF;
 END //
 

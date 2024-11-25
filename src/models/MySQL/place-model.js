@@ -31,6 +31,21 @@ class placeModel {
       });
     });
   }
+
+  static async LugarGetSubcategorias(id) {
+    const query = 'CALL LugarGetSubcategorias(?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
 }
 
 module.exports = placeModel;

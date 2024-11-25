@@ -191,7 +191,13 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                 <CategoryIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
               </div>
               <div className='col'>
-                <p>{categoria}</p>
+                {categoria && categoria.length > 0 ? (
+                  categoria.map((cat, index) => (
+                    <p key={index} className='pp-informacion-lugar-horario-item'> {cat} </p>
+                  ))
+                ) : (
+                  <p>No hay categorías disponibles</p>
+                )}
               </div>
             </div>
 

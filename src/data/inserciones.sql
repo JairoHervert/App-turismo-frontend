@@ -55,6 +55,9 @@ CALL LugarRegistro(
 63, 'https://www.escom.ipn.mx/', 0, 0, '1,1,0,1', 0, 0, 0, 'Calidad',
 1, 1, 1, 0
 );
+CALL RegistrarSubcategoria('5', 'library');
+CALL RegistrarSubcategoria('5', 'historical_place');
+CALL RegistrarSubcategoria('5', 'historical_landmark');
 CALL RegistrarFoto('5', 'https://www.cec.escom.ipn.mx/images/frente_ESCOM.jpg');
 CALL RegistrarFoto('5', 'https://lh3.googleusercontent.com/proxy/wjELjXCrO5rb8W6TTm4yNytWK6w2_6MUr6OUeBmVj6aq4Mv837i_D0ApSNN6mI99eDrFO7qo2wBNoPlHBfOCDUa2uvuzwLVGSViqOWwRkHKtLjDdgwgcdjFavcxL3p5sJ0JhKwP_0L9qWECbfA');
 CALL RegistrarFoto('5', 'https://www.efekto.tv/wp-content/uploads/2019/08/WhatsApp-Image-2019-08-14-at-11.23.01-AM.jpeg');

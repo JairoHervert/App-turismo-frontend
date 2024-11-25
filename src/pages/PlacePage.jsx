@@ -12,13 +12,13 @@ import { Pagination } from '@mui/material';
 import ButtonsMod from '../components/ButtonsMod';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-import { handleDatosLugar, handleFotosLugar } from '../pagesHandlers/place-handler';
+import { handleDatosLugar, handleFotosLugar, handleSubcategoriasLugar } from '../pagesHandlers/place-handler';
 
 const PlacePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [place, setPlace] = useState(null);
-  
+  const [categorias, setCategorias] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 3;
@@ -104,8 +104,26 @@ const PlacePage = () => {
       }
     };
 
+    const fetchSubcategorias = async () => {
+      try {
+        console.log("Id lugar", id);
+        
+        const resultado = await handleSubcategoriasLugar(id); // Espera la resolución de la promesa
+
+        let array = [];
+        resultado.forEach(element => {
+          array.push(element.subcategoria);
+        });
+        setCategorias(array);
+        console.log(array);
+      } catch (error) {
+        console.error('Error al obtener foto del lugar', error);
+      }
+    };
+
     fetchPlace();
     fetchFotos();
+    fetchSubcategorias();
   }, [id, navigate]);
 
   if (!place) {
@@ -243,7 +261,7 @@ const PlacePage = () => {
         /* Esta sección de horarios puede cambiar dependiendo de cómo traten la información */
         horarioLugar={horarioLugar}
         /*  */
-        categoria='Deportes'
+        categoria={categorias}
         /* Si no hay imágenes -> {null} */
         imagenesLugar={fotos}
 
