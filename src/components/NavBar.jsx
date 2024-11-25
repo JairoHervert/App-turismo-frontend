@@ -60,7 +60,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
 
   return (
     <>
-      <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'posit-fixed' : 'bg-light position-initial'} ${staticNavbar ? 'position-absolute' : ''}`}>
+      <nav className={`navbar navbar-expand-lg ${transparentNavbar ? 'position-fixed' : 'bg-light position-initial'} ${staticNavbar ? 'position-absolute' : ''}`}>
         <div className="mx-3 container-fluid">
           {/* Logo */}
           <Link className="navbar-brand" to="/">
@@ -93,74 +93,110 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                 <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Museos</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Nuevas Experiencias</Link>
+                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Generar itinerario</Link>
               </li>
             </ul>
             {/* Sección de perfil de usuario */}
-            <div className="d-flex align-items-center justify-content-end justify-content-sm-end">
-              {isLoggedIn ? (
-                <>
-                  <div className="order-sm-1 text-end me-2">
-                    <div>Bienvenido</div>
-                    <div className="fw-bold">{userName}</div>
+            {isLoggedIn ? (
+              <>
+                <div className='align-items-center'>
+                  {/* Versión para pantallas grandes */}
+                  <div className="d-none d-lg-flex align-items-center justify-content-end">
+                    <div className="order-lg-1 text-end me-2">
+                      <div>Bienvenido</div>
+                      <div className="fw-bold">{userName}</div>
+                    </div>
+                    <div className="order-lg-1">
+                      <img
+                        src={avatar}
+                        alt="Perfil"
+                        className="rounded-circle"
+                        width="50"
+                        height="50"
+                      />
+                    </div>
+                    <div className="order-lg-2 dropdown">
+                      <button
+                        onClick={toggleMenu}
+                        aria-expanded={menuOpen}
+                        data-bs-toggle="dropdown"
+                        id="userDropdown"
+                        className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
+                      >
+                        <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
+                      </button>
+                      <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        {/* Opciones del menú */}
+                        <li><Link className="dropdown-item" to='/perfil-page'>Mi Perfil</Link></li>
+                        <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
+                        <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
+                        <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
+                        <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
+                        <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
+                        <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
+                        <li><Link className='dropdown-item' to='/resume-page'>Página de resumen</Link></li>
+                        <li><Link className='dropdown-item' to='/itinerary'>Página de itinerario</Link></li>
+                        <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
+                        <li><Link className='dropdown-item' to='/Admin-Page-Places'>Página de solicitud de administrador</Link></li>
+                        <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
+                        <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
+                        <li><Link className='dropdown-item' to='/recuperar-contrasena'>Recuperar Contraseña</Link></li>
+                        <li><Link className='dropdown-item' to='/ingresar-nueva-contrasena'>Ingresar Nueva Contraseña</Link></li>
+                        <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
+                        <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
+                        <li><hr className="dropdown-divider" /></li>
+                        <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
+                      </ul>
+                    </div>
                   </div>
-                  <div className="order-sm-2">
-                    <img
-                      src={profileImage}
-                      alt="Perfil"
-                      className="rounded-circle"
-                      width="50"
-                      height="50"
-                    />
-                  </div>
-                  <div className="order-sm-3 dropdown">
-                    <button
-                      className="nav-link p-0 d-flex align-items-center bg-transparent border-0"
-                      id="userDropdown"
-                      data-bs-toggle="dropdown"
-                      aria-expanded={menuOpen}
-                      onClick={toggleMenu}
-                    >
-                      <i className={`bi ms-1 ${menuOpen ? 'bi-caret-up-fill' : 'bi-caret-down-fill'}`}></i>
-                    </button>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                      <li><Link className="dropdown-item" to='/perfil-page'>Mi Perfil</Link></li>
-                      <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
-                      <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
-                      <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
-                      <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
-                      <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
-                      <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
-                      <li><Link className='dropdown-item' to='/resume-page'>Página de resumen</Link></li>
-                      <li><Link className='dropdown-item' to='/itinerary'>Página de itinerario</Link></li>
-                      <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
-                      <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
+                </div>
 
-                      {/* <li><Link className='dropdown-item' to='/register'>Registrate</Link></li>  */}
 
-                      <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
-                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
-                      <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
-                      <li><hr className="dropdown-divider" /></li>
-                      <li><Link className="dropdown-item" to="/logout" onClick={handleLogout}>Cerrar Sesión</Link></li>
-                    </ul>
-                  </div>
-                </>
-              ) : (
-                <>
-                  {showingresa && (
-                    <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClick}>
-                      Ingresa
-                    </button>
-                  )}
-                  {showRegistrate && (
-                    <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
-                      Regístrate
-                    </button>
-                  )}
-                </>
-              )}
-            </div>
+                {/* Versión para pantallas pequeñas */}
+                <div className='d-lg-none'>
+                  <hr className="my-3"></hr>
+                  <ul className=" d-flex navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/perfil-page'>Mi Perfil</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/settings">Configuración</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/deseados'>Deseados User</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerariesSaved'>Itinerarios guardados</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/HistoryPage'>Historial de búsqueda</Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerary'>Página de itinerario</Link>
+                    </li>
+                    <li className="nav-item">
+                      <hr className="dropdown-divider" />
+                    </li>
+                    <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/logout">Cerrar Sesión</Link>
+                    </li>
+                  </ul>
+                </div>
+              </>
+            ) : (
+              <>
+                {showingresa && (
+                  <button className="btn btn-outline-primary me-2" type="button" onClick={handleLoginClick}>
+                    Ingresa
+                  </button>
+                )}
+                {showRegistrate && (
+                  <button className="btn btn-primary" type="button" onClick={handleRegisterClick}>
+                    Regístrate
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
       </nav>

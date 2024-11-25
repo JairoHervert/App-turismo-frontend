@@ -1,0 +1,409 @@
+/* Estilos generales */
+.sidebar-container-admin-places {
+  background-color: #e8f6fc;
+  padding-top: 2rem; /* Aumenta el espacio superior */
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transition: width 0.3s ease;
+  margin-left: -40px;
+  margin-top: -40px;
+}
+
+.second-container-admin-places {
+display: flex ;
+gap: 1rem;
+}
+
+.contenedor-cajas-admin-places {
+  padding: 20px;
+}
+
+.list-item-button-admin-places {
+  display: flex;
+  align-items: center;
+}
+
+.ajustes-soporte-admin-places {
+position: sticky;
+margin-top: 15rem;
+}
+.navbar-container-adp {
+width: 100% ;
+}
+
+.dash-cuentas-admin-places {
+display: flex ;
+flex-direction:column;
+gap: 8px;
+}
+
+.list-item-text-admin-places {
+  flex-grow: 1;
+  font-weight: bold;
+}
+
+.submenu-item-admin-places {
+  padding-left: 2rem;
+}
+
+.list-item-icon-admin-places {
+  min-width: 30px;
+}
+
+/* Estilos para el formulario */
+.formulario-container-admin-places {
+  width: 900px;
+  background-color: #000405;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 4rem;
+  margin: 4rem auto;
+  transition: width 0.3s ease;
+}
+
+.formulario-header-title-admin-places {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ff007f;
+}
+
+.formulario-subtitle-admin-places {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 3rem;
+}
+
+.formulario-subtitle-section-admin-places {
+  font-weight: bold;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 1rem;
+}
+
+.formulario-box-admin-places {
+  background-color: #fff;
+  padding: 3rem;
+}
+
+.formulario-grid-item-admin-places {
+  padding: 0.5rem;
+}
+
+.formulario-input-admin-places {
+  width: 100%;
+}
+
+.formulario-button-reject-admin-places {
+  color: #ff007f;
+  border-color: #ff007f;
+}
+
+.formulario-button-accept-admin-places {
+  background-color: #e8f6fc;
+  color: #fff;
+}
+
+.formulario-button-accept-admin-places:hover {
+  background-color: #005f85;
+}
+
+.formulario-button-reject-admin-places:hover {
+  background-color: #ffeef6;
+  border-color: #ff007f;
+}
+
+/* Estilos para la sección Recibidos */
+.recibidos-container-admin-places {
+  overflow: hidden;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-top: 30px;
+}
+.formulario-container-admin-places {
+  max-width: 1200px;
+}
+
+.recibidos-header-admin-places {
+  background-color: #e4f7ff;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.recibidos-header-title-admin-places {
+  color: black;
+  text-align: center;
+  font-size: 15rem;
+}
+
+.formulario-container-admin-places {
+  width: 900px;
+  background-color: #e8f6fc;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  padding: 4rem;
+  margin: 4rem auto;
+  transition: width 0.3s ease;
+}
+
+.recibidos-filter-buttons-admin-places {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.recibidos-filter-button-admin-places {
+  margin: 5px;
+  background-color: #e4007c;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  font-size: 1rem;
+}
+
+.recibidos-filter-button-active-admin-places {
+  border: 2px solid #fff;
+}
+
+.recibidos-filter-button-admin-places:hover {
+  background-color: #d1006f;
+}
+
+/* Estilos para el contenedor de controles */
+.controls-container-admin-places {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.controls-container-admin-places .MuiTextField-root {
+  max-width: 250px;
+}
+
+.controls-container-admin-places .MuiInputAdornment-root {
+  color: #e4007c;
+}
+
+/* Clase para personalizar la scrollbar */
+.us_de-deseados-text {
+max-height: 500px; /* Límite de altura */
+overflow-y: auto; /* Scroll vertical */
+}
+
+/* Personalización de la scrollbar para navegadores WebKit */
+.us_de-deseados-text::-webkit-scrollbar {
+width: 8px; /* Ancho de la scrollbar */
+}
+
+.us_de-deseados-text::-webkit-scrollbar-track {
+background: #f1f1f1; /* Fondo del track */
+}
+
+.us_de-deseados-text::-webkit-scrollbar-thumb {
+background: #888; /* Color del pulgar */
+border-radius: 4px; /* Bordes redondeados */
+}
+
+.us_de-deseados-text::-webkit-scrollbar-thumb:hover {
+background: #555; /* Color más oscuro al pasar el mouse */
+}
+
+/* Compatibilidad con Firefox */
+.us_de-deseados-text {
+scrollbar-width: thin; /* Scroll delgado */
+scrollbar-color: #888 #f1f1f1; /* Pulgar y fondo del track */
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 480px) {
+.contenedor-cajas-admin-places {
+  flex-direction: column; /* Cambia a columna en pantallas aún más pequeñas */
+  gap: 10px; /* Espacio entre las cajas cuando se apilen */
+  justify-content: center;  /* Centra las cajas cuando estén apiladas */
+}
+
+.contenedor-cajas-admin-places .caja {
+  min-width: 100%; /* Las cajas ocupan todo el ancho disponible */
+  max-width: 100%; /* Elimina el límite máximo de ancho */
+}
+
+.formulario-container-admin-places {
+  width: 100%;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.recibidos-header-title-admin-places {
+  font-size: 1rem;
+}
+
+.recibidos-filter-buttons-admin-places {
+  margin-top: 20px;
+}
+
+.controls-container-admin-places .MuiTextField-root {
+  max-width: 100%;
+}
+}
+
+/* Media query para pantallas pequeñas */
+
+
+@media (max-width: 600px) {
+
+.formulario-container-admin-places {
+  width: 100%;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.recibidos-header-title-admin-places {
+  font-size: 1rem;
+}
+
+.recibidos-filter-buttons-admin-places {
+  margin-top: 20px;
+}
+
+.controls-container-admin-places .MuiTextField-root {
+  max-width: 100%;
+}
+}
+@media (max-width: 768px) {
+  /* Asegura que las tres secciones se mantengan alineadas arriba */
+  .second-container-admin-places {
+    display: flex; /* Mantiene las secciones en una fila */
+    justify-content: flex-start; /* Alinea las secciones al inicio */
+    gap: 10px; /* Añade espacio entre las secciones */
+    align-items: flex-start; /* Alinea los elementos al principio */
+    flex-wrap: nowrap; /* No permite que los elementos se muevan a una nueva fila */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  }
+  
+
+  /* Ajuste para el sidebar */
+  .sidebar-container-admin-places {
+    width: 200px; /* Reducción del tamaño del sidebar */
+    min-width: 200px; /* Mantiene el ancho mínimo del sidebar */
+    max-width: 200px; /* Limita el ancho del sidebar */
+    padding-top: 2rem; /* Mantén el espacio superior */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    position: relative;
+    transition: width 0.3s ease;
+    margin-left: -40px;
+    margin-top: -40px;
+  }
+
+  /* Ajustes para el contenedor de cajas */
+  .contenedor-cajas-admin-places {
+    flex-direction: row; /* Disposición en columna para pantallas pequeñas */
+    gap: 15px; /* Espacio entre las cajas */
+    justify-content: flex-start; /* Alinea las cajas arriba */
+    flex: 1;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  }
+
+  /* Ajuste para las cajas dentro del contenedor */
+  .contenedor-cajas-admin-places .caja {
+    min-width: 100%; /* Las cajas ocupan todo el ancho */
+    max-width: 100%; /* Elimina el límite máximo de ancho */
+    padding: 1rem; /* Ajusta el padding */
+    transform: none; /* Elimina la transformación */
+  }
+
+  /* Ajuste en el tamaño de las fuentes dentro de las cajas */
+  .contenedor-cajas-admin-places .caja * {
+    font-size: 1rem; /* Tamaño de fuente ajustado */
+  }
+
+  /* Ajustes para el formulario */
+  .formulario-container-admin-places {
+    width: 100%; /* El formulario ocupa todo el ancho disponible */
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  /* Ajustes en el título de "Recibidos" */
+  .recibidos-header-title-admin-places {
+    font-size: 1.2rem; /* Ajuste del tamaño de la fuente */
+    text-align: left; /* Alinea el texto a la izquierda */
+  }
+
+  /* Ajustes en los botones de filtro */
+  .recibidos-filter-buttons-admin-places {
+    flex-direction: column; /* Organiza los botones en una columna */
+    gap: 10px; /* Espacio entre los botones */
+  }
+
+  .recibidos-filter-button-admin-places {
+    width: 100%; /* Los botones ocupan todo el ancho disponible */
+    padding: 12px 20px;
+    font-size: 1.1rem; /* Tamaño de fuente ajustado */
+  }
+
+  /* Ajustes para los controles */
+  .controls-container-admin-places {
+    flex-direction: column; /* Disposición en columna */
+    gap: 10px; /* Espacio entre los controles */
+    align-items: flex-start; /* Alinea los controles al inicio */
+  }
+
+  .controls-container-admin-places .MuiTextField-root {
+    width: 100%; /* Los campos de texto ocupan todo el ancho disponible */
+    max-width: 100%;
+  }
+
+  .controls-container-admin-places .MuiInputAdornment-root {
+    font-size: 1rem; /* Ajusta el tamaño de los adornos */
+  }
+}
+
+
+
+
+@media (max-width: 808px) {
+
+.formulario-button-reject-admin-places,
+.formulario-button-accept-admin-places {
+  width: 100%;
+  margin-top: 2rem;
+}
+.navbar-container-adp{
+  position: fixed;
+  width: 100%;
+}
+.recibidos-container-admin-places{
+  top: 250px;
+}
+.formulario-grid-item-admin-places {
+  padding: 0.2rem;
+}
+
+.formulario-container-admin-places {
+  width: auto;
+  padding: 2rem;
+  margin: 2rem 1rem; /* Asegura un margen adecuado */
+  margin-left: 300px;
+  margin-top: 100px; /* Añade un margen superior para separar el contenido del navbar */
+}
+
+}
+
+@media (max-width: 2000px) {
+
+.formulario-container-admin-places {
+  width: 100%;
+  padding: 3rem;
+  margin-left: -5px;
+}
+
+.recibidos-header-title-admin-places {
+  font-size: 1.1rem;
+}
+}

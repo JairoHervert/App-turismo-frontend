@@ -1,124 +1,112 @@
 @import "../var.css";
 
-.place-page, .reviews {
-    padding: 4%;
-}
-
-.place-page-img {
+/* ---------------- PlacePage.jsx --> Header ------------ */ 
+.pp-header-img {
     width: 100%;
     height: 140px;
     background-attachment: fixed;
 }
 
-.place-img {
+.pp-header-btn {
+    position: absolute;
+    margin-top: 2%;
+    margin-left: 4%;
+}
+
+/* ---------------- PlacePage.jsx --> Reviews ------------ */ 
+
+.pp-reviews {
+    padding: 4%;
+}
+
+.pp-reviews-card {
+    border-radius: 0;
+    border-left-color: #c43293 ;
+    border-left-width: 10px;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    border-top-color: #fff;
+}
+
+.pp-reviews-card-titulo {
     display: flex;
-    margin-top: 70px;
+    justify-content: flex-start;
+    margin-left: 100px;
 }
 
-.fila-1, .fila-2 {
+.pp-reviews-card-titulo-h1 {
+    font-family: var(--font-title);
+    font-weight: 400;   
+}
+
+/* ------------------ DescripcionLugar.jsx ----------------- */
+
+/* Container */
+.pp-descripcion-lugar {
+    padding: 4%;
+}
+
+
+
+
+/* ---------------- PlacePage.jsx --> Reviews ------------ */ 
+
+.pp-reviews {
+    padding: 4%;
+}
+
+.pp-reviews-card {
+    border-radius: 0;
+    border-left-color: #c43293 ;
+    border-left-width: 10px;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    border-top-color: #fff;
+}
+
+.pp-reviews-card-titulo {
     display: flex;
-    padding-left: 5%;
-    justify-content: space-around;
+    justify-content: flex-start;
+    margin-left: 100px;
 }
 
-.fila-1 {
-    padding-bottom: 1%;
+.pp-reviews-card-titulo-h1 {
+    font-family: var(--font-title);
+    font-weight: 400;   
 }
 
-.col-little-img {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/* ------------------ DescripcionLugar.jsx ----------------- */
+
+/* Container */
+.pp-descripcion-lugar {
+    padding: 4%;
 }
 
-.place-little-img {
-    width: 40%;
-    aspect-ratio: 1;
-    background-image: url('../img/PlacePage/place-img-cafeterias.jpg');
-    background-size: cover;
-    background-position: center;
-}
 
-.place-img {
-    display: flex;
-    margin-top: 70px;
-}
-
-.big-img {
+.pp-descripcion-lugar-row {
     width: 100%;
-    aspect-ratio: 1;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
+    justify-content: center;
 }
 
-.fila-1, .fila-2 {
-    display: flex;
-    padding-left: 5%;
-    justify-content: space-around;
-}
 
-.fila-1 {
-    padding-bottom: 1%;
-}
+/* ------------ DescripcionLugar.jsx --> Tarjeta Azul: Informacion del lugar ----------------- */
 
-.col-little-img {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.place-little-img {
-    width: 40%;
-    aspect-ratio: 1;
-    background-image: url('../img/PlacePage/place-img-cafeterias.jpg');
-    background-size: cover;
-    background-position: center;
-}
- /*
-.col-big-img {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-}
-
-.place-big-img {
-    width: 90%;
-    aspect-ratio: 1;
-    background-image: url('../img/HomePage/places/home-places-miguel-hidalgo.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-*/
-
-.place-row {
-    width: 100%;
-}
-
-.place-text, .place-description {
-    font-family: var(--font-body);
-}
-
-.place-text {
-    text-align: justify;
-}
-
-/* -------- Left Site of the Page ------------- */
-
-.place-left-site {
-    /* width: 30%; */
+.pp-informacion-lugar {
     display: flex;
     justify-content: center;
     align-items: start;
     align-items: start;
 }
 
-.description-left {
-    margin-top: 20px;
+.pp-informacion-lugar-card {
+    width: 350px;
+    border-radius: 0;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    padding: 4%;
 }
 
-.map-placeholder {
+.pp-informacion-lugar-card-mapa {
     width: 100%;
     aspect-ratio: 1.4;
     /* de a mientras una imagen :) */
@@ -128,40 +116,48 @@
     margin-bottom: 5px;
 }
 
-.card-descripcion-lugar {
-    width: 350px;
-    border-radius: 0;
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    padding: 4%;
-}
-
-.col-icon {
-    display: flex;
-    justify-content: flex-start;
-    align-items: start;
-}
-
-.link-google-maps {
+.pp-informacion-lugar-card-link {
     color: var(--color-secondary);
 }
 
-/* -------------- Right Site of the Page --------- */
+.pp-informacion-lugar-contenido {
+    margin-top: 20px;
+}
 
-.place-right-site {
+.pp-informacion-lugar-iconos {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 1px;
+    margin-right: 3px;
+}
+
+.pp-informacion-lugar-horario-item {
+    margin-bottom: 3px;
+}
+
+.pp-icono-SitioWeb {
+    margin-bottom: 3px;
+}
+/* ---------- DescripcionLugar.jsx --> Nombre del Lugar, Calificación, Descripcion, Imagenes ----- */
+
+.pp-informacion-principal {
     /* width: 70%; */
-    align-items: start;
     align-items: start;
 }
 
-.place-title {
+.pp-informacion-principal p {
+    text-align: justify;
+}
+
+.pp-informacion-principal-nombre-lugar {
     display: flex;
     justify-content: left;
     align-items: start;
     margin-bottom: 0;
 }
 
-.place-score {
+.pp-informacion-principal-calificacion {
     margin-bottom: 15px;
     margin-top: 5px;
     display: flex;
@@ -169,85 +165,83 @@
     justify-content: space-between;
 }
 
-.score {
+.pp-informacion-principal-calificacion-contenido {
+    width: fit-content;
+    display: flex;
+}
+
+.pp-informacion-principal-calificacion-titulo {
     width: fit-content;
     margin-right: 15px;
 }
 
-.score-text {
+.pp-informacion-principal-calificacion-titulo h2 {
     font-weight: 500;
     margin-bottom: 0;
 }
-.stars {
+
+.pp-informacion-principal-calificacion-valor {
     width: fit-content;
     display: flex;
     align-items: center;
 }
 
-.place-score-stars {
-    width: fit-content;
+.pp-informacion-principal-imagenes {
     display: flex;
+    margin-top: 70px;
 }
 
-.place-buttons {
+.pp-informacion-lugar-categoria {
+    margin-top: 10px;
+}
+
+/* --------> Botones */
+.pp-informacion-principal-btns { 
     width: fit-content;
 }
 
-/* --------------- Botones ---------------------- */
-
-.btn-place-page {
-    position: absolute;
-    margin-top: 2%;
-    margin-left: 4%;
-}
-
-.btn-placePage-button {
+.pp-btn-deseados, .pp-btn-favoritos {
     width: fit-content !important;
     border-color: var(--color-secondary);
     margin-left: 5px;
     color: var(--color-secondary);
 }
 
-.btn-placeOnClick {
+.pp-btnOnClick {
     color: #fff;
     background-color: var(--color-secondary);
     border-color: #fff;
 }
 
-.btn-placePage-favoritos {
-    display: flex;
-    justify-content: flex-end;
-    width: fit-content !important;
-}
-/* ------------Review section ---------------- */
-.review-card {
-    border-radius: 0;
-    border-left-color: #c43293 ;
-    border-left-width: 10px;
-    border-right-color: #fff;
-    border-bottom-color: #fff;
-    border-top-color: #fff;
-}
+/* ------------------------- Reviews.jsx ------------------------------  */
 
-.review-content {
+.pp-reviews-contenido {
     margin-bottom: 50px;
     margin-left: 30px;
     display: flex;
     justify-content: start;
 }
 
-.card-title-place {
+.pp-reviews-informacion-usuario {
     display: flex;
-    justify-content: flex-start;
-    margin-left: 100px;
+    height: fit-content;
+    width: 20%;
 }
 
-.title-place {
-    font-family: var(--font-tittle);
-    font-weight: 400;   
+.pp-reviews-avatar-usuario {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
-.review-description {
+.pp-reviews-nombreUsuario-antiguedadComentario {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    justify-content: center;
+}
+
+.pp-reviews-card-opinion-calificacion {
     width: 100%;
     display: flex;
     align-items: flex-start;
@@ -257,76 +251,50 @@
     height: fit-content;
 }
 
-.review-description-opinion {
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-
-.review-user-section-left {
-    display: flex;
-    height: fit-content;
-    width: 20%;
-}
-
-.review-user-information {
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px;
-    justify-content: center;
-}
-
-.review-user-photo {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
-
-
-
+/* ----------------------------- Media ---------------------------------- */
 @media (min-width: 768px) and (max-width: 1300px) {
-    .place-right-site {
+    .pp-informacion-principal {
         padding-left: 4%;
     }
-    
 }
 
 @media (max-width: 768px) {
-    .place-row { 
+    .pp-descripcion-lugar-row { 
         display: flex;
         flex-direction: column-reverse;
     }
-    .place-right-site {
+
+    .pp-informacion-principal {
         padding: 3%;
     }
     
-    .place-left-site {
+    .pp-informacion-lugar {
         width: 100%;
     }
 
-    .card-descripcion-lugar {
+    .pp-informacion-lugar-card {
         width: 90%;
     }
 }
 
 @media (max-width: 1931px) {
-    .card-title-place {
+    .pp-reviews-card-titulo {
         margin-left: 30px;
     }
 
-    .title-place {
+    .pp-reviews-card-titulo-h1 {
         font-size: 2em;
     }
 }
 
 @media (max-width: 1020px) {
-    .review-content {
+    .pp-reviews-contenido {
         flex-direction: column;
         width: 100%;
         margin-left: 0;
     }
 
-    .review-user-section-left, .review-description {
+    .pp-reviews-informacion-usuario, .pp-reviews-card-opinion-calificacion {
         width: 90%;
         margin-left: 30px;
         margin-bottom: 20px;
@@ -334,9 +302,11 @@
 }
 
 @media (max-width: 431px) {
-    .review-user-section-left, .review-description {
+    .pp-reviews-informacion-usuario, .pp-reviews-card-opinion-calificacion {
         margin-left: 0px;
         width: 100%;
     }
-
+    .pp-btn-deseados {
+        margin-left: 0;
+    }
 }

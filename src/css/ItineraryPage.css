@@ -20,6 +20,21 @@
    align-items: center;
 }
 
+.planer-dot-day-today {
+   background-color: #e4007d1a;
+   border: solid 0.12rem #E4007C;
+   border-radius: 50%;
+   width: 2rem;
+   height: 2rem;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.planer-dot-day-selected {
+   border: solid 0.12rem #E4007C;
+}
+
 .it_page-img-item {
    width: 100%;
    max-width: 15rem;
@@ -34,4 +49,116 @@
 .it_pa-list-dot {
    margin-right: 0.5rem;
    color: #E4007C;
+}
+
+.it_pa-imagen-turista {
+   width: 100%;
+   max-width: 12rem;
+   object-fit: cover;
+}
+
+.it_pa-image-carousel {
+   height: 14rem;
+   object-fit: cover;
+}
+
+/* Ajustes de responsividad */
+.it_pa-planer-and-moreinfo-container {
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+}
+.it_pa-planer-container {
+   width: 68%;
+}
+.it_pa-more-info-container {
+   width: 30%;
+}
+
+.it_pa-datepicker {
+   width: 14rem;
+}
+
+@media (max-width: 1200px) {
+   .it_pa-more-info-container {
+      display: none;
+   }
+   .it_pa-planer-and-moreinfo-container {
+      align-items: center;
+      justify-content: center;
+   }
+   .it_pa-planer-container {
+      width: 80%;
+   }
+   .it_pa-title-search{
+      margin-left: 6rem;
+      margin-right: 7rem;
+   }
+   .it_pa-header-default {
+      display: none;
+   }
+   .it_pa-image-carousel {
+      height: 18rem;
+      object-fit: cover;
+   }
+   .it_pa-datepicker {
+      width: 16rem;
+   }
+}
+@media (max-width: 1070px) {
+   .it_pa-planer-container {
+      width: 90%;
+   }
+   .it_pa-title-search{
+      margin-left: 2.5rem;
+      margin-right: 3.5rem;
+   }
+   .it_pa-datepicker {
+      width: 100%;
+   }
+}
+
+.it_pa-week-days {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+@media (max-width: 880px) {
+   .it_pa-week-days {
+      display: none;
+   }
+   .it_pa-datepicker {
+      width: 100%;
+   }
+   .it_pa-planer-container {
+      width: 100%;
+   }
+   .it_pa-datepicker-container {
+      margin-top: 1rem;
+   }
+   .it_pa-title-search{
+      margin-left: 0;
+      margin-right: 0;
+   }
+}
+
+@media (max-width: 700px) {
+   .it_pa-item{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+   }
+   .it_page-img-item {
+      width: 100%;
+      max-width: 22rem;
+      height: 100%;
+      max-height: 12rem;
+      margin-bottom: 0.5rem;
+      object-fit: cover;
+   }
+   .it_pa-image-carousel {
+      height: 14rem;
+      object-fit: cover;
+   }
 }

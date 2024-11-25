@@ -1,56 +1,51 @@
 @import "../var.css";
 
-.map-icon-itinerario {
-    font-size: 2.5rem;
-}
+/* ---------------------- GenerarItinerario.jsx ------------------ */
 
-.h1-itineario-title {
+/* --- Header --- */ 
+.gi-header-titulo-h1 {
     font-size: 3rem;
 }
 
-.header-itinerario {
-    background-color: var(--color-secondary);
-    
-}
-
-.content-generarItinerario {
+.gi-contenido {
     margin-top: 40px;
-    
 }
 
-.card-fechaViaje-generarItinerario,
-.card-consideraciones-generarItinerario,
-.card-presupuesto-generarItinerario {
+.gi-card-fechasViaje,
+.gi-card-detallesViaje,
+.gi-card-presupuesto {
     padding: 1.5%;
 }
 
-.card-fechaViaje-generarItinerario {
+/* --- Card --> Fechas de viaje --- */ 
+
+.gi-card-fechasViaje {
     margin-bottom: 10px !important;
 }
 
-.card-consideraciones-generarItinerario {
+/* --- Card --> Detalles del viaje --- */
+
+.gi-card-detallesViaje {
     margin-left: 20px !important;
     margin-top: 20px !important;
 }
 
-.checkbox-consideraciones {
+.gi-card-detallesViaje-checkbox {
     border-radius: 5px;
     margin-bottom: 7px;
 }
 
-.checkbox-consideraciones:hover {
+.gi-card-detallesViaje-checkbox:hover {
     background-color: var(--color-primary);
 }
 
-.numero-viajantes {
+.gi-card-detallesViaje-numeroViajantes {
     margin-bottom: 20px;
 }
 
-.swap-presupuesto:hover {
-    color: rgba(228, 0, 124, 0.8);
-}
+/* --- Btn --- */
 
-.btn-generarItinerario {
+.gi-btn-continuar {
     margin-top: 30px;
     margin-bottom: 30px;
     padding-left: 16px;
@@ -60,21 +55,21 @@
 }
 
 @media (max-width: 600px) {
-    .card-fechaViaje-generarItinerario {
+    .gi-card-fechasViaje {
         margin-bottom: 7px !important;
     }
     
-    .card-consideraciones-generarItinerario {
+    .gi-card-detallesViaje {
         margin-left: 0px !important;
     }
 
-    .content-generarItinerario {
+    .gi-contenido {
         align-items: center;
     }
 }
 
 @media (max-width: 760px) and (min-width: 600px) {
-    .subtitulos-generarItinerario {
+    .gi-card-titulo-apartados {
         font-size: .8em !important;
     }
 }

@@ -1,80 +1,189 @@
 // App.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CategorySection from './CategorySection';
-
 import '../../css/HomePage.css';
 
-
-
 const CategoryHome = () => {
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [randomCategories, setRandomCategories] = useState([]);
+  const [clickedDeseados, setClickedDeseados] = useState({});
+  const [clickedFavoritos, setClickedFavoritos] = useState({});
 
-    const [selectedCategory, setSelectedCategory] = useState("No convencionales");
+  const allCategories = ["Deportes", "Comida Rápida", "Restaurante", "Cafeteria", "Bar", "Arte", "Historia", "Museos", "Educativos", "Compras", "Parques", "Juegos Recreativos al Aire Libre", "Juegos Recreativos Bajo Techo", "Zoológicos", "Religión"];
 
-    const places = [
-        { category: "No convencionales", imagen: '1', name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
-        { category: "No convencionales", imagen: "2", name: "Palacio Postal", description: "El Palacio Postal o la Quinta Casa de Correos es un edificio del Centro Histórico construido por el italiano Adamo Boari y el mexicano Gonzalo Garita." },
-        { category: "No convencionales", imagen: "3", name: "Fuente de Tláloc", description: "Mosaicos de piedra adornan la Fuente de Tláloc, en honor al dios del agua y trazan símbolos del pasado de México." },
-        { category: "No convencionales", imagen: "4", name: "Museo de Arte Popular", description: " Observa artesanías mexicanas como alebrijes, textiles y cerámica, celebrando la riqueza cultural de México en un espacio vibrante." },
-        { category: "No convencionales", imagen: "5", name: "Museo Casa de León Trotsky", description: "Este museo te introduce en la vida y la trascendencia del revolucionario ruso y su relación con importantes personalidades del país." },
-        { category: "No convencionales", imagen: "6", name: "Biblioteca de México", description: "Disfruta de historias ancestrales, de fantasmas y espíritus que han pasado de generación en generación." },
+  const places = [
+    // Deportes
+    { category: "Deportes", imagen: "1", name: "Lugar Deportivo 1", description: "Descripción larga del lugar deportivo 1." },
+    { category: "Deportes", imagen: "2", name: "Lugar Deportivo 2", description: "Descripción larga del lugar deportivo 2." },
+    { category: "Deportes", imagen: "3", name: "Lugar Deportivo 3", description: "Descripción larga del lugar deportivo 3." },
+    { category: "Deportes", imagen: "4", name: "Lugar Deportivo 4", description: "Descripción larga del lugar deportivo 4." },
+    { category: "Deportes", imagen: "5", name: "Lugar Deportivo 5", description: "Descripción larga del lugar deportivo 5." },
+    { category: "Deportes", imagen: "6", name: "Lugar Deportivo 6", description: "Descripción larga del lugar deportivo 6." },
 
-        { category: "Turísticos", imagen: "1", name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
-        { category: "Turísticos", imagen: "2", name: "Palacio Postal", description: "El Palacio Postal o la Quinta Casa de Correos es un edificio del Centro Histórico construido por el italiano Adamo Boari y el mexicano Gonzalo Garita." },
-        { category: "Turísticos", imagen: "3", name: "Fuente de Tláloc", description: "Mosaicos de piedra adornan la Fuente de Tláloc, en honor al dios del agua y trazan símbolos del pasado de México." },
-        { category: "Turísticos", imagen: "4", name: "Museo de Arte Popular", description: " Observa artesanías mexicanas como alebrijes, textiles y cerámica, celebrando la riqueza cultural de México en un espacio vibrante." },
-        { category: "Turísticos", imagen: "5", name: "Museo Casa de León Trotsky", description: "Este museo te introduce en la vida y la trascendencia del revolucionario ruso y su relación con importantes personalidades del país." },
-        { category: "Turísticos", imagen: "6", name: "Biblioteca de México", description: "Disfruta de historias ancestrales, de fantasmas y espíritus que han pasado de generación en generación." },
+    // Comida Rápida
+    { category: "Comida Rápida", imagen: "1", name: "Lugar de Comida Rápida 1", description: "Este restaurante de comida rápida es conocido por sus deliciosas hamburguesas y papas fritas. El servicio es rápido y eficiente, y los precios son razonables. Es un lugar perfecto para una comida rápida y sabrosa." },
+    { category: "Comida Rápida", imagen: "2", name: "Lugar de Comida Rápida 2", description: "Un lugar de comida rápida que ofrece una amplia variedad de opciones, incluyendo pizzas, sándwiches y ensaladas. Los ingredientes son frescos y de alta calidad, y el servicio es rápido y amable. Es un lugar ideal para una comida rápida y deliciosa." },
+    { category: "Comida Rápida", imagen: "3", name: "Lugar de Comida Rápida 3", description: "Este restaurante de comida rápida es conocido por sus deliciosos tacos y burritos. Los ingredientes son frescos y de alta calidad, y el servicio es rápido y eficiente. Es un lugar perfecto para una comida rápida y sabrosa." },
+    { category: "Comida Rápida", imagen: "4", name: "Lugar de Comida Rápida 4", description: "Un lugar de comida rápida que ofrece una amplia variedad de opciones, incluyendo pollo frito, hamburguesas y ensaladas. Los ingredientes son frescos y de alta calidad, y el servicio es rápido y amable. Es un lugar ideal para una comida rápida y deliciosa." },
+    { category: "Comida Rápida", imagen: "5", name: "Lugar de Comida Rápida 5", description: "Este restaurante de comida rápida es conocido por sus deliciosas pizzas y pastas. Los ingredientes son frescos y de alta calidad, y el servicio es rápido y eficiente. Es un lugar perfecto para una comida rápida y sabrosa." },
+    { category: "Comida Rápida", imagen: "6", name: "Lugar de Comida Rápida 6", description: "Un lugar de comida rápida que ofrece una amplia variedad de opciones, incluyendo sándwiches, wraps y ensaladas. Los ingredientes son frescos y de alta calidad, y el servicio es rápido y amable. Es un lugar ideal para una comida rápida y deliciosa." },
 
-        { category: "Gastronomía", imagen: "1", name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
-        { category: "Gastronomía", imagen: "2", name: "Palacio Postal", description: "El Palacio Postal o la Quinta Casa de Correos es un edificio del Centro Histórico construido por el italiano Adamo Boari y el mexicano Gonzalo Garita." },
-        { category: "Gastronomía", imagen: "3", name: "Fuente de Tláloc", description: "Mosaicos de piedra adornan la Fuente de Tláloc, en honor al dios del agua y trazan símbolos del pasado de México." },
-        { category: "Gastronomía", imagen: "4", name: "Museo de Arte Popular", description: " Observa artesanías mexicanas como alebrijes, textiles y cerámica, celebrando la riqueza cultural de México en un espacio vibrante." },
-        { category: "Gastronomía", imagen: "5", name: "Museo Casa de León Trotsky", description: "Este museo te introduce en la vida y la trascendencia del revolucionario ruso y su relación con importantes personalidades del país." },
-        { category: "Gastronomía", imagen: "6", name: "Biblioteca de México", description: "Disfruta de historias ancestrales, de fantasmas y espíritus que han pasado de generación en generación." },
+    // Restaurante
+    { category: "Restaurante", imagen: "1", name: "Restaurante 1", description: "Este restaurante ofrece una experiencia gastronómica única con una amplia variedad de platos internacionales. Los ingredientes son frescos y de alta calidad, y el servicio es excepcional. Es un lugar perfecto para una cena elegante." },
+    { category: "Restaurante", imagen: "2", name: "Restaurante 2", description: "Un restaurante que ofrece una amplia variedad de platos locales e internacionales. Los ingredientes son frescos y de alta calidad, y el servicio es amable y eficiente. Es un lugar ideal para una comida deliciosa y memorable." },
+    { category: "Restaurante", imagen: "3", name: "Restaurante 3", description: "Este restaurante es conocido por sus deliciosos mariscos y platos de pescado. Los ingredientes son frescos y de alta calidad, y el servicio es excepcional. Es un lugar perfecto para una cena elegante y sabrosa." },
+    { category: "Restaurante", imagen: "4", name: "Restaurante 4", description: "Un restaurante que ofrece una amplia variedad de platos vegetarianos y veganos. Los ingredientes son frescos y de alta calidad, y el servicio es amable y eficiente. Es un lugar ideal para una comida deliciosa y saludable." },
+    { category: "Restaurante", imagen: "5", name: "Restaurante 5", description: "Este restaurante es conocido por sus deliciosos platos de carne y parrilladas. Los ingredientes son frescos y de alta calidad, y el servicio es excepcional. Es un lugar perfecto para una cena elegante y sabrosa." },
+    { category: "Restaurante", imagen: "6", name: "Restaurante 6", description: "Un restaurante que ofrece una amplia variedad de platos italianos, incluyendo pastas, pizzas y risottos. Los ingredientes son frescos y de alta calidad, y el servicio es amable y eficiente. Es un lugar ideal para una comida deliciosa y memorable." },
 
-        { category: "Museos", imagen: "1", name: "Cafebrería el Péndulo", description: "Agradable cafetería/librería con varias áreas para disfrutar de un rico café y una bonita escalera." },
-        { category: "Museos", imagen: "2", name: "Palacio Postal", description: "El Palacio Postal o la Quinta Casa de Correos es un edificio del Centro Histórico construido por el italiano Adamo Boari y el mexicano Gonzalo Garita." },
-        { category: "Museos", imagen: "3", name: "Fuente de Tláloc", description: "Mosaicos de piedra adornan la Fuente de Tláloc, en honor al dios del agua y trazan símbolos del pasado de México." },
-        { category: "Museos", imagen: "4", name: "Museo de Arte Popular", description: " Observa artesanías mexicanas como alebrijes, textiles y cerámica, celebrando la riqueza cultural de México en un espacio vibrante." },
-        { category: "Museos", imagen: "5", name: "Museo Casa de León Trotsky", description: "Este museo te introduce en la vida y la trascendencia del revolucionario ruso y su relación con importantes personalidades del país." },
-        { category: "Museos", imagen: "6", name: "Biblioteca de México", description: "Disfruta de historias ancestrales, de fantasmas y espíritus que han pasado de generación en generación." },
-    ];
+    // Cafeteria
+    { category: "Cafeteria", imagen: "1", name: "Cafeteria 1", description: "Esta cafetería es conocida por sus deliciosos cafés y pasteles. El ambiente es acogedor y relajante, y el servicio es amable y eficiente. Es un lugar perfecto para disfrutar de una taza de café y un pastel." },
+    { category: "Cafeteria", imagen: "2", name: "Cafeteria 2", description: "Una cafetería que ofrece una amplia variedad de cafés, tés y pasteles. Los ingredientes son frescos y de alta calidad, y el ambiente es acogedor y relajante. Es un lugar ideal para disfrutar de una taza de café y un pastel." },
+    { category: "Cafeteria", imagen: "3", name: "Cafeteria 3", description: "Esta cafetería es conocida por sus deliciosos desayunos y brunches. Los ingredientes son frescos y de alta calidad, y el ambiente es acogedor y relajante. Es un lugar perfecto para disfrutar de una comida deliciosa y relajante." },
+    { category: "Cafeteria", imagen: "4", name: "Cafeteria 4", description: "Una cafetería que ofrece una amplia variedad de sándwiches, ensaladas y pasteles. Los ingredientes son frescos y de alta calidad, y el ambiente es acogedor y relajante. Es un lugar ideal para disfrutar de una comida deliciosa y relajante." },
+    { category: "Cafeteria", imagen: "5", name: "Cafeteria 5", description: "Esta cafetería es conocida por sus deliciosos helados y postres. Los ingredientes son frescos y de alta calidad, y el ambiente es acogedor y relajante. Es un lugar perfecto para disfrutar de un postre delicioso y relajante." },
+    { category: "Cafeteria", imagen: "6", name: "Cafeteria 6", description: "Una cafetería que ofrece una amplia variedad de bebidas frías y calientes, así como pasteles y postres. Los ingredientes son frescos y de alta calidad, y el ambiente es acogedor y relajante. Es un lugar ideal para disfrutar de una bebida y un postre." },
 
-    const filteredPlaces = places.filter(place => place.category === selectedCategory);
+    // Bar
+    { category: "Bar", imagen: "1", name: "Bar 1", description: "Este bar es conocido por sus deliciosos cócteles y su ambiente animado. El servicio es amable y eficiente, y los precios son razonables. Es un lugar perfecto para disfrutar de una noche divertida con amigos." },
+    { category: "Bar", imagen: "2", name: "Bar 2", description: "Un bar que ofrece una amplia variedad de bebidas, incluyendo cervezas, vinos y cócteles. El ambiente es animado y acogedor, y el servicio es amable y eficiente. Es un lugar ideal para disfrutar de una noche divertida con amigos." },
+    { category: "Bar", imagen: "3", name: "Bar 3", description: "Este bar es conocido por sus deliciosas tapas y su ambiente animado. El servicio es amable y eficiente, y los precios son razonables. Es un lugar perfecto para disfrutar de una noche divertida con amigos." },
+    { category: "Bar", imagen: "4", name: "Bar 4", description: "Un bar que ofrece una amplia variedad de bebidas y aperitivos. El ambiente es animado y acogedor, y el servicio es amable y eficiente. Es un lugar ideal para disfrutar de una noche divertida con amigos." },
+    { category: "Bar", imagen: "5", name: "Bar 5", description: "Este bar es conocido por sus deliciosas cervezas artesanales y su ambiente animado. El servicio es amable y eficiente, y los precios son razonables. Es un lugar perfecto para disfrutar de una noche divertida con amigos." },
+    { category: "Bar", imagen: "6", name: "Bar 6", description: "Un bar que ofrece una amplia variedad de bebidas y cócteles. El ambiente es animado y acogedor, y el servicio es amable y eficiente. Es un lugar ideal para disfrutar de una noche divertida con amigos." },
 
-    return (
-        <div>
-            <nav className="nav mt-3 secondary-nav">
-                <button
-                    className={`nav-link ${selectedCategory === "Turísticos" ? "active" : ""}`}
-                    onClick={() => setSelectedCategory("Turísticos")}
-                >
-                    Turísticos
-                </button>
-                <button
-                    className={`nav-link ${selectedCategory === "No convencionales" ? "active" : ""}`}
-                    onClick={() => setSelectedCategory("No convencionales")}
-                >
-                    No convencionales
-                </button>
-                <button
-                    className={`nav-link ${selectedCategory === "Gastronomía" ? "active" : ""}`}
-                    onClick={() => setSelectedCategory("Gastronomía")}
-                >
-                    Gastronomía
-                </button>
-                <button
-                    className={`nav-link ${selectedCategory === "Museos" ? "active" : ""}`}
-                    onClick={() => setSelectedCategory("Museos")}
-                >
-                    Museos
-                </button>
-            </nav>
+    // Arte
+    { category: "Arte", imagen: "1", name: "Lugar de Arte 1", description: "Este lugar de arte es conocido por sus impresionantes exposiciones de arte contemporáneo. Las obras de arte son únicas y provocativas, y el ambiente es inspirador. Es un lugar perfecto para los amantes del arte." },
+    { category: "Arte", imagen: "2", name: "Lugar de Arte 2", description: "Un lugar de arte que ofrece una amplia variedad de exposiciones de arte moderno y contemporáneo. Las obras de arte son únicas y provocativas, y el ambiente es inspirador. Es un lugar ideal para los amantes del arte." },
+    { category: "Arte", imagen: "3", name: "Lugar de Arte 3", description: "Este lugar de arte es conocido por sus impresionantes exposiciones de arte clásico y contemporáneo. Las obras de arte son únicas y provocativas, y el ambiente es inspirador. Es un lugar perfecto para los amantes del arte." },
+    { category: "Arte", imagen: "4", name: "Lugar de Arte 4", description: "Un lugar de arte que ofrece una amplia variedad de exposiciones de arte contemporáneo y moderno. Las obras de arte son únicas y provocativas, y el ambiente es inspirador. Es un lugar ideal para los amantes del arte." },
+    { category: "Arte", imagen: "5", name: "Lugar de Arte 5", description: "Este lugar de arte es conocido por sus impresionantes exposiciones de arte contemporáneo y moderno. Las obras de arte son únicas y provocativas, y el ambiente es inspirador. Es un lugar perfecto para los amantes del arte." },
+    { category: "Arte", imagen: "6", name: "Lugar de Arte 6", description: "Un lugar de arte que ofrece una amplia variedad de exposiciones de arte clásico y contemporáneo. Las obras de arte son únicas y provocativas, y el ambiente es inspirador. Es un lugar ideal para los amantes del arte." },
 
-            <br />
-            <CategorySection places={filteredPlaces} />
-        </div>
-    );
+    // Historia
+    { category: "Historia", imagen: "1", name: "Lugar Histórico 1", description: "Este lugar histórico es conocido por su rica historia y su impresionante arquitectura. Es un lugar perfecto para aprender sobre el pasado y disfrutar de la belleza del lugar." },
+    { category: "Historia", imagen: "2", name: "Lugar Histórico 2", description: "Un lugar histórico que ofrece una amplia variedad de exposiciones y tours. Es un lugar ideal para aprender sobre la historia y disfrutar de la belleza del lugar." },
+    { category: "Historia", imagen: "3", name: "Lugar Histórico 3", description: "Este lugar histórico es conocido por su rica historia y su impresionante arquitectura. Es un lugar perfecto para aprender sobre el pasado y disfrutar de la belleza del lugar." },
+    { category: "Historia", imagen: "4", name: "Lugar Histórico 4", description: "Un lugar histórico que ofrece una amplia variedad de exposiciones y tours. Es un lugar ideal para aprender sobre la historia y disfrutar de la belleza del lugar." },
+    { category: "Historia", imagen: "5", name: "Lugar Histórico 5", description: "Este lugar histórico es conocido por su rica historia y su impresionante arquitectura. Es un lugar perfecto para aprender sobre el pasado y disfrutar de la belleza del lugar." },
+    { category: "Historia", imagen: "6", name: "Lugar Histórico 6", description: "Un lugar histórico que ofrece una amplia variedad de exposiciones y tours. Es un lugar ideal para aprender sobre la historia y disfrutar de la belleza del lugar." },
+
+    // Museos
+    { category: "Museos", imagen: "1", name: "Museo 1", description: "Este museo es conocido por sus impresionantes colecciones de arte y artefactos históricos. Es un lugar perfecto para aprender sobre la historia y disfrutar de la belleza del arte." },
+    { category: "Museos", imagen: "2", name: "Museo 2", description: "Un museo que ofrece una amplia variedad de exposiciones de arte y artefactos históricos. Es un lugar ideal para aprender sobre la historia y disfrutar de la belleza del arte." },
+    { category: "Museos", imagen: "3", name: "Museo 3", description: "Este museo es conocido por sus impresionantes colecciones de arte y artefactos históricos. Es un lugar perfecto para aprender sobre la historia y disfrutar de la belleza del arte." },
+    { category: "Museos", imagen: "4", name: "Museo 4", description: "Un museo que ofrece una amplia variedad de exposiciones de arte y artefactos históricos. Es un lugar ideal para aprender sobre la historia y disfrutar de la belleza del arte." },
+    { category: "Museos", imagen: "5", name: "Museo 5", description: "Este museo es conocido por sus impresionantes colecciones de arte y artefactos históricos. Es un lugar perfecto para aprender sobre la historia y disfrutar de la belleza del arte." },
+    { category: "Museos", imagen: "6", name: "Museo 6", description: "Un museo que ofrece una amplia variedad de exposiciones de arte y artefactos históricos. Es un lugar ideal para aprender sobre la historia y disfrutar de la belleza del arte." },
+
+    // Educativos
+    { category: "Educativos", imagen: "1", name: "Lugar Educativo 1", description: "Este lugar educativo es conocido por sus excelentes programas y su ambiente inspirador. Es un lugar perfecto para aprender y crecer." },
+    { category: "Educativos", imagen: "2", name: "Lugar Educativo 2", description: "Un lugar educativo que ofrece una amplia variedad de programas y actividades. Es un lugar ideal para aprender y crecer." },
+    { category: "Educativos", imagen: "3", name: "Lugar Educativo 3", description: "Este lugar educativo es conocido por sus excelentes programas y su ambiente inspirador. Es un lugar perfecto para aprender y crecer." },
+    { category: "Educativos", imagen: "4", name: "Lugar Educativo 4", description: "Un lugar educativo que ofrece una amplia variedad de programas y actividades. Es un lugar ideal para aprender y crecer." },
+    { category: "Educativos", imagen: "5", name: "Lugar Educativo 5", description: "Este lugar educativo es conocido por sus excelentes programas y su ambiente inspirador. Es un lugar perfecto para aprender y crecer." },
+    { category: "Educativos", imagen: "6", name: "Lugar Educativo 6", description: "Un lugar educativo que ofrece una amplia variedad de programas y actividades. Es un lugar ideal para aprender y crecer." },
+
+    // Compras
+    { category: "Compras", imagen: "1", name: "Lugar de Compras 1", description: "Descripción del lugar de compras 1." },
+    { category: "Compras", imagen: "2", name: "Lugar de Compras 2", description: "Descripción del lugar de compras 2." },
+    { category: "Compras", imagen: "3", name: "Lugar de Compras 3", description: "Descripción del lugar de compras 3." },
+    { category: "Compras", imagen: "4", name: "Lugar de Compras 4", description: "Descripción del lugar de compras 4." },
+    { category: "Compras", imagen: "5", name: "Lugar de Compras 5", description: "Descripción del lugar de compras 5." },
+    { category: "Compras", imagen: "6", name: "Lugar de Compras 6", description: "Descripción del lugar de compras 6." },
+
+    // Parques
+    { category: "Parques", imagen: "1", name: "Parque 1", description: "Descripción del parque 1." },
+    { category: "Parques", imagen: "2", name: "Parque 2", description: "Descripción del parque 2." },
+    { category: "Parques", imagen: "3", name: "Parque 3", description: "Descripción del parque 3." },
+    { category: "Parques", imagen: "4", name: "Parque 4", description: "Descripción del parque 4." },
+    { category: "Parques", imagen: "5", name: "Parque 5", description: "Descripción del parque 5." },
+    { category: "Parques", imagen: "6", name: "Parque 6", description: "Descripción del parque 6." },
+
+    // Juegos Recreativos al Aire Libre
+    { category: "Juegos Recreativos al Aire Libre", imagen: "1", name: "Juego Recreativo al Aire Libre 1", description: "Descripción del juego recreativo al aire libre 1." },
+    { category: "Juegos Recreativos al Aire Libre", imagen: "2", name: "Juego Recreativo al Aire Libre 2", description: "Descripción del juego recreativo al aire libre 2." },
+    { category: "Juegos Recreativos al Aire Libre", imagen: "3", name: "Juego Recreativo al Aire Libre 3", description: "Descripción del juego recreativo al aire libre 3." },
+    { category: "Juegos Recreativos al Aire Libre", imagen: "4", name: "Juego Recreativo al Aire Libre 4", description: "Descripción del juego recreativo al aire libre 4." },
+    { category: "Juegos Recreativos al Aire Libre", imagen: "5", name: "Juego Recreativo al Aire Libre 5", description: "Descripción del juego recreativo al aire libre 5." },
+    { category: "Juegos Recreativos al Aire Libre", imagen: "6", name: "Juego Recreativo al Aire Libre 6", description: "Descripción del juego recreativo al aire libre 6." },
+
+    // Juegos Recreativos Bajo Techo
+    { category: "Juegos Recreativos Bajo Techo", imagen: "1", name: "Juego Recreativo Bajo Techo 1", description: "Descripción del juego recreativo bajo techo 1." },
+    { category: "Juegos Recreativos Bajo Techo", imagen: "2", name: "Juego Recreativo Bajo Techo 2", description: "Descripción del juego recreativo bajo techo 2." },
+    { category: "Juegos Recreativos Bajo Techo", imagen: "3", name: "Juego Recreativo Bajo Techo 3", description: "Descripción del juego recreativo bajo techo 3." },
+    { category: "Juegos Recreativos Bajo Techo", imagen: "4", name: "Juego Recreativo Bajo Techo 4", description: "Descripción del juego recreativo bajo techo 4." },
+    { category: "Juegos Recreativos Bajo Techo", imagen: "5", name: "Juego Recreativo Bajo Techo 5", description: "Descripción del juego recreativo bajo techo 5." },
+    { category: "Juegos Recreativos Bajo Techo", imagen: "6", name: "Juego Recreativo Bajo Techo 6", description: "Descripción del juego recreativo bajo techo 6." },
+
+    // Zoológicos
+    { category: "Zoológicos", imagen: "1", name: "Zoológico 1", description: "Descripción del zoológico 1." },
+    { category: "Zoológicos", imagen: "2", name: "Zoológico 2", description: "Descripción del zoológico 2." },
+    { category: "Zoológicos", imagen: "3", name: "Zoológico 3", description: "Descripción del zoológico 3." },
+    { category: "Zoológicos", imagen: "4", name: "Zoológico 4", description: "Descripción del zoológico 4." },
+    { category: "Zoológicos", imagen: "5", name: "Zoológico 5", description: "Descripción del zoológico 5." },
+    { category: "Zoológicos", imagen: "6", name: "Zoológico 6", description: "Descripción del zoológico 6." },
+
+    // Religión
+    { category: "Religión", imagen: "1", name: "Lugar Religioso 1", description: "Descripción del lugar religioso 1." },
+    { category: "Religión", imagen: "2", name: "Lugar Religioso 2", description: "Descripción del lugar religioso 2." },
+    { category: "Religión", imagen: "3", name: "Lugar Religioso 3", description: "Descripción del lugar religioso 3." },
+    { category: "Religión", imagen: "4", name: "Lugar Religioso 4", description: "Descripción del lugar religioso 4." },
+    { category: "Religión", imagen: "5", name: "Lugar Religioso 5", description: "Descripción del lugar religioso 5." },
+    { category: "Religión", imagen: "6", name: "Lugar Religioso 6", description: "Descripción del lugar religioso 6." },
+  ];
+
+  useEffect(() => {
+    const getRandomCategories = () => {
+      const shuffled = allCategories.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 4);
+    };
+
+    const randomCategories = getRandomCategories();
+    setRandomCategories(randomCategories);
+    setSelectedCategory(randomCategories[Math.floor(Math.random() * randomCategories.length)]);
+  }, []);
+
+  const handleButtonDeseadosClick = (name) => {
+    setClickedDeseados(prevState => ({
+      ...prevState,
+      [name]: !prevState[name]
+    }));
+  };
+
+  const handleButtonFavoritosClick = (name) => {
+    setClickedFavoritos(prevState => ({
+      ...prevState,
+      [name]: !prevState[name]
+    }));
+  };
+
+  const filteredPlaces = places.filter(place => place.category === selectedCategory);
+
+  return (
+    <div>
+      <nav className="nav mt-3 secondary-nav">
+        {randomCategories.map(category => (
+          <button
+            key={category}
+            className={`nav-link ${selectedCategory === category ? "active" : ""}`}
+            onClick={() => setSelectedCategory(category)}
+          >
+            {category}
+          </button>
+        ))}
+      </nav>
+
+      <br />
+      <CategorySection
+        places={filteredPlaces}
+        clickedDeseados={clickedDeseados}
+        clickedFavoritos={clickedFavoritos}
+        onDeseadosClick={handleButtonDeseadosClick}
+        onFavoritosClick={handleButtonFavoritosClick}
+      />
+    </div>
+  );
 };
 
 export default CategoryHome;

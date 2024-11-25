@@ -1,246 +1,198 @@
-import React, { useState, useEffect } from 'react';
+// componentes online
+import { useState, useEffect } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import Timeline from '@mui/lab/Timeline';
-import { timelineOppositeContentClasses } from '@mui/lab/TimelineOppositeContent';
-import PlaceItemTimeline from './PlaceItemTimeline';
-import ThemeMaterialUI from '../ThemeMaterialUI';
-import LeftRow from '@mui/icons-material/ArrowBackIos';
-import RightRow from '@mui/icons-material/ArrowForwardIos';
-// imágenes de prueba
-import Imagen1 from '../../img/PlacePage/place-img-fuentetlaloc.jpg';
-import Imagen2 from '../../img/PlacePage/place-img-casadeleon.jpg';
-import Imagen3 from '../../img/PlacePage/place-img-palaciopostal.jpg';
-import Imagen4 from '../../img/PlacePage/place-img-cafeterias.jpg';
-import Imagen5 from '../../img/piramides-teotihuacan.webp';
 
-function Planer({ onPlaceClick, itineraryDays }) {
-  const daysOfWeek = ['domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+// timeline
+import * as React from 'react';
+import Timeline from '@mui/lab/Timeline';
+import { timelineOppositeContentClasses, } from '@mui/lab/TimelineOppositeContent';
+import PlaceTimeLine from '../../components/itinerary/PlaceItemTimeline';
+
+// datePicker
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+
+// iconos
+import { KeyboardArrowLeftRounded as LeftRow, KeyboardArrowRightRounded as RightRow } from '@mui/icons-material';
+
+// estilos
+import ThemeMaterialUI from '../ThemeMaterialUI';
+import '../../css/ItineraryPage.css';
+
+// itinerario de prueba
+import itinerario from './ItinerariosDePrueba/Itinerario2';
+
+
+function Planer({ setSelectedPlace }) {
+
+  // arrays para el formato de la fecha
+  const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
-  const today = new Date();
-  const monday = new Date(today);
-  if (today.getDay() !== 1) {
-    monday.setDate(today.getDate() - today.getDay() + (today.getDay() === 0 ? -6 : 1));
-  }
-
-  const [startDay, setStartDay] = useState(monday);
-  const [selectedDay, setSelectedDay] = useState(null);
-
-  const itinerary = {
-    '2024-11-17': [
-      {
-        placeTime: '10:00 am',
-        placeImage: Imagen4,
-        placeName: 'Cafeterías',
-        placeDescription: 'Disfruta de un café en las icónicas cafeterías de la Ciudad de México.',
-        placeLongDescription: 'Las cafeterías de la Ciudad de México son conocidas por su ambiente acogedor y su excelente café. Puedes disfrutar de una variedad de bebidas y pasteles mientras te relajas en un entorno tranquilo. Muchas cafeterías también ofrecen música en vivo y eventos especiales.',
-        placeThings: ['Ambiente tranquilo', 'Buena música'],
-        placeAddress: 'Calle Falsa 123, Ciudad de México',
-        placeRating: 4.5,
-        placeImages: [Imagen1, Imagen2, Imagen3, Imagen4]
-      },
-      {
-        placeTime: '11:00 am',
-        placeImage: Imagen2,
-        placeName: 'Casa de León',
-        placeDescription: 'Museo en la Ciudad de México que fue hogar de León Trotsky.',
-        placeLongDescription: 'La Casa de León Trotsky es un museo en la Ciudad de México que fue el hogar del revolucionario ruso León Trotsky. El museo ofrece una visión fascinante de la vida y obra de Trotsky, así como de la historia de la revolución rusa. Los visitantes pueden explorar la casa y los jardines, y aprender más sobre la vida de Trotsky a través de exposiciones y eventos especiales.',
-        placeThings: ['Arte moderno', 'Historia revolucionaria', 'Jardines hermosos'],
-        placeAddress: 'Calle Real 456, Ciudad de México',
-        placeRating: 4.7,
-        placeImages: [Imagen1, Imagen2, Imagen3, Imagen4]
-      }
-    ],
-    '2024-11-18': [
-      {
-        placeTime: '12:00 pm',
-        placeImage: Imagen3,
-        placeName: 'Palacio Postal',
-        placeDescription: 'Edificio de estilo ecléctico que alberga Correos de México.',
-        placeLongDescription: 'El Palacio Postal es un edificio de estilo ecléctico en la Ciudad de México que alberga Correos de México. El edificio es conocido por su impresionante arquitectura y su rica historia. Los visitantes pueden explorar el interior del palacio y aprender más sobre la historia postal de México a través de exposiciones y eventos especiales.',
-        placeThings: ['Arquitectura colonial', 'Historia postal'],
-        placeAddress: 'Calle Antigua 789, Ciudad de México',
-        placeRating: 4.6,
-        placeImages: [Imagen1, Imagen2, Imagen3, Imagen4]
-      },
-      {
-        placeTime: '2:00 pm',
-        placeImage: Imagen5,
-        placeName: 'Pirámides de Teotihuacán',
-        placeDescription: 'Sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides.',
-        placeLongDescription: 'Las Pirámides de Teotihuacán son un sitio arqueológico cerca de la Ciudad de México que cuenta con majestuosas pirámides y otras construcciones antiguas. El sitio es conocido por su rica historia y su impresionante arquitectura. Los visitantes pueden explorar las pirámides y aprender más sobre la cultura prehispánica a través de exposiciones y eventos especiales.',
-        placeThings: ['Construcciones antiguas', 'Cultura prehispánica'],
-        placeAddress: 'Calle Arqueológica 101, Teotihuacán',
-        placeRating: 4.8,
-        placeImages: [Imagen1, Imagen2, Imagen3, Imagen4]
-      }
-    ],
-    '2024-11-19': [
-      {
-        placeTime: '12:00 pm',
-        placeImage: Imagen3,
-        placeName: 'Palacio Brandon',
-        placeDescription: 'Edificio de estilo ecléctico que alberga Correos de México.',
-        placeLongDescription: 'El Palacio Postal es un edificio de estilo ecléctico en la Ciudad de México que alberga Correos de México. El edificio es conocido por su impresionante arquitectura y su rica historia. Los visitantes pueden explorar el interior del palacio y aprender más sobre la historia postal de México a través de exposiciones y eventos especiales.',
-        placeThings: ['Arquitectura colonial', 'Historia postal'],
-        placeAddress: 'Calle Antigua 789, Ciudad de México',
-        placeRating: 4.6,
-        placeImages: [Imagen1, Imagen2, Imagen3, Imagen4]
-      },
-      {
-        placeTime: '2:00 pm',
-        placeImage: Imagen5,
-        placeName: 'Pirámides de Teotihuacán',
-        placeDescription: 'Sitio arqueológico cerca de la Ciudad de México con majestuosas pirámides.',
-        placeLongDescription: 'Las Pirámides de Teotihuacán son un sitio arqueológico cerca de la Ciudad de México que cuenta con majestuosas pirámides y otras construcciones antiguas. El sitio es conocido por su rica historia y su impresionante arquitectura. Los visitantes pueden explorar las pirámides y aprender más sobre la cultura prehispánica a través de exposiciones y eventos especiales.',
-        placeThings: ['Construcciones antiguas', 'Cultura prehispánica'],
-        placeAddress: 'Calle Arqueológica 101, Teotihuacán',
-        placeRating: 4.8,
-        placeImages: [Imagen1, Imagen2, Imagen3, Imagen4]
-      }
-    ]
+  // Encontrar el lunes de la semana actual mediante una funcion
+  const searchMonday = (date) => {
+    let day = dayjs(date);
+    if (day.day() !== 1) {
+      day = day.subtract(day.day() === 0 ? 6 : day.day() - 1, 'day');
+    }
+    return day;
   };
 
-  // Función para parsear la cadena de fecha en formato 'YYYY-MM-DD' como fecha local
-  const parseDateString = (dateString) => {
-    const [year, month, day] = dateString.split('-').map(Number);
-    return new Date(year, month - 1, day);
-  };
+  const today = dayjs();
+  const initialMonday = searchMonday(today);
 
-  // Función para formatear una fecha como 'YYYY-MM-DD' en tiempo local
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
+  // state para la fecha del lunes de la semana
+  const [monday, setMonday] = useState(initialMonday);
+  const todayFormatted = today.format('DD-MM-YYYY');
 
+  // state para el dia seleccionado en la barra de dias
+  const initialSelectedDay = itinerario[todayFormatted] ? todayFormatted : Object.keys(itinerario)[0];
+  const [selectedDay, setSelectedDay] = useState(initialSelectedDay);
+  console.log('selectedDay: ' + selectedDay);
+
+  // Actualiza la semana mostrada según el día seleccionado
   useEffect(() => {
-    if (itineraryDays.length > 0) {
-      const firstItineraryDay = parseDateString(itineraryDays[0]);
-      setSelectedDay(firstItineraryDay);
-    }
-  }, [itineraryDays]);
+    setMonday(searchMonday(dayjs(selectedDay, 'DD-MM-YYYY')));
+  }, [selectedDay]);
 
-  const handlePrevWeek = () => {
-    const newStartDay = new Date(startDay);
-    newStartDay.setDate(startDay.getDate() - 7);
-    setStartDay(newStartDay);
+  // Función para deshabilitar fechas que no están en el itinerario
+  const shouldDisableDate = (date) => {
+    const formattedDate = date.format('DD-MM-YYYY');
+    return !(formattedDate in itinerario);
   };
 
+  // Manejar la navegación a la semana anterior
+  const handlePreviousWeek = () => {
+    const previousMonday = monday.subtract(7, 'day');
+    setMonday(previousMonday);
+  };
+
+  // Manejar la navegación a la semana siguiente
   const handleNextWeek = () => {
-    const newStartDay = new Date(startDay);
-    newStartDay.setDate(startDay.getDate() + 7);
-    setStartDay(newStartDay);
+    const nextMonday = monday.add(7, 'day');
+    setMonday(nextMonday);
   };
 
-  const handleDayClick = (day) => {
-    setSelectedDay(day);
-  };
-
-  const renderDays = () => {
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const day = new Date(startDay);
-      day.setDate(startDay.getDate() + i);
-      const dayString = formatDate(day);
-      const isItineraryDay = itineraryDays.includes(dayString);
-      const isSelected = selectedDay && formatDate(selectedDay) === dayString;
-      days.push(
-        <IconButton
-          key={i}
-          onClick={() => handleDayClick(day)}
-          disabled={!isItineraryDay}
-          sx={{
-            backgroundColor: isSelected ? '#e6007e' : isItineraryDay ? '#7bd7f5' : 'darkgray',
-            '&:hover': {
-              backgroundColor: isSelected ? '#e6007e' : isItineraryDay ? 'primary.dark' : 'lightgray',
-            },
-            color: 'white',
-            borderRadius: '50%',
-            width: 40,
-            height: 40,
-            margin: 0.5,
-            // Mantener el color gris para los botones deshabilitados
-            opacity: isItineraryDay ? 1 : 1,
-            pointerEvents: isItineraryDay ? 'auto' : 'none',
-          }}
-        >
-          <Typography fontFamily={'poppins'} className='fw-light'>
-            {day.getDate()}
-          </Typography>
-        </IconButton>
-      );
-    }
-    return days;
-  };
-
-  const renderItinerary = () => {
-    if (!selectedDay) return null;
-    const selectedDayString = formatDate(selectedDay);
-    const itineraryForSelectedDay = itinerary[selectedDayString];
-    if (!itineraryForSelectedDay) return null;
-
-    return (
-      <Timeline
-        sx={{
-          [`& .${timelineOppositeContentClasses.root}`]: {
-            flex: 0.2,
-          },
-          overflowY: 'auto',
-          maxHeight: '80vh',
-          margin: 0,
-          padding: 0,
-        }}
-      >
-        {itineraryForSelectedDay.map((item, index) => (
-          <PlaceItemTimeline
-            key={index}
-            finalItem={index === itineraryForSelectedDay.length - 1}
-            placeTime={item.placeTime}
-            placeImage={item.placeImage}
-            placeName={item.placeName}
-            placeDescription={item.placeDescription}
-            placeLongDescription={item.placeLongDescription}
-            placeThings={item.placeThings}
-            placeAddress={item.placeAddress}
-            placeRating={item.placeRating}
-            placeImages={item.placeImages}
-            onPlaceClick={onPlaceClick}
-          />
-        ))}
-      </Timeline>
-    );
-  };
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Box className='mx-4 d-flex flex-column align-items-start'>
-        <Box className='d-flex align-items-center' sx={{ overflowX: 'auto', whiteSpace: 'nowrap', width: '100%' }}>
-          <IconButton color='black' aria-label='left arrow' onClick={handlePrevWeek}>
-            <LeftRow sx={{ fontSize: '2.2rem' }} />
-          </IconButton>
-          <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>L</Typography>
 
-          <Box className='d-flex mx-2' sx={{ overflowX: 'auto', whiteSpace: 'nowrap', scrollbarWidth: 'thin', }}>
-            {renderDays()}
+        {/* Contenido de la pestaña 'Plan' */}
+        <Box className='d-flex'>
+          <Box className='it_pa-week-days'>
+            <IconButton color='black' aria-label='left arrow' onClick={handlePreviousWeek}>
+              <LeftRow sx={{ fontSize: '2.2rem' }} />
+            </IconButton>
+
+            {/* Barra de días en semana */}
+            <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>L</Typography>
+
+            <Box className='d-flex mx-2'>
+              {/* Días de la semana a partir del lunes encontrado en la variable monday */}
+              {[...Array(7).keys()].map((i) => {
+                const day = monday.add(i, 'day');
+                const dayFormatted = day.format('DD-MM-YYYY');
+
+                //console.log('dayFormatted: ' + dayFormatted);
+                const dayInItinerary = dayFormatted in itinerario;
+
+                // verificar condiciones para determinar la apariencia de los botones de los días
+                let dayStyle = 'fw-light';
+                if (dayFormatted === today.format('DD-MM-YYYY')) dayStyle += ' planer-dot-day-today';
+                if (dayFormatted === selectedDay) dayStyle += ' planer-dot-day-selected fw-medium';
+                if (dayInItinerary) dayStyle += ' planer-dot-day-enabled';
+                else dayStyle += ' planer-dot-day-disabled';
+
+                return (
+                  <IconButton key={i} onClick={() => setSelectedDay(dayFormatted)} disabled={!dayInItinerary}>
+                    <Typography
+                      fontFamily={'poppins'}
+                      color='dark'
+                      className={dayStyle}
+                    >
+                      {day.date()}
+                    </Typography>
+                  </IconButton>
+                );
+              })}
+            </Box>
+
+            <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>D</Typography>
+
+            <IconButton color='black' aria-label='right arrow' onClick={handleNextWeek}>
+              <RightRow sx={{ fontSize: '2.2rem' }} />
+            </IconButton>
           </Box>
-          <Typography variant='subtitle1' fontFamily={'poppins'} color='gray' className='fw-normal' sx={{ fontSize: '1.3rem' }}>D</Typography>
 
-          <IconButton color='black' aria-label='right arrow' onClick={handleNextWeek}>
-            <RightRow sx={{ fontSize: '2.2rem' }} />
-          </IconButton>
-        </Box>
+          <Box className='mx-3 d-flex it_pa-datepicker-container'>
+            {/* DatePicker */}
+            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale='es'>  {/* quitar el dapterLocale si se perciben errores del input (undefined o NaN) */}
+              <DatePicker
+                className='it_pa-datepicker'
+                label='Consulta por fecha'
+                slotProps={{
+                  textField: {
+                    readOnly: true,  // Esto evita que se pueda escribir directamente en el campo
+                    helperText: 'Selecciona una fecha',
+                  }
+                }}
+                value={dayjs(selectedDay, 'DD-MM-YYYY')}
+                shouldDisableDate={shouldDisableDate}
+                onChange={(newValue) => {
+                  const formattedDate = newValue.format('DD-MM-YYYY');
+                  setSelectedDay(formattedDate);
+                  setMonday(searchMonday(newValue));
+                }}
+              />
+            </LocalizationProvider>
+
+          </Box>
+
+        </Box> {/* Cierre de Box que aloja los botones de flecha y los días de la semana */}
+
 
         <Box className='ms-2 mt-4'>
-          <Typography fontFamily={'poppins'} className='fw-normal' sx={{ fontSize: '1.5rem' }}>
-            {daysOfWeek[today.getDay()]}, {today.getDate()} de {months[today.getMonth()]} del {today.getFullYear()}
+          <Typography fontFamily={'poppins'} className='fw-normal it_pa-format-day-selected' sx={{ fontSize: '1.5rem' }}>
+            {daysOfWeek[dayjs(selectedDay, 'DD-MM-YYYY').day()]}, {dayjs(selectedDay, 'DD-MM-YYYY').format('DD')} de {months[dayjs(selectedDay, 'DD-MM-YYYY').month()]} de {dayjs(selectedDay, 'DD-MM-YYYY').format('YYYY')}
           </Typography>
         </Box>
 
         <Box className='my-4' sx={{ width: '100%' }}>
-          {renderItinerary()}
+          <Timeline
+            sx={{
+              [`& .${timelineOppositeContentClasses.root}`]: {
+                flex: 0.2,
+              },
+              overflowY: 'auto',
+              maxHeight: '80vh',
+              margin: 0,
+              padding: 0,
+            }}
+          >
+
+            {/* Iteración de los lugares del itinerario, segun el dia que se le pase */}
+            {itinerario[selectedDay]?.map((place, index) => (
+              <PlaceTimeLine
+                key={index}
+                placeTime={place.placeTime}
+                placeName={place.placeName}
+                placeDescription={place.placeDescription}
+                placeThings={place.placeThings}
+                placeImages={place.placeImages}
+                placeRating={place.placeRating}
+                finalItem={place.finalItem}
+                obtainPlace={() => {
+                  //console.log(`Lugar seleccionado: ${place.placeName}`);
+                  setSelectedPlace(place);
+                }}
+
+              />
+            ))}
+          </Timeline>
         </Box>
       </Box>
     </ThemeProvider>
