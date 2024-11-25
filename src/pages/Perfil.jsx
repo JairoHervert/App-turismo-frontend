@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 // componentes
@@ -14,6 +15,8 @@ import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/system';
 
+import { handleDatosUsuario } from '../pagesHandlers/user_handler';
+import { isLogged } from '../schemas/isLogged';
 
 const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
 
