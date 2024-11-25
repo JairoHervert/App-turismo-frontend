@@ -81,7 +81,7 @@ const Perfil = () => {
 
         {/* Perfil Usuario Header */}
         <InformacionHeader
-          nombreUsuario='paola_reyes'
+          nombreUsuario={datos && datos.username ? datos.username : 'Usuario'}
           /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
             inicio sesión con fb o google), se le puede mandar como parámetro la
             imagen */
@@ -89,19 +89,24 @@ const Perfil = () => {
           /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
              la primera letra de su nombre de usuario */
           //avatar={null}
-          itinerariosCreados='46'
-          favoritos='0'
-          deseados='23'
+          itinerariosCreados={'46'}
+          favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
+          deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
         />
 
         { /* Información Personal Usuario */}
-        <InformacionPersonal
-          correoElectronico='uncorreo@gmail.com'
-          nombre=''
-          apellido=''
-          fechaNacimiento={null}
+        {datos ? (
+          <InformacionPersonal
+          correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
+          nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
+          apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}
+          fechaNacimiento={datos && datos.fechaNacimiento ? datos.fechaNacimiento : 'Sin especificar'}
         />
 
+        ):(
+          // Puedes agregar un mensaje de carga si lo prefieres
+          <p>Cargando datos...</p>
+        )}
         { /* Categorías de Interés Usuario */}
         <CategoriasInteres
           categoriasUsuario={categorias}

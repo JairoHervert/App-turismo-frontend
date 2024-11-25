@@ -32,7 +32,7 @@ class userModel {
     });
   }
 
-  static async UsuarioVerFavoritos(id){
+  static async UsuarioVerFavoritos(id){ 
     const query = 'CALL UsuarioVerFavoritos(?);';
     return new Promise((resolve, reject) => {
       db.query(query, [id], (err, results) => {
