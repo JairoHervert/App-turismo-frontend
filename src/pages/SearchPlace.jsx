@@ -57,7 +57,7 @@ const SearchPlaces = () => {
             <p><strong>Calificación:</strong> {lugar.rating || 'Sin calificación'}</p>
             <p><strong>Dirección Formateada:</strong> {lugar.formattedAddress || 'No disponible'}</p>
             
-            {/* Fotos 
+            {/* Fotos */}
 
             <p><strong>Fotos:</strong></p>
             <ul>
@@ -70,9 +70,10 @@ const SearchPlaces = () => {
               ))}
             </ul>
 
-            */}
+            
 
-            {/* Fotos */}
+            {/* Fotos 
+            
             <p><strong>Fotos:</strong></p>
             <ul>
               {lugar.photos?.map((photo, idx) => {
@@ -85,6 +86,8 @@ const SearchPlaces = () => {
               })}
             </ul>
 
+            */}
+            
             
 
             <p><strong>Google Maps:</strong> <a href={lugar.googleMapsUri} target="_blank" rel="noopener noreferrer">Ver en Google Maps</a></p>

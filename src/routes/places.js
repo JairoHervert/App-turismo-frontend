@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { buscarLugares, buscarLugaresPorTexto } = require('../controllers/places-controller');
+const { registrarLugar } = require('../models/lugares-model'); 
+
 
 // Endpoint para buscar lugares
 router.post('/buscar-lugares', async (req, res) => {
@@ -19,6 +21,39 @@ router.post('/buscar-lugares', async (req, res) => {
   }
 });
 
+
+router.post('/buscar-texto', async (req, res) => {
+  const { query } = req.body;
+
+  if (!query) {
+    return res.status(400).json({ error: 'El parámetro query es obligatorio' });
+  }
+
+  try {
+    const lugares = await buscarLugaresPorTexto(query);
+
+    for (const lugar of lugares.places) {
+      try {
+        await registrarLugar(lugar); // Registrar lugar en la base de datos
+        console.log(`Lugar registrado exitosamente con ID: ${lugar.id}`);
+      } catch (dbError) {
+        console.error(`Error al registrar el lugar con ID ${lugar.id}:`, dbError.message);
+      }
+    }
+
+    res.json(lugares);
+    //console.log('Datos enviados al cliente:', JSON.stringify(lugares, null, 2)); // Envia el JSON de todos los lugares encontrados al front
+  } catch (error) {
+    console.error('Error en /buscar-texto:', error.message);
+    res.status(500).json({
+      error: 'Error al buscar lugares por texto',
+      detalles: error.response?.data || error.message,
+    });
+  }
+});
+
+
+/*
 //Endpoint para el textsearch
 router.post('/buscar-texto', async (req, res) => {
   const { query } = req.body;
@@ -42,5 +77,6 @@ router.post('/buscar-texto', async (req, res) => {
     });
   }
 });
+*/
 
 module.exports = router;
