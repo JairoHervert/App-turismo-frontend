@@ -28,7 +28,7 @@ function PlaceCard({ imagen, name, description, isClickedDeseados, isClickedFavo
       <div className="card-body d-flex flex-column">
         <h5 className="card-title">{name}</h5>
         <p className="card-text description-text">{description}</p>
-        <div className="btn btn-sm learn-more-btn">
+        <div className=" btn-sm learn-more-btn">
           <ButtonsMod
             variant="secundario"
             textCont="Ver más"

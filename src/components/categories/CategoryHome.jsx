@@ -9,7 +9,7 @@ const CategoryHome = () => {
   const [clickedDeseados, setClickedDeseados] = useState({});
   const [clickedFavoritos, setClickedFavoritos] = useState({});
 
-  const allCategories = ["Deportes", "Comida Rápida", "Restaurante", "Cafeteria", "Bar", "Arte", "Historia", "Museos", "Educativos", "Compras", "Parques", "Juegos Recreativos al Aire Libre", "Juegos Recreativos Bajo Techo", "Zoológicos", "Religión"];
+  const allCategories = ["Deportes", "Comida Rápida", "Restaurante", "Cafetería", "Bar", "Arte", "Historia", "Museos", "Educativos", "Compras", "Parques", "Juegos Recreativos al Aire Libre", "Juegos Recreativos Bajo Techo", "Zoológicos", "Religión"];
 
   const places = [
     // Deportes

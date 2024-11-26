@@ -118,7 +118,7 @@ function AlcaldiasTotales() {
                     variant="h4"
                     sx={{
                         fontFamily: 'Monsterrat, sans-serif',
-                        fontSize: '2.5rem',
+                        fontSize: '3rem',
                         fontWeight: 700,
                         textAlign: 'center',
                     }}
