@@ -1,8 +1,9 @@
-// componentes online
 import React from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Box, Typography, Rating, Card } from '@mui/material';
 import ThemeMaterialUI from '../ThemeMaterialUI';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 
 // componentes locales
 import InfoPlace from './InfoPlace';
@@ -39,8 +40,10 @@ function MoreInfoPlace({ place }) {
             <Card className='mt-2'>
               {/* Si no hay lugar seleccionado, se muestra este contenido por default */}
               <Box className='d-flex flex-column align-items-center justify-content-center mx-3'>
-                <Typography variant='subtitle1' className='text-center fw-semibold mt-4 mb-2' fontFamily={'Poppins'} sx={{ fontSize: '1.1rem' }}>Explora los detalles de cada lugar.</Typography>
-                <Typography variant='subtitle1' className='text-center mb-4' fontFamily={'Poppins'}><span className='fw-semibold'>Tip de Viaje:</span> Selecciona un lugar de tu itinerario y explora todo lo que tiene para ofrecer.</Typography>
+                <Typography variant='subtitle1' className='text-center fw-semibold mt-4' fontFamily={'Poppins'} sx={{ fontSize: '1.1rem' }}>Explora los detalles de cada lugar.</Typography>
+                <Typography variant='subtitle1' className='text-center my-2' fontFamily={'Poppins'}><span className='fw-semibold'>Tip de Viaje:</span> Selecciona un lugar de tu itinerario y explora todo lo que tiene para ofrecer.</Typography>
+                <Typography variant='subtitle1' className='text-center my-2' fontFamily={'Poppins'}><span className='fw-semibold'>Tip de Viaje:</span> ¿No te agrada el orden? Puedes mantener pulsado el icono <DragIndicatorIcon color='secondary'/> para mover el lugar a otro horario que prefieras.</Typography>
+                <Typography variant='subtitle1' className='text-center mt-2 mb-4' fontFamily={'Poppins'}><span className='fw-semibold'>Tip de Viaje:</span> ¿Deseas eliminar un lugar? Haz clic en el icono <DeleteOutlineRoundedIcon color='error'/> y confirma para eliminarlo del itinerario.</Typography>
               </Box>
             </Card>
           </>

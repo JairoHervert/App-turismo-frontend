@@ -36,7 +36,7 @@
 }
 
 .it_page-img-item {
-   width: 100%;
+   /* width: 100%; */
    max-width: 15rem;
    object-fit: cover;
 }
@@ -143,6 +143,11 @@
    }
 }
 
+.it_pa-delete-drag-icons-container {
+   display: flex;
+   margin-right: 0.3rem;
+}
+
 @media (max-width: 700px) {
    .it_pa-item{
       display: flex;
@@ -160,5 +165,9 @@
    .it_pa-image-carousel {
       height: 14rem;
       object-fit: cover;
+   }
+   .it_pa-delete-drag-icons-container {
+      display: flex;
+      flex-direction: column;
    }
 }
