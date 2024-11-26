@@ -10,7 +10,7 @@ import '../../css/ItineraryPage.css';
 function PlaceItemTimeline({ finalItem, placeName, placeImages, placeDescription, placeTime, placeThings, placeRating, obtainPlace }) {
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
-      <Box className='mb-3' sx= {{ cursor: 'pointer' }}
+      <Box className='mb-3' sx={{ cursor: 'pointer' }}
         onClick={() => {
           obtainPlace();
         }}>
@@ -33,9 +33,21 @@ function PlaceItemTimeline({ finalItem, placeName, placeImages, placeDescription
 
           <TimelineContent>
 
-            <Box className='d-flex p-1 it_pa-item'>
-              <img src={placeImages[0]} alt={placeName} className='rounded it_page-img-item' />
-              <Box className='d-flex flex-column mx-3 align-items-center justify-content-center'>
+            <Box className='d-flex it_pa-item'>
+              
+              {/* Imagen del lugar */}
+              <Box
+                component='img'
+                src={placeImages[0]}
+                alt={placeName}
+                className='rounded it_page-img-item'
+                sx={{
+                  height: 'auto',
+                }}
+              />
+
+              {/* Información del lugar */}
+              <Box className='d-flex flex-column ms-3 align-items-center justify-content-center'>
                 <Typography className='text-center' fontFamily={'poppins'} variant='h6' color='black'>{placeName}</Typography>
                 <Typography className='text-center fw-light' fontFamily={'poppins'} variant='body1' color='black'>{placeDescription}</Typography>
                 <Rating name='read-only' value={placeRating} readOnly />
