@@ -14,6 +14,7 @@ CALL LugarRegistro(
 13, '', 1, 1, '1,1,0,0', 1, 0, 1, 'Está muy buena',
 1, 1, 0, 0
 );
+CALL RegistrarSubcategoria('1', 'library');
 
 CALL LugarRegistro(
 '2', 'Xochimilco', 'Xochimilco, CDMX, México',
@@ -24,6 +25,7 @@ CALL LugarRegistro(
 4, '', 1, 1, '1,1,0,0', 1, 0, 1, 'Interesante',
 1, 1, 0, 0
 );
+CALL RegistrarSubcategoria('2', 'library');
 
 CALL LugarRegistro(
 '3', 'Pirámides de Teotihuacan', '55825 San Martín de las Pirámides, Méx.',
