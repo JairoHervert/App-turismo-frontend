@@ -1,15 +1,13 @@
 
 /*!40101 SET NAMES utf8mb4 */;
-
 /*!40101 SET SQL_MODE=''*/;
-
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 DROP DATABASE IF EXISTS AppTurismo;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`AppTurismo` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`AppTurismo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
 USE `AppTurismo`;
 
@@ -36,7 +34,7 @@ CREATE TABLE `Usuario` (
    `confirmacion` BOOLEAN NOT NULL DEFAULT 0,
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`Lugar`
@@ -73,7 +71,7 @@ CREATE TABLE `Lugar` (
    `accesibilidadSeating` BOOLEAN NULL DEFAULT '0',
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`id`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`Resena`
@@ -88,7 +86,7 @@ CREATE TABLE `Resena` (
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              CATEGORÍAS
@@ -102,7 +100,7 @@ CREATE TABLE `Categoria` (
    `id` INT NOT NULL AUTO_INCREMENT,
    `nombre` VARCHAR(45) UNIQUE NOT NULL,
    PRIMARY KEY (`id`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     
 INSERT INTO `categoria` (`nombre`) VALUES 
 ('Salud y Bienestar'), 
@@ -131,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `appturismo`.`Subcategoria` (
    `idCategoria` INT NOT NULL,
    PRIMARY KEY (`id`, `idCategoria`),
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Salud y Bienestar
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
@@ -322,7 +320,7 @@ CREATE TABLE `LugarDeseado` (
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`LugarFavorito`
@@ -335,7 +333,7 @@ CREATE TABLE `LugarFavorito` (
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`CategoriaFavorita`
@@ -347,7 +345,7 @@ CREATE TABLE `CategoriaFavorita` (
    PRIMARY KEY (idUsuario, idCategoria),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`CategoriaFavorita`
@@ -359,7 +357,7 @@ CREATE TABLE `LugarSubcategoria` (
    PRIMARY KEY (idLugar, idSubcategoria),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION,
    FOREIGN KEY (idSubcategoria) REFERENCES Subcategoria(id) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`LugarFotos`
@@ -371,7 +369,7 @@ CREATE TABLE `LugarFotos` (
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`idLugar`, `URL`),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              VISTAS
