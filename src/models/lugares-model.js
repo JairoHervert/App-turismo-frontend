@@ -82,7 +82,7 @@ const registrarLugar = async (lugar) => {
     lugar.reservable || false,
     lugar.servesVegetarianFood || false,
     lugar.allowsDogs || false,      //Falta solicitar este campo a la API
-    JSON.stringify(lugar.review || []),
+    JSON.stringify(lugar.reviews || []),
     //JSON.stringify(simplifiedReviews || []), // Reseñas simplificadas    
     lugar.accessibilityOptions?.wheelchairAccessibleParking || false, // Validar si existe
     lugar.accessibilityOptions?.wheelchairAccessibleEntrance || false, // Validar si existe
