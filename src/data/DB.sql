@@ -403,3 +403,23 @@ SELECT
 FROM Subcategoria s
 JOIN Categoria c WHERE s.idCategoria = c.id
 ORDER BY c.nombre;
+
+-- -----------------------------------------------------
+-- View `AppTurismo`.`verLugaresCategoria`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS verLugaresCategoria;
+CREATE VIEW verLugaresCategoria AS
+SELECT
+   l.id,
+   l.nombre,
+   l.direccion,
+   l.descripcion,
+   l.imagen,
+   l.attributions,
+   c.nombre AS categoria,
+   s.nombre AS subcategoria
+FROM Lugar l 
+JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+JOIN Subcategoria s ON s.id = ls.idSubcategoria
+JOIN Categoria c ON c.id = s.idCategoria
+ORDER BY categoria;

@@ -2,6 +2,7 @@ import React from 'react';
 import PlaceCard from './PlaceCard';
 
 function CategorySection({ places, clickedDeseados, clickedFavoritos, onDeseadosClick, onFavoritosClick }) {
+  console.log(places);
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -12,12 +13,13 @@ function CategorySection({ places, clickedDeseados, clickedFavoritos, onDeseados
           >
             <PlaceCard
               imagen={place.imagen}
-              name={place.name}
-              description={place.description}
-              isClickedDeseados={clickedDeseados[place.name]}
-              isClickedFavoritos={clickedFavoritos[place.name]}
-              onDeseadosClick={() => onDeseadosClick(place.name)}
-              onFavoritosClick={() => onFavoritosClick(place.name)}
+              name={place.nombre}
+              description={place.descripcion}
+              isClickedDeseados={clickedDeseados[place.nombre]}
+              isClickedFavoritos={clickedFavoritos[place.nombre]}
+              onDeseadosClick={() => onDeseadosClick(place.nombre)}
+              onFavoritosClick={() => onFavoritosClick(place.nombre)}
+              id={place.id}
             />
           </div>
         ))}

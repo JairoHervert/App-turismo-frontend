@@ -18,6 +18,7 @@ DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
+DROP PROCEDURE IF EXISTS getLugaresCategoria4;
 DROP PROCEDURE IF EXISTS LugarGetDatos;
 DROP PROCEDURE IF EXISTS RegistrarSubcategoria;
 DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
@@ -573,6 +574,33 @@ BEGIN
    ELSE
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`getLugaresCategoria4`
+-- -----------------------------------------------------
+CREATE PROCEDURE getLugaresCategoria4 (
+   IN p_cat1 VARCHAR(40),
+   IN p_cat2 VARCHAR(40),
+   IN p_cat3 VARCHAR(40),
+   IN p_cat4 VARCHAR(40)
+)
+BEGIN
+   SELECT 
+      l.id,
+      l.nombre,
+      l.direccion,
+      l.descripcion,
+      l.imagen,
+      l.attributions,
+      c.nombre AS categoria,
+      GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+   FROM Lugar l
+   JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+   JOIN Subcategoria s ON s.id = ls.idSubcategoria
+   JOIN Categoria c ON c.id = s.idCategoria
+   WHERE c.nombre = p_cat1 OR c.nombre = p_cat2 OR c.nombre = p_cat3 OR c.nombre = p_cat4
+   GROUP BY l.id, l.nombre, l.direccion, l.descripcion, l.imagen, l.attributions, c.nombre;
 END //
 
 -- -----------------------------------------------------

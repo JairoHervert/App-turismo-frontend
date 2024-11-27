@@ -7,11 +7,21 @@ import '../../css/HomePage.css';
 function PlaceCard({ imagen, name, description, isClickedDeseados, isClickedFavoritos, onDeseadosClick, onFavoritosClick, id}) {
   const navigate = useNavigate();
   const idPrueba = 1;
-  const handleViewMore = () => {
-    navigate(`/placepage/${idPrueba}`);
-  };
-  const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.png`) : '';
 
+  const handleViewMore = () => {
+    console.log("???")
+    navigate(`/placepage/${id}`);
+  };
+
+
+  /*const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
+  console.log(esURL, imagen);
+  const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
+
+  const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.png`) : '';*/
+  console.log(imagen);
+  const image = imagen ? imagen : require(`../../img/HomePage/places/home-places-ven-carranza.jpg`);
+  
   return (
     <div className="card mb-4 custom-card">
       <div className="position-relative">
@@ -36,7 +46,7 @@ function PlaceCard({ imagen, name, description, isClickedDeseados, isClickedFavo
         <p className="card-text description-text">{description}</p>
         <div className="btn btn-sm learn-more-btn">
           <ButtonsMod
-            onClick={handleViewMore}
+            clickEvent={handleViewMore}
             variant="secundario"
             textCont="Ver más"
             width="auto"
