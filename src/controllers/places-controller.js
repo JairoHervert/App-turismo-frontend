@@ -76,11 +76,11 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey, // Clave de API
-        'X-Goog-FieldMask': 'places.displayName,places.id,places.formattedAddress,places.location,places.rating,places.photos,places.googleMapsUri,places.websiteUri,places.types,places.priceLevel,places.currentOpeningHours,places.internationalPhoneNumber,places.userRatingCount,places.reviews,places.paymentOptions,places.editorialSummary,places.accessibilityOptions,places.addressComponents,places.priceRange,places.goodForChildren,places.goodForGroups,places.reservable,places.servesVegetarianFood,nextPageToken',
+        'X-Goog-FieldMask': 'places.displayName,places.id,places.formattedAddress,places.location,places.rating,places.photos,places.googleMapsUri,places.websiteUri,places.types,places.priceLevel,places.currentOpeningHours,places.internationalPhoneNumber,places.userRatingCount,places.reviews,places.paymentOptions,places.editorialSummary,places.accessibilityOptions,places.addressComponents,places.priceRange,places.goodForChildren,places.goodForGroups,places.reservable,places.servesVegetarianFood,nextPageToken,places.allowsDogs,places.restroom,places.attributions',
       },
     });
 
-    //console.log('Respuesta de la API:', JSON.stringify(response.data, null, 2));
+    console.log('Respuesta de la API:', JSON.stringify(response.data, null, 2));
 
     if (!response.data.places || !Array.isArray(response.data.places)) {
       console.error('Error: La API no devolvió resultados válidos:', response.data);
@@ -115,6 +115,9 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
         goodForGroups: place.goodForGroups,
         reservable: place.reservable,
         servesVegetarianFood: place.servesVegetarianFood,
+        allowsDogs: place.allowsDogs,
+        restroom: place.restroom, 
+        attributions: place.attributions,
       })),
       nextPageToken: response.data.nextPageToken || null, // Devuelve el token para la siguiente página, aqui esta el token que te da la API en caso de que exista el token.
     };

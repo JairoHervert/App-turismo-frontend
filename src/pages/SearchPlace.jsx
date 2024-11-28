@@ -162,6 +162,10 @@ const SearchPlaces = () => {
             <p><strong>¿Apto para Grupos?:</strong> {lugar.goodForGroups === true ? 'Sí' : lugar.goodForGroups === false ? 'No' : 'No disponible'}</p>
             <p><strong>¿Reservable?:</strong> {lugar.reservable === true ? 'Sí' : lugar.reservable === false ? 'No' : 'No disponible'}</p>
             <p><strong>¿Sirve Comida Vegetariana?:</strong> {lugar.servesVegetarianFood === true ? 'Sí' : lugar.servesVegetarianFood === false ? 'No' : 'No disponible'}</p>
+            <p><strong>¿Se permiten perros?:</strong> {lugar.allowsDogs === true ? 'Sí' : lugar.allowsDogs === false ? 'No' : 'No disponible'}</p>
+            <p><strong>¿Hay habitaciones?:</strong> {lugar.restroom === true ? 'Sí' : lugar.restroom === false ? 'No' : 'No disponible'}</p>
+
+
 
             {/* Reseñas */}
             <p><strong>Reseñas:</strong></p>
