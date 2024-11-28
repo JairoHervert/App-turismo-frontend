@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import '../css/RecuperarContrasena.css';
+
 // 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import PatternIcon from '@mui/icons-material/Pattern';
@@ -11,8 +12,14 @@ import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl,
 import { ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {handleActualizar} from '../pagesHandlers/recuperacion-handler';
 
 const IngresarNuevaContrasena = () => {
+
+    const token = window.location.pathname.split('/')[2];
+
+
+
     const [contraseña, setContraseña] = useState('');
     const [contraseña2, setContraseña2] = useState('');
     const [errors, setErrors] = useState({});
@@ -111,7 +118,7 @@ const IngresarNuevaContrasena = () => {
         console.log('Error: Las contraseñas no coinciden');
         return;
       } 
-      console.log('Se restableció tu contraseña');
+      handleActualizar(token, contraseña);
     }
   
     const handleClickShowPassword = () => setShowPassword(!showPassword);

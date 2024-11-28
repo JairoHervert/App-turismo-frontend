@@ -53,6 +53,7 @@ function AppRouter() {
         <Route path='/recuperar-contrasena' element={<RecuperarContrasena />} />
         <Route path='/ingresar-nueva-contrasena' element={<IngresarNuevaContrasena />} />
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
+        <Route path="/recuperacion/:token" element={<IngresarNuevaContrasena />} />
       </Routes>
     </Router>
   );

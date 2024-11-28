@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
+const recuperacionController = require('./src/controllers/recuperacion-controller');
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,11 @@ const PORT = 3001;
 // Ruta para manejar el registro y enviar el correo de verificación
 app.post('/register', registerController.enviarCorreoVerificacion);
 app.post('/confirm-email', confirmacionRegistroController.confirmarRegistro);
+
+
+app.post('/forgot-password', recuperacionController.OlvidarContrasena);
+app.post('/Correo-Recuperacion', recuperacionController.enviarCorreoRecuperacion);
+app.post('/actualizar-contrasena', recuperacionController.actualizarContrasena);
 
 app.post('/registro', registerController.registroRegular);
 app.post('/registroGoogle', registerController.registroGoogle);

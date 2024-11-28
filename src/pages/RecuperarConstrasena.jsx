@@ -10,6 +10,8 @@ import ButtonsMod from '../components/ButtonsMod';
 import { Container, Card, Box, Typography, CardHeader, CardContent, TextField } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
+import { handleRecupreacion } from '../pagesHandlers/recuperacion-handler';
+
 const RecuperarContrasena = () => {
 
   const [email, setEmail] = useState('');
@@ -33,11 +35,7 @@ const RecuperarContrasena = () => {
     setTouched(true);
 
     if (validarEmail(email)) {
-      setError(false);
-      console.log('Correo enviado a: ', email);
-    } else {
-      setError(true);
-      console.log('Correo inválido. No es posible mandar el correo');
+      handleRecupreacion(email);
     }
   }
 
