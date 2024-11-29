@@ -13,7 +13,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import '../css/HomePage.css';
 
 import CatHome from '../components/categories/CategoryHome';
-import CardAlcaldia from '../components/CardAlcaldia';
+import CardAlcaldia from '../components/home/CardAlcaldia';
 
 const datosTarjetas = [
   {
