@@ -6,8 +6,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
-import Preferencias from './Preferencias';
-import Detalles from './modalDetalleIt';
+
 
 function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -128,9 +127,6 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
         </div>
       </nav>
 
-      {/* Componente de Preferencias */}
-      <Preferencias />
-      <Detalles />
     </>
   );
 }
