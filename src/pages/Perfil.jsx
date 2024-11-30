@@ -13,10 +13,45 @@ import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/system';
 
-
-const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
-
 const Perfil = () => {
+
+  const categorias = [
+    {
+      id: 1,
+      nombre: 'Deportes',
+      subcategorias: [
+        { id: 101, nombre: 'Arena' },
+        { id: 102, nombre: 'Athletic Field' },
+        { id: 103, nombre: 'Golf Course' },
+        { id: 104, nombre: 'Ice Skating Rink' },
+        { id: 105, nombre: 'Sports Club' },
+        { id: 106, nombre: 'Playground' },
+        { id: 107, nombre: 'Sports Activity Location' },
+        { id: 108, nombre: 'Swimming Pool' },
+      ],
+    },
+    {
+      id: 2,
+      nombre: 'Comida Rápida',
+      subcategorias: [
+        { id: 201, nombre: 'Bagel Shop' },
+        { id: 202, nombre: 'Acai Shop' },
+        { id: 203, nombre: 'Bakery' },
+        { id: 204, nombre: 'Fast Food Restaurant' },
+        { id: 205, nombre: 'Ice Cream Shop' },
+      ],
+    },
+    {
+      id: 3,
+      nombre: 'Historia',
+      subcategorias: [
+        { id: 301, nombre: 'Historical Place' },
+        { id: 302, nombre: 'Monument' },
+        { id: 303, nombre: 'Historial Landmark' },
+      ],
+    },
+  ];
+
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -53,8 +88,8 @@ const Perfil = () => {
         />
 
         { /* Categorías de Interés Usuario */}
-        <CategoriasInteres
-          categoriasUsuario={categorias}
+        <CategoriasInteres 
+          categoriasUsuario={ categorias }
         />
 
       </Container>

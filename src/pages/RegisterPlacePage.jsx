@@ -3,7 +3,7 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
-import { Box, Container, Stack, Card, CardContent,TextField, Button, Paper,FormControl,RadioGroup,FormControlLabel,Radio,InputAdornment,Typography} from '@mui/material';
+import { Box, Container, Stack,TextField, Button, Paper,FormControl,RadioGroup,FormControlLabel,Radio,InputAdornment,Typography} from '@mui/material';
 import { DoneAllRounded as Check,Phone as PhoneIcon,Language as WebIcon,LocationOn as LocationIcon,PhotoCamera as CameraIcon} from '@mui/icons-material';
 
 function RegisterPlacePage() {
