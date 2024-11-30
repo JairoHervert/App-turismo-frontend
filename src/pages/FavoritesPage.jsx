@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, Grid, TextField, Box, InputAdornment, Typography } from '@mui/material';
-import { Search as SearchIcon, FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
+import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
+import SearchRoundedIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -34,14 +35,14 @@ function FavoritesPage() {
           </Stack>
 
           <TextField 
-            label="Buscar en favoritos" 
-            variant="outlined" 
-            size="small" 
+            label='Buscar en favoritos' 
+            variant='outlined' 
+            size='small' 
             sx={{ maxWidth: 250 }}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+                <InputAdornment position='start'>
+                  <SearchRoundedIcon />
                 </InputAdornment>
               ),
             }}

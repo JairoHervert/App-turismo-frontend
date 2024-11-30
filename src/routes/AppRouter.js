@@ -22,6 +22,7 @@ import Alcaldias from '../pages/AlcaldiasTotales';
 import RecuperarContrasena from '../pages/RecuperarConstrasena';
 import IngresarNuevaContrasena from '../pages/IngresarNuevaContrasena';
 import AdminDash from '../pages/AdminDashboard';
+import AllPlacesPage from '../pages/AllPlacesPage';
 
 
 function AppRouter() {
@@ -51,6 +52,7 @@ function AppRouter() {
         <Route path='/recuperar-contrasena' element={<RecuperarContrasena />} />
         <Route path='/ingresar-nueva-contrasena' element={<IngresarNuevaContrasena />} />
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
+        <Route path='/all-places' element={<AllPlacesPage/>} />
       </Routes>
     </Router>
   );
