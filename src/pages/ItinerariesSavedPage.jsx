@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import '../css/ItinerariesSavedPage.css';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, Grid, TextField, Box, InputAdornment } from '@mui/material';
+import { Container, Stack, TextField, Box, InputAdornment } from '@mui/material';
 import { Search as SearchIcon, Bookmark as BookmarkIcon } from '@mui/icons-material';
 import ItemItinerarios from '../components/CardItinerarios';
 
