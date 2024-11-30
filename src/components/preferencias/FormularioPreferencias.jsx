@@ -25,7 +25,8 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import '../../css/prefModal.css'
+import '../../css/prefModal.css';
+import '../../css/LoginPage.css';
 
 function FormularioPreferencias({ open, handleClose, handleSubmit }) {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -46,6 +47,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
   const [fechaError, setFechaError] = useState(false);
   const [fechaHelperText, setFechaHelperText] = useState('La edad debe ser de entre 18 a 65 años');
 
+  // Manejo de eventos
   const handleDateChange = (newValue) => {
     setSelectedDate(newValue);
   };
@@ -124,8 +126,10 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
 
   return (
     <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth>
-<DialogTitle sx={{ fontFamily: 'Montserrat, sans-serif', color: pink[600], fontWeight: 'bold' }}>Preferencias</DialogTitle>      
-<DialogContent sx={{ fontFamily: 'Poppins, sans-serif' }}>
+      <DialogTitle sx={{ fontFamily: 'Montserrat, sans-serif', color: pink[600], fontWeight: 'bold' }}>
+        Preferencias
+      </DialogTitle>
+      <DialogContent sx={{ fontFamily: 'Poppins, sans-serif' }}>
         <DialogContentText>
           Para ofrecerte una mejor experiencia, necesitamos conocerte mejor. Por favor, completa la siguiente información.
         </DialogContentText>
