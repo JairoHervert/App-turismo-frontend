@@ -1,78 +1,71 @@
-import * as React from 'react';
-import { Card, CardActionArea, CardMedia, Typography, Box } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import React, { useState } from "react";
+import Grid from "@mui/material/Grid2";
+import CategoriaCard from "./CategoriaCard";
+import SubcategoriaCard from "./SubcategoriaCard";
 
-function CardPref({ categorias, onSelect, subcategoriasSeleccionadas, onSubcategoriaSelect }) {
-    return (
-        <Grid container spacing={2} >
-            {categorias.map((categoria) => (
-                <React.Fragment key={categoria.id}>
-                    <Grid size={{xs:12, sm:6, md:3.3, lg:2.4}}>
-                        <Card sx={{ position: 'relative', boxShadow: 3,mb: 2 , height: { xs: 'auto', lg: '200px' }, width: { xs: '100%', lg: '200px' } }}>
-                            <CardActionArea onClick={() => onSelect(categoria)}>
-                                <CardMedia
-                                    component="img"
-                                    height="200"
-                                    image={categoria.imagen}
-                                    alt="green iguana"
-                                />
-                                <Box
-                                    sx={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        width: '100%',
-                                        height: '100%',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: 'white',
-                                        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para mejorar la legibilidad
-                                    }}
-                                >
-                                    <Typography variant="h5" component="div">
-                                        {categoria.nombre}
-                                    </Typography>
-                                </Box>
-                            </CardActionArea>
-                        </Card>
-                    </Grid>
-                    {subcategoriasSeleccionadas[categoria.id] && subcategoriasSeleccionadas[categoria.id].map((subcategoria) => (
-                    <Grid size={{xs:12, sm:6, md:3.3, lg:2.4}} key={subcategoria.id}>
-                            <Card sx={{ position: 'relative', boxShadow: 3, mb: 2 , height: { xs: 'auto', lg: '200px' }, width: { xs: '100%', lg: '200px' } }}>
-                                <CardActionArea onClick={() => onSubcategoriaSelect(subcategoria)}>
-                                    <CardMedia
-                                        component="img"
-                                        height="200"
-                                        image="/static/images/cards/contemplative-reptile.jpg"
-                                        alt="green iguana"
-                                    />
-                                    <Box
-                                        sx={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            left: 0,
-                                            width: '100%',
-                                            height: '100%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: 'white',
-                                            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fondo semitransparente para mejorar la legibilidad
-                                        }}
-                                    >
-                                        <Typography variant="h6" component="div">
-                                            {subcategoria.nombre}
-                                        </Typography>
-                                    </Box>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                    ))}
-                </React.Fragment>
+function CardPref({ categorias }) {
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState({});
+  const [subcategoriasSeleccionadas, setSubcategoriasSeleccionadas] = useState({});
+
+  const handleCategoriaSelect = (categoria) => {
+    setCategoriasSeleccionadas((prev) => {
+      const isSelected = !!prev[categoria.id];
+      const newCategoriasSeleccionadas = { ...prev };
+      if (isSelected) {
+        delete newCategoriasSeleccionadas[categoria.id];
+        const newSubcategoriasSeleccionadas = { ...subcategoriasSeleccionadas };
+        delete newSubcategoriasSeleccionadas[categoria.id];
+        setSubcategoriasSeleccionadas(newSubcategoriasSeleccionadas);
+      } else {
+        newCategoriasSeleccionadas[categoria.id] = categoria;
+      }
+      return newCategoriasSeleccionadas;
+    });
+  };
+
+  const handleSubcategoriaSelect = (categoriaId, subcategoria) => {
+    setSubcategoriasSeleccionadas((prev) => {
+      const isSelected = prev[categoriaId]?.includes(subcategoria.id);
+      const newSubcategoriasSeleccionadas = { ...prev };
+      if (isSelected) {
+        newSubcategoriasSeleccionadas[categoriaId] = newSubcategoriasSeleccionadas[categoriaId].filter(
+          (id) => id !== subcategoria.id
+        );
+        if (newSubcategoriasSeleccionadas[categoriaId].length === 0) {
+          delete newSubcategoriasSeleccionadas[categoriaId];
+        }
+      } else {
+        if (!newSubcategoriasSeleccionadas[categoriaId]) {
+          newSubcategoriasSeleccionadas[categoriaId] = [];
+        }
+        newSubcategoriasSeleccionadas[categoriaId].push(subcategoria.id);
+      }
+      return newSubcategoriasSeleccionadas;
+    });
+  };
+
+  return (
+    <Grid container spacing={2}>
+      {categorias.map((categoria) => (
+        <React.Fragment key={categoria.id}>
+          <CategoriaCard
+            categoria={categoria}
+            onSelect={() => handleCategoriaSelect(categoria)}
+            isSelected={!!categoriasSeleccionadas[categoria.id]}
+          />
+          {categoriasSeleccionadas[categoria.id] &&
+            categoria.subcategorias.map((subcategoria) => (
+              <SubcategoriaCard
+                key={subcategoria.id}
+                subcategoria={subcategoria}
+                onSelect={() => handleSubcategoriaSelect(categoria.id, subcategoria)}
+                isSelected={subcategoriasSeleccionadas[categoria.id]?.includes(subcategoria.id)}
+              />
             ))}
-        </Grid>
-    );
+        </React.Fragment>
+      ))}
+    </Grid>
+  );
 }
 
 export default CardPref;
