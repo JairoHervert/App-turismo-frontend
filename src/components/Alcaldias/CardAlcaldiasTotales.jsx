@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CardAlcaldiasTotales({ tituloAlcaldia, descripcion, imagen }) {
     const link = '/Buscador';
-    const img = imagen ? require(`../img/HomePage/places/home-places-${imagen}.jpg`) : '';
+    const img = imagen ? require(`../../img/HomePage/places/home-places-${imagen}.jpg`) : '';
 
     const navigate = useNavigate();
 
