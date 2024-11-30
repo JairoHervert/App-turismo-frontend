@@ -29,7 +29,7 @@ const registrarLugar = async (lugar) => {
     relativePublishTimeDescription: review.relativePublishTimeDescription || null,
   })) || [];
 
-  console.log('Reseñas procesadas para insertar:', JSON.stringify(simplifiedReviews, null, 2));
+  //console.log('Reseñas procesadas para insertar:', JSON.stringify(simplifiedReviews, null, 2));
 
   // Seleccionar solo la primera foto
   const primeraFoto = lugar.photos && lugar.photos.length > 0 ? lugar.photos[0] : null;

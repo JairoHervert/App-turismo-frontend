@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { buscarLugares, buscarLugaresPorTexto } = require('../controllers/places-controller');
 const { registrarLugar } = require('../models/lugares-model'); 
+const fs = require('fs');
+const path = require('path'); // Para manejar rutas de archivos
 
 
 // Endpoint para buscar lugares
@@ -32,6 +34,9 @@ router.post('/buscar-texto', async (req, res) => {
   try {
     const lugares = await buscarLugaresPorTexto(query);
 
+    // Ruta al archivo JSON donde se guardarán los lugares
+    const filePath = path.join(__dirname, '../LugaresRegistrados/lugaresRegistrados.json');
+
     for (const lugar of lugares.places) {
       try {
 
@@ -41,8 +46,37 @@ router.post('/buscar-texto', async (req, res) => {
         // SE LLAMA A REGISTRARSUBCATEGORÍA POR CADA SUBCATEGORÍA QUE TENGA EL LUGAR DE LAS DE LA BASE DE DATOS): Todo este proceso se hace en lugares-model.js
         // ESCRIBIR EL LUGAR EN EL JSON DE LUGARES
 
-        await registrarLugar(lugar); // Registrar lugar en la base de datos
+        //REGISTRA LUGAR EN LA BASE DE DATOS
+
+        await registrarLugar(lugar); 
         console.log(`Lugar registrado exitosamente con ID: ${lugar.id}`);
+
+        //AQUI TERMINA EL REGISTRO DEL LUGAR EN LA BD (EN CASO DE QUE FUERA EXITOSO)
+
+        //AQUI EMPIEZA LA PARTE DE AGREGAR EL LUGAR AL JSON
+
+        // Leer el archivo JSON existente
+        let data = [];
+        if (fs.existsSync(filePath)) {
+          const fileContent = fs.readFileSync(filePath, 'utf8');
+          data = JSON.parse(fileContent);
+        }
+
+        // Verificar si el lugar ya existe en el JSON
+        const existeLugar = data.some((item) => item.id === lugar.id);
+        if (!existeLugar) {
+          // Añadir el lugar al arreglo solo si no existe
+          data.push(lugar);
+
+          // Guardar el arreglo actualizado en el archivo JSON
+          fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+          console.log(`Lugar guardado en el archivo JSON con ID: ${lugar.id}`);
+        } else {
+          console.log(`Lugar con ID: ${lugar.id} ya existe en el archivo JSON.`);
+        }
+
+        //AQUI TERMINA LO DE GUARDAR EL LUGAR EN EL JSON
+
       } catch (dbError) {
         console.error(`Error al registrar el lugar con ID ${lugar.id}:`, dbError.message);
       }

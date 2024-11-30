@@ -80,7 +80,7 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
       },
     });
 
-    console.log('Respuesta de la API:', JSON.stringify(response.data, null, 2));
+    //console.log('Respuesta de la API:', JSON.stringify(response.data, null, 2));
 
 
     // [
