@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
-import Preferencias from './Preferencias';
-import Detalles from './modalDetalleIt';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -106,6 +104,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                         <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
                         <li><Link className='dropdown-item' to='/Admin-Page-Places'>Página de solicitud de administrador</Link></li>
                         <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
+                        <li><Link className='dropdown-item' to='/Admin-dashboard'>Dashboard de administrador</Link></li>
                         <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
                         <li><Link className='dropdown-item' to='/recuperar-contrasena'>Recuperar Contraseña</Link></li>
                         <li><Link className='dropdown-item' to='/ingresar-nueva-contrasena'>Ingresar Nueva Contraseña</Link></li>
@@ -171,10 +170,6 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
           </div>
         </div>
       </nav>
-
-      {/* Componente de Preferencias */}
-      <Preferencias />
-      <Detalles />
     </>
   );
 }

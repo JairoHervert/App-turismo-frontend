@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import CardAlcaldiasTotales from '../components/CardAlcaldiasTotales';
+import CardAlcaldiasTotales from '../components/Alcaldias/CardAlcaldiasTotales';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import PlaceIcon from '@mui/icons-material/Place';

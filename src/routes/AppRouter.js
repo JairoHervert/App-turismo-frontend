@@ -23,6 +23,7 @@ import RecuperarContrasena from '../pages/RecuperarConstrasena';
 import IngresarNuevaContrasena from '../pages/IngresarNuevaContrasena';
 import AdminDash from '../pages/AdminDashboard';
 import AllPlacesPage from '../pages/AllPlacesPage';
+import PreferenciasModal from '../components/preferencias/PreferenciasModal';
 
 
 function AppRouter() {
@@ -53,6 +54,7 @@ function AppRouter() {
         <Route path='/ingresar-nueva-contrasena' element={<IngresarNuevaContrasena />} />
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
         <Route path='/all-places' element={<AllPlacesPage/>} />
+        <Route path = '/preferencias' element={<PreferenciasModal/>} />
       </Routes>
     </Router>
   );
