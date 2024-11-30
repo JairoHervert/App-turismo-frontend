@@ -34,6 +34,13 @@ router.post('/buscar-texto', async (req, res) => {
 
     for (const lugar of lugares.places) {
       try {
+
+        // PRIMERO SE DEBE VALIDAR QUE EL LUGAR TIENE SUBCATEGORÍAS DE LAS QUE SELECCIONAMOS (DIBUJO DEL PAINT)
+        // SI NO TIENE NINGUNA DE LAS 4 SUBCATEGORÍAS, NO SE REGISTRA EN LA BASE DE DATOS (CONTINUE)
+        // (SE REGISTRA EL LUGAR
+        // SE LLAMA A REGISTRARSUBCATEGORÍA POR CADA SUBCATEGORÍA QUE TENGA EL LUGAR DE LAS DE LA BASE DE DATOS): Todo este proceso se hace en lugares-model.js
+        // ESCRIBIR EL LUGAR EN EL JSON DE LUGARES
+
         await registrarLugar(lugar); // Registrar lugar en la base de datos
         console.log(`Lugar registrado exitosamente con ID: ${lugar.id}`);
       } catch (dbError) {

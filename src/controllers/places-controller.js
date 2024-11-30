@@ -82,6 +82,32 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
 
     console.log('Respuesta de la API:', JSON.stringify(response.data, null, 2));
 
+
+    // [
+    //   [],
+    //   [],
+    //   20 lugares
+
+    // ]
+    // [
+    //   [],
+    //   [],
+    //   20 lugares
+
+    // ]
+    
+
+    // final
+    // [
+    //   [],
+    //   [],
+    //   [],
+    //   [],
+    //   1000 lugares
+    //   []
+    // ]
+
+
     if (!response.data.places || !Array.isArray(response.data.places)) {
       console.error('Error: La API no devolvió resultados válidos:', response.data);
       return { places: [], nextPageToken: null };

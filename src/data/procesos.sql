@@ -676,6 +676,7 @@ BEGIN
    FROM Subcategoria
    WHERE id = p_idSubcategoria;
    
+   -- Mensaje de error si la subcategoría no existe
    IF lugarExistente = 0 THEN
       SELECT 'lugar_no_registrado' AS 'error';
    END IF;

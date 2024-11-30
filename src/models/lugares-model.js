@@ -97,6 +97,9 @@ const registrarLugar = async (lugar) => {
     console.error('Error al registrar el lugar:', error.message);
     throw new Error('Error al guardar el lugar en la base de datos.');
   }
+
+  // Por cada elemento en lugar.types, se debe llamar a RegistrarSubcategoria
+
 };
 
 module.exports = { registrarLugar };
