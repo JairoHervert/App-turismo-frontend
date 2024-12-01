@@ -12,7 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 // iconos
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchRoundedIcon from '@mui/icons-material/Search';
 
 // componentes locales
 import Navbar from '../components/NavBar';
@@ -84,7 +84,7 @@ function ItineraryPage() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
-                  <SearchIcon />
+                  <SearchRoundedIcon />
                 </InputAdornment>
               ),
             }}

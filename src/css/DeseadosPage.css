@@ -105,23 +105,31 @@
    align-items: center;
    cursor: pointer;
    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-   /* Sombra suave */
    transition: background-color 0.3s ease;
-}
-
-.us_de-favorite-icon i {
+ }
+ 
+ .us_de-favorite-icon i {
    color: #e4007c;
    font-size: 1.2rem;
-}
-
-.us_de-favorite-icon:hover {
+ }
+ 
+ .us_de-favorite-icon:hover {
    background-color: #e4007c;
-}
-
-.us_de-favorite-icon:hover i {
+ }
+ 
+ .us_de-favorite-icon:hover i {
    color: #ffffff;
-}
-
+ }
+ 
+ /* Estilo cuando el lugar está marcado como favorito */
+ .us_de-favorite-icon.favorite-active {
+   background-color: #e4007c;
+ }
+ 
+ .us_de-favorite-icon.favorite-active i {
+   color: #ffffff;
+ }
+ 
 
 /* Ajustes para responsividad */
 @media (max-width: 768px) {
