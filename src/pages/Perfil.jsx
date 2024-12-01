@@ -21,7 +21,6 @@ import { isLogged } from '../schemas/isLogged';
 const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
 
 const Perfil = () => {
-  console.log("PERFIL.JSX")
   const navigate = useNavigate(); // Inicializa useNavigate
   const [datos, setDatos] = useState(null);
   const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg');
@@ -43,15 +42,27 @@ const Perfil = () => {
     const fetchDatos = async () => {
       try {
         const id = localStorage.getItem('id');
-        console.log(id);
         
         const resultado = await handleDatosUsuario(id); // Espera la resolución de la promesa
         if(!resultado)
           navigate('/');
-        setDatos(resultado);
-        setProfileImage(resultado.imagen);
-        console.log("Resultado consulta", resultado);
-        console.log("Resultado imagen", resultado.imagen);
+        let datos = resultado;
+        datos.id = id;
+        // Convertir la cadena a un objeto Date
+        const fecha = new Date(datos.fechaNacimiento);
+
+        // Formatear a DD-MM-YYYY
+        const dia = String(fecha.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
+        const anio = fecha.getFullYear();
+
+        // Combinar el formato
+        const fechaFormateada = `${dia}-${mes}-${anio}`;
+        datos.fechaNacimiento = fechaFormateada;
+        setDatos(datos);
+        setProfileImage(datos.imagen);
+        console.log("Resultado consulta", datos);
+        console.log("Resultado imagen", datos.imagen);
       } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
       }
@@ -90,6 +101,7 @@ const Perfil = () => {
         { /* Información Personal Usuario */}
         {datos ? (
           <InformacionPersonal
+          id={datos && datos.id ? datos.id : ''}
           correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
           nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
           apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}

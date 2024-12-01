@@ -37,6 +37,7 @@ app.post('/iniciar-sesion', loginController.iniciarSesion);
 app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/login_Facebook', loginController.iniciarSesionFacebook);
 app.post('/user_datos', userController.getDatos);
+app.post('/user_guardar_datos', userController.setDatos);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
 app.post('/lugar_datos', placeController.getDatos);

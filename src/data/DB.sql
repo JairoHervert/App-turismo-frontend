@@ -88,6 +88,15 @@ CREATE TABLE `Resena` (
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- -----------------------------------------------------
+-- Table `AppTurismo`.`Itinerario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Itinerario`;
+CREATE TABLE `Itinerario` (
+   `id` INT NOT NULL AUTO_INCREMENT ,
+   PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ---------------------------------------------------------------------------------------------------
 --                                              CATEGORÍAS
 -- ---------------------------------------------------------------------------------------------------
@@ -370,6 +379,18 @@ CREATE TABLE `LugarFotos` (
    PRIMARY KEY (`idLugar`, `URL`),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `AppTurismo`.`UsuarioItinerario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `UsuarioItinerario`;
+CREATE TABLE `UsuarioItinerario` (
+   `idUsuario` INT NOT NULL,
+   `idItinerario` INT NOT NULL,
+   PRIMARY KEY (idUsuario, idItinerario),
+   FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
+   FOREIGN KEY (idItinerario) REFERENCES Itinerario(id) ON DELETE CASCADE
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              VISTAS

@@ -11,6 +11,7 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 # Usuario Información
 DROP PROCEDURE IF EXISTS UsuarioGetDatos;
+DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAñadirFavorito;
@@ -340,9 +341,51 @@ BEGIN
          DATE(u.fechaNacimiento) AS 'fechaNacimiento',
          u.ultimaConexion AS 'ultimaConexion',
          (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
+         (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos',
+         (SELECT COUNT(*) FROM UsuarioItinerario WHERE idUsuario = p_id) AS 'nItinerarios'
+         FROM Usuario u
+      WHERE u.id = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioGuardarDatos`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioGuardarDatos (
+   IN p_id INT,
+   IN p_nombre VARCHAR(60),
+   IN p_apellido VARCHAR(60),
+   IN p_fechaNacimiento VARCHAR(10)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      UPDATE Usuario
+      SET 
+         nombre = p_nombre, 
+         apellido = p_apellido, 
+         fechaNacimiento = STR_TO_DATE(p_fechaNacimiento, '%d-%m-%Y')
+      WHERE id = p_id;
+      
+      SELECT
+         u.username AS 'username',
+         u.nombre AS 'nombre',
+         u.apellido AS 'apellido',
+         u.correo AS 'correo',
+         u.ligaFotoPerfil AS 'imagen',
+         DATE(u.fechaNacimiento) AS 'fechaNacimiento',
+         u.ultimaConexion AS 'ultimaConexion',
+         (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
          (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos'
          FROM Usuario u
-         WHERE u.id = p_id;
+      WHERE u.id = p_id;
    END IF;
 END //
 
