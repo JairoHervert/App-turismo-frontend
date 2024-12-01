@@ -49,7 +49,7 @@ function FavoritesPage() {
           />
         </Stack>
 
-        <Box sx={{ maxHeight: '74vh', overflowY: 'auto' }}>
+        <Box sx={{ maxHeight: '74vh', overflowY: 'auto', paddingBottom: '1rem' }}>
           <Grid container spacing={2} justifyContent='center' alignItems='center'>
             <ItemFavoritos
               imagen={Imagen1}

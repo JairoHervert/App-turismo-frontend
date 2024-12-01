@@ -39,6 +39,17 @@ function DeseadosPage() {
     setPage(value);
   };
 
+  // Estado y función para manejar los lugares favoritos
+  const [favorites, setFavorites] = useState([]); // Manejo de favoritos de mnera local (no se guarda en la base de datos)
+  const toggleFavorite = (nombre) => {
+    setFavorites((prev) =>
+      prev.includes(nombre)
+        ? prev.filter((fav) => fav !== nombre) // verificar si ya está en favoritos y eliminarlo
+        : [...prev, nombre] // Agregar si no está en favoritos
+    );
+  };
+
+
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -85,6 +96,8 @@ function DeseadosPage() {
                 imagenLugar={lugar.imagen}
                 tiempoLugar={lugar.tiempo}
                 costoLugar={lugar.costo}
+                isFavorite={favorites.includes(lugar.nombre)}
+                toggleFavorite={toggleFavorite}
               />
             ))}
 

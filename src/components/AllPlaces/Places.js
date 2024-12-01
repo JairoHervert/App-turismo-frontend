@@ -18,7 +18,7 @@ const Places = [
     name: 'Ángel de la Independencia',
     description: 'Visita uno de los monumentos más emblemáticos de la Ciudad de México. Disfruta de la vista panorámica desde la cima y conoce la historia de este monumento.',
     image: angelDeLaIndependencia,
-    category: 'Monumento',
+    category: 'Historia',
     address: 'Paseo de la Reforma, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -27,7 +27,7 @@ const Places = [
     name: 'Xochimilco',
     description: 'Sumérgete en la experiencia única de los canales de Xochimilco. Navega en trajineras y disfruta de la tradición y el folclore en un ambiente colorido.',
     image: xochimilco,
-    category: 'Deportes acuáticos',
+    category: 'Juegos recreativos al aire libre',
     address: 'Embarcadero Nuevo Nativitas, Xochimilco, Ciudad de México',
     rating: 5,
     phone: '+52 555 555 1234'
@@ -36,7 +36,7 @@ const Places = [
     name: 'Zócalo',
     description: 'Visita el corazón de la Ciudad de México, donde la historia y la cultura se encuentran. Descubre la Cated ral Metropolitana y el Palacio Nacional.',
     image: zocalo,
-    category: 'Plaza',
+    category: 'Historia',
     address: 'Plaza de la Constitución, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -45,7 +45,7 @@ const Places = [
     name: 'Azcapotzalco',
     description: 'Azcapotzalco es una de las 16 alcaldías de la Ciudad de México, ubicada al norte de la capital. Conoce su historia, cultura y tradiciones.',
     image: azcapotzalco,
-    category: 'Alcaldía',
+    category: 'Historia',
     address: 'Azcapotzalco, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -54,7 +54,7 @@ const Places = [
     name: 'Coyoacán',
     description: 'Explora las calles empedradas y plazas vibrantes de Coyoacán, un rincón bohemio lleno de cafés, arte y el ambiente acogedor de la Ciudad de México.',
     image: coyoacan,
-    category: 'Barrio',
+    category: 'Parques',
     address: 'Coyoacán, Ciudad de México',
     rating: 5,
     phone: '+52 555 555 1234'
@@ -63,7 +63,7 @@ const Places = [
     name: 'Gustavo A. Madero',
     description: 'Gustavo A. Madero es una de las 16 alcaldías de la Ciudad de México, ubicada al norte de la capital. Conoce su historia, cultura y tradiciones.',
     image: gustavoAMadero,
-    category: 'Alcaldía',
+    category: 'Historia',
     address: 'Gustavo A. Madero, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -72,7 +72,7 @@ const Places = [
     name: 'Iztacalco',
     description: 'Iztacalco es una de las 16 alcaldías de la Ciudad de México, ubicada en el oriente de la capital. Conoce su historia, cultura y tradiciones.',
     image: iztacalco,
-    category: 'Alcaldía',
+    category: 'Historia',
     address: 'Iztacalco, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -81,7 +81,7 @@ const Places = [
     name: 'Magdalena Contreras',
     description: 'Magdalena Contreras es una de las 16 alcaldías de la Ciudad de México, ubicada en el sur de la capital. Conoce su historia, cultura y tradiciones.',
     image: magdalena,
-    category: 'Alcaldía',
+    category: 'Historia',
     address: 'Magdalena Contreras, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -90,7 +90,7 @@ const Places = [
     name: 'Miguel Hidalgo',
     description: 'Miguel Hidalgo es una de las 16 alcaldías de la Ciudad de México, ubicada en el poniente de la capital. Conoce su historia, cultura y tradiciones.',
     image: miguelHidalgo,
-    category: 'Alcaldía',
+    category: 'Historia',
     address: 'Miguel Hidalgo, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -99,7 +99,7 @@ const Places = [
     name: 'Chapultepec',
     description: 'Descubre el encanto de Chapultepec, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.',
     image: chapultepec,
-    category: 'Parque',
+    category: 'Parques',
     address: 'Bosque de Chapultepec, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -108,7 +108,7 @@ const Places = [
     name: 'Pirámides de Teotihuacan',
     description: 'Vive la majestuosidad de las antiguas pirámides. Sube a la cima del Sol y la Luna para una vista impresionante de este sitio arqueológico.',
     image: piramidesTeotihuacan,
-    category: 'Sitio arqueológico',
+    category: 'Historia',
     address: 'San Juan Teotihuacan, Estado de México',
     rating: 5,
     phone: '+52 555 555 1234'
@@ -117,7 +117,7 @@ const Places = [
     name: 'Museo Frida Kahlo',
     description: 'Conoce la vida y obra de la pintora mexicana más reconocida a nivel mundial. Admira sus obras y descubre la historia de esta artista.',
     image: museoFridaKahlo,
-    category: 'Museo',
+    category: 'Museos',
     address: 'Londres 247, Del Carmen, Coyoacán, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
@@ -126,7 +126,7 @@ const Places = [
     name: 'Museo Nacional de Antropología',
     description: 'Explora la historia de México a través de las salas de este museo. Descubre la riqueza cultural y arqueológica de las civilizaciones prehispánicas.',
     image: museoAntropologia,
-    category: 'Museo',
+    category: 'Museos',
     address: 'Av. Paseo de la Reforma s/n, Polanco, Ciudad de México',
     rating: 5,
     phone: '+52 555 555 1234'
@@ -135,7 +135,7 @@ const Places = [
     name: 'Miguel Hidalgo',
     description: 'Miguel Hidalgo es una de las 16 alcaldías de la Ciudad de México, ubicada en el poniente de la capital. Conoce su historia, cultura y tradiciones.',
     image: miguelHidalgo,
-    category: 'Alcaldía',
+    category: 'Historia',
     address: 'Miguel Hidalgo, Ciudad de México',
     rating: 4,
     phone: '+52 555 555 1234'
