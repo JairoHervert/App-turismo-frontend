@@ -45,11 +45,11 @@ CREATE TABLE `Lugar` (
    `nombre` VARCHAR(128) NOT NULL,
    `direccion` VARCHAR(255) NOT NULL,
    `descripcion` VARCHAR(1024) NULL,
-   `imagen` VARCHAR(512) NULL DEFAULT NULL,
+   `imagen` TEXT NULL DEFAULT NULL,
    `attributions` VARCHAR(150) NULL,
    `latitud` DOUBLE NULL,
    `longitud` DOUBLE NULL,
-   `fotos` VARCHAR(1024) NULL,
+   `fotos` TEXT NULL,
    `tipos` VARCHAR(1024) NULL,
    `teléfono` VARCHAR(20) NULL,
    `precioNivel` TINYINT NULL,
@@ -57,7 +57,7 @@ CREATE TABLE `Lugar` (
    `rating` VARCHAR(10) NULL,
    `regularOpeningHours` TEXT NULL,
    `userRatingCount` VARCHAR(45) NULL,
-   `website` VARCHAR(80) NULL,
+   `website` VARCHAR(128) NULL,
    `goodForChildren` BOOLEAN NULL,
    `goodForGroups` BOOLEAN NULL,
    `paymentOptions` TEXT NULL,
@@ -95,6 +95,19 @@ DROP TABLE IF EXISTS `Itinerario`;
 CREATE TABLE `Itinerario` (
    `id` INT NOT NULL AUTO_INCREMENT ,
    PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `AppTurismo`.`Historial`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Historial`;
+CREATE TABLE `Historial` (
+   `idUsuario` INT NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
+   `auditoria` DATETIME NOT NULL,
+   PRIMARY KEY (idUsuario, idLugar),
+   FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
+   FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
