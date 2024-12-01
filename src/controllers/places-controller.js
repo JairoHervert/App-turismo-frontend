@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
+const { obtenerTodasSubcategorias } = require('../models/MySQL/lugares-model');
 
 // Autocompletar lugares
 const buscarLugares = async (input) => {
@@ -113,40 +114,59 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
       return { places: [], nextPageToken: null };
     }
 
+    // Obtener las subcategorias de la base de datos para filtrar los lugares que incluyan al menos una de ellas
+    // Crear un nuevo arreglo con los lugares que coincidan con mínimo una subcategoria, es decir, que tengan al menos un tipo que coincida con una subcategoria
+    const subcategoriasFiltradas = await obtenerTodasSubcategorias();
+    const lugaresFiltrados = response.data.places.filter((place) => {
+      const tipos = place.types || [];
+      return subcategoriasFiltradas.some((subcategoria) => tipos.includes(subcategoria.id));
+    });
+
+    // Imprimir el tamaño de los arreglos para comparar
+    console.log('Lugares totales:', response.data.places.length);
+    console.log('Luagres filtrados:', lugaresFiltrados.length);
+
     return {
-      places: response.data.places.map((place) => ({
-        name: place.displayName?.text || 'Nombre no disponible',
-        id: place.id,     
-        address: place.formattedAddress || 'Dirección no disponible',
-        location: place.location,
-        rating: place.rating || 'Sin calificación',
-        formattedAddress: place.formattedAddress,
-        photos: place.photos,
-        googleMapsUri: place.googleMapsUri,
-        websiteUri: place.websiteUri,
-        types: place.types,
-        priceLevel: place.priceLevel,
-        currentOpeningHours: place.currentOpeningHours,
-        internationalPhoneNumber: place.internationalPhoneNumber,
-        userRatingCount: place.userRatingCount,
-        reviews: place.reviews,
-        paymentOptions: place.paymentOptions,
-        editorialSummary: place.editorialSummary,
-        accessibilityOptions: place.accessibilityOptions,
-        addressComponents: place.addressComponents,
-        priceRange: place.priceRange
-        ? `${place.priceRange.startPrice.units} ${place.priceRange.startPrice.currencyCode} - ${place.priceRange.endPrice.units} ${place.priceRange.endPrice.currencyCode}`
-        : 'No disponible',
-        goodForChildren: place.goodForChildren,
-        goodForGroups: place.goodForGroups,
-        reservable: place.reservable,
-        servesVegetarianFood: place.servesVegetarianFood,
-        allowsDogs: place.allowsDogs,
-        restroom: place.restroom, 
-        attributions: place.attributions,
-      })),
-      nextPageToken: response.data.nextPageToken || null, // Devuelve el token para la siguiente página, aqui esta el token que te da la API en caso de que exista el token.
+      places: lugaresFiltrados.map((place) => {
+        const priceRangeText = place.priceRange
+          ? `${place.priceRange.startPrice?.units || 'N/A'} ${place.priceRange.startPrice?.currencyCode || ''} - ${place.priceRange.endPrice?.units || 'N/A'} ${place.priceRange.endPrice?.currencyCode || ''}`
+          : 'No disponible';
+    
+        return {
+          name: place.displayName?.text || 'Nombre no disponible',
+          id: place.id,
+          address: place.formattedAddress || 'Dirección no disponible',
+          location: place.location,
+          rating: place.rating || 'Sin calificación',
+          formattedAddress: place.formattedAddress,
+          photos: place.photos,
+          googleMapsUri: place.googleMapsUri,
+          websiteUri: place.websiteUri,
+          types: place.types,
+          priceLevel: place.priceLevel,
+          currentOpeningHours: place.currentOpeningHours,
+          internationalPhoneNumber: place.internationalPhoneNumber,
+          userRatingCount: place.userRatingCount,
+          reviews: place.reviews,
+          paymentOptions: place.paymentOptions,
+          editorialSummary: place.editorialSummary,
+          accessibilityOptions: place.accessibilityOptions,
+          addressComponents: place.addressComponents,
+          priceRange: priceRangeText,
+          goodForChildren: place.goodForChildren,
+          goodForGroups: place.goodForGroups,
+          reservable: place.reservable,
+          servesVegetarianFood: place.servesVegetarianFood,
+          allowsDogs: place.allowsDogs,
+          restroom: place.restroom,
+          attributions: place.attributions,
+        };
+      }),
+      nextPageToken: response.data.nextPageToken || null,
     };
+    
+    
+
   } catch (error) {
     console.error('Error en buscarLugaresPorTexto:', error.response?.data || error.message);
     throw new Error(

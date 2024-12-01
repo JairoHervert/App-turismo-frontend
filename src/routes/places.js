@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { buscarLugares, buscarLugaresPorTexto } = require('../controllers/places-controller');
-const { registrarLugar } = require('../models/lugares-model'); 
+const { registrarLugar } = require('../models/MySQL/lugares-model'); 
 const fs = require('fs');
 const path = require('path'); // Para manejar rutas de archivos
 

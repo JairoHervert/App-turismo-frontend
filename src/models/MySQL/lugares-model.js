@@ -1,4 +1,4 @@
-const db = require('../models/MySQL/db'); 
+const db = require('./db'); 
 
 // Función auxiliar para simplificar el campo paymentOptions
 const simplifyPaymentOptions = (paymentOptions) => {
@@ -37,10 +37,11 @@ const registrarLugar = async (lugar) => {
   // Extraer información de la primera foto
   const fotoInfo = primeraFoto
     ? JSON.stringify({
-        photoReference: primeraFoto.photoReference || null,
+        name: primeraFoto.name || null,
         widthPx: primeraFoto.widthPx || null,
         heightPx: primeraFoto.heightPx || null,
         authorAttributions: primeraFoto.authorAttributions || [],
+        googleMapsUri: primeraFoto.googleMapsUri || null,
       })
     : null;
 
@@ -62,11 +63,11 @@ const registrarLugar = async (lugar) => {
     lugar.name || null,
     lugar.address || null,
     lugar.editorialSummary?.text || null,
-    lugar.image || null,  //Por definir con photos.
+    fotoInfo,  //Por definir con photos.
     lugar.attributions || null,   //Falta solicitar este campo a la API
     lugar.location?.latitude || null,
     lugar.location?.longitude || null,
-    fotoInfo, // Información de la primera foto, 
+    JSON.stringify(lugar.photos || []), // Información de las photos de Google,
     JSON.stringify(lugar.types || []), // Convertir tipos a JSON
     lugar.internationalPhoneNumber || null,
     priceLevel, // Valor numérico de priceLevel
@@ -92,103 +93,39 @@ const registrarLugar = async (lugar) => {
 
   try {
     const [results] = await db.promise().query(query, parametros);
+    // Por cada elemento en lugar.types, se debe llamar a RegistrarSubcategoria
+    const subcategorias = lugar.types || [];
+    const todasSubcategorias = await obtenerTodasSubcategorias();
+    for (const subcategoria of subcategorias) {
+      const existeSubcategoria = todasSubcategorias.some((item) => item.id === subcategoria);
+      if (existeSubcategoria) {
+        const response = await db.promise().query('CALL RegistrarSubcategoria(?,?)', [lugar.id, subcategoria]);
+      }
+      // console.log('Subcategoría registrada:', response);
+    }
+
     return results;
   } catch (error) {
     console.error('Error al registrar el lugar:', error.message);
     throw new Error('Error al guardar el lugar en la base de datos.');
   }
 
-  // Por cada elemento en lugar.types, se debe llamar a RegistrarSubcategoria
 
 };
 
-module.exports = { registrarLugar };
+const obtenerTodasSubcategorias = async () => {
+  const query = 'SELECT * FROM Subcategoria';
+  return new Promise((resolve, reject) => {
+      db.query(query, (err, results) => {
+          if (err) {
+              reject(err);
+          }
+          const subcategorias = results || null;
+          if (subcategorias && subcategorias.error)
+              return reject(new Error(subcategorias.error));
+          resolve(subcategorias);
+      });
+  });
+}
 
-/*
-
-const db = require('../models/MySQL/db'); 
-
-// Función auxiliar para simplificar el campo paymentOptions
-const simplifyPaymentOptions = (paymentOptions) => {
-    if (!paymentOptions) return "[]";
-  
-    const options = [];
-    if (paymentOptions.acceptsCreditCards) options.push("Tarjetas de crédito");
-    if (paymentOptions.acceptsDebitCards) options.push("Tarjetas de débito");
-    if (paymentOptions.acceptsCashOnly) options.push("Solo efectivo");
-    if (paymentOptions.acceptsNfc) options.push("NFC");
-  
-    return JSON.stringify(options);
-  };
-
-const registrarLugar = async (lugar) => {
-  const query = `
-    CALL LugarRegistro(
-      ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-    );
-  `;
-
-  // Seleccionar máximo 2 fotos y convertirlas a JSON
-  const fotos = lugar.photos
-    ? JSON.stringify(lugar.photos.slice(0, 2).map(photo => photo.photoReference))
-    : '[]';
-
-  // Mapear priceLevel al formato numérico esperado
-  const priceLevelMap = {
-    PRICE_LEVEL_FREE: 0,
-    PRICE_LEVEL_INEXPENSIVE: 1,
-    PRICE_LEVEL_MODERATE: 2,
-    PRICE_LEVEL_EXPENSIVE: 3,
-    PRICE_LEVEL_VERY_EXPENSIVE: 4,
-  };
-
-  const priceLevel = priceLevelMap[lugar.priceLevel] ?? null; // Convertir o asignar null si no está definido
-
-  const paymentOptions = simplifyPaymentOptions(lugar.paymentOptions);
-
-  const parametros = [
-    lugar.id || null,
-    lugar.name || null,
-    lugar.address || null,
-    lugar.location?.latitud || null,
-    lugar.location?.longitude || null,
-    lugar.rating || null,
-    fotos, // Solo 2 fotos
-    lugar.editorialSummary || null,
-    lugar.googleMapsUri || null,
-    lugar.websiteUri || null,
-    //lugar.image || null,
-    //lugar.attributions || null,   
-    JSON.stringify(lugar.types || []), // Convertir tipos a JSON
-    lugar.internationalPhoneNumber || null,
-    priceLevel, // Valor numérico de priceLevel
-    JSON.stringify(lugar.priceRange || null), // Convertir rango de precio a JSON    
-    JSON.stringify(lugar.currentOpeningHours || []), // Convertir horarios a JSON
-    lugar.userRatingCount || null,
-    lugar.goodForChildren || false,
-    lugar.goodForGroups || false,
-    paymentOptions,
-    lugar.reservable || false,
-    lugar.servesVegetarianFood || false,
-    //lugar.allowsDogs || false,   Falta añadir ese campo para solicitarselo a la API
-    JSON.stringify(lugar.reviews || []), // Convertir reseñas a JSON
-    lugar.accessibilityOptions?.wheelchairAccessibleParking || false, // Validar si existe
-    lugar.accessibilityOptions?.wheelchairAccessibleEntrance || false, // Validar si existe
-    lugar.accessibilityOptions?.restroom || false, // Validar si existe
-    lugar.accessibilityOptions?.wheelchairAccessibleSeating || false, // Validar si existe
-  ];
-
-  try {
-    const [results] = await db.promise().query(query, parametros);
-    return results;
-  } catch (error) {
-    console.error('Error al registrar el lugar:', error.message);
-    throw new Error('Error al guardar el lugar en la base de datos.');
-  }
-};
-
-module.exports = { registrarLugar };
-
-*/
-
-
+module.exports = { registrarLugar , obtenerTodasSubcategorias};
