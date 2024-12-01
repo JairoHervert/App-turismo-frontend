@@ -93,7 +93,7 @@ const Perfil = () => {
           /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
              la primera letra de su nombre de usuario */
           //avatar={null}
-          itinerariosCreados={'-'}
+          itinerariosCreados={datos && datos.nItinerarios != undefined && datos.nItinerarios != null ? datos.nItinerarios : '-'}
           favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
           deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
         />
