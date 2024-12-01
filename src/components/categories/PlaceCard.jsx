@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import ButtonsMod from '../ButtonsMod';
 import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
 import '../../css/HomePage.css';
 
-function PlaceCard({ isLogged, imagen, name, description, isClickedDeseados, isClickedFavoritos, onDeseadosClick, onFavoritosClick, id}) {
+function PlaceCard({ id, isLogged, imagen, name, description, isClickedDeseados, isClickedFavoritos, onDeseadosClick, onFavoritosClick }) {
   const navigate = useNavigate();
 
   const handleViewMore = () => {
@@ -18,19 +18,25 @@ function PlaceCard({ isLogged, imagen, name, description, isClickedDeseados, isC
       <div className="position-relative">
         <img src={image} className="card-img-top" alt={name} />
         <div className="position-absolute top-0 start-0 p-2">
-          {/*isLogged ?
-          <><button
+          {isLogged ?
+          <>
+            <button
               className={`btn ${isClickedDeseados ? 'pc-btnOnClick' : 'btn-light'} pc-btn-deseados`}
               onClick={onDeseadosClick}
             >
               <StarBorderIcon />
-            </button><button
+            </button>
+            <button
               className={`btn ${isClickedFavoritos ? 'pc-btnOnClick' : 'btn-light'} pc-btn-favoritos`}
               onClick={onFavoritosClick}
             >
-                <FavoriteBorderIcon />
-              </button></> : ''*/}
-          <button
+              <FavoriteBorderIcon />
+            </button>
+          </>
+          :
+            ''
+          }
+          {/*<button
             className={`btn ${isClickedDeseados ? 'pc-btnOnClick' : 'btn-light'} pc-btn-deseados`}
             onClick={onDeseadosClick}
           >
@@ -41,7 +47,7 @@ function PlaceCard({ isLogged, imagen, name, description, isClickedDeseados, isC
             onClick={onFavoritosClick}
           >
             <FavoriteBorderIcon />
-          </button>
+          </button>*/}
         </div>
       </div>
       <div className="card-body d-flex flex-column">

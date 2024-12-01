@@ -137,16 +137,13 @@ const HomePage = () => {
     const fetchLoginStatus = async () => {
       try {
         const loggedIn = await isLogged();
-        console.log("loggedIn", loggedIn)
         setIsRegistered(loggedIn.logged);
         if(loggedIn.logged) {
           const idLocal = loggedIn.data.id;
           setId(idLocal);
-          console.log("El usuario está loggeado", idLocal);
-          console.log("El usuario está loggeado2", id);
         }
         else
-        console.log('El usuario no ha iniciado sesión');
+          console.log('El usuario no ha iniciado sesión');
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
       }

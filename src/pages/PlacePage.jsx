@@ -27,6 +27,8 @@ const PlacePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 3;
 
+  const [isLogged, setLogged] = useState(false);
+
   const imagenes = [
     'https://media.timeout.com/images/106046734/image.jpg',
     'https://mxc.com.mx/wp-content/uploads/2024/08/biblioteca-de-mexico-1.jpg-6.jpg',
@@ -58,19 +60,17 @@ const PlacePage = () => {
       try {
 
         const idUsuario = localStorage.getItem('id');
-        if(!idUsuario) {
-          navigate("/");
+        if(idUsuario) {
+          // Verifica si está en favoritos
+          const favorito = await handleEsFavorito(idUsuario, id);
+          setIsFavorito(favorito.esFavorito);
+
+          // Verifica si está en deseados
+          const deseado = await handleEsDeseado(idUsuario, id);
+          setIsDeseado(deseado.esDeseado);
+          setLogged(true);
         }
 
-        // Verifica si está en favoritos
-        const favorito = await handleEsFavorito(idUsuario, id);
-        setIsFavorito(favorito.esFavorito);
-
-        // Verifica si está en deseados
-        const deseado = await handleEsDeseado(idUsuario, id);
-        setIsDeseado(deseado.esDeseado);
-
-        
         const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
         if(!resultado) {
           navigate("/");
@@ -284,7 +284,7 @@ const PlacePage = () => {
         placeId={id}
         isFavoritoInicial={isFavorito}
         isDeseadoInicial={isDeseado}
-
+        isLogged={isLogged}
       />
 
       <section className='pp-reviews'>

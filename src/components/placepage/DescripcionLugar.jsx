@@ -5,9 +5,9 @@ import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
 // Íconos
 import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
 import { Accessible as AccessibleIcon, AccessTime as AccessTimeIcon, FamilyRestroom as FamilyRestroomIcon, Grass as GrassIcon, Language as LanguageIcon, Category as CategoryIcon, Groups as GroupsIcon } from '@mui/icons-material';
-import {handleFavoritos, handleDeseados} from '../../pagesHandlers/favDeseados-handler';
+import { handleFavoritos, handleDeseados } from '../../pagesHandlers/favDeseados-handler';
 
-function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value,placeId, isFavoritoInicial, isDeseadoInicial  }) {
+function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value, placeId, isFavoritoInicial, isDeseadoInicial, isLogged}) {
   const [isClickedDeseados, setIsClickedDeseados] = useState(isDeseadoInicial);
   const [isClickedFavoritos, setIsClickedFavoritos] = useState(isFavoritoInicial);
  
@@ -233,12 +233,18 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
             </div>
             { /* Guardar en Favoritos y Deseados */}
             <div className='pp-informacion-principal-btns'>
-              <button className={`btn ${isClickedDeseados ? 'pp-btnOnClick' : 'btn-light'} pp-btn-deseados`} onClick={handleButtonDeseadosClick}>
-                <StarBorderIcon />
-              </button>
-              <button className={`btn ${isClickedFavoritos ? 'pp-btnOnClick' : 'btn-light'} pp-btn-favoritos`} onClick={handleButtonFavoritosClick}>
-                <FavoriteBorderIcon />
-              </button>
+              {isLogged ?
+              <>
+                <button className={`btn ${isClickedDeseados ? 'pp-btnOnClick' : 'btn-light'} pp-btn-deseados`} onClick={handleButtonDeseadosClick}>
+                  <StarBorderIcon />
+                </button>
+                <button className={`btn ${isClickedFavoritos ? 'pp-btnOnClick' : 'btn-light'} pp-btn-favoritos`} onClick={handleButtonFavoritosClick}>
+                  <FavoriteBorderIcon />
+                </button>
+              </>
+              :
+                ''
+              }
             </div>
           </div>
           {/* Descripción del lugar */}
