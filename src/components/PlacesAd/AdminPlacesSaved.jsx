@@ -86,6 +86,8 @@ function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto
                             <strong></strong>{detalles.join(', ')}
 
                         </Typography>
+
+                        
                         {/* 
                         <Box sx={{
                             display: 'flex',

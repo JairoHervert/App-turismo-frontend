@@ -9,8 +9,6 @@ const PlacesSaved = [
         detalles: ["Lorem ipsum dolor sit amet consectetur adipiscing elit himenaeos quis, fringilla duis nibh tristique bibendum orci nascetur imperdiet, lacus sed sociis parturient nulla dictumst convallis"],
         rating: 4,
         categoria: "Restaurante",
-        presupuesto: 5000,
-        viajantes: 4,
     },
     {
         imagen: Imagen2,
@@ -18,8 +16,6 @@ const PlacesSaved = [
         detalles: ["Lorem ipsum dolor sit amet consectetur adipiscing elit himenaeos quis, fringilla duis nibh tristique bibendum orci nascetur imperdiet, lacus sed sociis parturient nulla dictumst convallis"],
         rating: 4,
         categoria: "Museo",
-        presupuesto: 5000,
-        viajantes: 4,
     },
     {
         imagen: Imagen3,
@@ -27,8 +23,6 @@ const PlacesSaved = [
         detalles: ["Lorem ipsum dolor sit amet consectetur adipiscing elit himenaeos quis, fringilla duis nibh tristique bibendum orci nascetur imperdiet, lacus sed sociis parturient nulla dictumst convallis"],
         rating: 4,
         categoria: "Plaza",
-        presupuesto: 5000,
-        viajantes: 4,
     },
 ];
 
