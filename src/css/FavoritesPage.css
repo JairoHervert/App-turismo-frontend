@@ -9,6 +9,16 @@
    white-space: normal;
 }
 
+.fa_pa-place-name {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+   -webkit-box-orient: vertical;
+   white-space: normal;
+}
+
 @media (max-width: 1200px) {
    .fa_pa-descripcion {
       height: 4rem;

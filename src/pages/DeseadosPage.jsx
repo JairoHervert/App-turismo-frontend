@@ -3,7 +3,7 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import StarIcon from '@mui/icons-material/StarRateRounded';
 import { TextField, InputAdornment, Box } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import SearchRoundedIcon from '@mui/icons-material/Search';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
@@ -39,6 +39,17 @@ function DeseadosPage() {
     setPage(value);
   };
 
+  // Estado y función para manejar los lugares favoritos
+  const [favorites, setFavorites] = useState([]); // Manejo de favoritos de mnera local (no se guarda en la base de datos)
+  const toggleFavorite = (nombre) => {
+    setFavorites((prev) =>
+      prev.includes(nombre)
+        ? prev.filter((fav) => fav !== nombre) // verificar si ya está en favoritos y eliminarlo
+        : [...prev, nombre] // Agregar si no está en favoritos
+    );
+  };
+
+
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -57,14 +68,14 @@ function DeseadosPage() {
           </div>
           <div className='us_de-cont-buscador-filtro'>
             <TextField 
-              label="Buscar en deseados" 
-              variant="outlined" 
-              size="small" 
+              label='Buscar en deseados' 
+              variant='outlined' 
+              size='small' 
               sx={{ maxWidth: 250 }}
               InputProps={{
                 startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
+                  <InputAdornment position='start'>
+                    <SearchRoundedIcon />
                   </InputAdornment>
                 ),
               }}
@@ -85,6 +96,8 @@ function DeseadosPage() {
                 imagenLugar={lugar.imagen}
                 tiempoLugar={lugar.tiempo}
                 costoLugar={lugar.costo}
+                isFavorite={favorites.includes(lugar.nombre)}
+                toggleFavorite={toggleFavorite}
               />
             ))}
 

@@ -2,6 +2,7 @@ import React from 'react'
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import { Typography } from '@mui/material';
 
 // variant: principal-->Rosa, secundario-->Blanco
 // textCont: texto del boton
@@ -50,14 +51,17 @@ function ButtonsMod({ variant, textCont, clickEvent, width, height, startIcon, t
     <ThemeProvider theme={ThemeMaterialUI}>
       {/* Boton principal */}
       <Button
-
-        variant="outlined"
+        variant='outlined'
         startIcon={startIcon}
         sx={buttonStyle}
         onClick={clickEvent}
         type={type}
+      >
+        <Typography fontFamily={'Poppins'} sx={{fontSize: '0.9rem'}}>
+          {textCont}
+        </Typography>
 
-      >{textCont}</Button>
+      </Button>
 
     </ThemeProvider>
   )
