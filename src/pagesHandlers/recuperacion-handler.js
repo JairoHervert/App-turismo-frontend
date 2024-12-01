@@ -81,7 +81,7 @@ const handleRecupreacion = async (correo) => {
             text: 'Tu contraseña ha sido actualizada correctamente. Inicia sesión con tu nueva contraseña.',
             showConfirmButton: true,
             willClose: () => {
-              window.location.href = '/';
+              window.location.href = '/login';
             },
           });
         } else {

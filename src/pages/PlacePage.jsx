@@ -12,6 +12,7 @@ import { Pagination } from '@mui/material';
 import ButtonsMod from '../components/ButtonsMod';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
+import { handleEsFavorito, handleEsDeseado } from '../pagesHandlers/favDeseados-handler';
 import { handleDatosLugar, handleFotosLugar, handleSubcategoriasLugar } from '../pagesHandlers/place-handler';
 
 const PlacePage = () => {
@@ -19,6 +20,9 @@ const PlacePage = () => {
   const navigate = useNavigate();
   const [place, setPlace] = useState(null);
   const [categorias, setCategorias] = useState(null);
+
+  const [isFavorito, setIsFavorito] = useState(false);
+  const [isDeseado, setIsDeseado] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const reviewsPerPage = 3;
@@ -52,7 +56,20 @@ const PlacePage = () => {
 
     const fetchPlace = async () => {
       try {
-        console.log("Id lugar", id);
+
+        const idUsuario = localStorage.getItem('id');
+        if(!idUsuario) {
+          navigate("/");
+        }
+
+        // Verifica si está en favoritos
+        const favorito = await handleEsFavorito(idUsuario, id);
+        setIsFavorito(favorito.esFavorito);
+
+        // Verifica si está en deseados
+        const deseado = await handleEsDeseado(idUsuario, id);
+        setIsDeseado(deseado.esDeseado);
+
         
         const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
         if(!resultado) {
@@ -264,6 +281,9 @@ const PlacePage = () => {
         categoria={categorias}
         /* Si no hay imágenes -> {null} */
         imagenesLugar={fotos}
+        placeId={id}
+        isFavoritoInicial={isFavorito}
+        isDeseadoInicial={isDeseado}
 
       />
 

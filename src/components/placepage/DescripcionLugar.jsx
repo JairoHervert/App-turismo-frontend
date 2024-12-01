@@ -5,16 +5,21 @@ import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
 // Íconos
 import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
 import { Accessible as AccessibleIcon, AccessTime as AccessTimeIcon, FamilyRestroom as FamilyRestroomIcon, Grass as GrassIcon, Language as LanguageIcon, Category as CategoryIcon, Groups as GroupsIcon } from '@mui/icons-material';
+import {handleFavoritos, handleDeseados} from '../../pagesHandlers/favDeseados-handler';
 
-function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value }) {
-  const [isClickedDeseados, setIsClickedDeseados] = useState(false);
-  const [isClickedFavoritos, setIsClickedFavoritos] = useState(false);
-
+function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value,placeId, isFavoritoInicial, isDeseadoInicial  }) {
+  const [isClickedDeseados, setIsClickedDeseados] = useState(isDeseadoInicial);
+  const [isClickedFavoritos, setIsClickedFavoritos] = useState(isFavoritoInicial);
+ 
   const handleButtonDeseadosClick = () => {
+    const idUsuario = localStorage.getItem('id');
+    handleDeseados(idUsuario, placeId);
     setIsClickedDeseados(!isClickedDeseados);
   };
 
   const handleButtonFavoritosClick = () => {
+    const idUsuario = localStorage.getItem('id');
+    handleFavoritos(idUsuario, placeId);
     setIsClickedFavoritos(!isClickedFavoritos);
   };
 
