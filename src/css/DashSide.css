@@ -1,0 +1,124 @@
+/* Sidebar */
+.sidebar-container-admin {
+  background-color: #F8F9FA;
+  width: 250px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+  overflow: auto;
+  font-family: 'Montserrat', sans-serif;
+  transition: width 0.3s ease;
+}
+
+.list-item-button-admin {
+  color: #333;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.list-item-icon-admin {
+  color: #333;
+}
+
+.list-item-text-admin {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
+
+.submenu-item-admin {
+  padding-left: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
+
+/* Hover Effect */
+.list-item-button-admin:hover {
+  background-color: #e4f7ff;
+}
+
+/* Transiciones en Submenús */
+.collapse-enter-done,
+.collapse-exit-done {
+  padding-left: 30px;
+}
+
+.dash-cuentas-admin,
+.ajustes-soporte-admin {
+  font-size: 25px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Responsivo */
+@media screen and (max-width: 1000px) {
+  .sidebar-container-admin {
+    width: 200px;
+  }
+
+  .list-item-button-admin {
+    padding: 10px;
+  }
+
+  .list-item-text-admin {
+    font-size: 12px;
+  }
+
+  .submenu-item-admin {
+    padding-left: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar-container-admin {
+    width: 100%;
+  }
+
+  .list-item-button-admin {
+    padding: 8px;
+  }
+
+  .list-item-text-admin {
+    font-size: 11px;
+  }
+
+  .submenu-item-admin {
+    padding-left: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sidebar-container-admin {
+    width: 100%;
+  }
+
+  .list-item-button-admin {
+    padding: 6px;
+  }
+
+  .list-item-text-admin {
+    font-size: 10px;
+  }
+
+  .submenu-item-admin {
+    padding-left: 10px;
+  }
+}
+
+@media screen and (max-width: 342px) {
+  .sidebar-container-admin {
+    width: 100%;
+  }
+
+  .list-item-button-admin {
+    padding: 5px;
+  }
+
+  .list-item-text-admin {
+    font-size: 9px;
+  }
+
+  .submenu-item-admin {
+    padding-left: 7px;
+  }
+} 
+
+@media screen and (max-width: 857px) {
+  .sidebar-container-admin {
+    width: 100%;
+  }}

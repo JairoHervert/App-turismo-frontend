@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Box, Typography } from '@mui/material';
 import { CheckCircle as CheckCircleIcon, Cancel as CancelIcon, MailOutline as MailOutlineIcon } from '@mui/icons-material';
+import '../../css/AdministradorLugares.css';
+
 
 const Recibidos = ({ setSelectedCategory }) => {
   const categories = [

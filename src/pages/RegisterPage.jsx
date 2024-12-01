@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Grid , Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
+import { Container,Grid2 as Grid , Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -10,12 +10,10 @@ import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/register/LeftImageR';
-
 import imgRegister from '../img/registerIMGA.jpg';
 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
-import { style } from '@mui/system';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -58,9 +56,6 @@ function RegisterPage() {
     };
     return rules;
   };
-  
-
-  
   
 
   const validarConfirmarContraseña = (contraseña, confirmacion) => {
@@ -162,20 +157,18 @@ function RegisterPage() {
             lightLink={false}
             staticNavbar={false}
           />
-          <Container maxWidth="md" disableGutters className="my-5 py-4 d-flex align-items-center justify-content-center ">
+          <Container maxWidth="md" disableGutters className= 'my-5 py-4 d-flex align-items-center justify-content-center'>
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
               {/* Left Image Section */}
-              <Grid item xs={2} md={6} className="register-left-container  " >
+              <Grid size={{ xs: 12, md: 6 }} className='register-left-container'>
                 <LeftImage
                   imageUrl={imgRegister}              
-                  nombreFotografo="Daniel Zepeda"
-
-                    />
+                  nombreFotografo="Daniel Zepeda"/>
               </Grid>
 
               {/* Form Section */}
-              <Grid item xs={12} md={6}>
-                <Box className="register-right-form bg-light">
+              <Grid size={{ xs: 12, md: 6 }}>
+                                <Box className="register-right-form bg-light">
                   <Box className="mx-3 pb-5 pt-3">
                     <Box className="d-flex justify-content-end">
                       <IconButton aria-label="cerrar" onClick={handleHomeClick}>
@@ -183,6 +176,7 @@ function RegisterPage() {
                       </IconButton>
                     </Box>
                     <Box className="mx-4">
+                      
                       <Typography variant="h4" className="fw-bold">Regístrate</Typography>
                       <Typography variant="subtitle1">Completa el formulario para continuar</Typography>
 

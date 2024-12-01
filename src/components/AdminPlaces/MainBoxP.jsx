@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import Grid2 from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
+import '../../css/AdministradorLugares.css';
 
 const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
   const navigate = useNavigate();
@@ -44,7 +45,12 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
       <Typography
         variant="h4"
         className="fw-bolder fontMontserrat mb-4 us_de-deseados-text"
-        sx={{ fontFamily: 'Montserrat', fontWeight: 'bold', fontSize: '1.8rem', textAlign: 'center' }}
+        sx={{
+          fontFamily: 'Montserrat',
+          fontWeight: 'bold',
+          fontSize: '1.8rem',
+          textAlign: 'center',
+        }}
       >
         Solicitudes
       </Typography>

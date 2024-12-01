@@ -3,8 +3,6 @@ import {
   Box,
   Typography,
   TextField,
-  Select,
-  MenuItem,
   Button,
   Grid,
   InputAdornment,
@@ -27,6 +25,11 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
     sitioWeb: "",
   });
 
+  const [buttonTextAccept, setButtonTextAccept] = useState("Aceptar");
+  const [buttonTextReject, setButtonTextReject] = useState("Rechazar");
+  const [isAccepted, setIsAccepted] = useState(false);
+  const [isRejected, setIsRejected] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -35,9 +38,20 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
     }));
   };
 
+  const handleSubmitAccept = () => {
+    setButtonTextAccept("Aceptado");
+    setIsAccepted(true);
+    setIsRejected(false); // Oculta el botón de "Rechazar" si se acepta
+  };
+
+  const handleSubmitReject = () => {
+    setButtonTextReject("Rechazado");
+    setIsRejected(true);
+    setIsAccepted(false); // Oculta el botón de "Aceptar" si se rechaza
+  };
+
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
-      // Lógica para manejar redimensionamientos (si es necesario)
     });
 
     const formContainer = document.querySelector('.formulario-container-admin');
@@ -60,7 +74,6 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
         maxWidth: { xs: '100%', sm: '90%', md: '70%' },
       }}
     >
-      {/* Header */}
       <Typography variant="h4" className="formulario-header-title-admin">
         Agregar {addplace}
       </Typography>
@@ -69,16 +82,16 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
         {date}, {hour}
       </Typography>
 
-      {/* Subtítulo */}
-      <Typography variant="subtitle1" className="formulario-subtitle-section-admin">
+      <Typography
+        variant="subtitle1"
+        className="formulario-subtitle-section-admin"
+      >
         Actualizar datos del lugar registrado
       </Typography>
 
-      {/* Contenedor con fondo blanco */}
-      <Box className="formulario-box-admin" sx={{ backgroundColor: '#fff', borderRadius: 2 }}>
-        <Grid container spacing={2}>
-          {/* Nombre del lugar */}
-          <Grid item xs={12} sm={6} md={6}>
+      <Box className="formulario-box-admin" sx={{ borderRadius: 2 }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               label="Nombre del lugar"
@@ -87,25 +100,21 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Categoría */}
-          <Grid item xs={12} sm={6} md={6}>
+          <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
-              label="Categoria"
+              label="Categoría"
               name="categoria"
               value={formData.categoria}
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Dirección */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -115,11 +124,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Descripción */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -131,11 +138,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Costo de entrada */}
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               fullWidth
@@ -145,14 +150,12 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
               InputProps={{
                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
               }}
             />
           </Grid>
 
-          {/* Días de apertura */}
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               fullWidth
@@ -162,11 +165,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Horarios */}
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               fullWidth
@@ -176,9 +177,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
+
           <Grid item xs={12} sm={6} md={4}>
             <TextField
               fullWidth
@@ -188,11 +189,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Servicios adicionales */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -202,11 +201,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Contacto */}
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -216,9 +213,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
+
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -228,11 +225,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Sitio web */}
           <Grid item xs={12}>
             <TextField
               fullWidth
@@ -242,11 +237,9 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
               onChange={handleChange}
               variant="outlined"
               size="small"
-              className="formulario-input-admin"
             />
           </Grid>
 
-          {/* Botones */}
           <Grid item xs={12}>
             <Box
               sx={{
@@ -256,30 +249,30 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
                 gap: 2,
               }}
             >
-              <Button
-                className="formulario-button-reject-admin"
-                variant="contained"
-                sx={{
-                  backgroundColor: '#e4007c',
-                  '&:hover': {
-                    backgroundColor: '#c3006a',
-                  },
-                }}
-              >
-                Rechazar
-              </Button>
-              <Button
-                className="formulario-button-accept-admin"
-                variant="contained"
-                sx={{
-                  backgroundColor: '#e4007c',
-                  '&:hover': {
-                    backgroundColor: '#c3006a',
-                  },
-                }}
-              >
-                Aceptar
-              </Button>
+              {!isAccepted && (
+                <Button
+                  onClick={handleSubmitReject}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#e4007c',
+                    '&:hover': { backgroundColor: '#c3006a' },
+                  }}
+                >
+                  {buttonTextReject} {/* Botón de Rechazar */}
+                </Button>
+              )}
+              {!isRejected && (
+                <Button
+                  onClick={handleSubmitAccept}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#e4007c',
+                    '&:hover': { backgroundColor: '#c3006a' },
+                  }}
+                >
+                  {buttonTextAccept} {/* Botón de Aceptar */}
+                </Button>
+              )}
             </Box>
           </Grid>
         </Grid>
