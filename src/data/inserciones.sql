@@ -96,6 +96,7 @@ CALL RegistrarSubcategoria('6', 'bowling_alley');
 CALL UsuarioAñadirDeseado(1,1);
 CALL UsuarioAñadirDeseado(1,2);
 CALL UsuarioAñadirDeseado(1,3);
+CALL UsuarioAñadirDeseado(1,4);
 
 CALL UsuarioAñadirFavorito(1,4);
 CALL UsuarioAñadirFavorito(1,5);

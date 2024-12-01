@@ -4,22 +4,13 @@ import ButtonsMod from '../ButtonsMod';
 import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
 import '../../css/HomePage.css';
 
-function PlaceCard({ imagen, name, description, isClickedDeseados, isClickedFavoritos, onDeseadosClick, onFavoritosClick, id}) {
+function PlaceCard({ isLogged, imagen, name, description, isClickedDeseados, isClickedFavoritos, onDeseadosClick, onFavoritosClick, id}) {
   const navigate = useNavigate();
-  const idPrueba = 1;
 
   const handleViewMore = () => {
-    console.log("???")
     navigate(`/placepage/${id}`);
   };
 
-
-  /*const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
-  console.log(esURL, imagen);
-  const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
-
-  const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.png`) : '';*/
-  console.log(imagen);
   const image = imagen ? imagen : require(`../../img/HomePage/places/home-places-ven-carranza.jpg`);
   
   return (
@@ -27,6 +18,18 @@ function PlaceCard({ imagen, name, description, isClickedDeseados, isClickedFavo
       <div className="position-relative">
         <img src={image} className="card-img-top" alt={name} />
         <div className="position-absolute top-0 start-0 p-2">
+          {/*isLogged ?
+          <><button
+              className={`btn ${isClickedDeseados ? 'pc-btnOnClick' : 'btn-light'} pc-btn-deseados`}
+              onClick={onDeseadosClick}
+            >
+              <StarBorderIcon />
+            </button><button
+              className={`btn ${isClickedFavoritos ? 'pc-btnOnClick' : 'btn-light'} pc-btn-favoritos`}
+              onClick={onFavoritosClick}
+            >
+                <FavoriteBorderIcon />
+              </button></> : ''*/}
           <button
             className={`btn ${isClickedDeseados ? 'pc-btnOnClick' : 'btn-light'} pc-btn-deseados`}
             onClick={onDeseadosClick}

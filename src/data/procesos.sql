@@ -20,6 +20,7 @@ DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
 DROP PROCEDURE IF EXISTS getLugaresCategoria4;
+DROP PROCEDURE IF EXISTS getLugaresCategoriaHomeUsuario;
 DROP PROCEDURE IF EXISTS LugarGetDatos;
 DROP PROCEDURE IF EXISTS RegistrarSubcategoria;
 DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
@@ -647,6 +648,44 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
+-- Process `AppTurismo`.`getLugaresCategoriaHomeUsuario`
+-- -----------------------------------------------------
+CREATE PROCEDURE getLugaresCategoriaHomeUsuario (
+   IN p_id INT,
+   IN p_cat1 VARCHAR(40),
+   IN p_cat2 VARCHAR(40),
+   IN p_cat3 VARCHAR(40),
+   IN p_cat4 VARCHAR(40)
+)
+BEGIN
+   SELECT 
+      l.id,
+      l.nombre,
+      l.direccion,
+      l.descripcion,
+      l.imagen,
+      l.attributions,
+      c.nombre AS categoria,
+      GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias,
+      EXISTS (
+         SELECT 1 
+         FROM LugarDeseado ld 
+         WHERE ld.idUsuario = p_id AND ld.idLugar = l.id
+      ) AS esDeseado,
+      EXISTS (
+         SELECT 1 
+         FROM LugarFavorito lf 
+         WHERE lf.idUsuario = p_id AND lf.idLugar = l.id
+      ) AS esFavorito
+   FROM Lugar l
+   JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+   JOIN Subcategoria s ON s.id = ls.idSubcategoria
+   JOIN Categoria c ON c.id = s.idCategoria
+   WHERE c.nombre = p_cat1 OR c.nombre = p_cat2 OR c.nombre = p_cat3 OR c.nombre = p_cat4
+   GROUP BY l.id, l.nombre, l.direccion, l.descripcion, l.imagen, l.attributions, c.nombre;
+END //
+
+-- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarGetDatos`
 -- -----------------------------------------------------
 CREATE PROCEDURE LugarGetDatos (
@@ -660,7 +699,7 @@ BEGIN
    WHERE id = p_id;
     
    IF lugarExistente = 0 THEN
-      SELECT 'lugar_no_registrado' AS 'error';
+      SELECT 'lugar_no_registrado' AS 'ERROR';
    ELSE
       SELECT
          id,
@@ -712,7 +751,7 @@ BEGIN
    WHERE id = p_idLugar;
     
    IF lugarExistente = 0 THEN
-      SELECT 'lugar_no_registrado' AS 'error';
+      SELECT 'lugar_no_registrado' AS 'ERROR';
    END IF;
    
    SELECT COUNT(*) INTO subcategoriaExistente
@@ -721,7 +760,7 @@ BEGIN
    
    -- Mensaje de error si la subcategoría no existe
    IF lugarExistente = 0 THEN
-      SELECT 'lugar_no_registrado' AS 'error';
+      SELECT 'lugar_no_registrado' AS 'ERROR';
    END IF;
    
    IF lugarExistente = 1 AND subcategoriaExistente = 1 THEN

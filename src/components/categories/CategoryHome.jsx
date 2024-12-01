@@ -1,16 +1,19 @@
 // App.jsx
 import React, { useState, useEffect } from 'react';
 import CategorySection from './CategorySection';
-import { handleCategorias4Lugar } from '../../pagesHandlers/place-handler'; 
-import '../../css/HomePage.css';
+import { handleCategorias4Lugar, handleCategorias4LugarUsuario } from '../../pagesHandlers/place-handler';
+import { useNavigate } from 'react-router-dom';
 
-const CategoryHome = () => {
+import '../../css/HomePage.css';
+import { Navigate } from 'react-router-dom';
+
+const CategoryHome = ({isLogged, id}) => {
+  const navigate = useNavigate(); // Inicializa useNavigate
   const [selectedCategory, setSelectedCategory] = useState("");
   const [randomCategories, setRandomCategories] = useState([]);
   const [clickedDeseados, setClickedDeseados] = useState({});
   const [clickedFavoritos, setClickedFavoritos] = useState({});
   
-
   const allCategories = ["Deportes", "Comida Rápida", "Restaurante", "Cafeteria", "Bar", "Arte", "Historia", "Museos", "Educativos", "Compras", "Parques", "Juegos Recreativos al Aire Libre", "Juegos Recreativos Bajo Techo", "Zoológicos", "Religión"];
 
   const places = [
@@ -145,10 +148,25 @@ const CategoryHome = () => {
 
     const fetchLugares = async () => {
       try {
-        console.log("cats a buscar", randomCategories);
-        
-        const resultado = await handleCategorias4Lugar(randomCategories[0], randomCategories[1], randomCategories[2], randomCategories[3]); // Espera la resolución de la promesa
-
+        //console.log("cats a buscar", randomCategories);
+        console.log("idCategory Home", id);
+        let resultado;
+        if (id) {
+          resultado = await handleCategorias4LugarUsuario(
+            id,
+            randomCategories[0],
+            randomCategories[1],
+            randomCategories[2],
+            randomCategories[3]
+          );
+        } else {
+          resultado = await handleCategorias4Lugar(
+            randomCategories[0],
+            randomCategories[1],
+            randomCategories[2],
+            randomCategories[3]
+          );
+        }
         setLugares(resultado);
         console.log(resultado);
       } catch (error) {
@@ -160,20 +178,28 @@ const CategoryHome = () => {
     setRandomCategories(randomCategories);
     setSelectedCategory(randomCategories[Math.floor(Math.random() * randomCategories.length)]);
     fetchLugares();
-  }, []);
+  }, [id]); // Ahora escuchamos cambios en `id`
 
   const handleButtonDeseadosClick = (nombre) => {
-    setClickedDeseados(prevState => ({
-      ...prevState,
-      [nombre]: !prevState[nombre]
-    }));
+    if(isLogged) {
+      setClickedDeseados(prevState => ({
+        ...prevState,
+        [nombre]: !prevState[nombre]
+      }));
+    } else {
+      navigate('/login')
+    }
   };
 
   const handleButtonFavoritosClick = (nombre) => {
-    setClickedFavoritos(prevState => ({
-      ...prevState,
-      [nombre]: !prevState[nombre]
-    }));
+    if(isLogged) {
+      setClickedFavoritos(prevState => ({
+        ...prevState,
+        [nombre]: !prevState[nombre]
+      }));
+    } else {
+      navigate('/login')
+    }
   };
 
   const filteredPlaces = lugares.filter(place => place.categoria === selectedCategory);
@@ -194,6 +220,7 @@ const CategoryHome = () => {
 
       <br />
       <CategorySection
+        isLogged={isLogged}
         places={filteredPlaces}
         clickedDeseados={clickedDeseados}
         clickedFavoritos={clickedFavoritos}

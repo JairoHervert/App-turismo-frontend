@@ -67,6 +67,22 @@ class placeController {
     }
   }
 
+  static async getLugaresPor4CategoriasUsuario(req, res) {
+    const { id, cat1, cat2, cat3, cat4 } = req.body;
+    try {
+      const resultado = await placeModel.LugarGetPor4CategoriasUsuario(id, cat1, cat2, cat3, cat4);
+
+      res.json({resultado: resultado});
+    } catch (error) {
+      if(error.message) {
+        let mensajeError = errorHandler(error.message);
+        return res.status(400).json({ error: mensajeError });
+      } else{
+        return res.status(500).json({ error: error });
+      }
+    }
+  }
+
 }
 
 module.exports = placeController;
