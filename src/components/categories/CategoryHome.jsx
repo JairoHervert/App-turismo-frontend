@@ -54,6 +54,7 @@ const CategoryHome = ({ isLogged, id }) => {
           );
         }
         setLugares(resultado);
+        console.log(resultado);
       } catch (error) {
         console.error('Error al obtener foto del lugar', error);
       }
@@ -73,6 +74,7 @@ const CategoryHome = ({ isLogged, id }) => {
 
     try {
       const newState = await handleDeseados(id, placeId); // Llama a tu función SQL
+      console.log(newState);
       setClickedDeseados((prevState) => ({
         ...prevState,
         [placeId]: newState,
@@ -90,10 +92,12 @@ const CategoryHome = ({ isLogged, id }) => {
 
     try {
       const newState = await handleFavoritos(id, placeId); // Llama a tu función SQL
-
+      console.log(newState);
       let estado = false;
       if(newState.message == "Lugar agregado a favoritos")
         estado = true;
+      else
+        estado = false;
       setClickedFavoritos((prevState) => ({
         ...prevState,
         [placeId]: estado,

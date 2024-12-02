@@ -36,18 +36,6 @@ function PlaceCard({ id, isLogged, imagen, name, description, isClickedDeseados,
           :
             ''
           }
-          {/*<button
-            className={`btn ${isClickedDeseados ? 'pc-btnOnClick' : 'btn-light'} pc-btn-deseados`}
-            onClick={onDeseadosClick}
-          >
-            <StarBorderIcon />
-          </button>
-          <button
-            className={`btn ${isClickedFavoritos ? 'pc-btnOnClick' : 'btn-light'} pc-btn-favoritos`}
-            onClick={onFavoritosClick}
-          >
-            <FavoriteBorderIcon />
-          </button>*/}
         </div>
       </div>
       <div className="card-body d-flex flex-column">

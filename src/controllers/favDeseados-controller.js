@@ -17,8 +17,10 @@ class favDeseadosController {
         const { idUsuario, IdLugar } = req.body;
         try {
           const deseado = await favDeseadosModel.Deseados(idUsuario, IdLugar);
+          console.log("deseado Controller", deseado);
           res.status(200).json({ message: 'Lugar agregado a deseados' });
         } catch (error) {
+            console.log(error);
             res.status(500).json({ error: 'Error al agregar a deseados' });
         }
     }

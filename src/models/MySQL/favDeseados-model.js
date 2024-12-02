@@ -2,41 +2,42 @@ const db = require('./db');
 
 class favDeseadosModel {
 
-    static async Favoritos(idUsuario, IdLugar) {
-        const query = 'CALL UsuarioAñadirFavorito (?, ?);';
-        return new Promise((resolve, reject) => {
-          db.query(query, [idUsuario, IdLugar], (err, results) => {
-            if (err) {
-              reject(err);
-            }
-            const resultado = results || null;
-            console.log(resultado);
-            if (resultado && resultado.error)
-              return reject(new Error(resultado.error));
-            resolve({ message: 'Lugar agregado a favoritos'});
-          });
-        });
+  static async Deseados(idUsuario, IdLugar) {
+    console.log("Model recibe: ", idUsuario, IdLugar);
+    const query = 'CALL UsuarioAnadirDeseado (?, ?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [idUsuario, IdLugar], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results || null;
+        console.log("resultado deseados", resultado);
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({ message: 'Lugar agregado a deseados'});
+      });
+    });
+ }
 
-        
-    }
-
-    static async Deseados(idUsuario, IdLugar) {
-        
-        const query = 'CALL UsuarioAñadirDeseado (?, ?);';
-        return new Promise((resolve, reject) => {
-          db.query(query, [idUsuario, IdLugar], (err, results) => {
-            if (err) {
-              reject(err);
-            }
-            const resultado = results || null;
-            console.log(resultado);
-            if (resultado && resultado.error)
-              return reject(new Error(resultado.error));
-            resolve({ message: 'Lugar agregado a deseados'});
-          });
+  static async Favoritos(idUsuario, IdLugar) {
+      const query = 'CALL UsuarioAnadirFavorito (?, ?);';
+      return new Promise((resolve, reject) => {
+        db.query(query, [idUsuario, IdLugar], (err, results) => {
+          if (err) {
+            reject(err);
+          }
+          const resultado = results || null;
+          console.log(resultado);
+          if (resultado && resultado.error)
+            return reject(new Error(resultado.error));
+          resolve({ message: 'Lugar agregado a favoritos'});
         });
+      });
+
       
-     }
+  }
+
+
 
      static async EsFavorito(idUsuario, IdLugar) {
         const query = 'SELECT 1 FROM lugarfavorito WHERE idUsuario = ? AND IdLugar = ? LIMIT 1;';

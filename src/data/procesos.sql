@@ -13,8 +13,8 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 DROP PROCEDURE IF EXISTS UsuarioGetDatos;
 DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
 # Usuario Preferencias
-DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
-DROP PROCEDURE IF EXISTS UsuarioAñadirFavorito;
+DROP PROCEDURE IF EXISTS UsuarioAnadirDeseado;
+DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
@@ -395,11 +395,11 @@ END //
 -- ---------------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------
--- Process `AppTurismo`.`UsuarioAñadirDeseado`
+-- Process `AppTurismo`.`UsuarioAnadirDeseado`
 -- -----------------------------------------------------
-CREATE PROCEDURE UsuarioAñadirDeseado (
+CREATE PROCEDURE UsuarioAnadirDeseado (
    IN p_idUsuario INT,
-   IN p_idLugar INT
+   IN p_idLugar VARCHAR(40)
 )
 BEGIN
    DECLARE usuarioExistente INT;
@@ -409,30 +409,30 @@ BEGIN
    FROM Usuario
    WHERE id = p_idUsuario;
    
-   IF usuarioExistente = 0 THEN
-      SELECT 'usuario_no_existente' AS 'error';
-   END IF;   
-   
    SELECT COUNT(*) INTO lugarExistente
    FROM Lugar
    WHERE id = p_idLugar;
    
-   IF lugarExistente = 0 THEN
-      SELECT 'lugar_no_existente' AS 'error';
-   END IF;
-   
-   IF usuarioExistente = 1 AND lugarExistente = 1 THEN
-      INSERT INTO LugarDeseado (idUsuario, idLugar, auditoria)
-      VALUES (p_idUsuario, p_idLugar, NOW());
-   END IF;
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      IF lugarExistente = 0 THEN
+         SELECT 'lugar_no_existente' AS 'error';
+      ELSE
+         INSERT INTO LugarDeseado (idUsuario, idLugar, auditoria)
+         VALUES (p_idUsuario, p_idLugar, NOW());
+      
+         SELECT 1 AS 'success';
+      END IF;
+   END IF;   
 END //
 
 -- -----------------------------------------------------
--- Process `AppTurismo`.`UsuarioAñadirFavorito`
+-- Process `AppTurismo`.`UsuarioAnadirFavorito`
 -- -----------------------------------------------------
-CREATE PROCEDURE UsuarioAñadirFavorito (
+CREATE PROCEDURE UsuarioAnadirFavorito (
    IN p_idUsuario INT,
-   IN p_idLugar INT
+   IN p_idLugar VARCHAR(40)
 )
 BEGIN
    DECLARE usuarioExistente INT;
@@ -457,6 +457,8 @@ BEGIN
    IF usuarioExistente = 1 AND lugarExistente = 1 THEN
       INSERT INTO LugarFavorito (idUsuario, idLugar, auditoria)
       VALUES (p_idUsuario, p_idLugar, NOW());
+      
+      SELECT 1 AS 'success';
    END IF;
 END //
 
