@@ -31,7 +31,7 @@ function RegisterPage() {
   // Validaciones de la contraseña
   const validarContraseña = (contraseña) => {
     const rules = {
-      longitudValida: /^(?=.{2,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
+      longitudValida: /^(?=.{8,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
       mayuscula: /[A-Z]/.test(contraseña), // Al menos una mayúscula
       minuscula: /[a-z]/.test(contraseña), // Al menos una minúscula
       numero: /\d/.test(contraseña), // Al menos un número
@@ -55,7 +55,7 @@ function RegisterPage() {
   // Validación del nombre de usuario
   const validarUser = (usermame) => {
     const rules = {
-      longitudValida: /^(?=.{2,60}$)/.test(usermame), // Longitud mínima de 8 y máxima de 60 caracteres
+      longitudValida: /^(?=.{2,60}$)/.test(usermame), // Longitud mínima de 2 y máxima de 60 caracteres
       noVacio: usermame.length > 0, // El nombre de usuario no puede estar vacío
     };
     return rules;
@@ -125,6 +125,7 @@ function RegisterPage() {
         ...prevErrors,
         contraseña: passwordRules,
       }));
+      return;
     }
 
     // Si las contraseñas no coinciden
@@ -133,6 +134,31 @@ function RegisterPage() {
         ...prevErrors,
         contraseña2: false, // Marcar error en confirmar contraseña
       }));
+      return;
+    }
+
+    // // Validar correo
+    // const emailRules = validarCorreo(correo);
+
+    // // Si el correo no cumple las reglas
+    // if (!emailRules.sinEspacios || !emailRules.arrobaCaracteres || !emailRules.dominioConPunto || !emailRules.noVacio) {
+    //   setErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     correo: emailRules,
+    //   }));
+    //   return;
+    // }
+
+    // Validar nombre de usuario
+    const userRules = validarUser(nombre);
+    
+    // Si el nombre de usuario no cumple las reglas
+    if (!userRules.longitudValida || !userRules.noVacio) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        nombre: userRules,
+      }));
+      return;
     }
 
     // Si todo está correcto, proceder con el registro
@@ -199,7 +225,7 @@ function RegisterPage() {
                             size="small"
                             required
                             error={formSubmitted && !errors.nombre?.longitudValida}
-                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 8 y 60 caracteres." : ""}
+                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 2 y 60 caracteres." : ""}
                           />
                         <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
                           El username debe cumplir con las siguientes reglas:

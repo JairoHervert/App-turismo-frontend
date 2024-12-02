@@ -1,15 +1,13 @@
 
 /*!40101 SET NAMES utf8mb4 */;
-
 /*!40101 SET SQL_MODE=''*/;
-
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 DROP DATABASE IF EXISTS AppTurismo;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`AppTurismo` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`AppTurismo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
 USE `AppTurismo`;
 
@@ -36,7 +34,7 @@ CREATE TABLE `Usuario` (
    `confirmacion` BOOLEAN NOT NULL DEFAULT 0,
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`Lugar`
@@ -47,11 +45,11 @@ CREATE TABLE `Lugar` (
    `nombre` VARCHAR(128) NOT NULL,
    `direccion` VARCHAR(255) NOT NULL,
    `descripcion` VARCHAR(1024) NULL,
-   `imagen` VARCHAR(512) NULL DEFAULT NULL,
+   `imagen` TEXT NULL DEFAULT NULL,
    `attributions` VARCHAR(150) NULL,
-   `latitud` VARCHAR(45) NULL,
-   `longitud` VARCHAR(45) NULL,
-   `fotos` VARCHAR(1024) NULL,
+   `latitud` DOUBLE NULL,
+   `longitud` DOUBLE NULL,
+   `fotos` TEXT NULL,
    `tipos` VARCHAR(1024) NULL,
    `teléfono` VARCHAR(20) NULL,
    `precioNivel` TINYINT NULL,
@@ -59,21 +57,21 @@ CREATE TABLE `Lugar` (
    `rating` VARCHAR(10) NULL,
    `regularOpeningHours` TEXT NULL,
    `userRatingCount` VARCHAR(45) NULL,
-   `website` VARCHAR(80) NULL,
+   `website` VARCHAR(128) NULL,
    `goodForChildren` BOOLEAN NULL,
    `goodForGroups` BOOLEAN NULL,
-   `paymentOptions` VARCHAR(10) NULL,
+   `paymentOptions` TEXT NULL,
    `reservable` BOOLEAN NULL,
    `servesVegetarianFood` VARCHAR(10) NULL,
    `allowsDogs` VARCHAR(10) NULL,
-   `reviewsGoogle` VARCHAR(4096) NULL,
+   `reviewsGoogle` TEXT NULL,
    `accesibilidadParking` BOOLEAN NULL DEFAULT '0',
    `accesibilidadEntrance` BOOLEAN NULL DEFAULT '0',
    `accesibilidadRestroom` BOOLEAN NULL DEFAULT '0',
    `accesibilidadSeating` BOOLEAN NULL DEFAULT '0',
    `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`id`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`Resena`
@@ -88,7 +86,29 @@ CREATE TABLE `Resena` (
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `AppTurismo`.`Itinerario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Itinerario`;
+CREATE TABLE `Itinerario` (
+   `id` INT NOT NULL AUTO_INCREMENT ,
+   PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `AppTurismo`.`Historial`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `Historial`;
+CREATE TABLE `Historial` (
+   `idUsuario` INT NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
+   `auditoria` DATETIME NOT NULL,
+   PRIMARY KEY (idUsuario, idLugar),
+   FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
+   FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              CATEGORÍAS
@@ -102,7 +122,7 @@ CREATE TABLE `Categoria` (
    `id` INT NOT NULL AUTO_INCREMENT,
    `nombre` VARCHAR(45) UNIQUE NOT NULL,
    PRIMARY KEY (`id`)
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     
 INSERT INTO `categoria` (`nombre`) VALUES 
 ('Salud y Bienestar'), 
@@ -131,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `appturismo`.`Subcategoria` (
    `idCategoria` INT NOT NULL,
    PRIMARY KEY (`id`, `idCategoria`),
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Salud y Bienestar
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
@@ -322,7 +342,7 @@ CREATE TABLE `LugarDeseado` (
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
-)ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`LugarFavorito`
@@ -335,7 +355,7 @@ CREATE TABLE `LugarFavorito` (
    PRIMARY KEY (idUsuario, idLugar),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`CategoriaFavorita`
@@ -347,7 +367,7 @@ CREATE TABLE `CategoriaFavorita` (
    PRIMARY KEY (idUsuario, idCategoria),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`CategoriaFavorita`
@@ -359,18 +379,31 @@ CREATE TABLE `LugarSubcategoria` (
    PRIMARY KEY (idLugar, idSubcategoria),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION,
    FOREIGN KEY (idSubcategoria) REFERENCES Subcategoria(id) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
 -- Table `AppTurismo`.`LugarFotos`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `LugarFotos`;
 CREATE TABLE `LugarFotos` (
-   idLugar VARCHAR(40) NOT NULL,
-   URL VARCHAR(512) NOT NULL,
+   `idLugar` VARCHAR(40) NOT NULL,
+   `URL` VARCHAR(512) NOT NULL,
+   `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (`idLugar`, `URL`),
    FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------
+-- Table `AppTurismo`.`UsuarioItinerario`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `UsuarioItinerario`;
+CREATE TABLE `UsuarioItinerario` (
+   `idUsuario` INT NOT NULL,
+   `idItinerario` INT NOT NULL,
+   PRIMARY KEY (idUsuario, idItinerario),
+   FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
+   FOREIGN KEY (idItinerario) REFERENCES Itinerario(id) ON DELETE CASCADE
+)ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              VISTAS
@@ -402,3 +435,23 @@ SELECT
 FROM Subcategoria s
 JOIN Categoria c WHERE s.idCategoria = c.id
 ORDER BY c.nombre;
+
+-- -----------------------------------------------------
+-- View `AppTurismo`.`verLugaresCategoria`
+-- -----------------------------------------------------
+DROP VIEW IF EXISTS verLugaresCategoria;
+CREATE VIEW verLugaresCategoria AS
+SELECT
+   l.id,
+   l.nombre,
+   l.direccion,
+   l.descripcion,
+   l.imagen,
+   l.attributions,
+   c.nombre AS categoria,
+   s.nombre AS subcategoria
+FROM Lugar l 
+JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+JOIN Subcategoria s ON s.id = ls.idSubcategoria
+JOIN Categoria c ON c.id = s.idCategoria
+ORDER BY categoria;

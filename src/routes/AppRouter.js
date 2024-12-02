@@ -44,7 +44,7 @@ function AppRouter() {
         <Route path='/terminos-condiciones' element={<TerminosCondiciones />} />
         <Route path='/politica-privacidad' element={<PoliticasPrivacidad />} />
         <Route path="/confirm/:token" element={<ConfirmacionRegistro />} />
-        <Route path='/placepage' element={<PlacePage />} />
+        <Route path='/placepage/:id' element={<PlacePage />} />
         <Route path='/generar-itinerario' element={<GenerarItinerario />} />
         <Route path='/resume-page' element={<ResumePage />}/>
         <Route path='/register-place-page' element={<RegisterPlacePage />}/>
@@ -56,6 +56,7 @@ function AppRouter() {
         <Route path='/recuperar-contrasena' element={<RecuperarContrasena />} />
         <Route path='/ingresar-nueva-contrasena' element={<IngresarNuevaContrasena />} />
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
+        <Route path="/recuperacion/:token" element={<IngresarNuevaContrasena />} />
         <Route path='/all-places' element={<AllPlacesPage/>} />
         <Route path='/preferencias' element={<PreferenciasModal/>} />
         <Route path='/Admin-SavedPlaces' element={<AdminSavedPlaces/>}/>

@@ -36,7 +36,7 @@ function FavoritesPage() {
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
-        navigate('./login');
+        navigate('/login');
       }
     };
 
@@ -109,37 +109,7 @@ function FavoritesPage() {
                 <h3 className='fw-bold'>No se encontraron lugares favoritos.</h3>
               </div>
             )}
-            {/*
-            <ItemFavoritos
-              imagen={Imagen1}
-              nombre='Fuente de Tlaloc'
-              descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
-
-            <ItemFavoritos
-              imagen={Imagen2}
-              nombre='Casa de León'
-              descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
-
-            <ItemFavoritos
-              imagen={Imagen3}
-              nombre='Palacio Postal'
-              descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
-
-            <ItemFavoritos
-              imagen={Imagen1}
-              nombre='Fuente de Tlaloc'
-              descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
-
-            <ItemFavoritos
-              imagen={Imagen2}
-              nombre='Casa de León'
-              descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
-
-            <ItemFavoritos
-              imagen={Imagen3}
-              nombre='Palacio Postal'
-              descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
-            */}
+            {}
           </Grid>
         </Box>
 

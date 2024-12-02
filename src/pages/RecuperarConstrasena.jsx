@@ -11,6 +11,8 @@ import { Container, Card, Box, Typography, CardHeader, CardContent, TextField, L
 import { ThemeProvider } from '@mui/material/styles';
 import { Stack } from '@mui/system';
 
+import { handleRecupreacion } from '../pagesHandlers/recuperacion-handler';
+
 const RecuperarContrasena = () => {
 
   const [email, setEmail] = useState('');
@@ -34,11 +36,7 @@ const RecuperarContrasena = () => {
     setTouched(true);
 
     if (validarEmail(email)) {
-      setError(false);
-      console.log('Correo enviado a: ', email);
-    } else {
-      setError(true);
-      console.log('Correo inválido. No es posible mandar el correo');
+      handleRecupreacion(email);
     }
   }
 

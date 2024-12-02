@@ -17,6 +17,23 @@ const handleDatosUsuario = async (id) => {
   }
 }
 
+const handleGuardarDatos = async (id, nombre, apellido, fecha) => {
+  try {
+    const response = await axios.post('http://localhost:3001/user_guardar_datos', { id, nombre, apellido, fecha });
+    if(response.data.resultado.datos) {
+      const datos = response.data.resultado.datos;
+      return datos;
+    }
+
+  } catch (error) {
+    if(error.response.data.error) {
+      console.error("Error: ", error.response.data.error)
+    } else {
+      console.error("Error: ", error);
+    }
+  }
+}
+
 const handleDeseados = async (id) => {
 
   try {
@@ -62,6 +79,7 @@ const handleFavoritos = async (id) => {
 }
 export {
   handleDatosUsuario,
+  handleGuardarDatos,
   handleDeseados,
   handleFavoritos,
 }

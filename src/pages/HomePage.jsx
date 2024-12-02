@@ -6,6 +6,7 @@ import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
 import { useNavigate } from 'react-router-dom';
 import ButtonsMod from '../components/ButtonsMod';
+import { isLogged } from '../schemas/isLogged';
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -18,6 +19,7 @@ import datosTarjetas from '../components/home/datosTarjetas';
 
 const HomePage = () => {
 
+  const [id, setId] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [selectedCards, setSelectedCards] = useState([]);
 
@@ -31,6 +33,24 @@ const HomePage = () => {
     navigate('/alcaldias');
   }
 
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        setIsRegistered(loggedIn.logged);
+        if(loggedIn.logged) {
+          const idLocal = loggedIn.data.id;
+          setId(idLocal);
+        }
+        else
+          console.log('El usuario no ha iniciado sesión');
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+      }
+    };
+
+    fetchLoginStatus();
+  }, []);
 
   const settings = {
     className: "center",
@@ -129,7 +149,10 @@ const HomePage = () => {
             </strong>
           </h3>
         </div>
-        <CatHome />
+        <CatHome
+          isLogged={isRegistered}
+          id={id}
+        />
       </section>
 
       {/* SECCIÓN DE CESAR - EXPLORAR LUGARES CERCANOS */}

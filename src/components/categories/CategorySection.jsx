@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PlaceCard from './PlaceCard';
 
-function CategorySection({ places, clickedDeseados, clickedFavoritos, onDeseadosClick, onFavoritosClick }) {
+function CategorySection({ isLogged, places, clickedDeseados, clickedFavoritos, onDeseadosClick, onFavoritosClick }) {
   return (
     <div className="container">
       <div className="row justify-content-center">
@@ -11,13 +11,15 @@ function CategorySection({ places, clickedDeseados, clickedFavoritos, onDeseados
             className="col-md-4 d-flex justify-content-center mb-4"
           >
             <PlaceCard
+              id={place.id}
+              isLogged={isLogged}
               imagen={place.imagen}
-              name={place.name}
-              description={place.description}
-              isClickedDeseados={clickedDeseados[place.name]}
-              isClickedFavoritos={clickedFavoritos[place.name]}
-              onDeseadosClick={() => onDeseadosClick(place.name)}
-              onFavoritosClick={() => onFavoritosClick(place.name)}
+              name={place.nombre}
+              description={place.descripcion}
+              isClickedDeseados={clickedDeseados[place.id]}
+              isClickedFavoritos={clickedFavoritos[place.id]}
+              onDeseadosClick={() => onDeseadosClick(place.id)}
+              onFavoritosClick={() => onFavoritosClick(place.id)}
             />
           </div>
         ))}

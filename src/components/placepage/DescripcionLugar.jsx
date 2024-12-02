@@ -5,16 +5,21 @@ import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
 // Íconos
 import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
 import { Accessible as AccessibleIcon, AccessTime as AccessTimeIcon, FamilyRestroom as FamilyRestroomIcon, Grass as GrassIcon, Language as LanguageIcon, Category as CategoryIcon, Groups as GroupsIcon } from '@mui/icons-material';
+import { handleFavoritos, handleDeseados } from '../../pagesHandlers/favDeseados-handler';
 
-function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value }) {
-  const [isClickedDeseados, setIsClickedDeseados] = useState(false);
-  const [isClickedFavoritos, setIsClickedFavoritos] = useState(false);
-
+function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value, placeId, isFavoritoInicial, isDeseadoInicial, isLogged}) {
+  const [isClickedDeseados, setIsClickedDeseados] = useState(isDeseadoInicial);
+  const [isClickedFavoritos, setIsClickedFavoritos] = useState(isFavoritoInicial);
+ 
   const handleButtonDeseadosClick = () => {
+    const idUsuario = localStorage.getItem('id');
+    handleDeseados(idUsuario, placeId);
     setIsClickedDeseados(!isClickedDeseados);
   };
 
   const handleButtonFavoritosClick = () => {
+    const idUsuario = localStorage.getItem('id');
+    handleFavoritos(idUsuario, placeId);
     setIsClickedFavoritos(!isClickedFavoritos);
   };
 
@@ -96,7 +101,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   <AccessibleIcon fontSize='small' className='pp-informacion-lugar-iconos' />
                 </div>
                 <div className='col'>
-                  <p>{accesibilidadLugar ? 'Accesible con silla de ruedas' : 'No es accesible con silla de ruedas'}</p>
+                  <p>{accesibilidadLugar != "" ? accesibilidadLugar : 'No es accesible para personas con capacidades diferentes.'}</p>
                 </div>
               </div>
             )}
@@ -129,7 +134,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   <FamilyRestroomIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
                 </div>
                 <div className='col'>
-                  <p>{familiar ? 'Familiar' : 'Solo mayores de 18 años'}</p>
+                  <p>{familiar ? 'Familiar' : 'No recomendado para niños'}</p>
                 </div>
               </div>
             )}
@@ -142,7 +147,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   <GroupsIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
                 </div>
                 <div className='col'>
-                  <p>{goodForGroups ? 'Grupal' : 'No grupal weon'}</p>
+                  <p>{goodForGroups ? 'Bueno para grupos grandes' : 'No ideal para grupos grandes'}</p>
                 </div>
               </div>
             )}
@@ -191,7 +196,13 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                 <CategoryIcon className='col-1 pp-informacion-lugar-iconos' fontSize='small' />
               </div>
               <div className='col'>
-                <p>{categoria}</p>
+                {categoria && categoria.length > 0 ? (
+                  categoria.map((cat, index) => (
+                    <p key={index} className='pp-informacion-lugar-horario-item'> {cat} </p>
+                  ))
+                ) : (
+                  <p>No hay categorías disponibles</p>
+                )}
               </div>
             </div>
 
@@ -222,12 +233,18 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
             </div>
             { /* Guardar en Favoritos y Deseados */}
             <div className='pp-informacion-principal-btns'>
-              <button className={`btn ${isClickedDeseados ? 'pp-btnOnClick' : 'btn-light'} pp-btn-deseados`} onClick={handleButtonDeseadosClick}>
-                <StarBorderIcon />
-              </button>
-              <button className={`btn ${isClickedFavoritos ? 'pp-btnOnClick' : 'btn-light'} pp-btn-favoritos`} onClick={handleButtonFavoritosClick}>
-                <FavoriteBorderIcon />
-              </button>
+              {isLogged ?
+              <>
+                <button className={`btn ${isClickedDeseados ? 'pp-btnOnClick' : 'btn-light'} pp-btn-deseados`} onClick={handleButtonDeseadosClick}>
+                  <StarBorderIcon />
+                </button>
+                <button className={`btn ${isClickedFavoritos ? 'pp-btnOnClick' : 'btn-light'} pp-btn-favoritos`} onClick={handleButtonFavoritosClick}>
+                  <FavoriteBorderIcon />
+                </button>
+              </>
+              :
+                ''
+              }
             </div>
           </div>
           {/* Descripción del lugar */}

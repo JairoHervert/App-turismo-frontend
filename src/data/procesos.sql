@@ -11,13 +11,21 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 # Usuario Información
 DROP PROCEDURE IF EXISTS UsuarioGetDatos;
+DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
 # Usuario Preferencias
-DROP PROCEDURE IF EXISTS UsuarioAñadirDeseado;
-DROP PROCEDURE IF EXISTS UsuarioAñadirFavorito;
+DROP PROCEDURE IF EXISTS UsuarioAnadirDeseado;
+DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
+DROP PROCEDURE IF EXISTS getLugaresCategoria4;
+DROP PROCEDURE IF EXISTS getLugaresCategoriaHomeUsuario;
+DROP PROCEDURE IF EXISTS LugarGetDatos;
+DROP PROCEDURE IF EXISTS RegistrarSubcategoria;
+DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
+DROP PROCEDURE IF EXISTS RegistrarFoto;
+DROP PROCEDURE IF EXISTS LugarGetFotos;
 
 DELIMITER //
 
@@ -334,9 +342,51 @@ BEGIN
          DATE(u.fechaNacimiento) AS 'fechaNacimiento',
          u.ultimaConexion AS 'ultimaConexion',
          (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
+         (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos',
+         (SELECT COUNT(*) FROM UsuarioItinerario WHERE idUsuario = p_id) AS 'nItinerarios'
+         FROM Usuario u
+      WHERE u.id = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioGuardarDatos`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioGuardarDatos (
+   IN p_id INT,
+   IN p_nombre VARCHAR(60),
+   IN p_apellido VARCHAR(60),
+   IN p_fechaNacimiento VARCHAR(10)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      UPDATE Usuario
+      SET 
+         nombre = p_nombre, 
+         apellido = p_apellido, 
+         fechaNacimiento = STR_TO_DATE(p_fechaNacimiento, '%d-%m-%Y')
+      WHERE id = p_id;
+      
+      SELECT
+         u.username AS 'username',
+         u.nombre AS 'nombre',
+         u.apellido AS 'apellido',
+         u.correo AS 'correo',
+         u.ligaFotoPerfil AS 'imagen',
+         DATE(u.fechaNacimiento) AS 'fechaNacimiento',
+         u.ultimaConexion AS 'ultimaConexion',
+         (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
          (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos'
          FROM Usuario u
-         WHERE u.id = p_id;
+      WHERE u.id = p_id;
    END IF;
 END //
 
@@ -345,11 +395,11 @@ END //
 -- ---------------------------------------------------------------------------------------------------
 
 -- -----------------------------------------------------
--- Process `AppTurismo`.`UsuarioAñadirDeseado`
+-- Process `AppTurismo`.`UsuarioAnadirDeseado`
 -- -----------------------------------------------------
-CREATE PROCEDURE UsuarioAñadirDeseado (
+CREATE PROCEDURE UsuarioAnadirDeseado (
    IN p_idUsuario INT,
-   IN p_idLugar INT
+   IN p_idLugar VARCHAR(40)
 )
 BEGIN
    DECLARE usuarioExistente INT;
@@ -359,30 +409,30 @@ BEGIN
    FROM Usuario
    WHERE id = p_idUsuario;
    
-   IF usuarioExistente = 0 THEN
-      SELECT 'usuario_no_existente' AS 'error';
-   END IF;   
-   
    SELECT COUNT(*) INTO lugarExistente
    FROM Lugar
    WHERE id = p_idLugar;
    
-   IF lugarExistente = 0 THEN
-      SELECT 'lugar_no_existente' AS 'error';
-   END IF;
-   
-   IF usuarioExistente = 1 AND lugarExistente = 1 THEN
-      INSERT INTO LugarDeseado (idUsuario, idLugar, auditoria)
-      VALUES (p_idUsuario, p_idLugar, NOW());
-   END IF;
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      IF lugarExistente = 0 THEN
+         SELECT 'lugar_no_existente' AS 'error';
+      ELSE
+         INSERT INTO LugarDeseado (idUsuario, idLugar, auditoria)
+         VALUES (p_idUsuario, p_idLugar, NOW());
+      
+         SELECT 1 AS 'success';
+      END IF;
+   END IF;   
 END //
 
 -- -----------------------------------------------------
--- Process `AppTurismo`.`UsuarioAñadirFavorito`
+-- Process `AppTurismo`.`UsuarioAnadirFavorito`
 -- -----------------------------------------------------
-CREATE PROCEDURE UsuarioAñadirFavorito (
+CREATE PROCEDURE UsuarioAnadirFavorito (
    IN p_idUsuario INT,
-   IN p_idLugar INT
+   IN p_idLugar VARCHAR(40)
 )
 BEGIN
    DECLARE usuarioExistente INT;
@@ -407,6 +457,8 @@ BEGIN
    IF usuarioExistente = 1 AND lugarExistente = 1 THEN
       INSERT INTO LugarFavorito (idUsuario, idLugar, auditoria)
       VALUES (p_idUsuario, p_idLugar, NOW());
+      
+      SELECT 1 AS 'success';
    END IF;
 END //
 
@@ -524,11 +576,11 @@ CREATE PROCEDURE LugarRegistro (
    IN p_nombre VARCHAR(128),
    IN p_direccion VARCHAR(255),
    IN p_descripcion VARCHAR(1024),
-   IN p_imagen VARCHAR(512),
+   IN p_imagen TEXT,
    IN p_attributions VARCHAR(150),
-   IN p_latitud VARCHAR(45),
-   IN p_longitud VARCHAR(45),
-   IN p_fotos VARCHAR(1024),
+   IN p_latitud DOUBLE,
+   IN p_longitud DOUBLE,
+   IN p_fotos TEXT,
    IN p_tipos VARCHAR(1024),
    IN p_telefono VARCHAR(20),
    IN p_precioNivel TINYINT,
@@ -536,14 +588,14 @@ CREATE PROCEDURE LugarRegistro (
    IN p_rating VARCHAR(10),
    IN p_regularOpeningHours TEXT,
    IN p_userRatingCount VARCHAR(45),
-   IN p_website VARCHAR(80),
+   IN p_website VARCHAR(128),
    IN p_goodForChildren BOOLEAN,
    IN p_goodForGroups BOOLEAN,
-   IN p_paymentOptions VARCHAR(10),
+   IN p_paymentOptions TEXT, -- Cambiado de VARCHAR(10) a TEXT
    IN p_reservable BOOLEAN,
    IN p_servesVegetarianFood VARCHAR(10),
    IN p_allowsDogs VARCHAR(10),
-   IN p_reviewsGoogle VARCHAR(4096),
+   IN p_reviewsGoogle TEXT,
    IN p_accesibilidadParking BOOLEAN,
    IN p_accesibilidadEntrance BOOLEAN,
    IN p_accesibilidadRestroom BOOLEAN,
@@ -567,6 +619,222 @@ BEGIN
       p_accesibilidadParking, p_accesibilidadEntrance, p_accesibilidadRestroom, p_accesibilidadSeating, NOW());
    ELSE
       SELECT 'lugar_ya_registrado' AS 'error';
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`getLugaresCategoria4`
+-- -----------------------------------------------------
+CREATE PROCEDURE getLugaresCategoria4 (
+   IN p_cat1 VARCHAR(40),
+   IN p_cat2 VARCHAR(40),
+   IN p_cat3 VARCHAR(40),
+   IN p_cat4 VARCHAR(40)
+)
+BEGIN
+   SELECT 
+      l.id,
+      l.nombre,
+      l.direccion,
+      l.descripcion,
+      l.imagen,
+      l.attributions,
+      c.nombre AS categoria,
+      GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+   FROM Lugar l
+   JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+   JOIN Subcategoria s ON s.id = ls.idSubcategoria
+   JOIN Categoria c ON c.id = s.idCategoria
+   WHERE c.nombre = p_cat1 OR c.nombre = p_cat2 OR c.nombre = p_cat3 OR c.nombre = p_cat4
+   GROUP BY l.id, l.nombre, l.direccion, l.descripcion, l.imagen, l.attributions, c.nombre;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`getLugaresCategoriaHomeUsuario`
+-- -----------------------------------------------------
+CREATE PROCEDURE getLugaresCategoriaHomeUsuario (
+   IN p_id INT,
+   IN p_cat1 VARCHAR(40),
+   IN p_cat2 VARCHAR(40),
+   IN p_cat3 VARCHAR(40),
+   IN p_cat4 VARCHAR(40)
+)
+BEGIN
+   SELECT 
+      l.id,
+      l.nombre,
+      l.direccion,
+      l.descripcion,
+      l.imagen,
+      l.attributions,
+      c.nombre AS categoria,
+      GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias,
+      EXISTS (
+         SELECT 1 
+         FROM LugarDeseado ld 
+         WHERE ld.idUsuario = p_id AND ld.idLugar = l.id
+      ) AS esDeseado,
+      EXISTS (
+         SELECT 1 
+         FROM LugarFavorito lf 
+         WHERE lf.idUsuario = p_id AND lf.idLugar = l.id
+      ) AS esFavorito
+   FROM Lugar l
+   JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+   JOIN Subcategoria s ON s.id = ls.idSubcategoria
+   JOIN Categoria c ON c.id = s.idCategoria
+   WHERE c.nombre = p_cat1 OR c.nombre = p_cat2 OR c.nombre = p_cat3 OR c.nombre = p_cat4
+   GROUP BY l.id, l.nombre, l.direccion, l.descripcion, l.imagen, l.attributions, c.nombre;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetDatos`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetDatos (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'ERROR';
+   ELSE
+      SELECT
+         id,
+         nombre,
+         direccion,
+         descripcion,
+         imagen,
+         attributions,
+         latitud,
+         longitud,
+         fotos,
+         tipos,
+         teléfono,
+         precioNivel,
+         precioRango,
+         rating,
+         regularOpeningHours,
+         userRatingCount,
+         website,
+         goodForChildren,
+         goodForGroups,
+         paymentOptions,
+         reservable,
+         servesVegetarianFood,
+         allowsDogs,
+         reviewsGoogle,
+         accesibilidadParking,
+         accesibilidadEntrance,
+         accesibilidadRestroom,
+         accesibilidadSeating
+      FROM Lugar WHERE id = p_id;
+   END IF;
+END //
+
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`RegistrarSubcategoria`
+-- -----------------------------------------------------
+CREATE PROCEDURE RegistrarSubcategoria (
+   IN p_idLugar VARCHAR(40),
+   IN p_idSubcategoria VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+   DECLARE subcategoriaExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_idLugar;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'ERROR';
+   END IF;
+   
+   SELECT COUNT(*) INTO subcategoriaExistente
+   FROM Subcategoria
+   WHERE id = p_idSubcategoria;
+   
+   -- Mensaje de error si la subcategoría no existe
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'ERROR';
+   END IF;
+   
+   IF lugarExistente = 1 AND subcategoriaExistente = 1 THEN
+      INSERT INTO LugarSubcategoria (idLugar, idSubcategoria)
+      VALUES (p_idLugar, p_idSubcategoria);
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetSubcategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetSubcategorias (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      SELECT s.nombre AS subcategoria, c.nombre AS categoria
+      FROM LugarSubcategoria ls
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE ls.idLugar = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`RegistrarFoto`
+-- -----------------------------------------------------
+CREATE PROCEDURE RegistrarFoto (
+   IN p_id VARCHAR(40),
+   IN p_url VARCHAR(512)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      INSERT INTO LugarFotos (idLugar, URL, auditoria)
+      VALUES (p_id, p_url, NOW());
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetFotos`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetFotos (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      SELECT URL FROM LugarFotos
+      WHERE idLugar = p_id;
    END IF;
 END //
 

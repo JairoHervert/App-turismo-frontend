@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 // Componentes
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -8,10 +7,27 @@ import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
 // CSS
 import '../css/PlacePage.css';
-// Material UI
+import { useParams, useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
+import ButtonsMod from '../components/ButtonsMod';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import { handleEsFavorito, handleEsDeseado } from '../pagesHandlers/favDeseados-handler';
+import { handleDatosLugar, handleFotosLugar, handleSubcategoriasLugar } from '../pagesHandlers/place-handler';
 
 const PlacePage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [place, setPlace] = useState(null);
+  const [categorias, setCategorias] = useState(null);
+
+  const [isFavorito, setIsFavorito] = useState(false);
+  const [isDeseado, setIsDeseado] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 3;
+
+  const [isLogged, setLogged] = useState(false);
 
   const imagenes = [
     'https://media.timeout.com/images/106046734/image.jpg',
@@ -31,8 +47,111 @@ const PlacePage = () => {
     'https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg',
     'https://www.sopitas.com/wp-content/uploads/2023/05/bibliotecas-personales-biblioteca-de-mexico-portada.jpg'
   ];
+
+  const [fotos, setFotos] = useState(imagenes);
+
+  useEffect(() => {
+    if (!id) {
+      navigate("/");
+      return;
+    }
+
+    const fetchPlace = async () => {
+      try {
+
+        const idUsuario = localStorage.getItem('id');
+        if(idUsuario) {
+          // Verifica si está en favoritos
+          const favorito = await handleEsFavorito(idUsuario, id);
+          setIsFavorito(favorito.esFavorito);
+
+          // Verifica si está en deseados
+          const deseado = await handleEsDeseado(idUsuario, id);
+          setIsDeseado(deseado.esDeseado);
+          setLogged(true);
+        }
+
+        const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
+        if(!resultado) {
+          navigate("/");
+        }
+        let copiaResultado = resultado;
+        copiaResultado.accesibilidad = "";
+        if(resultado.accesibilidadParking && resultado.accesibilidadParking == 1)
+          copiaResultado.accesibilidad += "Con estacionamiento exclusivo";
+        if(resultado.accesibilidadEntrance && resultado.accesibilidadEntrance == 1) {
+          if(copiaResultado.accesibilidad == "")
+            copiaResultado.accesibilidad += "Con entrada accesible";
+          else
+            copiaResultado.accesibilidad += ", con entrada accesible";
+        }
+        if(resultado.accesibilidadRestroom && resultado.accesibilidadRestroom == 1) {
+          if(copiaResultado.accesibilidad == "")
+            copiaResultado.accesibilidad += "Con sanitarios accesibles";
+          else
+            copiaResultado.accesibilidad += ", con sanitarios accesibles";
+        }
+        if(resultado.accesibilidadSeating && resultado.accesibilidadSeating == 1) {
+          if(copiaResultado.accesibilidad == "")
+            copiaResultado.accesibilidad += "Con asientos accesibles";
+          else
+            copiaResultado.accesibilidad += ", con asientos accesibles";
+        }
+        setPlace(copiaResultado);
+        console.log(copiaResultado);
+      } catch (error) {
+        console.error('Error al obtener datos del lugar', error);
+      }
+    };
+
+    const fetchFotos = async () => {
+      try {
+        console.log("Id lugar", id);
+        
+        const resultado = await handleFotosLugar(id); // Espera la resolución de la promesa
+
+        let array = [];
+        resultado.forEach(element => {
+          array.push(element.URL);
+        });
+        setFotos(array);
+        console.log(array);
+      } catch (error) {
+        console.error('Error al obtener foto del lugar', error);
+      }
+    };
+
+    const fetchSubcategorias = async () => {
+      try {
+        console.log("Id lugar", id);
+        
+        const resultado = await handleSubcategoriasLugar(id); // Espera la resolución de la promesa
+
+        let array = [];
+        resultado.forEach(element => {
+          array.push(element.subcategoria);
+        });
+        setCategorias(array);
+        console.log(array);
+      } catch (error) {
+        console.error('Error al obtener foto del lugar', error);
+      }
+    };
+
+    fetchPlace();
+    fetchFotos();
+    fetchSubcategorias();
+  }, [id, navigate]);
+
+  if (!place) {
+    return <div>Cargando...</div>; // Muestra un loader mientras se obtiene el lugar
+  }
+
+  const handleHomePageClick = () => {
+    navigate('/');
+  };
   
-   const allReviews = [
+  const allReviews = [
     {
       nombreUsuario: 'Brandon Segura',
       antiguedadReview: '10 meses',
@@ -84,9 +203,6 @@ const PlacePage = () => {
     },
   ];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const reviewsPerPage = 3;
-
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = allReviews.slice(indexOfFirstReview, indexOfLastReview);
@@ -133,10 +249,10 @@ const PlacePage = () => {
       />
       
       <DescripcionLugar
-        nombreLugar='Biblioteca de México'
+        nombreLugar={place && place.nombre ? place.nombre : 'Lugar'}
         value={4.6}
-        resumenLugar='Desde su fundación, a comienzos de 1990, la revista Biblioteca de México ha publicado 172 números impresos y 4 números digitales. A lo largo de más de 30 años, ha dado espacio a trabajos de creación, investigación y crítica a autores de habla hispana y de otros idiomas. Pensada originalmente como una revista de letras en el sentido clásico y más generoso del término, que busca dar relieve y difusión a obras inasequibles de los acervos de la biblioteca misma, en esta nueva etapa digital también se tiene el propósito de acercarse a las nuevas generaciones de lectores, publicando a jóvenes escritores e ilustradores. Se trata, así, de sostener un esfuerzo de divulgación literaria que, de la manera más incluyente, brinde hospitalidad a la belleza y la inteligencia de la creación.'
-        direccionLugar='De La Ciudadela 4, Colonia Centro, Centro, Cuauhtémoc, 06040 Ciudad de México, CDMX'
+        resumenLugar={place && place.descripcion ? place.descripcion : 'Descripción'}
+        direccionLugar={place && place.direccion ? place.direccion : 'Dirección'}
         /* Para el siguiente parámetro [costoLugar]
           Si se cuenta con la información, se mandan como parámetros 1/2/3/4
           Ejemplo:
@@ -145,27 +261,30 @@ const PlacePage = () => {
           ...
           Sino,
           Costo desconocido -> {null} */
-        costoLugar={1}
+        costoLugar={place && place.precioNivel != undefined && place.precioNivel != null ? place.precioNivel : null}
         /* Para los siguientes parámetros [accesibilidad, petFriendly, veganFriendy]
           Si se cuenta con la información, se mandan como parámetros null/true/false 
           Ejemplo:
           Es accesible a silla de ruedas -> {true} 
           No es accesible a silla de ruedas -> {false} 
           No se cuenta con la información -> {null} [Si no cuenta con la información, no aparecerá] */
-        accesibilidadLugar={true}
-        petFriendly={false}
+        accesibilidadLugar={place && place.accesibilidad ? place.accesibilidad : 'Dirección'}
+        petFriendly={place.allowsDogs}
         veganFriendly={null}
-        familiar={false}
-        goodForGroups={true}
+        familiar={place.goodForChildren}
+        goodForGroups={place.goodForGroups}
         metodoPago={null}
-        website='https://unsplash.com/es/ilustraciones/-u8mPV6Fd3s'
+        website={place && place.webpage != undefined && place.webpage != null ? place.webpage : ''}
         /* Esta sección de horarios puede cambiar dependiendo de cómo traten la información */
         horarioLugar={horarioLugar}
         /*  */
-        categoria='Deportes'
+        categoria={categorias}
         /* Si no hay imágenes -> {null} */
-        imagenesLugar={imagenes}
-
+        imagenesLugar={fotos}
+        placeId={id}
+        isFavoritoInicial={isFavorito}
+        isDeseadoInicial={isDeseado}
+        isLogged={isLogged}
       />
 
       <section className='pp-reviews'>

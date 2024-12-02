@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../css/Perfil.css';
 
 import { Box, Avatar, Stack, Card, Typography } from '@mui/material';
@@ -9,6 +9,11 @@ function InformacionHeader({ nombreUsuario, avatar, itinerariosCreados, favorito
 
   const [avatarNuevo, setAvatar] = useState(avatar);
   const obtenerInicial = nombreUsuario?.charAt(0).toUpperCase();
+
+  // Actualiza avatarNuevo si avatar cambia
+  useEffect(() => {
+    setAvatar(avatar);
+  }, [avatar]);
 
   const handleAvatarChange = (event) => {
     const file = event.target.files[0];

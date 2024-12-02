@@ -98,17 +98,30 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     console.log(response.data);
 
     if(response.data !== 'El correo ya está registrado.'){
-      await enviarCorreoVerificacion(nombre, correo);
-      Swal.fire({
-        icon: 'success',
-        title: 'Registro iniciado correctamente',
-        text: 'El siguiente paso es aceptar el correo de confirmación para poder ingresar a tu cuenta.',
-        // timer: 5000,
-        showConfirmButton: true,
-        willClose: () => {
-          window.location.href = '/'
-        }
-      });
+      const reponseCorreo = await enviarCorreoVerificacion(nombre, correo);
+      console.log(reponseCorreo);   // Borrar cuando se entregue el proyecto
+      
+      if(reponseCorreo){
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro iniciado correctamente',
+          text: 'El siguiente paso es aceptar el correo de confirmación para poder ingresar a tu cuenta.',
+          // timer: 5000,
+          showConfirmButton: true,
+          willClose: () => {
+            window.location.href = '/'
+          }
+        });
+      }
+      else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo enviar el correo de confirmación, vuelve a solicitar que se envíe.',
+          timer: 5000,
+          showConfirmButton: false
+        });
+      }
     }
     else{
       Swal.fire({

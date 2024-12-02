@@ -22,19 +22,8 @@ const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', '
 
 const Perfil = () => {
   const navigate = useNavigate(); // Inicializa useNavigate
-  const [datos, setDatos] = useState();
-
-  const obtenerNombreCompleto = (nombre, apellido) => {
-    if (nombre && apellido) {
-      return `${nombre} ${apellido}`;
-    } else if (nombre) {
-      return nombre;
-    } else if (apellido) {
-      return apellido;
-    } else {
-      return "";
-    }
-  };
+  const [datos, setDatos] = useState(null);
+  const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg');
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -53,12 +42,27 @@ const Perfil = () => {
     const fetchDatos = async () => {
       try {
         const id = localStorage.getItem('id');
-        console.log(id);
         
         const resultado = await handleDatosUsuario(id); // Espera la resolución de la promesa
-        
-        setDatos(resultado);
-        console.log(resultado);
+        if(!resultado)
+          navigate('/');
+        let datos = resultado;
+        datos.id = id;
+        // Convertir la cadena a un objeto Date
+        const fecha = new Date(datos.fechaNacimiento);
+
+        // Formatear a DD-MM-YYYY
+        const dia = String(fecha.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
+        const anio = fecha.getFullYear();
+
+        // Combinar el formato
+        const fechaFormateada = `${dia}-${mes}-${anio}`;
+        datos.fechaNacimiento = fechaFormateada;
+        setDatos(datos);
+        setProfileImage(datos.imagen);
+        console.log("Resultado consulta", datos);
+        console.log("Resultado imagen", datos.imagen);
       } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
       }
@@ -123,11 +127,11 @@ const Perfil = () => {
           /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
             inicio sesión con fb o google), se le puede mandar como parámetro la
             imagen */
-          avatar='https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg'
+          avatar={profileImage}
           /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
              la primera letra de su nombre de usuario */
           //avatar={null}
-          itinerariosCreados={'46'}
+          itinerariosCreados={datos && datos.nItinerarios != undefined && datos.nItinerarios != null ? datos.nItinerarios : '-'}
           favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
           deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
         />
@@ -135,6 +139,7 @@ const Perfil = () => {
         { /* Información Personal Usuario */}
         {datos ? (
           <InformacionPersonal
+          id={datos && datos.id ? datos.id : ''}
           correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
           nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
           apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}
