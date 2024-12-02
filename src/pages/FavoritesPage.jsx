@@ -96,7 +96,7 @@ function FavoritesPage() {
               favoritos.map((lugar, index) => (
                 <ItemFavoritos
                   key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
-                  //idLugar={lugar.id}
+                  idLugar={lugar.id}
                   nombre={lugar.nombre}
                   descripcion={lugar.descripcion}
                   imagen={lugar.imagen}

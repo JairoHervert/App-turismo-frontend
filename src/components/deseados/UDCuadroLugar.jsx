@@ -5,7 +5,7 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
   const navigate = useNavigate();
 
   const informacionLugar = () => {
-    navigate(`/placepage`); // redirige a la página de inicio, actualizar con la ruta correcta si es necesario
+    navigate(`/placepage/${idLugar}`);
   };
 
   const handleFavoriteClick = () => {

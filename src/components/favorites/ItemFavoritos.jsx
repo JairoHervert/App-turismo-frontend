@@ -4,14 +4,13 @@ import { Delete as DeleteIcon } from '@mui/icons-material';
 import '../../css/FavoritesPage.css';
 import ButtonsMod from '../ButtonsMod';
 
-function ItemFavoritos({ imagen, nombre, descripcion }) {
+function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
   const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
   
   const navigate = useNavigate();
   const redigirALugar = () => {
-    //navigateTo(`/placepage/${id}`); // pa los de back: si definimos un id, podria reedirigirse al lugar en especifico, por ahora redirige a la pagina placePage estatica
-    navigate(`/placepage`); // redirige a la página de inicio
+    navigate(`/placepage/${idLugar}`);
   };
 
   return (
