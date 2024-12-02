@@ -4,7 +4,7 @@ import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon } fr
 import '../../css/HomePage.css';
 
 function PlaceCard({ imagen, name, description, isClickedDeseados, isClickedFavoritos, onDeseadosClick, onFavoritosClick }) {
-  const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.png`) : '';
+  const image = imagen ? require(`../../img/HomePage/category/lugar${imagen}.webp`) : '';
 
   return (
     <div className="card mb-4 custom-card">

@@ -1,7 +1,7 @@
 import React from 'react';
-import '../css/HomePage.css';
+import '../../css/HomePage.css';
 import { useNavigate } from 'react-router-dom';
-import ButtonsMod from './ButtonsMod';
+import ButtonsMod from '../ButtonsMod';
 
 function CardAlcaldia({ nombreAlcaldia, nombreLugar, nombreImagen }) {
 
@@ -12,7 +12,7 @@ function CardAlcaldia({ nombreAlcaldia, nombreLugar, nombreImagen }) {
   };
 
 
-  const imagen = require(`../img/HomePage/places/home-places-${nombreImagen}.jpg`);
+  const imagen = require(`../../img/HomePage/places/home-places-${nombreImagen}.jpg`);
 
   return (
     <div className='card'

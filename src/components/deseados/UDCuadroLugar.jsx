@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../../css/DeseadosPage.css';
 
-function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar, idLugar }) {
+function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar, idLugar, isFavorite, toggleFavorite }) {
   const navigate = useNavigate();
 
   const informacionLugar = () => {
@@ -10,7 +10,9 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
 
   const handleFavoriteClick = () => {
     // Acción al hacer clic en el ícono de corazón, por ahora solo imprime un mensaje en la consola
-    console.log('Lugar agregado a favoritos');
+    //console.log('Lugar agregado a favoritos');
+    e.stopPropagation();
+    toggleFavorite(nombreLugar);
   };
 
   const esURL = imagenLugar.startsWith('http://') || imagenLugar.startsWith('https://');
@@ -22,8 +24,8 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
       onClick={informacionLugar}
     >
       <div 
-        className='us_de-favorite-icon' 
-        onClick={(e) => { e.stopPropagation(); handleFavoriteClick(); }}
+        className={`us_de-favorite-icon ${isFavorite ? 'favorite-active' : ''}`}
+        onClick={handleFavoriteClick}
       >
         <i className='bi bi-heart-fill'></i>
       </div>

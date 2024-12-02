@@ -7,116 +7,95 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import PatternIcon from '@mui/icons-material/Pattern';
 import ButtonsMod from '../components/ButtonsMod';
 import {  InputLabel,InputAdornment, IconButton } from '@mui/material';
-import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl, OutlinedInput } from '@mui/material';
+import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl, OutlinedInput, TextField } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const IngresarNuevaContrasena = () => {
-    const [contraseña, setContraseña] = useState('');
-    const [contraseña2, setContraseña2] = useState('');
-    const [errors, setErrors] = useState({});
-    const [formSubmitted, setFormSubmitted] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
-  
-    // Validaciones de la contraseña
-    const validarContraseña = (contraseña) => {
-      const rules = {
-        longitudValida: /^(?=.{8,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
-        mayuscula: /[A-Z]/.test(contraseña), // Al menos una mayúscula
-        minuscula: /[a-z]/.test(contraseña), // Al menos una minúscula
-        numero: /\d/.test(contraseña), // Al menos un número
-        noVacio: contraseña.length > 0, // La contraseña no puede estar vacía
-      };
-      return rules;
-    };
+  const [contraseña, setContraseña] = useState('');
+  const [confirmarContraseña, setConfirmarContraseña] = useState('');
+  const [mostrarContraseña, setMostrarContraseña] = useState(true);
+  const [mostrarConfirmarContraseña, setMostrarConfirmarContraseña] = useState(false);
+  const [errores, setErrores] = useState({
+    contraseña: '',
+    confirmarContraseña: '',
+  })
+  const [isTouched, setIsTouched] = useState(false);
 
-    const validarConfirmarContraseña = (contraseña, confirmacion) => {
-      return contraseña === confirmacion;
-    };
-  
-    const handlePasswordChange = (e) => {
-      const value = e.target.value;
-      setContraseña(value);
-
-      setErrors((prevErrors) => {
-        const passwordRules = validarContraseña(value);
-        const newErrors = {
-          ...prevErrors,
-          contraseña: passwordRules,
-        }
-
-        if (value) {
-          delete newErrors.camposObligatorios;
-        }
-
-        return newErrors;
-      });
-    };
-  
-    const handleConfirmPasswordChange = (e) => {
-      const value = e.target.value;
-      setContraseña2(value);
-
-      setErrors((prevErrors) => {
-        const passwordsMatch = validarConfirmarContraseña(contraseña, value);
-        const newErrors = {
-          ...prevErrors,
-          contraseña2: passwordsMatch,
-        }
-
-        if (value) {
-          delete newErrors.camposObligatorios;
-        }
-
-        return newErrors;
-      });
-    };
-  
-    const handleFormSubmit = (e) => {
-      e.preventDefault();
-      setFormSubmitted(true);
-  
-      // Validar si los campos no están vacíos
-      if (!contraseña || !contraseña2) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          camposObligatorios: true, // Añadir error para campos vacíos
-        }));
-        console.log('Error: Todos los campos deben estar llenos');
-        return;
-      }
-  
-      // Validar contraseñas
-      const passwordRules = validarContraseña(contraseña);
-      const passwordsMatch = validarConfirmarContraseña(contraseña, contraseña2);
-  
-      // Si la contraseña no cumple las reglas
-      if (!passwordRules.longitudValida || !passwordRules.mayuscula || !passwordRules.minuscula || !passwordRules.numero || !passwordRules.noVacio) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          contraseña: passwordRules,
-        }));
-        console.log('Error: El formato de la contraseña es inválido');
-        return;
-      }
-  
-      // Si las contraseñas no coinciden
-      if (!passwordsMatch) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          contraseña2: false, // Marcar error en confirmar contraseña
-        }));
-        console.log('Error: Las contraseñas no coinciden');
-        return;
-      } 
-      console.log('Se restableció tu contraseña');
+  const validarContraseña = (pwd) => {
+    const errores = [];
+    if (pwd.length < 8 || pwd.length > 128) {
+      errores.push('La contraseña debe tener entre 8 y 128 caracteres.');
     }
-  
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
-    const handleMouseDownPassword = (e) => e.preventDefault();
+    if (!/[A-Z]/.test(pwd)) {
+      errores.push('Debe contener al menos una letra mayúscula.');
+    }
+    if (!/[a-z]/.test(pwd)) {
+      errores.push('Debe contener al menos una letra minúscula.');
+    }
+    if (!/[0-9]/.test(pwd)) {
+      errores.push('Debe incluir al menos un número.');
+    }
+    return errores.join(' ');
+  }
+
+  const handleContraseñaChange = (e) => {
+    const value = e.target.value;
+    setContraseña(value);
+    setErrores((prev) => ({
+      ...prev,
+      contraseña: validarContraseña(value),
+    }));
+  }
+
+  const handleConfirmarContraseñaChange = (e) => {
+    const value = e.target.value;
+    setConfirmarContraseña(value);
+
+    if (isTouched.confirmarContraseña) {
+      setErrores((prev) => ({
+        ...prev,
+        confirmarContraseña: value !== contraseña ? 'Las contraseñas no coinciden.' : '',
+      }));
+    }
+  }
+
+  const handleSubmit = () => {
+    setIsTouched({
+      contraseña: true,
+      confirmarContraseña: true,
+    });
+    let nuevosErrores = {};
+
+    if (!contraseña) {
+      nuevosErrores.contraseña = 'Este campo no debe estar vacío';
+    }
+    else {
+      nuevosErrores.contraseña = validarContraseña(contraseña);
+    }
+    if (!confirmarContraseña) {
+      nuevosErrores.confirmarContraseña = 'Este campo no debe estar vacío';
+    }
+    else if (confirmarContraseña !== contraseña) {
+      nuevosErrores.confirmarContraseña = 'Las contraseñas no coinciden';
+    }
+
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrores(nuevosErrores);
+    }
+    else {
+      console.log('Formulario enviado');
+    }
+  }
+
+  const handleMostrarContraseña = () => {
+    setMostrarContraseña((prev) => !prev);
+  }
+
+  const handleMostrarConfirmarContraseña = () => {
+    setMostrarConfirmarContraseña((prev) => !prev);
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -131,7 +110,7 @@ const IngresarNuevaContrasena = () => {
             <CardHeader
                 className='rc-header-titulo'
                 avatar={
-                    <PatternIcon className='inc-header-icono' color='primary' sx={{fontSize: '2.5rem'}}/>
+                    <PatternIcon className='inc-header-icono' color='primary' sx={{fontSize: {md: '2.5rem', xs: '1.5rem'}}}/>
                 }
                 title='Ingresa una nueva contraseña'
                 titleTypographyProps={{
@@ -141,93 +120,68 @@ const IngresarNuevaContrasena = () => {
                     }
                 }}
             />
+
             <CardContent>
+              <Typography variant='body1' sx={{ marginBottom: '30px' }}>
+                La contraseña debe contener una longitud de entre 8 a 128 caracteres e incluir al menos una letra minúscula, una mayúscula y un número.
+              </Typography>
+
+              <FormControl fullWidth size='small'>
                 {/* Contraseña */}
-                <Box className='my-4' sx={{marginTop: '0 !important'}}>
-                <FormControl fullWidth size='small' error={formSubmitted && !!errors.camposObligatorios}>
-                    <InputLabel>Contraseña</InputLabel>
-                    <OutlinedInput
-                        type={showPassword ? 'text' : 'password'}
-                        value={contraseña}
-                        onChange={handlePasswordChange}
-                        endAdornment={
-                            <InputAdornment position='end'>
-                                <IconButton
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    edge='end'
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        }
-                        label='Contraseña'
-                        required
-                    />
-                    {formSubmitted && errors.camposObligatorios && (
-                        <Typography color='error' variant='body2'>
-                            Los campos no deben estar vacíos
-                        </Typography>
-                    )}
-                    {formSubmitted && !errors.contraseña?.longitudValida && !errors.camposObligatorios && (
-                        <Typography color='error' variant='body2'>
-                            El formato de la contraseña es inválido
-                        </Typography>
-                    )}
-                </FormControl>
-                </Box>
+                <TextField
+                  fullWidth
+                  variant='outlined'
+                  size='small'
+                  required
+                  label='Contraseña'
+                  value={contraseña}
+                  onChange={handleContraseñaChange}
+                  error={!!errores.contraseña && isTouched.contraseña}
+                  helperText={errores.contraseña}
+                  sx={{ margin: '10px 0 20px 0' }}
+                  type={mostrarContraseña ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={handleMostrarContraseña} edge='end'>
+                          {mostrarContraseña ? <VisibilityOff/> : <Visibility/>}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
                 {/* Confirmar contraseña */}
-                <Box className='my-4'>
-                <FormControl fullWidth size="small" error={formSubmitted && !errors.contraseña2} className='ing-formlabel'>
-                    <InputLabel>Confirmar contraseña</InputLabel>
-                        <OutlinedInput
-                            type={showPassword2 ? 'text' : 'password'}
-                            value={contraseña2}
-                            onChange={handleConfirmPasswordChange}
-                            endAdornment={
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        onClick={handleClickShowPassword2}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge='end'
-                                    >
-                                    {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label='Confirmar contraseña'
-                            required
-                        />
-                        {formSubmitted && errors.camposObligatorios && (
-                          <Typography color='error' variant='body2'>
-                              Los campos no deben estar vacíos
-                          </Typography>
-                        )}
-                        {formSubmitted && !errors.contraseña2 && !errors.camposObligatorios && (
-                            <Typography color='error' variant='body2'>
-                                Las contraseñas no coinciden
-                            </Typography>
-                        )}
-                </FormControl>
-                </Box>
+                <TextField
+                  fullWidth
+                  variant='outlined'
+                  size='small'
+                  required
+                  label='Confirmar contraseña'
+                  value={confirmarContraseña}
+                  onChange={handleConfirmarContraseñaChange}
+                  error={!!errores.confirmarContraseña && isTouched.confirmarContraseña}
+                  helperText={errores.confirmarContraseña}
+                  sx={{ marginBottom: '20px' }}
+                  type={mostrarConfirmarContraseña ? 'text' : 'password'}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton onClick={handleMostrarConfirmarContraseña} edge='end'>
+                          {mostrarConfirmarContraseña ? <VisibilityOff/> : <Visibility/>}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </FormControl>
 
-                <Box className="my-3">
-                  <ul>
-                      <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.longitudValida ? 'text-success fw-semibold' : ''}`}>Debe tener entre 8 y 128 caracteres.</li>
-                      <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.mayuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra mayúscula.</li>
-                      <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.minuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra minúscula.</li>
-                      <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.numero ? 'text-success fw-semibold' : ''}`}>Debe contener al menos un número.</li>
-                      <li className={`lo_pa-rule-input fw-medium ${errors.contraseña2 ? 'text-success fw-semibold' : ''}`}>Las contraseñas coinciden.</li>
-                  </ul>
-                </Box>
-
-                <Box sx={{ display: 'flex', justifyContent: 'right'}}>
-                    <ButtonsMod
-                        variant='principal'
-                        textCont='Aceptar'
-                        clickEvent={handleFormSubmit}
-                    />
-                </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'right'}}>
+                  <ButtonsMod
+                      variant='principal'
+                      textCont='Aceptar'
+                      clickEvent={handleSubmit}
+                  />
+              </Box>
 
             </CardContent>
         </Card>

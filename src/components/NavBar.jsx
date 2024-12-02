@@ -139,9 +139,12 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                         <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
                         <li><Link className='dropdown-item' to='/Admin-Page-Places'>Página de solicitud de administrador</Link></li>
                         <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
+                        <li><Link className='dropdown-item' to='/Admin-dashboard'>Dashboard de administrador</Link></li>
+                        <li><Link className='dropdown-item' to='/Admin-SavedPlaces'>Lugares de administrador</Link></li>                        
                         <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
                         <li><Link className='dropdown-item' to='/recuperar-contrasena'>Recuperar Contraseña</Link></li>
                         <li><Link className='dropdown-item' to='/ingresar-nueva-contrasena'>Ingresar Nueva Contraseña</Link></li>
+                        <li><Link className='dropdown-item' to='/all-places'>Todos los lugares</Link></li>
                         <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">Preferencias</button></li>
                         <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Detalles</button></li>
                         <li><hr className="dropdown-divider" /></li>
@@ -175,6 +178,9 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/itinerary'>Página de itinerario</Link>
                     </li>
                     <li className="nav-item">
+                      <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to='/all-places'>Todos los lugares</Link>
+                    </li>
+                    <li className="nav-item">
                       <hr className="dropdown-divider" />
                     </li>
                     <li className="nav-item">
@@ -200,10 +206,6 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
           </div>
         </div>
       </nav>
-
-      {/* Componente de Preferencias */}
-      <Preferencias />
-      <Detalles />
     </>
   );
 }

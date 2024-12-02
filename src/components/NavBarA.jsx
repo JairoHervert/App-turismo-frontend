@@ -6,8 +6,7 @@ import { Search as SearchIcon } from '@mui/icons-material';
 
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
-import Preferencias from './Preferencias';
-import Detalles from './modalDetalleIt';
+
 
 function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
   const navigate = useNavigate();
@@ -105,6 +104,8 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
                       <li><Link className="dropdown-item" to="/profile">Mi Perfil</Link></li>
                       <li><Link className="dropdown-item" to="/Admin-Page-Places">Página de solicitud de administrador</Link></li>
                       <li><Link className="dropdown-item" to="/Admin-Page">Página de administrador</Link></li>
+                      <li><Link className='dropdown-item' to='/Admin-dashboard'>Dashboard de administrador</Link></li>
+                      <li><Link className='dropdown-item' to='/Admin-SavedPlaces'>Lugares de administrador</Link></li> 
                       <li><Link className="dropdown-item" to="/logout">Cerrar Sesión</Link></li>
                     </ul>
                   </div>
@@ -128,9 +129,6 @@ function NavbarAD({ showingresa, showRegistrate, transparentNavbar, lightLink, s
         </div>
       </nav>
 
-      {/* Componente de Preferencias */}
-      <Preferencias />
-      <Detalles />
     </>
   );
 }

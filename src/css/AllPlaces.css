@@ -1,0 +1,94 @@
+.all_places-description {
+   height: 6rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 6;
+   /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+   -webkit-box-orient: vertical;
+   white-space: normal;
+}
+
+.all_places-place-name {
+   height: 4rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+   -webkit-box-orient: vertical;
+   white-space: normal;
+}
+
+.all_places-category {
+   height: 2.2rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2;
+   /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+   -webkit-box-orient: vertical;
+   white-space: normal;
+}
+
+.all_places-address {
+   height: 3.5rem;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 3;
+   /* Muestra hasta 4 líneas antes de los puntos suspensivos */
+   -webkit-box-orient: vertical;
+   white-space: normal;
+}
+
+/*
+@media (max-width: 889px) {
+   .all_places-description {
+      height: 4rem;
+      -webkit-line-clamp: 3;
+   }
+}
+   PHP forever papi
+*/
+
+.all_places-filter-alcaldia {
+   margin-right: 3rem;
+}
+
+@media (max-width: 609px) {
+   .all_places-filter-alcaldia {
+      margin-right: 2rem;
+   }
+}
+@media (max-width: 495px) {
+   .all_places-filter-alcaldia {
+      margin-right: 1rem;
+   }
+}
+@media (max-width: 398px) {
+   .all_places-filter-alcaldia {
+      margin-right: 0;
+   }
+}
+
+.all_places-item-container {
+   width: 23.9%;
+}
+
+@media (max-width: 1175px) {
+   .all_places-item-container {
+      width: 30%;
+   }
+}
+@media (max-width: 875px) {
+   .all_places-item-container {
+      width: 40%;
+   }
+}
+@media (max-width: 637px) {
+   .all_places-item-container {
+      width: 20rem;
+   }
+}
+

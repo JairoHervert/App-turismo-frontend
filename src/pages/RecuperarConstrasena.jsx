@@ -7,8 +7,9 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import ButtonsMod from '../components/ButtonsMod';
 
-import { Container, Card, Box, Typography, CardHeader, CardContent, TextField } from '@mui/material';
+import { Container, Card, Box, Typography, CardHeader, CardContent, TextField, Link } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
+import { Stack } from '@mui/system';
 
 const RecuperarContrasena = () => {
 
@@ -51,6 +52,12 @@ const RecuperarContrasena = () => {
 
       <Container maxWidth='lg' sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '75vh' }}>
         <Card sx={{ padding: '1%', width: '100%', margin: '50px 0 40px 0' }}>
+          <Stack sx={{ padding: '16px 0 16px 16px'}}>
+            <Typography>
+              <Link href='/login'>Regresar a inicio de sesión</Link>
+            </Typography>
+          </Stack>
+
           <CardHeader
             className='rc-header-titulo'
             avatar={

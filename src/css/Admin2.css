@@ -1,237 +1,186 @@
-
-.sidebar-container-admin {
+/* Estilos principales del formulario */
+.formulario-container-admin {
+  width: 80%;
+  max-width: 900px;
   background-color: #e8f6fc;
-  padding-top: 2rem; /* Aumenta el espacio superior */
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  position: relative;
+  padding: 4rem;
+  margin: 4rem auto;
+  border-radius: 10px;
   transition: width 0.3s ease;
-  margin-top: -40px;
-  margin-left: -40px;
 }
-.second-container-admin
-{
-  display: flex ;
+
+.formulario-header-title-admin {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ff007f;
+  text-align: center;
+}
+
+.formulario-subtitle-admin {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.formulario-subtitle-section-admin {
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 1rem;
+}
+
+.formulario-box-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.formulario-input-admin {
+  width: 100%;
+}
+
+/* Botones */
+.formulario-button-reject-admin {
+  background-color: #e4007c;
+  color: #fff;
+}
+
+.formulario-button-reject-admin:hover {
+  background-color: #c3006a;
+}
+
+.formulario-button-accept-admin {
+  background-color: #0077c2;
+  color: #fff;
+}
+
+.formulario-button-accept-admin:hover {
+  background-color: #005f85;
+}
+
+.formulario-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 1rem;
-}
-.contenedor-cajas-admin{
-    padding: 20px;
-}
-  .list-item-button-admin {
-    display: flex;
-    align-items: center;
-  }
-.ajustes-soporte-admin{
-  position: sticky;
-  margin-top: 15rem;
-}
-.dash-cuentas-admin{
-  display: flex ;
-  flex-direction:column;
-  gap: 8px;
-}
-  .list-item-text-admin {
-    flex-grow: 1;
-    font-weight: bold;
-  }
-  
-  .submenu-item-admin {
-    padding-left: 2rem;
-  }
-  /* Selección de scrollbars solo para elementos con la clase "-dash-admin" */
-.-dash-admin::-webkit-scrollbar {
-  width: 10px; /* Ancho de la scrollbar */
-  height: 10px; /* Altura de la scrollbar horizontal */
+  margin-top: 2rem;
 }
 
-.-dash-admin::-webkit-scrollbar-track {
-  background: #f4f4f4; /* Fondo del track */
-  border-radius: 5px; /* Bordes redondeados */
+.formulario-button-container .formulario-button-admin {
+  flex: 1;
 }
 
-.-dash-admin::-webkit-scrollbar-thumb {
-  background: #6c757d; /* Color del pulgar */
-  border-radius: 5px; /* Bordes redondeados del pulgar */
+.second-container-admin {
+  margin-bottom: auto;
 }
 
-.-dash-admin::-webkit-scrollbar-thumb:hover {
-  background: #495057; /* Cambia de color al pasar el mouse */
+/* Estilos generales */
+.contenedor-cajas-admin {
+  display: flex;
+  flex-direction: row; /* Los elementos están en fila por defecto */
+  min-height: 100vh;
 }
 
-/* Firefox */
-.-dash-admin {
-  scrollbar-width: thin; /* Barra delgada */
-  scrollbar-color: #6c757d #f4f4f4; /* Color del pulgar y del track */
+/* Contenedor que se expande con flex-grow */
+.contenedor-principal {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row; /* Los elementos en fila */
+  justify-content: space-between;
 }
 
-  .list-item-icon-admin {
-    min-width: 30px;
-  }
-  
-  /* Estilos para el formulario */
-  
-  .formulario-header-title-admin {
-    font-weight: bold;
-    margin-bottom: 1rem;
-    color: #ff007f;
-  }
-  
-  .formulario-subtitle-admin {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 3rem;
-  }
-  
-  .formulario-subtitle-section-admin {
-    font-weight: bold;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 1rem;
-  }
-  
-  .formulario-box-admin {
-    background-color: #fff;
-    padding: 3rem;
-  }
-  
-  .formulario-grid-item-admin {
-    padding: 0.5rem;
-  }
-  
-  .formulario-input-admin {
+/* Aquí se puede aplicar padding o color de fondo a las secciones de contenido */
+.main-content-container {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.navbar-container-adp {
+  margin-top: 20px;
+}
+
+.content-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboard-container {
+  flex: 1;
+  max-width: 300px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+}
+
+.main-content-container {
+  flex: 2;
+  padding: 20px;
+}
+
+.footer-container {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
+  text-align: center;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .formulario-container-admin {
+    padding: 2rem;
     width: 100%;
   }
-  
 
-  .formulario-button-reject-admin {
-    color: #ff007f;
-    border-color: #ff007f;
-  }
-  /*hook*/
-  .formulario-button-accept-admin {
-    background-color: #e8f6fc;
-    color: #fff;
-  }
-  
-  .formulario-button-accept-admin:hover {
-    background-color: #005f85;
-  }
-  
-  .formulario-button-reject-admin:hover {
-    background-color: #ffeef6;
-    border-color: #ff007f;
-  }
-  
-  /* Estilos para la sección Recibidos */
-  .recibidos-container-admin {
-    overflow: hidden;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-top: 30px;
-  }
-  /*hook2*/
-  .recibidos-header-admin {
-    background-color: #e4f7ff;
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .formulario-box-admin {
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
-  .recibidos-header-title-admin {
-    color: black;
-    text-align: center;
-    font-size: 15rem;
-  }
-    /* Formulario */
-    .formulario-container-admin {
-      width: 900px;
-      background-color: #e8f6fc;
-      box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-      padding: 4rem;
-      margin: 4rem auto;
-      transition: width 0.3s ease;
-    }
-  
-  .recibidos-filter-buttons-admin {
-    margin-top: 80px;
-    display: flex;
+
+  .formulario-button-container {
     flex-direction: column;
-    gap: 10px;
-    margin: 1rem 0;
-    padding: 1rem;
-  }
-  
-  .recibidos-filter-button-admin {
-    margin: 5px;
-    background-color: #e4007c;
-    color: #fff;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 15px;
-    font-size: 1rem;
-  }
-  
-  .recibidos-filter-button-active-admin {
-    border: 2px solid #fff;
-  }
-  
-  .recibidos-filter-button-admin:hover {
-    background-color: #d1006f;
-  }
-  
-  /* Estilos para el contenedor de controles */
-  .controls-container-admin {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  
-  .controls-container-admin .MuiTextField-root {
-    max-width: 250px;
-  }
-  
-  .controls-container-admin .MuiInputAdornment-root {
-    color: #e4007c;
-  }
-  /* Media query para pantallas pequeñas */
-
-
-/* Media query para pantallas pequeñas */
-
-
-
-
-@media (max-width: 808px) {
-  .sidebar-container-admin {
-    width: 200px;
+    gap: 1rem;
   }
 
-  .formulario-button-reject-admin,
-  .formulario-button-accept-admin {
-    width: 100%;
-    margin-top: 1rem;
+  .dashboard-container {
+    display: none; /* Oculta el dashboard en pantallas pequeñas */
   }
 
-  .formulario-grid-item-admin {
-    padding: 0.2rem;
+  .main-content-container {
+    flex: 1;
   }
 }
 
-@media (max-width: 2000px) {
-  .sidebar-container-admin {
-    background-color: #e8f6fc;
-
-}
-
+/* Estilo para pantallas de tamaño mediano (mayores a 792px) */
+@media (min-width: 792px) {
+  .contenedor-cajas-admin {
+    display: flex;
+    flex-direction: column; /* Mantenemos el diseño en fila */
+  }
+  
   .formulario-container-admin {
-    width: 80%;
+    width: 70%;
+  }
+}
 
+/* Para pantallas más pequeñas (menores de 792px) */
+@media (max-width: 850px) {
+  .contenedor-cajas-admin {
+    display: flex;
+    flex-direction: column; /* Aquí cambiamos a columna */
+  }
+  .formulario-container-admin {
+    padding: 2rem;
+    width: 100%;
   }
 
-  .recibidos-header-title-admin {
-    font-size: 1.1rem;
+  .contenedor-principal {
+    display: flex;
+    flex-direction: column; /* Cambiar el contenedor a columna */
   }
 }

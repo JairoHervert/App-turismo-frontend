@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
-function StatCard({ title, value, subtitle }) {
+function StatCard({ title, value, value2 ,subtitle }) {
     return (
         <Card
             elevation={3}
@@ -22,7 +22,7 @@ function StatCard({ title, value, subtitle }) {
                         {value}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
-                        {subtitle}
+                        {value2}{subtitle}
                     </Typography>
                 </Box>
             </CardContent>

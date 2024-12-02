@@ -4,12 +4,12 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import ButtonsMod from './ButtonsMod';
+import ButtonsMod from '../ButtonsMod';
 import { useNavigate } from 'react-router-dom';
 
 export default function CardAlcaldiasTotales({ tituloAlcaldia, descripcion, imagen }) {
     const link = '/Buscador';
-    const img = imagen ? require(`../img/HomePage/places/home-places-${imagen}.jpg`) : '';
+    const img = imagen ? require(`../../img/HomePage/places/home-places-${imagen}.jpg`) : '';
 
     const navigate = useNavigate();
 
