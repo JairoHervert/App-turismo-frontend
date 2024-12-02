@@ -197,10 +197,12 @@ const CategoryHome = ({ isLogged, id }) => {
 
     try {
       const newState = await handleDeseados(id, placeId); // Llama a tu función SQL
-      console.log(newState);
+      let estado = false;
+      if(newState.message)
+        estado = newState.message == "Lugar agregado a deseados";
       setClickedDeseados((prevState) => ({
         ...prevState,
-        [placeId]: newState,
+        [placeId]: estado,
       }));
     } catch (error) {
       console.error("Error al cambiar deseados:", error);
@@ -215,12 +217,9 @@ const CategoryHome = ({ isLogged, id }) => {
 
     try {
       const newState = await handleFavoritos(id, placeId); // Llama a tu función SQL
-      console.log(newState);
       let estado = false;
-      if(newState.message == "Lugar agregado a favoritos")
-        estado = true;
-      else
-        estado = false;
+      if(newState.message)
+        estado = newState.message == "Lugar agregado a favoritos";
       setClickedFavoritos((prevState) => ({
         ...prevState,
         [placeId]: estado,
