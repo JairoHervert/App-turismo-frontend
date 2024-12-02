@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
-import Preferencias from './Preferencias';
-import Detalles from './modalDetalleIt';
 import { isLogged } from '../schemas/isLogged';
 
 function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, staticNavbar }) {
