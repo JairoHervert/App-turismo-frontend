@@ -155,6 +155,7 @@ function AllPlacesPage() {
           {currentItems.map((place, index) => (
             <PlaceItem
               key={index}
+              id={place.id}
               name={place.nombre}
               description={place.descripcion}
               image={place.imagen}

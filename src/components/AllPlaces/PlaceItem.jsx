@@ -7,12 +7,12 @@ import Grid from '@mui/material/Grid2'
 import ButtonsMod from '../ButtonsMod'
 import '../../css/AllPlaces.css'
 
-function PlaceItem({ name, description, image, category, address, rating, phone }) {
+function PlaceItem({ id, name, description, image, category, address, rating, phone }) {
 
   const navigate = useNavigate()
   const redigirALugar = () => {
-    //navigateTo(`/placepage/${id}`); // pa los de back: si definimos un id, podria reedirigirse al lugar en especifico, por ahora redirige a la página placePage estatica
-    navigate(`/placepage`) // redirige a la página de inicio
+    navigate(`/placepage/${id}`); // pa los de back: si definimos un id, podria reedirigirse al lugar en especifico, por ahora redirige a la página placePage estatica
+    //navigate(`/placepage/5`) // redirige a la página de inicio
   }
 
   return (
