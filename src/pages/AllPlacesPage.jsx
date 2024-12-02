@@ -1,5 +1,5 @@
 // componentes online
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, TextField, InputAdornment, Typography, Dialog, IconButton } from '@mui/material';
@@ -22,13 +22,76 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 // lugares de prueba guardados en un objeto js
 import Places from '../components/AllPlaces/Places';
 
+import { handleAllPlaces } from '../pagesHandlers/place-handler';
+
 function AllPlacesPage() {
+
+  const [isLogged, setLogged] = useState(false);
+  const [id, setId] = useState(null);
+  const [lugares, setLugares] = useState(Places);
+
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        setLogged(loggedIn.logged);
+        if(loggedIn.logged) {
+          const idLocal = loggedIn.data.id;
+          setId(idLocal);
+        }
+        else
+          console.log('El usuario no ha iniciado sesión');
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+      }
+    };
+
+    const fetchLugares = async () => {
+      try {
+        let resultado;
+        /*if (id) {
+          resultado = await handleCategorias4LugarUsuario(
+            id,
+            randomCategories[0],
+            randomCategories[1],
+            randomCategories[2],
+            randomCategories[3]
+          );
+          // Inicializa los estados basados en los valores iniciales
+          const initialDeseados = {};
+          const initialFavoritos = {};
+          resultado.forEach((place) => {
+            initialDeseados[place.id] = place.esDeseado;
+            initialFavoritos[place.id] = place.esFavorito;
+          });
+          setClickedDeseados(initialDeseados);
+          setClickedFavoritos(initialFavoritos);
+        } else {
+          resultado = await handleCategorias4Lugar(
+            randomCategories[0],
+            randomCategories[1],
+            randomCategories[2],
+            randomCategories[3]
+          );
+        }*/
+        resultado = await handleAllPlaces();
+        setLugares(resultado);
+        console.log(resultado);
+      } catch (error) {
+        console.error('Error al obtener foto del lugar', error);
+      }
+    };
+
+    fetchLoginStatus();
+    fetchLugares();
+  }, []);
+
   // Estado para manejar la página actual
   const [page, setPage] = useState(1);
   const itemsPorPagina = 12;
 
   const startIndex = (page - 1) * itemsPorPagina;
-  const currentItems = Places.slice(startIndex, startIndex + itemsPorPagina);
+  const currentItems = lugares.slice(startIndex, startIndex + itemsPorPagina);
 
   const handleChangePage = (e, value) => {
     setPage(value);
@@ -92,13 +155,13 @@ function AllPlacesPage() {
           {currentItems.map((place, index) => (
             <PlaceItem
               key={index}
-              name={place.name}
-              description={place.description}
-              image={place.image}
-              category={place.category}
-              address={place.address}
+              name={place.nombre}
+              description={place.descripcion}
+              image={place.imagen}
+              category={place.categorias}
+              address={place.direccion}
               rating={place.rating}
-              phone={place.phone}
+              phone={place.teléfono}
             />
           ))}
         </Grid>
@@ -106,7 +169,7 @@ function AllPlacesPage() {
         <Box className='d-flex justify-content-center mt-4 mb-4'>
           <Stack spacing={2} className='d-flex justify-content-center'>
             <Pagination
-              count={Math.ceil(Places.length / itemsPorPagina)}
+              count={Math.ceil(lugares.length / itemsPorPagina)}
               page={page}
               onChange={handleChangePage}
               color='secondary'

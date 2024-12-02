@@ -19,6 +19,7 @@ DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
 DROP PROCEDURE IF EXISTS LugarRegistro;
+DROP PROCEDURE IF EXISTS getLugaresTodos;
 DROP PROCEDURE IF EXISTS getLugaresCategoria4;
 DROP PROCEDURE IF EXISTS getLugaresCategoriaHomeUsuario;
 DROP PROCEDURE IF EXISTS LugarGetDatos;
@@ -620,6 +621,29 @@ BEGIN
    ELSE
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`getLugaresTodos`
+-- -----------------------------------------------------
+CREATE PROCEDURE getLugaresTodos (
+)
+BEGIN
+   SELECT 
+      l.id,
+      l.nombre,
+      l.direccion,
+      l.descripcion,
+      l.imagen,
+      l.attributions,
+      ROUND(l.rating) AS 'rating',
+      l.teléfono AS 'teléfono',
+      GROUP_CONCAT(DISTINCT c.nombre ORDER BY c.nombre ASC) AS categorias
+   FROM Lugar l
+   JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+   JOIN Subcategoria s ON s.id = ls.idSubcategoria
+   JOIN Categoria c ON c.id = s.idCategoria
+   GROUP BY l.id, l.nombre, l.direccion, l.descripcion, l.imagen, l.attributions;
 END //
 
 -- -----------------------------------------------------

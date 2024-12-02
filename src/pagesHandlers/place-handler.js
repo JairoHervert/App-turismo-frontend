@@ -1,5 +1,22 @@
 import axios from 'axios';
 
+const handleAllPlaces = async () => {
+  try {
+    const response = await axios.post('http://localhost:3001/lugares_todos', { });
+    if(response.data.resultado.datos) {
+      const datos = response.data.resultado.datos;
+      return datos;
+    }
+
+  } catch (error) {
+    if(error.response.data.error) {
+      console.error("Error: ", error.response.data.error)
+    } else {
+      console.error("Error: ", error);
+    }
+  }
+};
+
 const handleDatosLugar = async (id) => {
   try {
     const response = await axios.post('http://localhost:3001/lugar_datos', { id });
@@ -90,6 +107,7 @@ const handleCategorias4LugarUsuario = async (id, cat1, cat2, cat3, cat4) => {
 };
 
 export {
+  handleAllPlaces,
   handleDatosLugar,
   handleFotosLugar,
   handleSubcategoriasLugar,

@@ -32,7 +32,6 @@ function FavoritesPage() {
         const loggedIn = await isLogged();
         if (!loggedIn.logged) {
           navigate('/login');
-          return;
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);

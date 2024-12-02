@@ -63,7 +63,7 @@ CALL LugarRegistro(
 'https://lh3.googleusercontent.com/proxy/wjELjXCrO5rb8W6TTm4yNytWK6w2_6MUr6OUeBmVj6aq4Mv837i_D0ApSNN6mI99eDrFO7qo2wBNoPlHBfOCDUa2uvuzwLVGSViqOWwRkHKtLjDdgwgcdjFavcxL3p5sJ0JhKwP_0L9qWECbfA',
 'Instituto Politécnico Nacional', '19.5050535344484', '-99.14632305476846',
 'https://lh3.googleusercontent.com/proxy/wjELjXCrO5rb8W6TTm4yNytWK6w2_6MUr6OUeBmVj6aq4Mv837i_D0ApSNN6mI99eDrFO7qo2wBNoPlHBfOCDUa2uvuzwLVGSViqOWwRkHKtLjDdgwgcdjFavcxL3p5sJ0JhKwP_0L9qWECbfA',
-'escuela', '+525557296000', 0, '00.00-100.00', 4.0, '7:00-22:00',
+'escuela', '+525557296000', 0, '00.00-100.00', 4.55, '7:00-22:00',
 63, 'https://www.escom.ipn.mx/', 0, 0, '1,1,0,1', 0, 0, 0, 'Calidad',
 1, 1, 1, 0
 );

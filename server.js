@@ -55,6 +55,7 @@ app.post('/es-deseado', favDeseadosController.EsDeseado);
 
 // Rutas para manejar los lugares
 
+app.post('/lugares_todos', placeController.LugaresTodos);
 app.post('/lugar_datos', placeController.getDatos);
 app.post('/lugar_fotos', placeController.getFotos);
 app.post('/lugar_subcategorias', placeController.getSubcategorias);

@@ -121,26 +121,28 @@ DROP TABLE IF EXISTS `Categoria`;
 CREATE TABLE `Categoria` (
    `id` INT NOT NULL AUTO_INCREMENT,
    `nombre` VARCHAR(45) UNIQUE NOT NULL,
+   `imagen` VARCHAR(512) NULL,
    PRIMARY KEY (`id`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     
-INSERT INTO `categoria` (`nombre`) VALUES 
-('Salud y Bienestar'), 
-('Deportes'),
-('Restaurante'),
-('Comida Rápida'),
-('Cafetería'),
-('Bar'),
-('Arte'),
-('Historia'),
-('Museos'),
-('Educativos'),
-('Compras'),
-('Parques'),
-('Juegos Recreativos al Aire Libre'),
-('Juegos Recreativos Bajo Techo'),
-('Zoológicos'),
-('Religión');
+INSERT INTO `categoria` (`nombre`, `imagen`) VALUES 
+('Salud y Bienestar', NULL), 
+('Deportes', NULL),
+('Restaurante', 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Comida Rápida', 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Cafetería', 'https://images.unsplash.com/photo-1691014453405-7e3489d0c433?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Bar', 'https://images.unsplash.com/photo-1620219365994-f443a86ea626?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Arte', NULL),
+('Historia', NULL),
+('Museos', NULL),
+('Educativos', NULL),
+('Compras', NULL),
+('Parques', NULL),
+('Juegos Recreativos al Aire Libre', NULL),
+('Juegos Recreativos Bajo Techo', NULL),
+('Zoológicos', 'https://consejosdecancun.com/wp-content/uploads/2020/04/zoologico-de-chapultepec.jpg'),
+('Religión', 'https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Karaoke', 'https://media.istockphoto.com/id/1204145419/photo/night-bar-music-comedy-show-microphone-in-a-bar.jpg?s=612x612&w=0&k=20&c=AO8VbbKTCzfupYeVf1Njh58s781vAQfldSfZ5Nj2Fc4=');
     
 -- -----------------------------------------------------
 -- Table `appturismo`.`Subcategoria`
