@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
 import '../css/RecuperarContrasena.css';
-
 // 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import PatternIcon from '@mui/icons-material/Pattern';
@@ -12,118 +11,91 @@ import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl,
 import { ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {handleActualizar} from '../pagesHandlers/recuperacion-handler';
 
 const IngresarNuevaContrasena = () => {
+  const [contraseña, setContraseña] = useState('');
+  const [confirmarContraseña, setConfirmarContraseña] = useState('');
+  const [mostrarContraseña, setMostrarContraseña] = useState(true);
+  const [mostrarConfirmarContraseña, setMostrarConfirmarContraseña] = useState(false);
+  const [errores, setErrores] = useState({
+    contraseña: '',
+    confirmarContraseña: '',
+  })
+  const [isTouched, setIsTouched] = useState(false);
 
-    const token = window.location.pathname.split('/')[2];
-
-
-
-    const [contraseña, setContraseña] = useState('');
-    const [contraseña2, setContraseña2] = useState('');
-    const [errors, setErrors] = useState({});
-    const [formSubmitted, setFormSubmitted] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPassword2, setShowPassword2] = useState(false);
-  
-    // Validaciones de la contraseña
-    const validarContraseña = (contraseña) => {
-      const rules = {
-        longitudValida: /^(?=.{8,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
-        mayuscula: /[A-Z]/.test(contraseña), // Al menos una mayúscula
-        minuscula: /[a-z]/.test(contraseña), // Al menos una minúscula
-        numero: /\d/.test(contraseña), // Al menos un número
-        noVacio: contraseña.length > 0, // La contraseña no puede estar vacía
-      };
-      return rules;
-    };
-
-    const validarConfirmarContraseña = (contraseña, confirmacion) => {
-      return contraseña === confirmacion;
-    };
-  
-    const handlePasswordChange = (e) => {
-      const value = e.target.value;
-      setContraseña(value);
-
-      setErrors((prevErrors) => {
-        const passwordRules = validarContraseña(value);
-        const newErrors = {
-          ...prevErrors,
-          contraseña: passwordRules,
-        }
-
-        if (value) {
-          delete newErrors.camposObligatorios;
-        }
-
-        return newErrors;
-      });
-    };
-  
-    const handleConfirmPasswordChange = (e) => {
-      const value = e.target.value;
-      setContraseña2(value);
-
-      setErrors((prevErrors) => {
-        const passwordsMatch = validarConfirmarContraseña(contraseña, value);
-        const newErrors = {
-          ...prevErrors,
-          contraseña2: passwordsMatch,
-        }
-
-        if (value) {
-          delete newErrors.camposObligatorios;
-        }
-
-        return newErrors;
-      });
-    };
-  
-    const handleFormSubmit = (e) => {
-      e.preventDefault();
-      setFormSubmitted(true);
-  
-      // Validar si los campos no están vacíos
-      if (!contraseña || !contraseña2) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          camposObligatorios: true, // Añadir error para campos vacíos
-        }));
-        console.log('Error: Todos los campos deben estar llenos');
-        return;
-      }
-  
-      // Validar contraseñas
-      const passwordRules = validarContraseña(contraseña);
-      const passwordsMatch = validarConfirmarContraseña(contraseña, contraseña2);
-  
-      // Si la contraseña no cumple las reglas
-      if (!passwordRules.longitudValida || !passwordRules.mayuscula || !passwordRules.minuscula || !passwordRules.numero || !passwordRules.noVacio) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          contraseña: passwordRules,
-        }));
-        console.log('Error: El formato de la contraseña es inválido');
-        return;
-      }
-  
-      // Si las contraseñas no coinciden
-      if (!passwordsMatch) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          contraseña2: false, // Marcar error en confirmar contraseña
-        }));
-        console.log('Error: Las contraseñas no coinciden');
-        return;
-      } 
-      handleActualizar(token, contraseña);
+  const validarContraseña = (pwd) => {
+    const errores = [];
+    if (pwd.length < 8 || pwd.length > 128) {
+      errores.push('La contraseña debe tener entre 8 y 128 caracteres.');
     }
-  
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
-    const handleMouseDownPassword = (e) => e.preventDefault();
+    if (!/[A-Z]/.test(pwd)) {
+      errores.push('Debe contener al menos una letra mayúscula.');
+    }
+    if (!/[a-z]/.test(pwd)) {
+      errores.push('Debe contener al menos una letra minúscula.');
+    }
+    if (!/[0-9]/.test(pwd)) {
+      errores.push('Debe incluir al menos un número.');
+    }
+    return errores.join(' ');
+  }
+
+  const handleContraseñaChange = (e) => {
+    const value = e.target.value;
+    setContraseña(value);
+    setErrores((prev) => ({
+      ...prev,
+      contraseña: validarContraseña(value),
+    }));
+  }
+
+  const handleConfirmarContraseñaChange = (e) => {
+    const value = e.target.value;
+    setConfirmarContraseña(value);
+
+    if (isTouched.confirmarContraseña) {
+      setErrores((prev) => ({
+        ...prev,
+        confirmarContraseña: value !== contraseña ? 'Las contraseñas no coinciden.' : '',
+      }));
+    }
+  }
+
+  const handleSubmit = () => {
+    setIsTouched({
+      contraseña: true,
+      confirmarContraseña: true,
+    });
+    let nuevosErrores = {};
+
+    if (!contraseña) {
+      nuevosErrores.contraseña = 'Este campo no debe estar vacío';
+    }
+    else {
+      nuevosErrores.contraseña = validarContraseña(contraseña);
+    }
+    if (!confirmarContraseña) {
+      nuevosErrores.confirmarContraseña = 'Este campo no debe estar vacío';
+    }
+    else if (confirmarContraseña !== contraseña) {
+      nuevosErrores.confirmarContraseña = 'Las contraseñas no coinciden';
+    }
+
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrores(nuevosErrores);
+    }
+    else {
+      console.log('Formulario enviado');
+    }
+  }
+
+  const handleMostrarContraseña = () => {
+    setMostrarContraseña((prev) => !prev);
+  }
+
+  const handleMostrarConfirmarContraseña = () => {
+    setMostrarConfirmarContraseña((prev) => !prev);
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>

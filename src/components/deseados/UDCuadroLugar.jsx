@@ -11,7 +11,7 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
   const handleFavoriteClick = () => {
     // Acción al hacer clic en el ícono de corazón, por ahora solo imprime un mensaje en la consola
     //console.log('Lugar agregado a favoritos');
-    e.stopPropagation();
+    //e.stopPropagation();
     toggleFavorite(nombreLugar);
   };
 
