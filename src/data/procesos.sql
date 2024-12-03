@@ -18,6 +18,7 @@ DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
 # Lugar
+DROP PROCEDURE IF EXISTS getCategorias;
 DROP PROCEDURE IF EXISTS LugarRegistro;
 DROP PROCEDURE IF EXISTS getLugaresTodos;
 DROP PROCEDURE IF EXISTS getLugaresCategoria4;
@@ -568,6 +569,19 @@ END //
 -- ---------------------------------------------------------------------------------------------------
 --                                               LUGARES
 -- ---------------------------------------------------------------------------------------------------
+
+CREATE PROCEDURE getCategorias (
+)
+BEGIN
+   SELECT 
+      c.id,
+      c.nombre,
+      c.imagen,
+      GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+   FROM Categoria c
+   JOIN Subcategoria s ON c.id = s.idCategoria
+   GROUP BY c.id, c.nombre, c.imagen;
+END //
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarRegistro`

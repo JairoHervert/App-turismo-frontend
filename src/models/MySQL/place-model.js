@@ -92,6 +92,21 @@ class placeModel {
     });
   }
   
+  static async getCategorias() {
+    const query = 'CALL getCategorias();';
+    return new Promise((resolve, reject) => {
+      db.query(query, [], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
+
 }
 
 module.exports = placeModel;

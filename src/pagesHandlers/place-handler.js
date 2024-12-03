@@ -106,6 +106,25 @@ const handleCategorias4LugarUsuario = async (id, cat1, cat2, cat3, cat4) => {
   }
 };
 
+const handleCategorias = async () => {
+  try {
+    const response = await axios.post('http://localhost:3001/getCategorias', {});
+    if(response.data.resultado.datos) {
+      const datos = response.data.resultado.datos;
+      return datos;
+    }
+    else
+      return [];
+
+  } catch (error) {
+    if(error.response.data.error) {
+      console.error("Error: ", error.response.data.error)
+    } else {
+      console.error("Error: ", error);
+    }
+  }
+};
+
 export {
   handleAllPlaces,
   handleDatosLugar,
@@ -113,4 +132,5 @@ export {
   handleSubcategoriasLugar,
   handleCategorias4Lugar,
   handleCategorias4LugarUsuario,
+  handleCategorias,
 };

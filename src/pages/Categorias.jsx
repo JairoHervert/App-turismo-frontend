@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // componentes
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -12,6 +12,9 @@ import '../css/Categorias.css';
 
 import { Container, Typography,  Stack } from '@mui/material';
 import CategoryIcon from '@mui/icons-material/Category';
+
+import { handleCategorias } from '../pagesHandlers/place-handler';
+import { isLogged } from '../schemas/isLogged';
 
 function SearchCategoryPage() { 
   const navigate = useNavigate();
@@ -78,6 +81,37 @@ function SearchCategoryPage() {
     { id: 15, nombre: 'Religión', imagen: 'https://images.unsplash.com/photo-1520629716099-d147346eb224?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
   ];
 
+  const [ categorias, setCategorias ] = useState(categoriasIniciales);
+
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        if (!loggedIn.logged) {
+          navigate('/login');
+          return;
+        }
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+        navigate('/login');
+      }
+    };
+
+    const fetchLugares = async () => {
+      try {
+        const resultado = await handleCategorias(); // Espera la resolución de la promesa
+
+        setCategorias(resultado);
+        console.log("Resultado consulta", resultado);
+      } catch (error) {
+        console.error('Error al obtener datos del usuario:', error);
+      }
+    };
+
+    fetchLoginStatus();
+    fetchLugares(); // Llama a la función para obtener los datos
+  }, []);
+
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -98,7 +132,7 @@ function SearchCategoryPage() {
         </Typography>
 
         <ContenedorCategorias
-          categoriasIniciales={categoriasIniciales}
+          categoriasIniciales={categorias}
         />
         
         <Stack direction='row' sx={{ justifyContent: 'space-between', margin: '30px 0 30px 0' }}>
