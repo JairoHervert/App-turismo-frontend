@@ -32,7 +32,7 @@ class recuperacionController{
         
     
         const token = (correo) => {
-          return jwt.sign({correo: correo}, process.env.JWT_SECRET, {expiresIn: '1h'});
+          return jwt.sign({correo: correo}, process.env.JWT_SECRET, {expiresIn: '10m'});
         }
     
         const newToken = token(email);

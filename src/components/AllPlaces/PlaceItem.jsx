@@ -22,7 +22,7 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
           <CardMedia
             component='img'
             height='200'
-            image={image}
+            image={image.startsWith('http') ? image : `${process.env.PUBLIC_URL}/fotosLugares/${image}`}
             alt={'Imagen de ' + name}
           />
           <CardContent>

@@ -128,4 +128,34 @@ const obtenerTodasSubcategorias = async () => {
   });
 }
 
-module.exports = { registrarLugar , obtenerTodasSubcategorias};
+const registrarFoto = async (idLugar, foto) => {
+  const query = 'CALL RegistrarFoto(?, ?)';
+  const parametros = [idLugar, foto];
+  try {
+    const [results] = await db.promise().query(query, parametros);
+    if (results && results.error) {
+      throw new Error(results.error);
+    }
+    return results;
+  } catch (error) {
+    console.error('Error al registrar la foto:', error.message);
+    throw new Error('Error al guardar la foto en la base de datos.');
+  }
+}
+
+const registrarFotoPrincipal = async (idLugar, foto) => {
+  const query = 'UPDATE Lugar SET imagen = ? WHERE id = ?';
+  const parametros = [foto, idLugar];
+  try {
+    const [results] = await db.promise().query(query, parametros);
+    if (results && results.error) {
+      throw new Error(results.error);
+    }
+    return results;
+  } catch (error) {
+    console.error('Error al registrar la foto principal:', error.message);
+    throw new Error('Error al guardar la foto principal en la base de datos.');
+  }
+}
+
+module.exports = { registrarLugar , obtenerTodasSubcategorias, registrarFoto, registrarFotoPrincipal };

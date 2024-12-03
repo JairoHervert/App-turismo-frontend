@@ -6,7 +6,8 @@ import ButtonsMod from '../ButtonsMod';
 
 function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
-  const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
+  // const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
+  const imagenSrc = esURL ? imagen : `${process.env.PUBLIC_URL}/fotosLugares/${imagen}`;
   
   const navigate = useNavigate();
   const redigirALugar = () => {
