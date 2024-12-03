@@ -3,6 +3,8 @@ const path = require('path');
 const axios = require('axios');
 
 const generarFotos = async () => {
+
+    const API_KEY = ""
     const filePath = path.join(__dirname, 'lugaresRegistrados.json');
     let data = [];
     if (fs.existsSync(filePath)) {
@@ -35,7 +37,7 @@ const generarFotos = async () => {
             
             const existeFoto = fotosRegistradas.some((item) => item.idLugar === lugar.id && item.name === foto.name);
             if (!existeFoto) {
-                const url = `https://places.googleapis.com/v1/${foto.name}/media?key=AIzaSyDw9CsvxYqJSO9PVbcrmi6diWZm_Q7rqDc&maxWidthPx=600`;
+                const url = `https://places.googleapis.com/v1/${foto.name}/media?key=${API_KEY}&maxWidthPx=600`;
                 console.log(`Descargando foto: ${url}`);
                 try {
                     const response = await axios.get(url, { responseType: 'stream' });
