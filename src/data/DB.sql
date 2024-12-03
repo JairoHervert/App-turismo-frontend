@@ -124,26 +124,41 @@ CREATE TABLE `Categoria` (
    `imagen` VARCHAR(512) NULL,
    PRIMARY KEY (`id`)
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-    
-INSERT INTO `categoria` (`nombre`, `imagen`) VALUES 
-('Salud y Bienestar', NULL), 
-('Deportes', NULL),
-('Restaurante', 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Comida Rápida', 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Cafetería', 'https://images.unsplash.com/photo-1691014453405-7e3489d0c433?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Bar', 'https://images.unsplash.com/photo-1620219365994-f443a86ea626?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Arte', NULL),
-('Historia', NULL),
-('Museos', NULL),
-('Educativos', NULL),
-('Compras', NULL),
-('Parques', NULL),
-('Juegos Recreativos al Aire Libre', NULL),
-('Juegos Recreativos Bajo Techo', NULL),
-('Zoológicos', 'https://consejosdecancun.com/wp-content/uploads/2020/04/zoologico-de-chapultepec.jpg'),
-('Religión', 'https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('Karaoke', 'https://media.istockphoto.com/id/1204145419/photo/night-bar-music-comedy-show-microphone-in-a-bar.jpg?s=612x612&w=0&k=20&c=AO8VbbKTCzfupYeVf1Njh58s781vAQfldSfZ5Nj2Fc4=');
-    
+
+INSERT INTO `categoria` (`nombre`, `imagen`) VALUES
+('Arcades', 'https://c4.wallpaperflare.com/wallpaper/325/596/914/video-games-arcade-atari-retro-games-wallpaper-preview.jpg'), 
+('Arenas de luchas', 'https://i.eurosport.com/2016/05/10/1851964-39036516-2560-1440.jpg'),
+('Arte y cultura', 'https://images.unsplash.com/photo-1563293743-a9761195b52e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Z2FsZXIlQzMlQURhJTIwZGUlMjBhcnRlfGVufDB8fDB8fHww'), 
+('Bares', 'https://images.unsplash.com/photo-1620219365994-f443a86ea626?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Bibliotecas', 'https://wallup.net/wp-content/uploads/2019/09/914550-interior-biblioteca-arcos-libros-estanterias.jpg'), 
+('Boleras', 'https://www.bowlingalleyprices.com/wp-content/uploads/2022/08/Great-Bowling-Alleys-in-LA.jpg'), 
+('Bufés', 'https://t4.ftcdn.net/jpg/06/18/90/95/360_F_618909593_KSnYsZG0kvNlDscduLxpXSCE55pU0zgZ.jpg'),
+('Cafeterías', 'https://images.unsplash.com/photo-1691014453405-7e3489d0c433?q=80&w=1912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Clubes', 'https://images.pexels.com/photos/2114365/pexels-photo-2114365.jpeg'),
+('Comida rápida y botanas', 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Compras y souvenirs', 'https://www.visitlakecounty.org/images/galleria_photos/Shopping%20Malls/header-shopping-malls.jpg'), 
+('Karaokes', 'https://media.istockphoto.com/id/1204145419/photo/night-bar-music-comedy-show-microphone-in-a-bar.jpg?s=612x612&w=0&k=20&c=AO8VbbKTCzfupYeVf1Njh58s781vAQfldSfZ5Nj2Fc4='),
+('Lugares de Aventura', 'https://media.istockphoto.com/id/910215514/photo/two-little-brothers-hiking-in-forest.jpg?s=612x612&w=0&k=20&c=GoLp_tJXQaqOS6a3UnO4oDyZLqwMSfEwNMr2dgw9D4w='), 
+('Lugares históricos', 'https://generaldeseguros.mx/wp-content/uploads/2024/06/Que-visitar-en-Mexico-1024x698.webp'),
+('Lugares religiosos', 'https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Marisquerías', 'https://okdiario.com/img/2024/10/24/mariscos-635x358.jpg'), 
+('Museos', 'https://images.pexels.com/photos/3004909/pexels-photo-3004909.jpeg'), 
+('Parques', 'https://covive.mx/wp-content/uploads/elementor/thumbs/parque-arboledas-GTechMX-1-qpgv5asojfsnn29sj5tjhet1o371bcjpe0p8ponm0w.webp'), 
+('Parques de diversiones', 'https://img.rtve.es/imagenes/parques-tematicos-atracciones-historia-montana-rusa/1694509839771.jpg'), 
+('Parques de skate', 'https://t3.ftcdn.net/jpg/08/62/64/74/360_F_862647440_kgeGJlxhwsA1HjEkjNSoAXgke2e9Vzlf.jpg'), 
+('Patinaje sobre hielo', 'https://www.flightgift.com/media/wp/FG/2022/11/ice-skating-france.webp'), 
+('Restaurantes', 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('Restaurantes africanos', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/3d/3b/68/tusker-house.jpg?w=1200&h=-1&s=1'), 
+('Restaurantes americanos', 'https://cdn.pixabay.com/photo/2016/01/29/20/24/american-diner-1168606_1280.jpg'), 
+('Restaurantes asiáticos', 'https://media.timeout.com/images/103596145/750/562/image.jpg'), 
+('Restaurantes brasileños', 'https://st3.depositphotos.com/1672917/13502/i/450/depositphotos_135020840-stock-photo-different-kinds-of-brazilian-food.jpg'), 
+('Restaurantes de medio oriente', 'https://png.pngtree.com/thumb_back/fw800/background/20240204/pngtree-arabic-cuisine-events-ramadan-middle-eastern-image_15587511.png'), 
+('Restaurantes europeos', 'https://s0.smartresize.com/wallpaper/14/237/HD-wallpaper-a-restaurant-dinning-france-food-restaurant.jpg'), 
+('Restaurantes mexicanos', 'https://scontent.fmex1-4.fna.fbcdn.net/v/t39.30808-6/468705371_18363982408138434_886956544973042183_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEDiu7NVVp6WeIKR74YxRzl8umu8-CsMs_y6a7z4Kwyz2e3XcQluuKsALvHa1HZ4l_Xdydm50JoQ4gj8AZ2bKfU&_nc_ohc=KekrJjLdIbQQ7kNvgFojjkN&_nc_zt=23&_nc_ht=scontent.fmex1-4.fna&_nc_gid=AB-rZV5EYTyS7Bdr4pgRmfn&oh=00_AYAQcBT2XBgWCFuN55nt7wOdeW0r8sq16_Ijt2ULNSTn7A&oe=6753F0B5'), 
+('Salones de té', 'https://w0.peakpx.com/wallpaper/206/618/HD-wallpaper-tea-time-drinks-herbs-drink-east-tea.jpg'), 
+('Steak houses', 'https://images.deliveryhero.io/image/talabat/MenuItems/mmw_638482822318219747'), 
+('Zoológicos', 'https://consejosdecancun.com/wp-content/uploads/2020/04/zoologico-de-chapultepec.jpg');
+
 -- -----------------------------------------------------
 -- Table `appturismo`.`Subcategoria`
 -- -----------------------------------------------------
@@ -155,133 +170,118 @@ CREATE TABLE IF NOT EXISTS `appturismo`.`Subcategoria` (
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Salud y Bienestar
+-- Arcades
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('sauna', 'Sauna', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
-('spa', 'Spa', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
-('tanning_studio', 'Estudio de bronceado', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
-('yoga_studio', 'Estudio de yoga', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar')),
-('nail_salon', 'Salón de uñas', (SELECT id FROM categoria WHERE nombre = 'Salud y Bienestar'));
+('video_arcade', 'Arcade', (SELECT id FROM categoria WHERE nombre = 'Arcades'));
 
--- Deportes
+-- Arenas de luchas
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('arena', 'Arena de luchas', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('athletic_field', 'Campo de atletismo', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('golf_course', 'Campo de golf', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('ice_skating_rink', 'Pista de patinaje sobre hielo', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('playground', 'Campo de juegos', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('sports_activity_location', 'Lugar de actividad deportiva', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('sports_club', 'Club de deportes', (SELECT id FROM categoria WHERE nombre = 'Deportes')),
-('swimming_pool', 'Piscina', (SELECT id FROM categoria WHERE nombre = 'Deportes'));
+('arena', 'Arena de luchas', (SELECT id FROM categoria WHERE nombre = 'Arenas de luchas'));
 
--- Comida Rápida
+-- Arte y cultura
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('bagel_shop', 'Tienda de bagels', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
-('acai_shop', 'Tienda de açai', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
-('bakery', 'Panadería', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
-('fast_food_restaurant', 'Restaurante de comida rápida', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida')),
-('ice_cream_shop', 'Heladería', (SELECT id FROM categoria WHERE nombre = 'Comida Rápida'));
+('art_gallery', 'Galería de arte', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura')),
+('art_studio', 'Estudio de arte', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura')),
+('auditorium', 'Auditorio', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura')),
+('cultural_landmark', 'Lugar de referencia cultural', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura')),
+('performing_arts_theater', 'Teatro de artes performativas', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura')),
+('sculpture', 'Escultura', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura')),
+('body_art_service', 'Servicio de arte corporal', (SELECT id FROM categoria WHERE nombre = 'Arte y cultura'));
 
--- Cafetería
+-- Bares
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('cafe', 'Café', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('cafeteria', 'Cafetería/Comedor', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('cat_cafe', 'Cat café', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('chocolate_shop', 'Chocolatería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('coffee_shop', 'Cafetería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('confectionery', 'Confitería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('dessert_restaurant', 'Restaurante de postres', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('dessert_shop', 'Postrería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('diner', 'Comedor', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('dog_cafe', 'Dog café', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('donut_shop', 'Tienda de donas', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('fine_dining_restaurant', 'Restaurante de lujo', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('food_court', 'Patio de comidas', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('juice_shop', 'Tienda de jugos', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('meal_takeaway', 'Comida para llevar', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('sandwich_shop', 'Sandwichería', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('steak_house', 'Steak house', (SELECT id FROM categoria WHERE nombre = 'Cafetería')),
-('tea_house', 'Casa de té', (SELECT id FROM categoria WHERE nombre = 'Cafetería'));
+('wine_bar', 'Bar de vinos', (SELECT id FROM categoria WHERE nombre = 'Bares')),
+('bar', 'Bar', (SELECT id FROM categoria WHERE nombre = 'Bares')),
+('bar_and_grill', 'Bar y parrilla', (SELECT id FROM categoria WHERE nombre = 'Bares'));
 
--- Restaurantes
+-- Bibliotecas
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('afghani_restaurant', 'Restaurante afgano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('african_restaurant', 'Restaurante africano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('american_restaurant', 'Restaurante americano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('asian_restaurant', 'Restaurante asian', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('barbecue_restaurant', 'Restaurante de barbacoa', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('brazilian_restaurant', 'Restaurante brazileño', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('breakfast_restaurant', 'Restaurante de desayunos', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('brunch_restaurant', 'Restaurante de brunch', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('buffet_restaurant', 'Buffet', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('chinese_restaurant', 'Restaurante chino', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('french_restaurant', 'Restaurante francés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('greek_restaurant', 'Restaurante griego', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('hamburger_restaurant', 'Restaurante de hamburguesas', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('indian_restaurant', 'Restaurante hindú', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('indonesian_restaurant', 'Restaurante indonesio', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('italian_restaurant', 'Restaurante italiano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('japanese_restaurant', 'Restaurante japonés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('korean_restaurant', 'Restaurante coreano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('lebanese_restaurant', 'Restaurante libanés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('mediterranean_restaurant', 'Restaurante mediterráneo', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('mexican_restaurant', 'Restaurante mexicano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('middle_eastern_restaurant', 'Restaurante de oriente medio', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('pizza_restaurant', 'Pizzería', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('ramen_restaurant', 'Restaurante de ramen', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('restaurant', 'Restaurante', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('seafood_restaurant', 'Marisquería', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('spanish_restaurant', 'Restaurante español', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('sushi_restaurant', 'Restaurante de sushi', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('thai_restaurant', 'Restaurante tailandés', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('turkish_restaurant', 'Restaurante turco', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('vegan_restaurant', 'Restaurante vegano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('vegetarian_restaurant', 'Restaurante vegetariano', (SELECT id FROM categoria WHERE nombre = 'Restaurante')),
-('vietnamese_restaurant', 'Restaurante vietnamita', (SELECT id FROM categoria WHERE nombre = 'Restaurante'));
+('library', 'Biblioteca', (SELECT id FROM categoria WHERE nombre = 'Bibliotecas'));
 
--- Bar
+-- Boleras
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('wine_bar', 'Bar de vinos', (SELECT id FROM categoria WHERE nombre = 'Bar')),
-('bar', 'Bar', (SELECT id FROM categoria WHERE nombre = 'Bar')),
-('night_club', 'Club nocturno', (SELECT id FROM categoria WHERE nombre = 'Bar')),
-('karaoke', 'Karaoke', (SELECT id FROM categoria WHERE nombre = 'Bar')),
-('dance_hall', 'Salón de baile', (SELECT id FROM categoria WHERE nombre = 'Bar')),
-('comedy_club', 'Club de comedia', (SELECT id FROM categoria WHERE nombre = 'Bar')),
-('bar_and_grill', 'Bar y parrilla', (SELECT id FROM categoria WHERE nombre = 'Bar'));
+('bowling_alley', 'Bolera', (SELECT id FROM categoria WHERE nombre = 'Boleras'));
 
--- Arte
+-- Bufés
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('art_gallery', 'Galería de arte', (SELECT id FROM categoria WHERE nombre = 'Arte')),
-('art_studio', 'Estudio de arte', (SELECT id FROM categoria WHERE nombre = 'Arte')),
-('auditorium', 'Auditorio', (SELECT id FROM categoria WHERE nombre = 'Arte')),
-('cultural_landmark', 'Lugar de referencia cultural', (SELECT id FROM categoria WHERE nombre = 'Arte')),
-('performing_arts_theater', 'Teatro de artes performativas', (SELECT id FROM categoria WHERE nombre = 'Arte')),
-('sculpture', 'Escultura', (SELECT id FROM categoria WHERE nombre = 'Arte')),
-('body_art_service', 'Servicio de arte corporal', (SELECT id FROM categoria WHERE nombre = 'Arte'));
+('buffet_restaurant', 'Buffet', (SELECT id FROM categoria WHERE nombre = 'Bufés'));
 
--- Historia
+-- Cafeterías
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('historical_place', 'Lugar histórico', (SELECT id FROM categoria WHERE nombre = 'Historia')),
-('monument', 'Monumento', (SELECT id FROM categoria WHERE nombre = 'Historia')),
-('historical_landmark', 'Punto de referencia histórico', (SELECT id FROM categoria WHERE nombre = 'Historia'));
+('cafe', 'Café', (SELECT id FROM categoria WHERE nombre = 'Cafeterías')),
+('cafeteria', 'Cafetería/Comedor', (SELECT id FROM categoria WHERE nombre = 'Cafeterías')),
+('cat_cafe', 'Cat café', (SELECT id FROM categoria WHERE nombre = 'Cafeterías')),
+('dog_cafe', 'Dog café', (SELECT id FROM categoria WHERE nombre = 'Cafeterías')),
+('coffee_shop', 'Cafetería', (SELECT id FROM categoria WHERE nombre = 'Cafeterías')),
+('chocolate_shop', 'Chocolatería', (SELECT id FROM categoria WHERE nombre = 'Cafeterías'));
+
+-- Clubes
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('night_club', 'Club nocturno', (SELECT id FROM categoria WHERE nombre = 'Clubes')),
+('dance_hall', 'Salón de baile', (SELECT id FROM categoria WHERE nombre = 'Clubes')),
+('comedy_club', 'Club de comedia', (SELECT id FROM categoria WHERE nombre = 'Clubes'));
+
+-- Comida rápida y botanas
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('bakery', 'Panadería', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('bagel_shop', 'Tienda de bagels', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('acai_shop', 'Tienda de açai', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('fast_food_restaurant', 'Restaurante de comida rápida', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('ice_cream_shop', 'Heladería', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('donut_shop', 'Tienda de donas', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('confectionery', 'Confitería', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('dessert_shop', 'Postrería', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('food_court', 'Patio de comidas', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('juice_shop', 'Tienda de jugos', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('meal_takeaway', 'Comida para llevar', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('sandwich_shop', 'Sandwichería', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('dessert_restaurant', 'Restaurante de postres', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('pizza_restaurant', 'Pizzería', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('hamburger_restaurant', 'Restaurante de hamburguesas', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas')),
+('diner', 'Comedor', (SELECT id FROM categoria WHERE nombre = 'Comida rápida y botanas'));
+
+-- Compras y souvenirs
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('store', 'Tienda', (SELECT id FROM categoria WHERE nombre = 'Compras y souvenirs')),
+('shoe_store', 'Zapatería', (SELECT id FROM categoria WHERE nombre = 'Compras y souvenirs')),
+('shopping_mall', 'Plaza comercial', (SELECT id FROM categoria WHERE nombre = 'Compras y souvenirs')),
+('market', 'Mercado', (SELECT id FROM categoria WHERE nombre = 'Compras y souvenirs')),
+('book_store', 'Libería', (SELECT id FROM categoria WHERE nombre = 'Compras y souvenirs')),
+('gift_shop', 'Tienda de regalos', (SELECT id FROM categoria WHERE nombre = 'Compras y souvenirs'));
+
+-- Karaokes
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('karaoke', 'Karaoke', (SELECT id FROM categoria WHERE nombre = 'Karaokes'));
+
+-- Lugares de Aventura
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('off_roading_area', 'Área de offroad', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura')),
+('adventure_sports_center', 'Centro de deportes de aventura', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura')),
+('cycling_park', 'Parque de cicilismo', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura')),
+('hiking_area', 'Campo de caminata', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura'));
+
+-- Lugares históricos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('historical_place', 'Lugar histórico', (SELECT id FROM categoria WHERE nombre = 'Lugares históricos')),
+('monument', 'Monumento', (SELECT id FROM categoria WHERE nombre = 'Lugares históricos')),
+('historical_landmark', 'Punto de referencia histórico', (SELECT id FROM categoria WHERE nombre = 'Lugares históricos'));
+
+-- Lugares religiosos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('place_of_worship', 'Lugar de culto', (SELECT id FROM categoria WHERE nombre = 'Lugares religiosos')),
+('mosque', 'Mezquita', (SELECT id FROM categoria WHERE nombre = 'Lugares religiosos')),
+('hindu_temple', 'Templo hindú', (SELECT id FROM categoria WHERE nombre = 'Lugares religiosos')),
+('synagogue', 'Sinagoga', (SELECT id FROM categoria WHERE nombre = 'Lugares religiosos')),
+('church', 'Iglesia', (SELECT id FROM categoria WHERE nombre = 'Lugares religiosos'));
+
+-- Marisquerías
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('seafood_restaurant', 'Marisquería', (SELECT id FROM categoria WHERE nombre = 'Marisquerías'));
 
 -- Museos
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('museum', 'Museo', (SELECT id FROM categoria WHERE nombre = 'Museos'));
-
--- Educativos
-INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('library', 'Biblioteca', (SELECT id FROM categoria WHERE nombre = 'Educativos')),
-('planetarium', 'Planetario', (SELECT id FROM categoria WHERE nombre = 'Educativos'));
-
--- Compras
-INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('store', 'Tienda', (SELECT id FROM categoria WHERE nombre = 'Compras')),
-('shoe_store', 'Zapatería', (SELECT id FROM categoria WHERE nombre = 'Compras')),
-('shopping_mall', 'Plaza comercial', (SELECT id FROM categoria WHERE nombre = 'Compras')),
-('market', 'Mercado', (SELECT id FROM categoria WHERE nombre = 'Compras')),
-('book_store', 'Libería', (SELECT id FROM categoria WHERE nombre = 'Compras')),
-('gift_shop', 'Tienda de regalos', (SELECT id FROM categoria WHERE nombre = 'Compras'));
+('museum', 'Museo', (SELECT id FROM categoria WHERE nombre = 'Museos')),
+('planetarium', 'Planetario', (SELECT id FROM categoria WHERE nombre = 'Museos'));
 
 -- Parques
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
@@ -294,40 +294,90 @@ INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
 ('wildlife_refuge', 'Refugio silvestre', (SELECT id FROM categoria WHERE nombre = 'Parques')),
 ('dog_park', 'Parque canino', (SELECT id FROM categoria WHERE nombre = 'Parques')),
 ('picnic_ground', 'Campo de picnic', (SELECT id FROM categoria WHERE nombre = 'Parques')),
-('barbecue_area', 'Área de barbacoa', (SELECT id FROM categoria WHERE nombre = 'Parques')),
-('marina', 'Puerto pequeño', (SELECT id FROM categoria WHERE nombre = 'Parques')),
-('children''s_camp', 'Campo para niños', (SELECT id FROM categoria WHERE nombre = 'Parques')),
-('hiking_area', 'Campo de caminata', (SELECT id FROM categoria WHERE nombre = 'Parques'));
+('barbecue_area', 'Área de barbacoa', (SELECT id FROM categoria WHERE nombre = 'Parques'));
 
--- Juegos Recreativos al Aire Libre
+-- Parques de diversiones
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('amusement_park', 'Parque de diversiones', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('amusement_center', 'Centro de diversiones', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('water_park', 'Parque acuático', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('roller_coaster', 'Montaña rusa', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('ferris_wheel', 'Rueda de la fortuna', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('skateboard_park', 'Parque de skateboard', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('off_roading_area', 'Área de offroad', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('adventure_sports_center', 'Centro de deportes de aventura', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre')),
-('cycling_park', 'Parque de cicilismo', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos al Aire Libre'));
+('amusement_park', 'Parque de diversiones', (SELECT id FROM categoria WHERE nombre = 'Parques de diversiones')),
+('amusement_center', 'Centro de diversiones', (SELECT id FROM categoria WHERE nombre = 'Parques de diversiones')),
+('water_park', 'Parque acuático', (SELECT id FROM categoria WHERE nombre = 'Parques de diversiones')),
+('roller_coaster', 'Montaña rusa', (SELECT id FROM categoria WHERE nombre = 'Parques de diversiones')),
+('ferris_wheel', 'Rueda de la fortuna', (SELECT id FROM categoria WHERE nombre = 'Parques de diversiones'));
 
--- Juegos Recreativos Bajo Techo
+-- Parques de skate
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('video_arcade', 'Arcade', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos Bajo Techo')),
-('bowling_alley', 'Sala de boliche', (SELECT id FROM categoria WHERE nombre = 'Juegos Recreativos Bajo Techo'));
+('skateboard_park', 'Parque de skateboard', (SELECT id FROM categoria WHERE nombre = 'Parques de skate'));
+
+-- Patinaje sobre hielo
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('ice_skating_rink', 'Pista de patinaje sobre hielo', (SELECT id FROM categoria WHERE nombre = 'Patinaje sobre hielo'));
+
+-- Restaurantes
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('breakfast_restaurant', 'Restaurante de desayunos', (SELECT id FROM categoria WHERE nombre = 'Restaurantes')),
+('brunch_restaurant', 'Restaurante de brunch', (SELECT id FROM categoria WHERE nombre = 'Restaurantes')),
+('restaurant', 'Restaurante', (SELECT id FROM categoria WHERE nombre = 'Restaurantes')),
+('barbecue_restaurant', 'Restaurante de barbacoa', (SELECT id FROM categoria WHERE nombre = 'Restaurantes')),
+('vegan_restaurant', 'Restaurante vegano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes')),
+('vegetarian_restaurant', 'Restaurante vegetariano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes')),
+('fine_dining_restaurant', 'Restaurante de lujo', (SELECT id FROM categoria WHERE nombre = 'Restaurantes'));
+
+-- Restaurantes africanos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('african_restaurant', 'Restaurante africano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes africanos'));
+
+-- Restaurantes americanos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('american_restaurant', 'Restaurante americano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes americanos'));
+
+-- Restaurantes asiáticos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('asian_restaurant', 'Restaurante asiático', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('chinese_restaurant', 'Restaurante chino', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('indian_restaurant', 'Restaurante hindú', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('indonesian_restaurant', 'Restaurante indonesio', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('japanese_restaurant', 'Restaurante japonés', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('korean_restaurant', 'Restaurante coreano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('ramen_restaurant', 'Restaurante de ramen', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('sushi_restaurant', 'Restaurante de sushi', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('thai_restaurant', 'Restaurante tailandés', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos')),
+('vietnamese_restaurant', 'Restaurante vietnamita', (SELECT id FROM categoria WHERE nombre = 'Restaurantes asiáticos'));
+
+-- Restaurantes brasileños
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('brazilian_restaurant', 'Restaurante brazileño', (SELECT id FROM categoria WHERE nombre = 'Restaurantes brasileños'));
+
+-- Restaurantes de medio oriente
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('afghani_restaurant', 'Restaurante afgano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes de medio oriente')),
+('lebanese_restaurant', 'Restaurante libanés', (SELECT id FROM categoria WHERE nombre = 'Restaurantes de medio oriente')),
+('middle_eastern_restaurant', 'Restaurante de oriente medio', (SELECT id FROM categoria WHERE nombre = 'Restaurantes de medio oriente'));
+
+-- Restaurantes europeos
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('french_restaurant', 'Restaurante francés', (SELECT id FROM categoria WHERE nombre = 'Restaurantes europeos')),
+('greek_restaurant', 'Restaurante griego', (SELECT id FROM categoria WHERE nombre = 'Restaurantes europeos')),
+('italian_restaurant', 'Restaurante italiano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes europeos')),
+('mediterranean_restaurant', 'Restaurante mediterráneo', (SELECT id FROM categoria WHERE nombre = 'Restaurantes europeos')),
+('spanish_restaurant', 'Restaurante español', (SELECT id FROM categoria WHERE nombre = 'Restaurantes europeos')),
+('turkish_restaurant', 'Restaurante turco', (SELECT id FROM categoria WHERE nombre = 'Restaurantes europeos'));
+
+-- Restaurantes mexicanos 
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('mexican_restaurant', 'Restaurante mexicano', (SELECT id FROM categoria WHERE nombre = 'Restaurantes mexicanos '));
+
+-- Salones de té
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('tea_house', 'Casa de té', (SELECT id FROM categoria WHERE nombre = 'Salones de té'));
+
+-- Steak houses
+INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
+('steak_house', 'Steak house', (SELECT id FROM categoria WHERE nombre = 'Steak houses'));
 
 -- Zoológicos
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
 ('zoo', 'Zoológico', (SELECT id FROM categoria WHERE nombre = 'Zoológicos')),
 ('aquarium', 'Acuario', (SELECT id FROM categoria WHERE nombre = 'Zoológicos'));
-
--- Religión
-INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('place_of_worship', 'Lugar de culto', (SELECT id FROM categoria WHERE nombre = 'Religión')),
-('mosque', 'Mezquita', (SELECT id FROM categoria WHERE nombre = 'Religión')),
-('hindu_temple', 'Templo hindú', (SELECT id FROM categoria WHERE nombre = 'Religión')),
-('synagogue', 'Sinagoga', (SELECT id FROM categoria WHERE nombre = 'Religión')),
-('church', 'Iglesia', (SELECT id FROM categoria WHERE nombre = 'Religión'));
 
 -- ---------------------------------------------------------------------------------------------------
 --                                           TABLAS INTERMEDIAS

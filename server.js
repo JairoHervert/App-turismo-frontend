@@ -61,6 +61,7 @@ app.post('/lugar_fotos', placeController.getFotos);
 app.post('/lugar_subcategorias', placeController.getSubcategorias);
 app.post('/lugar_getLugaresPor4Categorias', placeController.getLugaresPor4Categorias);
 app.post('/lugar_getLugaresPor4CategoriasUsuario', placeController.getLugaresPor4CategoriasUsuario);
+app.post('/getCategorias', placeController.getCategorias);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;
