@@ -14,6 +14,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { handleEsFavorito, handleEsDeseado } from '../pagesHandlers/favDeseados-handler';
 import { handleDatosLugar, handleFotosLugar, handleSubcategoriasLugar } from '../pagesHandlers/place-handler';
+import { registrarHistorial } from '../pagesHandlers/history-handler';
 
 const PlacePage = () => {
   const { id } = useParams();
@@ -69,6 +70,9 @@ const PlacePage = () => {
           const deseado = await handleEsDeseado(idUsuario, id);
           setIsDeseado(deseado.esDeseado);
           setLogged(true);
+
+          //Registrar el lugar en el historial
+          await registrarHistorial(idUsuario, id);
         }
 
         const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
@@ -100,7 +104,7 @@ const PlacePage = () => {
         setPlace(copiaResultado);
         console.log(copiaResultado);
       } catch (error) {
-        console.error('Error al obtener datos del lugar', error);
+        console.error('Error al obtener datos del lugar o registrar en el historial', error);
       }
     };
 

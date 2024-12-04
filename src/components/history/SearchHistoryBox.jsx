@@ -5,7 +5,7 @@ import HistoryIcon from '@mui/icons-material/History';
 
 import '../../css/History.css';
 
-const SearchHistoryBox = ({ searchHistory, date }) => {
+const SearchHistoryBox = ({ searchHistory, date, onEliminarLugar }) => {
   return (
 
     
@@ -14,20 +14,27 @@ const SearchHistoryBox = ({ searchHistory, date }) => {
       <p className="date-text-history">Hoy - {date}</p>
       <div className="search-history-list-history">
         
-        {searchHistory.map(item => (
+        {searchHistory.map((item, index) => (
           <div
-            key={item.id}
+            key={item.id || index} // Usa item.id si está disponible, de lo contrario, usa el índice como respaldo
             className="search-history-item-history d-flex justify-content-between align-items-center"
           >
             <div className="item-left-history d-flex align-items-center">
               
               <input type="checkbox" className="checkbox-history me-2" />
               <small className="query-time-history me-2">{item.time}</small>
-              <Link to={`/search?q=${item.query}`} className="query-text-history">
+              <Link to={`/placepage/${item.idLugar}`} className="query-text-history">
                 {item.query}
               </Link>
             </div>
-            <div className="menu-icon-history">⋮</div>
+            {/* Ícono de tres puntos para opciones */}
+            <div
+              className="menu-icon-history"
+              onClick={() => onEliminarLugar(item.idLugar)} // Llama a la función para eliminar
+              style={{ cursor: 'pointer' }} // Cambia el cursor al pasar sobre el ícono
+            >
+              ⋮
+            </div>
           </div>
         ))}
       </div>

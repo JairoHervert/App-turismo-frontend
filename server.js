@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
+const historyRoutes = require('./src/routes/history-routes');
 const recuperacionController = require('./src/controllers/recuperacion-controller');
 const favDeseadosController = require('./src/controllers/favDeseados-controller');
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/api/places', placesRoutes);
+app.use('/', historyRoutes);
 
 const PORT = 3001;
 

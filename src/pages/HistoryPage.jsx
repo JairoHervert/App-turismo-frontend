@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stack, Button, TextField, InputAdornment } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import Navbar from '../components/NavBar';
@@ -7,27 +7,79 @@ import Footer from '../components/Footer';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import SearchHistoryBox from '../components/history/SearchHistoryBox'; 
 import DeleteIcon from '@mui/icons-material/Delete';
+import { obtenerHistorial, borrarHistorial } from '../pagesHandlers/history-handler';
 
 function SearchHistoryPageHistory() { 
-  const searchHistoryHistory = [
-    { id: 1, query: 'Tortas "El güero"', time: '6:23 p.m.' },
-    { id: 2, query: 'Acuario "MICHIN"', time: '6:23 p.m.' },
-    { id: 3, query: 'Hotel "Roma"', time: '6:23 p.m.' },
-    { id: 5, query: 'Castillo de Chapultepec', time: '6:23 p.m.' },
-    { id: 6, query: 'Acuario "Inbursa"', time: '6:23 p.m.' },
-    { id: 7, query: 'Bosque de Chapultepec', time: '6:23 p.m.' },
-    { id: 8, query: 'Plaza de la Constitución', time: '6:25 p.m.' },
-  ];
-  const todayDate = "martes, 15 de octubre de 2024";
+  const [searchHistory, setSearchHistory] = useState([]); // Estado para el historial
+  const [searchText, setSearchText] = useState(''); // Estado para el texto de búsqueda
+  const todayDate = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+  useEffect(() => {
+    const fetchHistorial = async () => {
+      const idUsuario = localStorage.getItem('id'); // Obtén el ID del usuario
+      if (!idUsuario) return;
+
+      try {
+        const historial = await obtenerHistorial(idUsuario); // Llama a la API para obtener el historial
+        console.log('Historial recibido:', historial); // Verifica los datos
+        setSearchHistory(historial); // Actualiza el estado con los datos obtenidos
+      } catch (error) {
+        console.error('Error al cargar el historial:', error);
+      }
+    };
+
+    fetchHistorial();
+  }, []);
+
+  const handleBorrarHistorial = async () => {
+    const idUsuario = localStorage.getItem('id');
+    if (!idUsuario) return;
+
+    try {
+      const mensaje = await borrarHistorial(idUsuario);
+      alert(mensaje);
+      setSearchHistory([]);
+    } catch (error) {
+      console.error('Error al borrar el historial:', error);
+    }
+  };
+
+  const handleEliminarLugar = async (idLugar) => {
+  const idUsuario = localStorage.getItem('id'); // Obtén el ID del usuario
+  if (!idUsuario) return;
+
+  try {
+    // Llama a la API para eliminar el lugar
+    const response = await fetch('http://localhost:3001/historial/lugar', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idUsuario, idLugar }),
+    });
+    const data = await response.json();
+
+    if (response.ok) {
+      alert(data.message);
+      // Actualiza el estado eliminando el lugar
+      setSearchHistory((prevHistory) =>
+        prevHistory.filter((item) => item.idLugar !== idLugar)
+      );
+    } else {
+      console.error('Error al eliminar el lugar:', data.error);
+    }
+  } catch (error) {
+    console.error('Error al eliminar el lugar:', error);
+  }
+};
+
+  // Filtrar el historial según el texto ingresado
+  const filteredHistory = searchHistory.filter((item) =>
+    item.query.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <div className='vh-100 vw-100'>
       <Navbar />
- 
-
-
       <div className="search-history-background-history">
-
         <div className='cont-hist-bus-history'>
           <div className="controls-container-history">
             <TextField
@@ -35,6 +87,8 @@ function SearchHistoryPageHistory() {
               variant="outlined"
               size="small"
               sx={{ maxWidth: 250 }}
+              value={searchText} // Asocia el valor al estado searchText
+              onChange={(e) => setSearchText(e.target.value)} // Actualiza el estado cuando el usuario escribe
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -53,7 +107,7 @@ function SearchHistoryPageHistory() {
                   backgroundColor: '#c3006a',
                 },
               }}
-              startIcon={<FilterListIcon />} // Añade el icono al principio del botón
+              startIcon={<FilterListIcon />}
             >
               Filtrar
             </Button>
@@ -67,22 +121,21 @@ function SearchHistoryPageHistory() {
                   backgroundColor: '#c3006a',
                 },
               }}
-              startIcon={<DeleteIcon />} // Añade el icono de borrar al principio del botón
+              startIcon={<DeleteIcon />}
+              onClick={handleBorrarHistorial}
             >
               Borrar historial
             </Button>
           </div>
-         <div>
-          <Stack direction='row' spacing={1} alignItems='flex-start' sx={{ ml: -30, mb: 3 }}>
-            <HistoryIcon color="primary" fontSize="Montserrat" sx={{ fontSize: '4rem'}} />
-            <h1 className='history-page-title fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Historial de búsqueda</h1>
-
-          </Stack>
+          <div>
+            <Stack direction='row' spacing={1} alignItems='flex-start' sx={{ ml: -30, mb: 3 }}>
+              <HistoryIcon color="primary" fontSize="Montserrat" sx={{ fontSize: '4rem'}} />
+              <h1 className='history-page-title fw-bolder fontMontserrat mb-4 us_de-deseados-text'>Historial de búsqueda</h1>
+            </Stack>
           </div>
         </div>
-        <SearchHistoryBox searchHistory={searchHistoryHistory} date={todayDate} />
+        <SearchHistoryBox searchHistory={filteredHistory} date={todayDate} onEliminarLugar={handleEliminarLugar} />
       </div>
-      
       <Footer />
     </div>
   );
