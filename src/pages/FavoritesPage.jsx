@@ -2,7 +2,6 @@ import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, Grid, TextField, Box, InputAdornment, Typography } from '@mui/material';
 import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
-import Pagination from '@mui/material/Pagination';
 // Componentes
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -16,13 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/FavoritesPage.css';
 
-// imagenes de prueba
-import Imagen1 from '../img/PlacePage/place-img-fuentetlaloc.jpg';
-import Imagen2 from '../img/PlacePage/place-img-casadeleon.jpg';
-import Imagen3 from '../img/PlacePage/place-img-palaciopostal.jpg';
-
 function FavoritesPage() {
-  //const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [favoritos, setFavoritos] = useState([]);
   const navigate = useNavigate(); // Inicializa useNavigate
 

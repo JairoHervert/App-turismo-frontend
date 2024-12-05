@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import '../../css/FavoritesPage.css';
 import ButtonsMod from '../ButtonsMod';
+import {handleEliminarFavorito} from '../../pagesHandlers/favDeseados-handler';
 
 function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
@@ -12,6 +13,11 @@ function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
   const navigate = useNavigate();
   const redigirALugar = () => {
     navigate(`/placepage/${idLugar}`);
+  };
+
+  const EliminarLugar = () => {
+    handleEliminarFavorito(localStorage.getItem('id'), idLugar);
+    window.location.reload();
   };
 
   return (
@@ -38,7 +44,7 @@ function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
             textCont='Eliminar'
             variant='secundario'
             startIcon={<DeleteIcon />}
-            clickEvent={() => alert('Eliminar')}
+            clickEvent={EliminarLugar}
           />
         </CardActions>
 
