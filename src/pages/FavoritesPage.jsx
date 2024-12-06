@@ -1,5 +1,7 @@
+import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, Grid, TextField, Box, InputAdornment, Typography } from '@mui/material';
+import { Container, Stack, TextField, Box, InputAdornment, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
@@ -10,12 +12,20 @@ import ItemFavoritos from '../components/favorites/ItemFavoritos';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/FavoritesPage.css';
 
-// imagenes de prueba
-import Imagen1 from '../img/PlacePage/place-img-fuentetlaloc.jpg';
-import Imagen2 from '../img/PlacePage/place-img-casadeleon.jpg';
-import Imagen3 from '../img/PlacePage/place-img-palaciopostal.jpg';
+// lugares de prueba guardados en un objeto js
+import Places from '../components/AllPlaces/Places';
 
 function FavoritesPage() {
+  // Estado para manejar la página actual
+  const [page, setPage] = useState(1);
+  const itemsPorPagina = 12;
+
+  const startIndex = (page - 1) * itemsPorPagina;
+  const currentItems = Places.slice(startIndex, startIndex + itemsPorPagina);
+
+  const handleChangePage = (e, value) => {
+    setPage(value);
+  };
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -30,14 +40,14 @@ function FavoritesPage() {
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
           <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
-            <FavoriteRoundedIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' sx={{ fontSize: '3rem' }}/> {/* El atributo color, es para ajustar el color a partir del archivo de theme MaterialUI */}
+            <FavoriteRoundedIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' sx={{ fontSize: '3rem' }} /> {/* El atributo color, es para ajustar el color a partir del archivo de theme MaterialUI */}
             <Typography variant='h1' className='fw-bold' sx={{ fontSize: '3rem' }}>Favoritos</Typography>
           </Stack>
 
-          <TextField 
-            label='Buscar en favoritos' 
-            variant='outlined' 
-            size='small' 
+          <TextField
+            label='Buscar en favoritos'
+            variant='outlined'
+            size='small'
             sx={{ maxWidth: 250 }}
             InputProps={{
               startAdornment: (
@@ -49,38 +59,26 @@ function FavoritesPage() {
           />
         </Stack>
 
-        <Box sx={{ maxHeight: '74vh', overflowY: 'auto', paddingBottom: '1rem' }}>
-          <Grid container spacing={2} justifyContent='center' alignItems='center'>
+        <Grid container spacing={2} justifyContent='center' alignItems='center'>
+          {currentItems.map((place, index) => (
             <ItemFavoritos
-              imagen={Imagen1}
-              nombre='Fuente de Tlaloc'
-              descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
+              key={index}
+              imagen={place.image}
+              nombre={place.name}
+              descripcion={place.description}
+            />
+          ))}
+        </Grid>
 
-            <ItemFavoritos
-              imagen={Imagen2}
-              nombre='Casa de León'
-              descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
-
-            <ItemFavoritos
-              imagen={Imagen3}
-              nombre='Palacio Postal'
-              descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
-
-            <ItemFavoritos
-              imagen={Imagen1}
-              nombre='Fuente de Tlaloc'
-              descripcion='La Fuente de Tlaloc es una impresionante obra de Diego Rivera ubicada en el bosque de Chapultepec, Ciudad de México. ' />
-
-            <ItemFavoritos
-              imagen={Imagen2}
-              nombre='Casa de León'
-              descripcion='La Casa de León Trotsky es un museo en la Ciudad de México que fue la residencia del líder revolucionario ruso León Trotsky.' />
-
-            <ItemFavoritos
-              imagen={Imagen3}
-              nombre='Palacio Postal'
-              descripcion='El Palacio Postal de la Ciudad de México es un edificio de estilo ecléctico que alberga la oficina central de Correos de México.' />
-          </Grid>
+        <Box className='d-flex justify-content-center mt-4 mb-4'>
+          <Stack spacing={2} className='d-flex justify-content-center'>
+            <Pagination
+              count={Math.ceil(Places.length / itemsPorPagina)}
+              page={page}
+              onChange={handleChangePage}
+              color='secondary'
+            />
+          </Stack>
         </Box>
 
       </Container>

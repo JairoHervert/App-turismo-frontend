@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 
 // componentes locales
 import Navbar from '../components/NavBar'
+import Footer from '../components/Footer';
 import PlaceItem from '../components/AllPlaces/PlaceItem';
 import MenuFilters from '../components/AllPlaces/MenuFilters';
 
@@ -63,7 +64,7 @@ function AllPlacesPage() {
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
           <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
             <PlaceRoundedIcon color='secondary' fontSize='inhert' className='fav_pag-icono-corazon' sx={{ fontSize: '3rem' }} /> {/* El atributo color, es para ajustar el color a partir del archivo de theme MaterialUI */}
-            <Typography variant='h1' className='fw-bold' sx={{ fontSize: '3rem' }}>Lugares disponibles</Typography>
+            <Typography variant='h1' className='fw-bold' sx={{ fontSize: { xs: '2rem', md: '3rem' }, }}>Lugares disponibles</Typography>
           </Stack>
 
           <Box className='d-flex align-items-center justify-content-center'>
@@ -75,7 +76,7 @@ function AllPlacesPage() {
               label='Buscar en todos los lugares'
               variant='outlined'
               size='small'
-              color='secondary'
+              color='primary'
               sx={{ maxWidth: 250 }}
               InputProps={{
                 startAdornment: (
@@ -132,6 +133,7 @@ function AllPlacesPage() {
         </Box>
 
       </Container>
+      <Footer showIncorporaLugar={true} />
     </ThemeProvider>
   )
 }

@@ -18,8 +18,7 @@ function Footer({ showIncorporaLugar }) {
 
             <div className='col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 explore-links'>
               <h6>Canasta Básica</h6>
-              <p><Link to='/'>Preguntas Frecuentes</Link></p>
-              
+                            
               {/* Mostrar el enlace de incorporar lugar si showIncorporaLugar es verdadero */}
               {showIncorporaLugar && (
                 <p><Link to='/'>Incorpora un Lugar</Link></p>
