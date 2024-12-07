@@ -267,24 +267,29 @@ const GenerarItinerario = () => {
                   Utiliza los controles deslizantes para asignar el porcentaje del total disponible a cada opción según tus preferencias.
                 </Typography>
 
-                <Box sx={{ width: '100%', marginTop: '20px' }}>
-                  {/* Control deslizante - Comida */}
-                  <Stack spacing={2} direction='row' sx={{ alignItems: 'center', mb: 1 }}>
+                <Stack sx={{ width: '100%', marginTop: '20px' }} direction='row'>
+                  <Stack spacing={2} direction='column' sx={{ marginRight: '15px' }}>
+                    {/* Control deslizante - Comida */}
                     <Stack direction='column' sx={{ alignItems: 'center', mb: 1 }}>
                       <RestaurantIcon sx={{ color: '#E4007C' }} />
                       <span>Comida</span>
                     </Stack>
-                    <Slider defaultValue={5} min={1} max={10} step={1} aria-label='Comida' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
-                  </Stack>
-                  { /* Control deslizante - Sitios */}
-                  <Stack spacing={2} direction='row' sx={{ alignItems: 'center', mb: 1 }}>
+                    { /* Control deslizante - Sitios */}
                     <Stack direction='column' sx={{ alignItems: 'center', mb: 1 }}>
                       <FestivalIcon sx={{ color: '#E4007C' }} />
                       <span>Sitios</span>
                     </Stack>
-                    <Slider defaultValue={5} min={1} max={10} step={1} aria-label='Sitios' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
+
                   </Stack>
-                </Box>
+
+                  <Stack spacing={2} direction='column' width='100%'>
+                    {/* Control deslizante - Comida */}
+                    <Slider defaultValue={5} min={1} max={10} step={1} aria-label='Comida' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
+                    { /* Control deslizante - Sitios */}
+                    <Slider defaultValue={5} min={1} max={10} step={1} aria-label='Sitios' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
+                  </Stack>    
+
+                </Stack>
               </CardContent>
             </Card>
           </Stack>
