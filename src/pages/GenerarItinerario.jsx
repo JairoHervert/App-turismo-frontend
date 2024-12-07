@@ -64,9 +64,9 @@ const GenerarItinerario = () => {
         transparentNavbar={false}
         lightLink={false} />
 
-      <Container maxWidth='lg' className='sm-4'>
+      <Container maxWidth='lg' className='my-4'>
         { /* Sección - Header */}
-        <Stack direction='row' spacing={1} alignItems='center' className='mb-2' sx={{ marginTop: '30px' }}>
+        <Stack direction='row' spacing={1} alignItems='center'>
           <MapIcon fontSize='large' sx={{ color: '#E4007C', fontSize: {xs: '1.5rem', sm: '3rem'} }} />
           <Typography className='fw-bold' sx={{ fontSize: {xs: '1.5rem', sm: '3rem'} }}>Generar Itinerario</Typography>
         </Stack>
