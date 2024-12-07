@@ -89,7 +89,7 @@ function Presupuesto ({ isFirstEnabled, presupuesto, setPresupuesto, error, setE
                         </Stack>
                     </Stack>
 
-                    <Stack spacing={2} direction='column' width='100%'>
+                    <Stack spacing={2} direction='column' width='100%' justifyContent='space-between'>
                         {/* Control deslizante - Comida */}
                         <Slider defaultValue={5} min={1} max={10} step={1} aria-label='Comida' valueLabelDisplay='auto' sx={{ color: '#B9E5F7' }} />
                         { /* Control deslizante - Sitios */}
