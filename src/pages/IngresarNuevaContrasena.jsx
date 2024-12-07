@@ -17,7 +17,7 @@ import { Construction } from '@mui/icons-material';
 const IngresarNuevaContrasena = () => {
   const [contraseña, setContraseña] = useState('');
   const [confirmarContraseña, setConfirmarContraseña] = useState('');
-  const [mostrarContraseña, setMostrarContraseña] = useState(true);
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [mostrarConfirmarContraseña, setMostrarConfirmarContraseña] = useState(false);
   const [errores, setErrores] = useState({
     contraseña: '',

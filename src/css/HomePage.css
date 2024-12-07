@@ -429,6 +429,11 @@ h2 {
 
 .custom-card .card-img-top {
     border-radius: 0 !important;
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    /* border-radius: 8px; Opcional: para bordes redondeados */
 }
 
 .custom-card .card-body {
