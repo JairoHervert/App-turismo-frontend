@@ -17,6 +17,8 @@ import '../css/FavoritesPage.css';
 
 function FavoritesPage() {
   const [favoritos, setFavoritos] = useState([]);
+  const [originalFavoritos, setOriginalFavoritos] = useState([]); // Copia original
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function FavoritesPage() {
         
         const resultado = await handleFavoritos(id); // Espera la resolución de la promesa
         setFavoritos(resultado);
-        console.log(favoritos);
+        setOriginalFavoritos(resultado); // Copia original
       } catch (error) {
         console.error('Error al obtener lugares favoritos:', error);
       }
@@ -48,6 +50,19 @@ function FavoritesPage() {
     fetchLoginStatus();
     fetchFavoritos(); // Llama a la función para obtener los datos
   }, []);
+
+  const obtenerFavoritosFiltrados = () => {
+    const term = searchTerm.toLowerCase();
+    return originalFavoritos.filter((lugar) =>
+      lugar.nombre.toLowerCase().includes(term) ||
+      (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term))
+    );
+  };
+
+  useEffect(() => {
+    const filtrados = obtenerFavoritosFiltrados();
+    setFavoritos(filtrados);
+  }, [searchTerm, originalFavoritos]);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -72,6 +87,8 @@ function FavoritesPage() {
             variant='outlined' 
             size='small' 
             sx={{ maxWidth: 250 }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>

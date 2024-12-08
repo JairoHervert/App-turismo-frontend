@@ -1,6 +1,13 @@
 import React from 'react';
 
-function MenuFiltros({ modal }) {
+function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
+    const toggleAlcaldia = (alcaldia) => {
+      const newSelectedAlcaldias = selectedAlcaldias.includes(alcaldia)
+        ? selectedAlcaldias.filter((item) => item !== alcaldia) // Quita si ya está seleccionada
+        : [...selectedAlcaldias, alcaldia]; // Agrega si no está seleccionada
+  
+      onFilterChange(newSelectedAlcaldias); // Notifica al padre
+    };
   return (
     <div>
       <div className={`accordion ${modal ? 'us_de-modal-filtro' : ''}`} id='accordionFiltro'>
@@ -24,26 +31,39 @@ function MenuFiltros({ modal }) {
             aria-labelledby='us_de-filtro-alcaldias'
             data-bs-parent='#accordionFiltro'
           >
-            <div className='accordion-body ud_de-accordion-body'>
-              <ul className='list-unstyled'>
-                <li><input type='checkbox' id='option1' /> <label htmlFor='option1'>Álvaro Obregón</label></li>
-                <li><input type='checkbox' id='option2' /> <label htmlFor='option2'>Azcapotzalco</label></li>
-                <li><input type='checkbox' id='option3' /> <label htmlFor='option3'>Benito Juárez</label></li>
-                <li><input type='checkbox' id='option4' /> <label htmlFor='option4'>Coyoacán</label></li>
-                <li><input type='checkbox' id='option5' /> <label htmlFor='option5'>Cuajimalpa</label></li>
-                <li><input type='checkbox' id='option6' /> <label htmlFor='option6'>Cuauhtémoc</label></li>
-                <li><input type='checkbox' id='option7' /> <label htmlFor='option7'>Gustavo A. Madero</label></li>
-                <li><input type='checkbox' id='option8' /> <label htmlFor='option8'>Iztacalco</label></li>
-                <li><input type='checkbox' id='option9' /> <label htmlFor='option9'>Iztapalapa</label></li>
-                <li><input type='checkbox' id='option10' /> <label htmlFor='option10'>Magdalena C.</label></li>
-                <li><input type='checkbox' id='option11' /> <label htmlFor='option11'>Miguel Hidalgo</label></li>
-                <li><input type='checkbox' id='option12' /> <label htmlFor='option12'>Milpa Alta</label></li>
-                <li><input type='checkbox' id='option13' /> <label htmlFor='option13'>Tláhuac</label></li>
-                <li><input type='checkbox' id='option14' /> <label htmlFor='option14'>Tlalpan</label></li>
-                <li><input type='checkbox' id='option15' /> <label htmlFor='option15'>Venustiano Carranza</label></li>
-                <li><input type='checkbox' id='option16' /> <label htmlFor='option16'>Xochimilco</label></li>
+            <div className="accordion-body ud_de-accordion-body">
+              <ul className="list-unstyled">
+                {[
+                  'Álvaro Obregón',
+                  'Azcapotzalco',
+                  'Benito Juárez',
+                  'Coyoacán',
+                  'Cuajimalpa',
+                  'Cuauhtémoc',
+                  'Gustavo A. Madero',
+                  'Iztacalco',
+                  'Iztapalapa',
+                  'Magdalena C.',
+                  'Miguel Hidalgo',
+                  'Milpa Alta',
+                  'Tláhuac',
+                  'Tlalpan',
+                  'Venustiano Carranza',
+                  'Xochimilco',
+                ].map((alcaldia) => (
+                  <li key={alcaldia}>
+                    <input
+                      type="checkbox"
+                      id={`alcaldia-${alcaldia}`}
+                      checked={selectedAlcaldias.includes(alcaldia)}
+                      onChange={() => toggleAlcaldia(alcaldia)}
+                    />
+                    <label htmlFor={`alcaldia-${alcaldia}`}>{alcaldia}</label>
+                  </li>
+                ))}
               </ul>
             </div>
+
           </div>
         </div>
 
