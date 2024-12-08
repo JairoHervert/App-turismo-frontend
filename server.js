@@ -60,6 +60,7 @@ app.post('/es-deseado', favDeseadosController.EsDeseado);
 app.post('/lugares_todos', placeController.LugaresTodos);
 app.post('/lugar_datos', placeController.getDatos);
 app.post('/lugar_fotos', placeController.getFotos);
+app.post('/lugar_categorias', placeController.lugarGetCategorias);
 app.post('/lugar_subcategorias', placeController.getSubcategorias);
 app.post('/lugar_getLugaresPor4Categorias', placeController.getLugaresPor4Categorias);
 app.post('/lugar_getLugaresPor4CategoriasUsuario', placeController.getLugaresPor4CategoriasUsuario);

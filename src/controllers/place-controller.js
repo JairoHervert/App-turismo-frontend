@@ -50,6 +50,22 @@ class placeController {
     }
   }
 
+  static async lugarGetCategorias(req, res) {
+    const { id } = req.body;
+    try {
+      const resultado = await placeModel.LugarGetCategorias(id);
+
+      res.json({resultado: resultado});
+    } catch (error) {
+      if(error.message) {
+        let mensajeError = errorHandler(error.message);
+        return res.status(400).json({ error: mensajeError });
+      } else{
+        return res.status(500).json({ error: error });
+      }
+    }
+  }
+
   static async getSubcategorias(req, res) {
     const { id } = req.body;
     try {

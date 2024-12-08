@@ -25,6 +25,7 @@ DROP PROCEDURE IF EXISTS getLugaresCategoria4;
 DROP PROCEDURE IF EXISTS getLugaresCategoriaHomeUsuario;
 DROP PROCEDURE IF EXISTS LugarGetDatos;
 DROP PROCEDURE IF EXISTS RegistrarSubcategoria;
+DROP PROCEDURE IF EXISTS LugarGetCategorias;
 DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
 DROP PROCEDURE IF EXISTS RegistrarFoto;
 DROP PROCEDURE IF EXISTS LugarGetFotos;
@@ -809,6 +810,34 @@ BEGIN
    END IF;
 END //
 
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetCategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetCategorias (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      SELECT
+         c.nombre AS categoria,
+         GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+      FROM Lugar l
+      JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE ls.idLugar = p_id
+      GROUP BY c.nombre;
+   END IF;
+END //
+   
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarGetSubcategorias`
 -- -----------------------------------------------------
