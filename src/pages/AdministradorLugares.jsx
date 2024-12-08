@@ -20,21 +20,32 @@ function SearchHistoryPageHistory() {
   ]);
 
   return (
-    <div className="vh-100 vw-100">
-      {/* Navbar */}
-      <Header />
+    <div >
+  <div className="navbar-container-adp">
+    <NavbarAD
+      showingresa={false}
+      showRegistrate={false}
+      transparentNavbarAD={false}
+      lightLink={false}
+      staticNavbarAD={false}
+    />
+  </div>
 
-      {/* Contenedor principal */}
-      <MainContent 
-        lugares={lugares}  
-        selectedCategory={selectedCategory} 
-        setLugares={setLugares} 
-        setSelectedCategory={setSelectedCategory} 
-      />
-
-      {/* Footer */}
-      <FooterContainer />
+      <div className="contenedor-cajas-admin-places ">
+      <div className="contenedor-cajas-admin-places">
+{       <DashBoard />
+ }    </div>
+ 
+    <div className="second-container-admin-places">
+      <Recibidos setSelectedCategory={setSelectedCategory} />
+      <MainBox lugares={lugares} selectedCategory={selectedCategory} setLugares={setLugares} />
     </div>
+  </div>
+
+  <div className="navbar-container-adp">
+    <Footer showIncorporaLugar={false} />
+  </div>
+</div>
   );
 }
 
@@ -53,7 +64,7 @@ const Header = () => (
 
 // Contenedor principal con Dashboard y Recibidos
 const MainContent = ({ lugares, selectedCategory, setLugares, setSelectedCategory }) => (
-  <div className="contenedor-cajas-admin-places d-flex w-100">
+  <div className="contenedor-cajas-admin-places ">
     <div className="contenedor-cajas-admin-places">
       <DashBoard />
     </div>

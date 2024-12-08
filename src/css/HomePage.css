@@ -418,9 +418,6 @@ h2 {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
-.custom-card .card-img-top {
-    border-radius: 0 !important;
-}
 
 .custom-card .card-body {
     flex-grow: 1;
@@ -448,29 +445,6 @@ h2 {
 }
 /* --------> Botones */
 
-
-.pc-btn-deseados, .pc-btn-favoritos {
-    border-color: var(--color-secondary);
-    margin-left: 5px;
-    color: var(--color-secondary);
-    background-color: white; /* Asegurando de que el fondo sea blanco */
-}
-
-.pc-btn-deseados:hover, .pc-btn-favoritos:hover {
-    background-color: #ff7cd3;
-    color: white;
-}
-
-.pc-btnOnClick {
-    color: white;
-    background-color: var(--color-secondary);
-    border-color: var(--color-secondary);
-}
-
-.pc-btnOnClick:hover {
-    background-color: var(--color-secondary);
-    color: white;
-}
 /*PREGUNTA*/
 
 .pregunta {

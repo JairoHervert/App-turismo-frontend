@@ -85,6 +85,7 @@ const FormularioLugar = ({ nombre, correo, date, hour, addplace }) => {
       <Typography
         variant="subtitle1"
         className="formulario-subtitle-section-admin"
+        sx={{ fontFamily: 'Montserrat', fontWeight: 'bold' }}
       >
         Actualizar datos del lugar registrado
       </Typography>
