@@ -51,7 +51,7 @@ function DashboardAdmin() {
                                 ))}
                             </Box>
 
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 1, sm: 2 }, mb: { xs: 2, sm: 3 } }}>
+                            <Box sx={{ display: 'flex',  flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 1, sm: 2 }, mb: { xs: 2, sm: 3 } }}>
                                 <RatedPlaces
                                     places={[
                                         { id: '#3534', name: 'Taquería Juan', zone: 'Centro de la Ciudad de México', timesAdded: 12, rating: 5 },
