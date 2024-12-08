@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Stack, Button, TextField, InputAdornment } from '@mui/material';
-import HistoryIcon from '@mui/icons-material/History';
+import { Card, CardContent, Typography } from '@mui/material';
 
 import '../../css/History.css';
 
-const SearchHistoryBox = ({ searchHistory, date }) => {
-  return (
+function SearchHistoryBox ({ searchHistory, date }) {
 
-    
-    <div className="search-history-box-history d-flex flex-column rounded">
-      
-      <p className="date-text-history">Hoy - {date}</p>
+  return (
+    <Card>
+      <CardContent>
+        <Typography className='date-text-history'>
+          Hoy - {date}
+        </Typography>
       <div className="search-history-list-history">
         
         {searchHistory.map(item => (
@@ -31,7 +31,8 @@ const SearchHistoryBox = ({ searchHistory, date }) => {
           </div>
         ))}
       </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 

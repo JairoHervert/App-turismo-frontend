@@ -298,10 +298,10 @@ function RegisterPage() {
                         <Box className="my-4">
                           <Typography variant="body2" className="text-center">O regístrate con</Typography>
                           <Box className="d-flex justify-content-center gap-3">
-                            <IconButton >
+                            <IconButton aria-label="google" color='google'>
                               <GoogleIcon />
                             </IconButton>
-                            <IconButton>
+                            <IconButton aria-label="facebook" color='facebook'>
                               <FacebookRoundedIcon />
                             </IconButton>
                           </Box>

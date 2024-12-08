@@ -1,27 +1,3 @@
-/* Fondo general y diseño de la página */
-.search-history-background-history {
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 100vh; /* Ajustar para que ocupe el viewport completo */
-  box-sizing: border-box;
-  margin-bottom: 50px;
-}
-
-/* Título del historial */
-.search-history-title-history {
-  margin-top: 20px; /* Proporcionar un espacio visual sin romper el diseño */
-  line-height: 20px;
-  padding: 6px 16px;
-  text-align: left; /* Alinea el texto a la izquierda */
-  font-size: 3.5rem;
-  font-weight: bold;
-  margin-bottom: 30px; /* Margen inferior pequeño */
-}
-
-/*NO QUITAR, EVITA EL DESBORDE DE LA PÁGINA EN X*/
 
 .search-history-box-history {
   -webkit-overflow-scrolling: touch; /* Desplazamiento suave en dispositivos móviles */
@@ -71,25 +47,7 @@
   width: 100%;
 }
 
-/* Caja de historial */
-.search-history-box-history {
-  background: #f8f8f8;
-  margin-bottom: auto;
-  border-radius: 30px;
-  padding: 30px;
-  box-shadow: 0 0px 100px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 1000px;
-  height: auto;
-  overflow-y: auto;
-  max-height: 780px;
-  box-sizing: border-box;
-  text-decoration: none;
-  color: black;
-  gap: 5px;
-  flex-direction: row;
-  box-shadow: 6;
-}
+
 
 
 /* Caja de filtro */
@@ -194,8 +152,6 @@
 .history-page-title {
   font-size: 3rem;
   font-weight: bold;
-  position: relative;
-  margin-bottom: 15px; /* Margen inferior */
 }
 
 /* Contenedor del título sobre SearchHistoryBox */
@@ -205,66 +161,7 @@
   margin-bottom: 1rem; /* Espaciado entre el título y la caja */
 }
 
-/* Estilo del título */
-.history-page-title {
-  font-size: 3rem;
-  font-weight: bold;
-  margin: 0;
-}
-
 /* Icono del título */
 .title-container-box .MuiSvgIcon-root {
   margin-right: 0.5rem; /* Espaciado entre el icono y el título */
-}
-
-
-/* Diseño adaptable */
-
-
-
-@media (max-width: 600px) {
-  /* Para pantallas aún más pequeñas (móviles) */
-  .history-page-title {
-    font-size: 1.6rem; /* Ajusta el tamaño del texto */
-    margin-left: 12px; /* Ajusta el margen izquierdo */
-  
-    margin-bottom: 10px; /* Ajusta el margen inferior */
-  }
-}
-
-@media (min-width: 1200px) {
-  /* Para pantallas grandes (escritorios) */
-  .history-page-title {
-    font-size: 3.5rem; /* Aumenta el tamaño del texto */
-    margin-left: 40px; /* Aumenta el margen izquierdo */
-    margin-bottom: 20px; /* Ajusta el margen inferior */
-    
-  }
-}
-@media (max-width: 768px) {
-  .controls-container-history {
-    flex-direction: column;
-    width: auto;
-  }
-
-  .filter-box-history {
-    top: auto; 
-  }
-
-  /* Pantallas pequeñas (menos de 600px) */
-  .history-page-title {
-    font-size: 1.8rem; 
-    margin-bottom: 15px; 
-  }
-
-  .history-page-title {
-    font-size: 2.5rem; 
-    margin-bottom: 20px;
-  }
-
-  /* Pantallas grandes (más de 1200px) */
-  .history-page-title {
-    font-size: 3.0rem; /* Aumenta el tamaño del texto en pantallas grandes */
-    margin-bottom: 30px;
-  }
 }

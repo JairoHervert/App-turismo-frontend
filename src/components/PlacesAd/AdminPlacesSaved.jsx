@@ -3,6 +3,7 @@ import { Card, CardMedia, CardActionArea, CardContent, Typography, Button, IconB
 import Grid from '@mui/material/Grid2';
 import { DeleteOutlineOutlined as DeleteIcon, EditOutlined as EditIcon } from '@mui/icons-material';
 import InfoDialog from '../ItinerariosSaved/InfoItineraries';
+import AdministratorForm from './Administratorform';
 
 function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto, viajantes }) {
     const [open, setOpen] = useState(false);
@@ -168,16 +169,7 @@ function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto
                 </Box>
             </Card>
 
-            <InfoDialog
-                open={open}
-                onClose={handleClose}
-                titulo={rating}
-                rating={rating}
-                categoria={categoria}
-                presupuesto={presupuesto}
-                viajantes={viajantes}
-                detalles={detalles}
-            />
+            <AdministratorForm open={open} onClose={handleClose} />
         </Grid>
     );
 }
