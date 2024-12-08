@@ -93,8 +93,10 @@ CREATE TABLE `Resena` (
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `Itinerario`;
 CREATE TABLE `Itinerario` (
-   `id` INT NOT NULL AUTO_INCREMENT ,
-   PRIMARY KEY (id)
+   `id` INT NOT NULL AUTO_INCREMENT,
+   `idUsuario` INT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------
@@ -456,6 +458,22 @@ CREATE TABLE `UsuarioItinerario` (
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idItinerario) REFERENCES Itinerario(id) ON DELETE CASCADE
 )ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------------------------------
+-- Table AppTurismo.LugarItinerario
+-- ----------------------------------------------------
+DROP TABLE IF EXISTS LugarItinerario;
+CREATE TABLE LugarItinerario (
+   idItinerario INT NOT NULL,
+   idLugar VARCHAR(40) NOT NULL,
+   orden INT NOT NULL, -- Orden en el itinerario
+   horaLlegada TIME NULL, -- Hora calculada de llegada
+   horaSalida TIME NULL, -- Hora calculada de salida
+   auditoria DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY (idItinerario, idLugar), 
+   FOREIGN KEY (idItinerario) REFERENCES Itinerario(id) ON DELETE CASCADE,
+   FOREIGN KEY (idLugar) REFERENCES Lugar(id) ON DELETE CASCADE
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------------------------------------
 --                                              VISTAS
