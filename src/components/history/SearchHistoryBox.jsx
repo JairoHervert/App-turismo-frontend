@@ -47,7 +47,7 @@ function SearchHistoryBox ({ searchHistory }) {
               sx={{ paddingLeft: '0', transition: '0.2s', positon: 'relative', '&:hover': { backgroundColor: 'rgba(185, 229, 247, 0.5)', cursor: 'pointer' } }}
               secondaryAction={
                 /* Ícono para borrar Item */
-                <IconButton>
+                <IconButton onClick={() => handleDelete(item.id)} >
                   <CloseIcon sx={{ width: '0.8rem', height: '0.8rem' }}/>
                 </IconButton>
               }
