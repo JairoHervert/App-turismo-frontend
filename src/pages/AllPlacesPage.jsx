@@ -86,8 +86,8 @@ function AllPlacesPage() {
   const obtenerLugaresFiltrados = () => {
     const lugaresFiltrados = allLugares.filter((lugar) => {
       const buscaTermino = searchTerm
-        ? (lugar.nombre && lugar.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (lugar.descripcion && lugar.descripcion.toLowerCase().includes(searchTerm.toLowerCase()))
+        ? (lugar.nombre && eliminarAcentos(lugar.nombre).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase())) ||
+          (lugar.descripcion &&  eliminarAcentos(lugar.descripcion).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase()))
         : true;
 
       const tieneAlcaldia = 
@@ -135,6 +135,10 @@ function AllPlacesPage() {
     setLugares(lugaresFiltrados);
   }, [searchTerm, selectedFilters, allLugares]);
 
+  const eliminarAcentos = (texto) => {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Normaliza y elimina los acentos
+  };
+  
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
