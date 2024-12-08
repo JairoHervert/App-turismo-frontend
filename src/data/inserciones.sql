@@ -5,7 +5,7 @@ UPDATE Usuario SET apellido = 'Molina' WHERE correo = 'jlma-113@hotmail.com';
 UPDATE Usuario SET fechaNacimiento = STR_TO_DATE('01/01/2004', '%d/%m/%Y'); 
 UPDATE Usuario SET ligaFotoPerfil = 'https://cdn2.steamgriddb.com/icon/5b915c0e379a039d9fe77cc124f6a4c4.ico' WHERE correo = 'jlma-113@hotmail.com';
 
-CALL LugarRegistro(
+/*CALL LugarRegistro(
 '1', 'Álvaro Obregón', 'Álvaro Obregón, CDMX, México',
 'Descubre el encanto de Álvaro Obregón, donde la vida cultural y los sabores locales se fusionan. Pasea por plazas y callejones llenos de historia.',
 'https://www.24-horas.mx/wp-content/uploads/2021/12/ALvaro_Obregon_Cortesia.jpg?w=1200', 'Desconocido', '19.37340774814244', '-99.21884861930312',
@@ -91,8 +91,6 @@ CALL RegistrarSubcategoria('6', 'roller_coaster');
 CALL RegistrarSubcategoria('6', 'picnic_ground');
 CALL RegistrarSubcategoria('6', 'bowling_alley');
 
-
-
 CALL UsuarioAñadirDeseado(1,1);
 CALL UsuarioAñadirDeseado(1,2);
 CALL UsuarioAñadirDeseado(1,3);
@@ -104,4 +102,4 @@ CALL UsuarioAñadirFavorito(1,6);
 
 CALL UsuarioVerDeseados(1);
 
-CALL UsuarioVerFavoritos(1);
+CALL UsuarioVerFavoritos(1);*/

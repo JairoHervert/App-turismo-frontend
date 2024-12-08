@@ -29,6 +29,8 @@ function AllPlacesPage() {
   const [isLogged, setLogged] = useState(false);
   const [id, setId] = useState(null);
   const [lugares, setLugares] = useState(Places);
+  const [allLugares, setAllLugares] = useState([]); // Lugares originales
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -48,37 +50,12 @@ function AllPlacesPage() {
 
     const fetchLugares = async () => {
       try {
-        let resultado;
-        /*if (id) {
-          resultado = await handleCategorias4LugarUsuario(
-            id,
-            randomCategories[0],
-            randomCategories[1],
-            randomCategories[2],
-            randomCategories[3]
-          );
-          // Inicializa los estados basados en los valores iniciales
-          const initialDeseados = {};
-          const initialFavoritos = {};
-          resultado.forEach((place) => {
-            initialDeseados[place.id] = place.esDeseado;
-            initialFavoritos[place.id] = place.esFavorito;
-          });
-          setClickedDeseados(initialDeseados);
-          setClickedFavoritos(initialFavoritos);
-        } else {
-          resultado = await handleCategorias4Lugar(
-            randomCategories[0],
-            randomCategories[1],
-            randomCategories[2],
-            randomCategories[3]
-          );
-        }*/
-        resultado = await handleAllPlaces();
-        setLugares(resultado);
+        const resultado = await handleAllPlaces();
+        setLugares(resultado); // Lugares iniciales visibles
+        setAllLugares(resultado); // Guardar una copia original
         console.log(resultado);
       } catch (error) {
-        console.error('Error al obtener foto del lugar', error);
+        console.error('Error al obtener lugares', error);
       }
     };
 
@@ -106,10 +83,57 @@ function AllPlacesPage() {
     categorias: [],
   });
 
+  const obtenerLugaresFiltrados = () => {
+    const lugaresFiltrados = allLugares.filter((lugar) => {
+      const buscaTermino = searchTerm
+        ? (lugar.nombre && lugar.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+          (lugar.descripcion && lugar.descripcion.toLowerCase().includes(searchTerm.toLowerCase()))
+        : true;
+
+      const tieneAlcaldia = 
+        selectedFilters.alcaldias.length > 0 
+          ? selectedFilters.alcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia))
+          : true;
+
+      const tieneCategoria = 
+        selectedFilters.categorias.length > 0
+          ? selectedFilters.categorias.some((categoria) => lugar.categorias.includes(categoria))
+          : true;
+
+      // Ambas categorías y alcaldías están activas
+      if (selectedFilters.alcaldias.length > 0 && selectedFilters.categorias.length > 0) {
+        return tieneAlcaldia && tieneCategoria && buscaTermino;
+      }
+
+      if (selectedFilters.alcaldias.length > 0) {
+        return tieneAlcaldia && buscaTermino;
+      }
+
+      if (selectedFilters.categorias.length > 0) {
+        return tieneCategoria && buscaTermino;
+      }
+
+      // Si no hay filtros activos, mostrar todos los lugares
+      return buscaTermino;
+    });
+
+    return lugaresFiltrados;
+  };
+
   const handleApplyFilters = (filters) => {
     setSelectedFilters(filters); // Actualiza los filtros seleccionados
     console.log('Filtros aplicados:', filters);
+  }
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
+
+  useEffect(() => {
+    const lugaresFiltrados = obtenerLugaresFiltrados();
+    console.log("Lugares filtrados devueltos:", lugaresFiltrados);
+    setLugares(lugaresFiltrados);
+  }, [searchTerm, selectedFilters, allLugares]);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -140,6 +164,8 @@ function AllPlacesPage() {
               size='small'
               color='secondary'
               sx={{ maxWidth: 250 }}
+              onChange={handleSearchChange} // Manejador para actualizar el término de búsqueda
+              value={searchTerm} // Vincular con el estado de búsqueda
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -188,7 +214,7 @@ function AllPlacesPage() {
               <MenuFilters
                 setIsModalOpen={setIsModalOpen}
                 selectedFilters={selectedFilters}
-                setSelectedFilters={handleApplyFilters}
+                onApplyFilters={handleApplyFilters}
               />
             </Box>
 

@@ -8,8 +8,20 @@ import ButtonsMod from '../ButtonsMod'
 import '../../css/AllPlaces.css'
 
 function PlaceItem({ id, name, description, image, category, address, rating, phone }) {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  // Está redundante el código pero da flojera cambiarlo
+  let imagen = `${process.env.PUBLIC_URL}/unavailble.avif`;
+  if(!image) {
+    imagen = `${process.env.PUBLIC_URL}/unavailble.avif`
+  } else if(image.startsWith('http')) {
+    imagen = image;
+  } else if (image.startsWith('{')) {
+    imagen = `${process.env.PUBLIC_URL}/unavailble.avif`
+  } else {
+    imagen = `${process.env.PUBLIC_URL}/fotosLugares/${image}`
+  }
+
   const redigirALugar = () => {
     navigate(`/placepage/${id}`); // pa los de back: si definimos un id, podria reedirigirse al lugar en especifico, por ahora redirige a la página placePage estatica
     //navigate(`/placepage/5`) // redirige a la página de inicio
@@ -22,7 +34,7 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
           <CardMedia
             component='img'
             height='200'
-            image={image.startsWith('http') ? image : `${process.env.PUBLIC_URL}/fotosLugares/${image}`}
+            image={imagen}
             alt={'Imagen de ' + name}
           />
           <CardContent>
