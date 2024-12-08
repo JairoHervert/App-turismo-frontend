@@ -36,10 +36,12 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
       sx={{
         overflow: 'hidden',
         padding: 2,
+        marginLeft:'auto',
         backgroundColor: 'white',
         borderRadius: 2,
         maxHeight: '500px',
         overflowY: 'auto',
+        overflowX: 'auto',
       }}
     >
       <Typography
@@ -66,9 +68,10 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
                 padding: '8px 0',
                 borderBottom: '1px solid #ccc',
                 width: '100%',
+                
               }}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', padding:'8px',  }}>
                 <Typography variant="body1" sx={{ flex: 1, fontWeight: 'bold', fontFamily: 'montserrat' }}>
                   {lugar.NombrePersona} ({lugar.correoPersona})
                 </Typography>
@@ -98,7 +101,7 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
                     Aceptar
                   </Button>
                   <Button
-                    variant="outlined"
+                    variant="outlined"                
                     onClick={() => handleAction(lugar, 'Rechazados')}
                     sx={{ fontSize: '0.8rem', padding: '4px 8px', width: '120px' }}
                   >
