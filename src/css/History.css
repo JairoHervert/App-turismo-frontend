@@ -1,28 +1,30 @@
+/* ----------------- SeachHistoryBox.jsx ------------------------ */
 
-.search-history-box-history {
-  -webkit-overflow-scrolling: touch; /* Desplazamiento suave en dispositivos móviles */
-}
- 
-/* Quitar el scrollbar de cualquier otro contenedor con overflow */
-::-webkit-scrollbar {
-  width: 0px;
-  height: 0px; /* Eliminar el scrollbar horizontal también */
+.query-text-history {
+  font-weight: 500;
+  color: #489abb;
+  text-decoration: none;
 }
 
-/* Eliminar el track y el thumb si ya están definidos */
-::-webkit-scrollbar-track {
-  display: none;
+.query-text-history:hover {
+  text-decoration: underline;
 }
 
-::-webkit-scrollbar-thumb {
-  display: none;
+.query-time-history {
+  color: #a7a7a7;
 }
 
-/* Botones */
-.btn-history {
-  padding: 6px 16px;
-  height: auto;
-  width: 200px;
+/* Fecha del historial */
+.date-text-history {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 450px) {
+  .history-lista-texto {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
 }
 
 /* Contenedor de controles */
@@ -35,20 +37,6 @@
   margin: 0 auto 50px; /* Centramos el contenedor y damos margen inferior */
   flex-wrap: nowrap; /* Soporte para pantallas pequeñas */
 }
-
-/* Barra de búsqueda */
-.search-bar-history {
-  padding: 7px 30px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  height: 38px;
-  flex-grow: 1;
-  max-width: 500px;
-  width: 100%;
-}
-
-
-
 
 /* Caja de filtro */
 .filter-box-history {
@@ -103,65 +91,4 @@
   display: flex;
   align-items: center;
   flex-grow: 1;
-}
-
-/* HOVER DE LA CAJA */
-.item-left-history:hover {
-  background-color: #a2dcee; /* Cambia el fondo al pasar el mouse */
-  transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.checkbox-history {
-  margin-right: 10px;
-}
-
-.query-time-history {
-  color: #6c757d;
-  font-size: 14px;
-  margin-right: 8px;
-}
-
-.query-text-history {
-  font-weight: bold;
-  color: #1a0dab;
-  text-decoration: none;
-}
-
-.query-text-history:hover {
-  text-decoration: underline;
-}
-
-
-.menu-icon-history {
-  font-size: 18px;
-  color: #666;
-  cursor: pointer;
-  margin-left: auto;
-}
-
-/* Fecha del historial */
-.date-text-history {
-  font-size: 14px;
-  color: #000000;
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
-/* Título del historial */
-.history-page-title {
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-/* Contenedor del título sobre SearchHistoryBox */
-.title-container-box {
-  position: relative;
-  text-align: right; /* Alinea el contenido a la derecha */
-  margin-bottom: 1rem; /* Espaciado entre el título y la caja */
-}
-
-/* Icono del título */
-.title-container-box .MuiSvgIcon-root {
-  margin-right: 0.5rem; /* Espaciado entre el icono y el título */
 }

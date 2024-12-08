@@ -12,16 +12,41 @@ import '../css/History.css';
 import ButtonsMod from '../components/ButtonsMod';
 
 function HistoryPage() { 
+
   const searchHistoryHistory = [
-    { id: 1, query: 'Tortas "El güero"', time: '6:23 p.m.' },
-    { id: 2, query: 'Acuario "MICHIN"', time: '6:23 p.m.' },
-    { id: 3, query: 'Hotel "Roma"', time: '6:23 p.m.' },
-    { id: 5, query: 'Castillo de Chapultepec', time: '6:23 p.m.' },
-    { id: 6, query: 'Acuario "Inbursa"', time: '6:23 p.m.' },
-    { id: 7, query: 'Bosque de Chapultepec', time: '6:23 p.m.' },
-    { id: 8, query: 'Plaza de la Constitución', time: '6:25 p.m.' },
+    {
+      date: '2024-12-08',
+      items: [
+        { id: 1, query: 'Tortas "El güero"', time: '06:23 p.m.' },
+        { id: 2, query: 'Acuario "MICHIN"', time: '06:23 p.m.' },
+        { id: 3, query: 'Hotel "Roma"', time: '12:23 p.m.' },
+        { id: 5, query: 'Castillo de Chapultepec', time: '00:10 p.m.' },
+        { id: 6, query: 'Acuario "Inbursa"', time: '07:10 p.m.' },
+        { id: 7, query: 'Bosque de Chapultepec', time: '20:23 p.m.' },
+        { id: 8, query: 'Plaza de la Constitución', time: '23:25 a.m.' },
+      ],
+    },
+    {
+      date: '2024-12-05',
+      items: [
+        { id: 3, query: 'Hotel "Roma"', time: '12:23 p.m.' },
+        { id: 5, query: 'Castillo de Chapultepec', time: '00:10 p.m.' },
+      ],
+    },
+    {
+      date: '2024-12-04',
+      items: [
+        { id: 6, query: 'Acuario "Inbursa"', time: '07:10 p.m.' },
+        { id: 7, query: 'Bosque de Chapultepec', time: '20:23 p.m.' },
+      ],
+    },
+    {
+      date: '2024-12-03',
+      items: [
+        { id: 8, query: 'Plaza de la Constitución', time: '23:25 a.m.' },
+      ],
+    },
   ];
-  const todayDate = "martes, 15 de octubre de 2024";
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -32,7 +57,7 @@ function HistoryPage() {
         <Stack direction={{ xs: 'column', md: 'row' }} sx={{ justifyContent: {sm: 'space-between'}, alignItems: 'center' }}>
           {/* Título Historial */}
           <Stack direction='row' spacing={1} sx={{ display: 'flex', alignItems: 'center', marginBottom: {xs: '2rem', md: '0'} }}>
-              <HistoryIcon color='primary' sx={{ fontSize: {lg: '3rem', sm: '2.5rem', xs: '1.3rem'} }} />
+              <HistoryIcon color='secondary' sx={{ fontSize: {lg: '3rem', sm: '2.5rem', xs: '1.3rem'} }} />
               <Typography sx={{ fontSize: {lg: '3rem', sm: '2.5rem', xs: '1.3rem'}, fontWeight: '700' }}>Historial de búsqueda</Typography>
           </Stack>
 
@@ -70,7 +95,7 @@ function HistoryPage() {
           />
         </Stack>
 
-        <SearchHistoryBox searchHistory={searchHistoryHistory} date={todayDate} />
+        <SearchHistoryBox searchHistory={searchHistoryHistory} />
       
       </Container>
       <Footer />
