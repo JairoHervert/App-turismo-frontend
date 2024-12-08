@@ -418,6 +418,7 @@ DROP TABLE IF EXISTS `CategoriaFavorita`;
 CREATE TABLE `CategoriaFavorita` (
    `idUsuario` INT NOT NULL,
    `idCategoria` INT NOT NULL,
+   `auditoria` DATETIME NOT NULL,
    PRIMARY KEY (idUsuario, idCategoria),
    FOREIGN KEY (idUsuario) REFERENCES Usuario(id) ON DELETE CASCADE,
    FOREIGN KEY (idCategoria) REFERENCES Categoria(id) ON DELETE CASCADE
@@ -483,7 +484,7 @@ CREATE TABLE LugarItinerario (
 -- View `AppTurismo`.`verUsuarios`
 -- -----------------------------------------------------
 DROP VIEW IF EXISTS verUsuarios;
-CREATE VIEW verUsuarios AS
+CREATE VIEW verUsuarios AS	
 SELECT
    id,
    correo,

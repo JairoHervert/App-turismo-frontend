@@ -15,8 +15,10 @@ DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAnadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
+DROP PROCEDURE IF EXISTS usuario_anadir_categoria;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
+DROP PROCEDURE IF EXISTS usuario_ver_vategorias;
 # Lugar
 DROP PROCEDURE IF EXISTS getCategorias;
 DROP PROCEDURE IF EXISTS LugarRegistro;
@@ -466,6 +468,39 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
+-- Process `AppTurismo`.`usuario_anadir_categoria`
+-- -----------------------------------------------------
+CREATE PROCEDURE usuario_anadir_categoria (
+   IN p_idUsuario INT,
+   IN p_idCategoria VARCHAR(40)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   DECLARE categoriaExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_idUsuario;
+   
+   SELECT COUNT(*) INTO categoriaExistente
+   FROM Categoria
+   WHERE id = p_idCategoria;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      IF categoriaExistente = 0 THEN
+         SELECT 'categoria_no_existente' AS 'error';
+      ELSE
+         INSERT INTO CategoriaFavorita (idUsuario, idCategoria, auditoria)
+         VALUES (p_idUsuario, p_idCategoria, NOW());
+      
+         SELECT 1 AS 'success';
+      END IF;
+   END IF;   
+END //
+
+-- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioVerDeseados`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioVerDeseados (
@@ -564,6 +599,38 @@ BEGIN
       FROM LugarFavorito
       JOIN Lugar l ON LugarFavorito.idLugar = l.id
       WHERE LugarFavorito.idUsuario = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`usuario_ver_vategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE usuario_ver_vategorias (
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT 
+         c.id,
+         c.nombre,
+         c.imagen,
+         GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias,
+         EXISTS (
+            SELECT 1 
+            FROM CategoriaFavorita cf
+            WHERE cf.idUsuario = p_id AND cf.idCategoria = c.id
+         ) AS esFavorita
+      FROM Categoria c
+      JOIN Subcategoria s ON c.id = s.idCategoria
+      GROUP BY c.id, c.nombre, c.imagen;
    END IF;
 END //
 

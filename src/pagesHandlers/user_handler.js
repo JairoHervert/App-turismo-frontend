@@ -75,11 +75,32 @@ const handleFavoritos = async (id) => {
       console.error("Error al intentar obtener favoritos:", error);
     }
   }
-
 }
+
+const handleUserCategorias = async (id) => {
+
+  try {
+    const response = await axios.post('http://localhost:3001/user_categorias', { id });
+    if(response.data.resultado.categorias) {
+      //const favoritos = response.data.resultado.favoritos;
+      //console.log(favoritos);
+      return response.data.resultado.categorias;
+    }
+  }
+  catch (error) {
+    // Mostrar el mensaje de error específico
+    if (error.response && error.response.data && error.response.data.error) {
+      console.error("Error:", error.response.data.error);
+    } else {
+      console.error("Error al intentar obtener favoritos:", error);
+    }
+  }
+}
+
 export {
   handleDatosUsuario,
   handleGuardarDatos,
   handleDeseados,
   handleFavoritos,
+  handleUserCategorias,
 }

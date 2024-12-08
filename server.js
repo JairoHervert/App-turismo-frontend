@@ -46,6 +46,7 @@ app.post('/user_datos', userController.getDatos);
 app.post('/user_guardar_datos', userController.setDatos);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
+app.post('/user_categorias', userController.verCategorias);
 
 app.post('/agregar-favoritos', favDeseadosController.Favoritos);
 app.post('/agregar-deseados', favDeseadosController.Deseados);

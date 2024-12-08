@@ -65,6 +65,21 @@ class userController {
     }
   }
 
+  static async verCategorias(req, res) {
+    const { id } = req.body;
+    try {
+      const resultado = await userModel.UsuarioVerCategorias(id);
+
+      res.json({resultado: resultado});
+    } catch (err) {
+      if (err.message) {
+        let mensajeError = errorHandler(err.message);
+        return res.status(400).json({ error: mensajeError });
+      }
+      res.status(500).json({ error: err });
+    }
+  }
+
 }
 
 module.exports = userController;
