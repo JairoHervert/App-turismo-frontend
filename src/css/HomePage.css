@@ -445,29 +445,6 @@ h2 {
 }
 /* --------> Botones */
 
-
-.pc-btn-deseados, .pc-btn-favoritos {
-    border-color: var(--color-secondary);
-    margin-left: 5px;
-    color: var(--color-secondary);
-    background-color: white; /* Asegurando de que el fondo sea blanco */
-}
-
-.pc-btn-deseados:hover, .pc-btn-favoritos:hover {
-    background-color: #ff7cd3;
-    color: white;
-}
-
-.pc-btnOnClick {
-    color: white;
-    background-color: var(--color-secondary);
-    border-color: var(--color-secondary);
-}
-
-.pc-btnOnClick:hover {
-    background-color: var(--color-secondary);
-    color: white;
-}
 /*PREGUNTA*/
 
 .pregunta {
