@@ -37,7 +37,7 @@ const obtenerHistorial = (req, res) => {
     }
   
     const query = `
-      SELECT H.idLugar, L.nombre AS query, DATE_FORMAT(H.auditoria, '%h:%i %p') AS time
+      SELECT H.idLugar as id, L.nombre AS query, DATE_FORMAT(H.auditoria, '%h:%i %p') AS time, DATE_FORMAT(H.auditoria, '%Y-%m-%d') AS date
       FROM Historial H
       JOIN Lugar L ON H.idLugar = L.id
       WHERE H.idUsuario = ?

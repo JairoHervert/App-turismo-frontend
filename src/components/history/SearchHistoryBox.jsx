@@ -23,10 +23,6 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
     console.log(`Checkbox changed for item ID: ${itemId}, checked: ${event.target.checked}`);
   }
 
-  const handleDelete = (itemId) => {
-    console.log(`Delete action triggered for item ID: ${itemId}`);
-  }
-
   return (
     <Card>
       {/* Contenido Historial */}
@@ -47,7 +43,7 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
               sx={{ paddingLeft: '0', transition: '0.2s', positon: 'relative', '&:hover': { backgroundColor: 'rgba(185, 229, 247, 0.5)', cursor: 'pointer' } }}
               secondaryAction={
                 /* Ícono para borrar Item */
-                <IconButton onClick={() => onEliminarLugar(item.idLugar)} >
+                <IconButton onClick={() => onEliminarLugar(item.id)} >
                   <CloseIcon sx={{ width: '0.8rem', height: '0.8rem' }}/>
                 </IconButton>
               }
@@ -69,7 +65,7 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
                     <Typography variant='body2' className='query-time-history me-2'>{item.time}</Typography>
                     {/* Nombre del lugar */}
                     <Typography variant='body1'>
-                      <Link to={`/placepage/${item.idLugar}`} className='query-text-history'>
+                      <Link to={`/placepage/${item.id}`} className='query-text-history'>
                         {item.query}
                       </Link>
                     </Typography>

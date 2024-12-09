@@ -4,6 +4,7 @@ import { Container, Stack, TextField, Box, InputAdornment, Typography } from '@m
 import Grid from '@mui/material/Grid2';
 import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
+import Pagination from '@mui/material/Pagination';
 // Componentes
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -20,21 +21,23 @@ import '../css/FavoritesPage.css';
 import Places from '../components/AllPlaces/Places';
 
 function FavoritesPage() {
+  const navigate = useNavigate(); // Inicializa useNavigate
+
+  const [favoritos, setFavoritos] = useState([]);
+  const [originalFavoritos, setOriginalFavoritos] = useState([]); // Copia original
+  const [searchTerm, setSearchTerm] = useState('');
+  
   // Estado para manejar la página actual
   const [page, setPage] = useState(1);
   const itemsPorPagina = 12;
 
   const startIndex = (page - 1) * itemsPorPagina;
-  const currentItems = Places.slice(startIndex, startIndex + itemsPorPagina);
+  const currentItems = favoritos.slice(startIndex, startIndex + itemsPorPagina);
 
   const handleChangePage = (e, value) => {
     setPage(value);
   };
-  //const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [favoritos, setFavoritos] = useState([]);
-  const [originalFavoritos, setOriginalFavoritos] = useState([]); // Copia original
-  const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate(); // Inicializa useNavigate
+
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -116,7 +119,7 @@ function FavoritesPage() {
 
         <Grid container spacing={2} justifyContent='center' alignItems='center'>
           {favoritos && favoritos.length > 0 ? (
-            currentItems.map((place, index) => (
+            currentItems.map((lugar, index) => (
               <ItemFavoritos
                 key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
                 idLugar={lugar.id}
@@ -136,7 +139,7 @@ function FavoritesPage() {
         <Box className='d-flex justify-content-center mt-4 mb-4'>
           <Stack spacing={2} className='d-flex justify-content-center'>
             <Pagination
-              count={Math.ceil(Places.length / itemsPorPagina)}
+              count={Math.ceil(favoritos.length / itemsPorPagina)}
               page={page}
               onChange={handleChangePage}
               color='secondary'

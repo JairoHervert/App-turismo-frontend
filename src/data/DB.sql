@@ -156,7 +156,7 @@ INSERT INTO `categoria` (`nombre`, `imagen`) VALUES
 ('Restaurantes brasileños', 'https://st3.depositphotos.com/1672917/13502/i/450/depositphotos_135020840-stock-photo-different-kinds-of-brazilian-food.jpg'), 
 ('Restaurantes de medio oriente', 'https://png.pngtree.com/thumb_back/fw800/background/20240204/pngtree-arabic-cuisine-events-ramadan-middle-eastern-image_15587511.png'), 
 ('Restaurantes europeos', 'https://s0.smartresize.com/wallpaper/14/237/HD-wallpaper-a-restaurant-dinning-france-food-restaurant.jpg'), 
-('Restaurantes mexicanos', 'https://scontent.fmex1-4.fna.fbcdn.net/v/t39.30808-6/468705371_18363982408138434_886956544973042183_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEDiu7NVVp6WeIKR74YxRzl8umu8-CsMs_y6a7z4Kwyz2e3XcQluuKsALvHa1HZ4l_Xdydm50JoQ4gj8AZ2bKfU&_nc_ohc=KekrJjLdIbQQ7kNvgFojjkN&_nc_zt=23&_nc_ht=scontent.fmex1-4.fna&_nc_gid=AB-rZV5EYTyS7Bdr4pgRmfn&oh=00_AYAQcBT2XBgWCFuN55nt7wOdeW0r8sq16_Ijt2ULNSTn7A&oe=6753F0B5'), 
+('Restaurantes mexicanos', 'https://i.pinimg.com/550x/e6/5f/2e/e65f2e58f5f7157bb25a2aff87f3fc84.jpg'), 
 ('Salones de té', 'https://w0.peakpx.com/wallpaper/206/618/HD-wallpaper-tea-time-drinks-herbs-drink-east-tea.jpg'), 
 ('Steak houses', 'https://images.deliveryhero.io/image/talabat/MenuItems/mmw_638482822318219747'), 
 ('Zoológicos', 'https://consejosdecancun.com/wp-content/uploads/2020/04/zoologico-de-chapultepec.jpg');

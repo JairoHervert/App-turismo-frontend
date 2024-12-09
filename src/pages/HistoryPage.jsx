@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Stack, Typography, Button, TextField, InputAdornment, Box } from '@mui/material';
+import { History as HistoryIcon, Delete as DeleteIcon, FilterList as FilterListIcon, Search as SearchIcon } from '@mui/icons-material';
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import SearchHistoryBox from '../components/history/SearchHistoryBox'; 
-import DeleteIcon from '@mui/icons-material/Delete';
+import { obtenerHistorial, borrarHistorial } from '../pagesHandlers/history-handler';
+
+import { ThemeProvider } from '@mui/material/styles';
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
+
+import '../css/History.css';
+import ButtonsMod from '../components/ButtonsMod';
 
 function HistoryPage() { 
 
@@ -48,13 +55,28 @@ function HistoryPage() {
 
   useEffect(() => {
     const fetchHistorial = async () => {
-      const idUsuario = localStorage.getItem('id'); // Obtén el ID del usuario
+      const idUsuario = localStorage.getItem('id');
       if (!idUsuario) return;
 
       try {
-        const historial = await obtenerHistorial(idUsuario); // Llama a la API para obtener el historial
-        console.log('Historial recibido:', historial); // Verifica los datos
-        setSearchHistory(historial); // Actualiza el estado con los datos obtenidos
+        const historial = await obtenerHistorial(idUsuario);
+        const historialAgrupado = historial.reduce((acc, item) => {
+          // Busca si ya existe un grupo para la fecha actual
+          const grupoPorFecha = acc.find(grupoPorFecha => grupoPorFecha.date === item.date);
+          const elementoSinFecha = { id: item.id, query: item.query, time: item.time };
+        
+          if (grupoPorFecha) {
+            grupoPorFecha.items.push(elementoSinFecha);
+          } else {
+            acc.push({
+              date: item.date,
+              items: [elementoSinFecha]
+            });
+          }
+
+          return acc;
+        }, []);
+        setSearchHistory(historialAgrupado);
       } catch (error) {
         console.error('Error al cargar el historial:', error);
       }
@@ -77,36 +99,37 @@ function HistoryPage() {
   };
 
   const handleEliminarLugar = async (idLugar) => {
-  const idUsuario = localStorage.getItem('id'); // Obtén el ID del usuario
-  if (!idUsuario) return;
+    const idUsuario = localStorage.getItem('id');
+    console.log(idUsuario);
+    console.log(idLugar);
+    if (!idUsuario) return;
 
-  try {
-    // Llama a la API para eliminar el lugar
-    const response = await fetch('http://localhost:3001/historial/lugar', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idUsuario, idLugar }),
-    });
-    const data = await response.json();
-
-    if (response.ok) {
-      alert(data.message);
-      // Actualiza el estado eliminando el lugar
-      setSearchHistory((prevHistory) =>
-        prevHistory.filter((item) => item.idLugar !== idLugar)
-      );
-    } else {
-      console.error('Error al eliminar el lugar:', data.error);
+    try {
+      const response = await fetch('http://localhost:3001/historial/lugar', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idUsuario, idLugar }),
+      });
+      const data = await response.json();
+      console.log("data", data);
+      if (response.ok) {
+        alert(data.message);
+        // Actualiza el estado eliminando el lugar
+        setSearchHistory((prevHistory) =>
+          prevHistory.filter((item) => item.id !== idLugar)
+        );
+      } else {
+        console.error('Error al eliminar el lugar:', data.error);
+      }
+    } catch (error) {
+      console.error('Error al eliminar el lugar:', error);
     }
-  } catch (error) {
-    console.error('Error al eliminar el lugar:', error);
-  }
-};
-
+  };
+/*
   // Filtrar el historial según el texto ingresado
   const filteredHistory = searchHistory.filter((item) =>
     item.query.toLowerCase().includes(searchText.toLowerCase())
-  );
+  );*/
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -159,7 +182,11 @@ function HistoryPage() {
           />
         </Stack>
 
-        <SearchHistoryBox searchHistory={searchHistoryHistory} />
+        <SearchHistoryBox
+          searchHistory={searchHistory}
+          onEliminarLugar={handleEliminarLugar}
+        />
+
       
       </Container>
       <Footer />

@@ -17,7 +17,7 @@ class loginController{
 
     try {
       const resultado = await loginModel.iniciarSesion(correo);
-
+      console.log("resultado", resultado);
       // Validar contraseña
       const passwordMatch = await bcrypt.compare(contraseña, resultado.hashedPassword);
       if (!passwordMatch) {

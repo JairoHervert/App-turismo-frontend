@@ -27,61 +27,7 @@ function SearchCategoryPage() {
     navigate('/itinerary');
   }
 
-  const categoriasIniciales = [
-    { id: 1, nombre: 'Deportes', imagen: 'https://images.unsplash.com/photo-1566932769119-7a1fb6d7ce23?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      subcategorias: [
-        {id: 101, nombre: 'Arena', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 102, nombre: 'Athletic Field', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 103, nombre: 'Golf Course', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 104, nombre: 'Ice Skating Rink', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 105, nombre: 'Playground', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 106, nombre: 'Sports Activity Location', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 107, nombre: 'Sports Club', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 108, nombre: 'Swimming Pool', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-      ],
-    },
-    { id: 2, nombre: 'Comida Rápida', imagen: 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      subcategorias: [
-        {id: 201, nombre: 'Bagel Shop', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 202, nombre: 'Acai Shop', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 203, nombre: 'Bakery', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 204, nombre: 'Fast Food Restaurant', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 205, nombre: 'Ice Cream Shop', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-      ],
-    },
-    { id: 3, nombre: 'Cafetería', imagen: "https://images.unsplash.com/photo-1678816862994-8a324a9612dd?q=80&w=1898&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      subcategorias: [
-        {id: 301, nombre: 'Cafe', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 302, nombre: 'Cat Cafe', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 303, nombre: 'Chocolate shop', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 304, nombre: 'Coffee shop', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 305, nombre: 'Dessert Shop', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-      ],
-    },
-    { id: 4, nombre: 'Restaurante', imagen: "https://images.unsplash.com/photo-1678816862994-8a324a9612dd?q=80&w=1898&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      subcategorias: [
-        {id: 401, nombre: 'Afghani', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 402, nombre: 'African', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 403, nombre: 'Mediterrian Restaurant', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 404, nombre: 'Middle Eastern Restaurant', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 405, nombre: 'Vegetarian Restaurant', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-        {id: 406, nombre: 'Hamburger Restaurant', imagen: 'https://plus.unsplash.com/premium_vector-1713796081005-8332940118f9?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'},
-      ],
-    },
-    { id: 5, nombre: 'Bar', imagen: 'https://images.unsplash.com/photo-1620219365994-f443a86ea626?q=80&w=1771&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', subcategorias: [], },
-    { id: 6, nombre: 'Arte', imagen: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=1945&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', subcategorias: [], },
-    { id: 7, nombre: 'Historia', imagen: 'https://plus.unsplash.com/premium_photo-1682125784386-d6571f1ac86a?q=80&w=1816&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', subcategorias: [], },
-    { id: 8, nombre: 'Museos', imagen: 'https://images.unsplash.com/photo-1491156855053-9cdff72c7f85?q=80&w=1856&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 9, nombre: 'Educativos', imagen: 'https://plus.unsplash.com/premium_photo-1677567996070-68fa4181775a?q=80&w=1772&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 10, nombre: 'Compras', imagen: 'https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=1795&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 11, nombre: 'Parques', imagen: 'https://images.unsplash.com/photo-1622050956578-94fd044a0ada?q=80&w=1776&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 12, nombre: 'Juegos recreativos al aire libre', imagen: 'https://images.unsplash.com/photo-1522219857201-024625d74598?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 13, nombre: 'Juegos recreativos bajo techo', imagen: 'https://images.unsplash.com/photo-1507457379470-08b800bebc67?q=80&w=1818&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 14, nombre: 'Zoológicos', imagen: 'https://plus.unsplash.com/premium_photo-1682091970670-61386ad9768e?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id: 15, nombre: 'Religión', imagen: 'https://images.unsplash.com/photo-1520629716099-d147346eb224?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-  ];
-
-  const [ categorias, setCategorias ] = useState(categoriasIniciales);
+  const [ categorias, setCategorias ] = useState([]);
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -97,12 +43,19 @@ function SearchCategoryPage() {
       }
     };
 
+    const shuffleArray = (array) => {
+      return array
+        .map(value => ({ value, sort: Math.random() })) // Asocia cada elemento con un número aleatorio
+        .sort((a, b) => a.sort - b.sort) // Ordena según el número aleatorio
+        .map(({ value }) => value); // Recupera solo los valores originales
+    };
+
     const fetchLugares = async () => {
       try {
         const resultado = await handleCategorias(); // Espera la resolución de la promesa
-
-        setCategorias(resultado);
-        console.log("Resultado consulta", resultado);
+        const categoriasAleatorias = shuffleArray(resultado);
+        setCategorias(categoriasAleatorias);
+        console.log(categoriasAleatorias);
       } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
       }
