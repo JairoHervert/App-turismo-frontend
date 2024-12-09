@@ -10,10 +10,10 @@
 }
 
 .second-container-admin-places {
-  margin-left: px;
   display: flex;
-  gap: -1px;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: 35px;
+  gap: 100px;
 }
 
 .list-item-button-admin-places {
@@ -51,11 +51,12 @@
 
 /* Estilos para el formulario */
 .formulario-container-admin-places {
-  width: 900px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 4rem;
   margin: 4rem auto;
   transition: width 0.3s ease;
+  min-width:'800px',
+
 }
 
 .formulario-header-title-admin-places {
@@ -115,9 +116,7 @@
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin-top: 30px;
 }
-.formulario-container-admin-places {
-  max-width: 1200px;
-}
+
 
 .recibidos-header-admin-places {
   background-color: #e4f7ff;
@@ -134,14 +133,7 @@
   font-size: 3.5rem;
 }
 
-.formulario-container-admin-places {
-  width: 900px;
-  background-color: #e8f6fc;
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  padding: 4rem;
-  margin: 4rem auto;
-  transition: width 0.3s ease;
-}
+
 
 .recibidos-filter-buttons-admin-places {
   margin-top: 80px;
@@ -212,11 +204,18 @@
   background: #555; /* Color más oscuro al pasar el mouse */
 }
 
+.contenedor-cajas-admin-places{
+  display: flex;
+  flex-direction: row; /* Los elementos están en fila por defecto */
+  gap: 30px;
+}
+
 /* Compatibilidad con Firefox */
 .us_de-deseados-text {
   scrollbar-width: thin; /* Scroll delgado */
   scrollbar-color: #888 #f1f1f1; /* Pulgar y fondo del track */
 }
+
 
 /* Media queries para diferentes tamaños de pantalla */
 
@@ -240,25 +239,29 @@
   }
 
   .second-container-admin-places {
+    display: flex;
     flex-direction: column;
     gap: 15px;
+
   }
 }
 
 /* Pantallas pequeñas (hasta 768px) */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .formulario-container-admin-places {
-    width: 80%;
+    width: 95%;
     padding: 3rem;
   }
 
   .second-container-admin-places {
     flex-direction: column;
     gap: 20px;
+    
   }
 
   .recibidos-header-title-admin-places {
     font-size: 2.5rem;
+
   }
 
   .controls-container-admin-places {
@@ -267,29 +270,16 @@
   }
 }
 
-/* Pantallas medianas (hasta 1024px) */
-@media (max-width: 1024px) {
-  .formulario-container-admin-places {
-    width: 70%;
-    padding: 3.5rem;
-  }
 
-  .second-container-admin-places {
-    flex-direction: row;
-    gap: 25px;
-  }
-
-  .recibidos-header-title-admin-places {
-    font-size: 3rem;
-  }
-}
 
 /* Pantallas grandes (más de 1024px) */
 @media (min-width: 1025px) {
   .formulario-container-admin-places {
     width: 60%;
     padding: 4rem;
+    
   }
+  
 
   .recibidos-header-title-admin-places {
     font-size: 4rem;

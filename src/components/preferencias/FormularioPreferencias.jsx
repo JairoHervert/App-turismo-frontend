@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   TextField,
   Dialog,
   DialogActions,
@@ -19,17 +18,18 @@ import {
   Select,
   Typography,
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import ButtonsMod from "../ButtonsMod";
 import Grid from "@mui/material/Grid2";
-import { pink } from "@mui/material/colors";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import "dayjs/locale/es";
-import "../../css/prefModal.css";
-import "../../css/LoginPage.css";
+import dayjs from 'dayjs';
+import 'dayjs/locale/es';
+import '../../css/prefModal.css';
+import '../../css/LoginPage.css';
 
 function FormularioPreferencias({ open, handleClose, handleSubmit }) {
+  const theme = useTheme(); // Usar el hook useTheme para acceder al tema
   const [selectedDate, setSelectedDate] = useState(null);
   const [foodPreference, setFoodPreference] = useState("");
   const [hasDisability, setHasDisability] = useState(false);
@@ -47,7 +47,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
   });
   const [fechaError, setFechaError] = useState(false);
   const [fechaHelperText, setFechaHelperText] = useState(
-    "La edad debe ser de entre 18 a 65 años"
+    'La edad debe ser de entre 18 a 65 años'
   );
 
   // Manejo de eventos
@@ -106,14 +106,14 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
   const handleFechaNacimientoChange = (nuevaFecha) => {
     if (!nuevaFecha) {
       setFechaError(true);
-      setFechaHelperText("La edad debe ser de entre 18 a 65 años");
+      setFechaHelperText('La edad debe ser de entre 18 a 65 años');
       return;
     }
     const fechaNacimientoActual = dayjs();
     const edad = fechaNacimientoActual.diff(nuevaFecha, "year");
     if (edad < 18 || edad > 65) {
       setFechaError(true);
-      setFechaHelperText("Edad fuera del rango permitido (18 a 65 años)");
+      setFechaHelperText('Edad fuera del rango permitido (18 a 65 años)');
     } else {
       setFechaError(false);
       setFechaHelperText("");
@@ -131,36 +131,36 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
     <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth>
       <DialogTitle
         sx={{
-          fontFamily: "Montserrat, sans-serif",
-          color: pink[600],
-          fontWeight: "bold",
+          fontFamily: 'Montserrat, sans-serif',
+          color: theme.palette.primary.main,
+          fontWeight: 'bold',
         }}
       >
         Preferencias
       </DialogTitle>
-      <DialogContent sx={{ fontFamily: "Poppins, sans-serif" }}>
+      <DialogContent sx={{ fontFamily: 'Poppins, sans-serif' }}>
         <DialogContentText>
           Para ofrecerte una mejor experiencia, necesitamos conocerte mejor. Por
           favor, completa la siguiente información.
         </DialogContentText>
         <Box
-          component="form"
+          component='form'
           noValidate
-          autoComplete="off"
+          autoComplete='off'
           onSubmit={handleFormSubmit}
           sx={{ mt: 2 }}
-          className="pref-modal-textfield"
+          className='pref-modal-textfield'
         >
           <Grid container spacing={2}>
             <Grid size={{ xs: 12, md: 6 }}>
               <TextField
-                margin="dense"
-                id="firstName"
-                name="firstName"
-                label="Nombre(s)"
-                placeholder="Ej. Eduardo Raúl"
+                margin='dense'
+                id='firstName'
+                name='firstName'
+                label='Nombre(s)'
+                placeholder='Ej. Eduardo Raúl'
                 fullWidth
-                variant="outlined"
+                variant='outlined'
                 value={firstName}
                 onChange={handleFirstNameChange}
                 error={
@@ -172,9 +172,9 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                 required
               />
               <Typography
-                variant="body2"
-                color="textSecondary"
-                className="mb-2 ms-2 fw-medium"
+                variant='body2'
+                color='textSecondary'
+                className='mb-2 ms-2 fw-medium'
               >
                 El nombre debe cumplir con las siguientes reglas:
               </Typography>
@@ -197,13 +197,13 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <TextField
-                margin="dense"
-                id="lastName"
-                name="lastName"
-                label="Apellido(s)"
+                margin='dense'
+                id='lastName'
+                name='lastName'
+                label='Apellido(s)'
                 fullWidth
-                variant="outlined"
-                placeholder="Ej. Arreola Medina"
+                variant='outlined'
+                placeholder='Ej. Arreola Medina'
                 value={lastName}
                 onChange={handleLastNameChange}
                 error={
@@ -244,7 +244,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                 adapterLocale="es"
               >
                 <DatePicker
-                  label="Fecha de nacimiento"
+                  label='Fecha de nacimiento'
                   sx={{ width: "100%" }}
                   format="DD-MM-YYYY"
                   margin="dense"
@@ -286,7 +286,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                 sx={{
                   "& .MuiFormLabel-root": {
                     "&.Mui-focused": {
-                      color: pink[600], // Color cuando está enfocado
+                      color: theme.palette.primary.dark, // Color cuando está enfocado
                     },
                   },
                 }}
@@ -294,7 +294,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                 required
                 error={formSubmitted && !foodPreference}
               >
-                <FormLabel component="legend">
+                <FormLabel component='legend'>
                   Preferencia alimenticia
                 </FormLabel>
                 <RadioGroup
@@ -304,24 +304,24 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                   onChange={handleFoodPreferenceChange}
                 >
                   <FormControlLabel
-                    value="ninguno"
+                    value='ninguno'
                     control={
                       <Radio
                         sx={{
-                          color: pink[800],
-                          "&.Mui-checked": { color: pink[600] },
+                          color: theme.palette.primary.dark,
+                          "&.Mui-checked": { color: theme.palette.primary.main },
                         }}
                       />
                     }
                     label="Ninguno"
                   />
                   <FormControlLabel
-                    value="vegetariano"
+                    value='vegetariano'
                     control={
                       <Radio
                         sx={{
-                          color: pink[800],
-                          "&.Mui-checked": { color: pink[600] },
+                          color: theme.palette.primary.main,    
+                          "&.Mui-checked": { color: theme.palette.primary.main },
                         }}
                       />
                     }
@@ -338,8 +338,8 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                     onChange={handleDisabilityChange}
                     name="hasDisability"
                     sx={{
-                      color: pink[800],
-                      "&.Mui-checked": { color: pink[600] },
+                      color: theme.palette.primary.dark,
+                      "&.Mui-checked": { color: theme.palette.primary.main },
                     }}
                   />
                 }
@@ -355,11 +355,11 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
           */}
 
             <ButtonsMod
-              variant="principal"
-              textCont="Guardar y continuar"
-              width="auto"
-              height="2rem"
-              type="submit"
+              variant='principal'
+              textCont='Guardar y continuar'
+              width='auto'
+              height='2rem'
+              type='submit'
             />
           </DialogActions>
         </Box>

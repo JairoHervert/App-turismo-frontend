@@ -1,5 +1,7 @@
+import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, Grid, TextField, Box, InputAdornment, Typography } from '@mui/material';
+import { Container, Stack, TextField, Box, InputAdornment, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
@@ -16,12 +18,20 @@ import { useNavigate } from 'react-router-dom';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/FavoritesPage.css';
 
-// imagenes de prueba
-import Imagen1 from '../img/PlacePage/place-img-fuentetlaloc.jpg';
-import Imagen2 from '../img/PlacePage/place-img-casadeleon.jpg';
-import Imagen3 from '../img/PlacePage/place-img-palaciopostal.jpg';
+// lugares de prueba guardados en un objeto js
+import Places from '../components/AllPlaces/Places';
 
 function FavoritesPage() {
+  // Estado para manejar la página actual
+  const [page, setPage] = useState(1);
+  const itemsPorPagina = 12;
+
+  const startIndex = (page - 1) * itemsPorPagina;
+  const currentItems = Places.slice(startIndex, startIndex + itemsPorPagina);
+
+  const handleChangePage = (e, value) => {
+    setPage(value);
+  };
   //const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [favoritos, setFavoritos] = useState([]);
   const navigate = useNavigate(); // Inicializa useNavigate
@@ -71,14 +81,14 @@ function FavoritesPage() {
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems='center' className='mb-4' justifyContent={{ sm: 'space-between' }}>
           <Stack direction='row' spacing={1} alignItems='center' className='mb-2'>
-            <FavoriteRoundedIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' sx={{ fontSize: '3rem' }}/> {/* El atributo color, es para ajustar el color a partir del archivo de theme MaterialUI */}
+            <FavoriteRoundedIcon color='primary' fontSize='inhert' className='fav_pag-icono-corazon' sx={{ fontSize: '3rem' }} /> {/* El atributo color, es para ajustar el color a partir del archivo de theme MaterialUI */}
             <Typography variant='h1' className='fw-bold' sx={{ fontSize: '3rem' }}>Favoritos</Typography>
           </Stack>
 
-          <TextField 
-            label='Buscar en favoritos' 
-            variant='outlined' 
-            size='small' 
+          <TextField
+            label='Buscar en favoritos'
+            variant='outlined'
+            size='small'
             sx={{ maxWidth: 250 }}
             InputProps={{
               startAdornment: (
@@ -90,27 +100,33 @@ function FavoritesPage() {
           />
         </Stack>
 
-        <Box sx={{ maxHeight: '74vh', overflowY: 'auto', paddingBottom: '1rem' }}>
-          <Grid container spacing={2} justifyContent='center' alignItems='center'>
-            {favoritos && favoritos.length > 0 ? (
-              favoritos.map((lugar, index) => (
-                <ItemFavoritos
-                  key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
-                  //idLugar={lugar.id}
-                  nombre={lugar.nombre}
-                  descripcion={lugar.descripcion}
-                  imagen={lugar.imagen}
-                  //tiempoLugar={lugar.tiempo}
-                  //costoLugar={lugar.costo}
-                />
-              ))
-            ) : (
-              <div className='d-flex justify-content-center'>
-                <h3 className='fw-bold'>No se encontraron lugares favoritos.</h3>
-              </div>
-            )}
-            {}
-          </Grid>
+        <Grid container spacing={2} justifyContent='center' alignItems='center'>
+          {favoritos && favoritos.length > 0 ? (
+            currentItems.map((place, index) => (
+              <ItemFavoritos
+                key={index}
+                imagen={place.image}
+                nombre={place.name}
+                descripcion={place.description}
+              />
+            ))
+          ) : (
+            <div className='d-flex justify-content-center'>
+              <h3 className='fw-bold'>No se encontraron lugares favoritos.</h3>
+            </div>
+          )}
+          {}
+        </Grid>
+
+        <Box className='d-flex justify-content-center mt-4 mb-4'>
+          <Stack spacing={2} className='d-flex justify-content-center'>
+            <Pagination
+              count={Math.ceil(Places.length / itemsPorPagina)}
+              page={page}
+              onChange={handleChangePage}
+              color='secondary'
+            />
+          </Stack>
         </Box>
 
       </Container>

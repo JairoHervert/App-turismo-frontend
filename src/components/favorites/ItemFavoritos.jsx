@@ -1,4 +1,4 @@
-import { Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from '@mui/material';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import '../../css/FavoritesPage.css';
@@ -15,8 +15,7 @@ function ItemFavoritos({ imagen, nombre, descripcion }) {
   };
 
   return (
-    <Grid item xs={12} sm={6} md={4} lg={3} >
-      <Card sx={{ maxWidth: 380, margin: 'auto' }}>
+      <Card className='all_places-item-container'>
         <CardActionArea onClick={redigirALugar}>
           <CardMedia
             component='img'
@@ -41,9 +40,7 @@ function ItemFavoritos({ imagen, nombre, descripcion }) {
             clickEvent={() => alert('Eliminar')}
           />
         </CardActions>
-
       </Card>
-    </Grid>
   )
 }
 

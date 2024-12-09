@@ -3,6 +3,7 @@ import { Card, CardMedia, CardActionArea, CardContent, Typography, Button, IconB
 import Grid from '@mui/material/Grid2';
 import { DeleteOutlineOutlined as DeleteIcon, EditOutlined as EditIcon } from '@mui/icons-material';
 import InfoDialog from '../ItinerariosSaved/InfoItineraries';
+import AdministratorForm from './Administratorform';
 
 function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto, viajantes }) {
     const [open, setOpen] = useState(false);
@@ -15,14 +16,6 @@ function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto
 
     const handleClose = () => {
         setOpen(false);
-    };
-
-    const handleViewPDF = () => {
-        // Simulación de la función para ver el PDF
-        // Aquí el equipo de backend deberá implementar la lógica para generar y mostrar el PDF
-        alert('Ver PDF del itinerario');
-        // Ejemplo de llamada a una función de backend
-        // viewPDF(itinerarioId);
     };
 
     const handleDeleteItinerary = () => {
@@ -87,22 +80,6 @@ function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto
 
                         </Typography>
 
-                        
-                        {/* 
-                        <Box sx={{
-                            display: 'flex',
-                            padding: '15px',
-                            justifyContent: isMobile ? 'center' : 'flex-start'
-                        }}>
-                            <Button
-                                variant="outlined"
-                                size='small'
-                                onClick={handleClickOpen}
-                            >
-                                Más información
-                            </Button>
-                        </Box>
-                        */}
                     </CardContent>
                 </Box>
 
@@ -134,21 +111,6 @@ function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto
                     >
                         Categoria: {categoria}
                     </Typography>
-                    {/*
-                    <Button 
-                        variant="contained" 
-                        size="large" 
-                        sx={{ 
-                            marginBottom: isMobile ? 0 : '8px',
-                            bgcolor: '#E4007C',
-                            '&:hover': {
-                                bgcolor: '#c40069'
-                            }
-                        }}
-                    >
-                        Repetir
-                    </Button>
-                    */}
                     <Box sx={{ display: 'flex', gap: '10px' }}>
                         <IconButton
                             aria-label="download pdf"
@@ -168,16 +130,7 @@ function ItemPlacesAd({ imagen, detalles, nombre ,rating, categoria, presupuesto
                 </Box>
             </Card>
 
-            <InfoDialog
-                open={open}
-                onClose={handleClose}
-                titulo={rating}
-                rating={rating}
-                categoria={categoria}
-                presupuesto={presupuesto}
-                viajantes={viajantes}
-                detalles={detalles}
-            />
+            <AdministratorForm open={open} onClose={handleClose} />
         </Grid>
     );
 }

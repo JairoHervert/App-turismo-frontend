@@ -1,116 +1,91 @@
 import React, { useState } from 'react';
 
-import { Card, CardHeader, CardContent, Divider, Pagination, Box, Stack, Typography, ListItem, ListItemText, List, IconButton} from '@mui/material';
+import { Card, CardHeader, CardContent, Divider, Box, Stack, Typography, ListItem, ListItemText, List, IconButton} from '@mui/material';
 import { DeleteOutline as DeleteOutlineIcon, List as ListIcon } from '@mui/icons-material';
 import Grid from '@mui/material/Grid2';
 import '../../css/Categorias.css';
 
-function ContenedorCategorias({ categoriasIniciales }) {
-  const itemsPorPagina = 9;
+import CardCategorias from './CardCategorias';
+import categorias from '../preferencias/CategoriasPref.js';
+
+function ContenedorCategorias() {
+
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState({});
   
-  const [categoriasVisibles] = useState(categoriasIniciales);
-  const [pagina, setPagina] = useState(1);
-  const [categoriasLista, setCategoriasLista] = useState([]);
-
-  const handleCategoriaClick = (categoriaId) => {
-    // Buscar la categoría seleccionada
-    const categoriaSeleccionada = categoriasVisibles.find(categoria => categoria.id === categoriaId);
-
-    // Si la categoría ya está seleccionada, la quitamos de la lista
-    if (categoriasLista.includes(categoriaSeleccionada.nombre)) {
-      setCategoriasLista(prevSeleccionadas => prevSeleccionadas.filter(categoria => categoria !== categoriaSeleccionada.nombre));
-    } else {
-      // Si no está seleccionada, se agrega
-      setCategoriasLista(prevSeleccionadas => [...prevSeleccionadas, categoriaSeleccionada.nombre]);
-    }
-  }
-
-  const indexInicio = (pagina - 1) * itemsPorPagina;
-  const indexFin = indexInicio + itemsPorPagina;
-  const categoriasPagina = categoriasVisibles.slice(indexInicio, indexFin);
-
-  const handleChange = (event, value) => {
-    setPagina(value);
+  const handleCategoriaSelect = (categoria) => {
+    setCategoriasSeleccionadas((prevSeleccionadas) => {
+      const isAlreadySelected = !!prevSeleccionadas[categoria.id];
+      if (isAlreadySelected) {
+        // Si ya está seleccionada, se elimina
+        const updatedSeleccionadas = { ...prevSeleccionadas };
+        delete updatedSeleccionadas[categoria.id];
+        return updatedSeleccionadas;
+      } else {
+        // Si no está seleccionada, se agrega
+        return { ...prevSeleccionadas, [categoria.id]: categoria.nombre };
+      }
+    });
   }
 
   return (
-
     <Grid container spacing={2} columns={12}>
-      {/* Sección de categorías */}
       <Grid size={{sm: 12, md: 8, lg: 8}}>
-
+      {/* Sección de las categorías */}
         <Stack sx={{ marginBottom: '50px' }}>
-          <Pagination count={Math.ceil( categoriasVisibles.length / itemsPorPagina )} page={pagina} onChange={handleChange} color='primary' size='large' className='cat-paginacion'/>
-          
-          <Grid container spacing={3} columns={12} justifyContent='flex-start'>
-            {categoriasPagina.map((categoria) => (
-              <Grid size={{xs: 4, sm: 4, md: 4, lg: 4}} key={categoria.id}>
-                <Box 
-                  sx={{ 
-                    position: 'relative',
-                    width: '100%', 
-                    aspectRatio: '1/1', 
-                    backgroundImage: `url(${categoria.imagen})`, 
-                    backgroundPosition: 'center', 
-                    backgroundSize: 'cover',
-                    display: 'flex', 
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    overflow: 'hidden',
-                    cursor: 'pointer',
-                    
-                  }}
-                  className={`cat-box-categoria ${categoriasLista.includes(categoria.nombre) ? 'expanded' : ''}`}
-                  onClick={() => handleCategoriaClick(categoria.id)}
-                >
-                  <Typography className='cat-box-categoria-text' variant='body1' fontWeight='bold' color='white' textAlign='center' zIndex={2} sx={{ fontSize: {md: '1.5rem'} }} >
-                    {categoria.nombre}
-                  </Typography>
-                </Box>
+          {/* Aquí se enlistan todas las categorías */}
+          <Box sx={{ maxHeight: '600px', overflow: 'auto', padding: '1%' }}>
+              <Grid container columns={12} spacing={2}>
+                {categorias.map((categoria) => (
+                  <CardCategorias
+                    key={categoria.id}
+                    categoria={categoria}
+                    onSelect={handleCategoriaSelect}
+                    isSelected={!!categoriasSeleccionadas[categoria.id]}
+                  />
+                ))}
               </Grid>
-            ))}
-          </Grid>
-          
+          </Box>
         </Stack>
+
       </Grid>
 
-    { /* Sección donde se muestran categorías seleccionadas */}
-    <Grid size={{xs: 12, sm: 12, md: 4, lg: 4}}>
-      <Card sx={{ marginTop: {md: '3.5rem'} }}>
-
+      { /* Sección donde se muestran categorías seleccionadas */}
+      <Grid size={{xs: 12, sm: 12, md: 4, lg: 4}}>
+      <Card>
         <CardHeader
-          avatar={
-            <ListIcon sx={{ color: '#E4007C' }} />
-          }
+          avatar={ <ListIcon sx={{ color: '#E4007C' }} /> }
           title= 'Lista de categorías seleccionadas'
-          titleTypographyProps={{
-            sx: {
-              fontWeight: 'bold',
-              fontSize: '1em',
-            }
-          }}
+          titleTypographyProps={{ sx: { fontWeight: 'bold', fontSize: '1em' } }}
           sx={{ alignItems: 'flex-start' }}
         />
 
         <Divider />
+
         {/* Contenido para la lista de categorías seleccionadas */}
-        <CardContent sx={{ display: 'column', justifyContent: 'space-between', maxHeight: {md: '30rem', xs: '20rem'}, overflowY: 'auto' }}>
-          {categoriasLista.length > 0 ? (
+        <CardContent sx={{ display: 'column', justifyContent: 'space-between', maxHeight: {md: '540px', xs: '20rem'}, overflowY: 'auto' }}>
+          {Object.values(categoriasSeleccionadas).length > 0 ? (
             <List>
-              {categoriasLista.map((categoria, index) => (
-                <ListItem key={index}
-                  sx={{
-                    bgcolor: 'background.paper',
-                    '&:hover':{
-                      backgroundColor: '#e4007c14'
-                    }
-                  }}
+              {Object.values(categoriasSeleccionadas).map((categoria, index) => (
+                <ListItem
+                  key={index}
+                  sx={{ transition: '0.2s', '&:hover': { backgroundColor: 'rgba(185, 229, 247, 0.5)' }, }}
                   secondaryAction={
-                    <IconButton edge='end' aria-label='delete' onClick={() => {
-                      setCategoriasLista(prev => prev.filter(item => item !== categoria));
-                    }} >
-                      <DeleteOutlineIcon sx={{ color: '#E4007C' }}/>
+                    // Ícono para eliminar las categorías de la lista
+                    <IconButton
+                      edge='end'
+                      aria-label='delete'
+                      onClick={() => {
+                        setCategoriasSeleccionadas((prev) => {
+                          const updated = { ...prev };
+                          const idToDelete = Object.keys(prev).find(
+                            (key) => prev[key] === categoria
+                          );
+                          if (idToDelete) delete updated[idToDelete];
+                          return updated;
+                        });
+                      }}
+                    >
+                      <DeleteOutlineIcon sx={{ color: '#E4007C', height: '1.3rem', width: '1.3rem' }} />
                     </IconButton>
                   }
                 >
@@ -118,15 +93,13 @@ function ContenedorCategorias({ categoriasIniciales }) {
                 </ListItem>
               ))}
             </List>
-
           ) : (
             <Typography variant='body1'>No hay categorías seleccionadas.</Typography>
           )}
-
         </CardContent>
+        
       </Card>
     </Grid>
-
   </Grid>
     
   );

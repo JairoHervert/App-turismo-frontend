@@ -31,7 +31,7 @@ function RegisterPage() {
   // Validaciones de la contraseña
   const validarContraseña = (contraseña) => {
     const rules = {
-      longitudValida: /^(?=.{8,128}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 128 caracteres
+      longitudValida: /^(?=.{8,16}$)/.test(contraseña), // Longitud mínima de 8 y máxima de 16 caracteres
       mayuscula: /[A-Z]/.test(contraseña), // Al menos una mayúscula
       minuscula: /[a-z]/.test(contraseña), // Al menos una minúscula
       numero: /\d/.test(contraseña), // Al menos un número
@@ -314,7 +314,7 @@ function RegisterPage() {
 
                         <Box className="my-3">
                           <ul>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.longitudValida ? 'text-success fw-semibold' : ''}`}>Debe tener entre 8 y 128 caracteres.</li>
+                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.longitudValida ? 'text-success fw-semibold' : ''}`}>Debe tener entre 8 y 16 caracteres.</li>
                             <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.mayuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra mayúscula.</li>
                             <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.minuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra minúscula.</li>
                             <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.numero ? 'text-success fw-semibold' : ''}`}>Debe contener al menos un número.</li>
@@ -333,7 +333,7 @@ function RegisterPage() {
                         <Box className="my-4">
                           <Typography variant="body2" className="text-center">O regístrate con</Typography>
                           <Box className="d-flex justify-content-center gap-3">
-                            <IconButton onClick={handleGoogleLogin}>
+                            <IconButton aria-label="google" color='google' onClick={handleGoogleLogin}>
                               <GoogleIcon />
                             </IconButton>
                             <FacebookLogin
@@ -341,7 +341,7 @@ function RegisterPage() {
                               autoLoad={false}
                               callback={responseFacebook}
                               render={(renderProps) => (
-                                <IconButton onClick={renderProps.onClick}>
+                                <IconButton aria-label="facebook" color='facebook' onClick={renderProps.onClick}>
                                   <FacebookRoundedIcon />
                                 </IconButton>
                               )}

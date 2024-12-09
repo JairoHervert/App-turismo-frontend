@@ -3,20 +3,22 @@ import { useState, useEffect } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Typography } from '@mui/material';
 import { Container, Stack, TextField, InputAdornment } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
-import { Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 
 
 // iconos
+import CloseIcon from '@mui/icons-material/Close';
 import MapRoundedIcon from '@mui/icons-material/MapRounded';
 import SearchRoundedIcon from '@mui/icons-material/Search';
 
 // componentes locales
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
+import ButtonsMod from '../components/ButtonsMod';
 import Planer from '../components/itinerary/Planer';
 import PlanRoute from '../components/itinerary/PlanRoute';
 import MoreInfoPlace from '../components/itinerary/MoreInfoPlace';
@@ -34,6 +36,20 @@ function ItineraryPage() {
   // estados para manejar el estado del modal de informacion del lugar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Estado para controlar el modal del boton de finalizar
+  const [openModalFinality, setOpenModalFinality] = useState(false);
+
+  const handleOpenModalFinality = () => {
+    setOpenModalFinality(true);
+  };
+  const handleCloseModalFinality = () => {
+    setOpenModalFinality(false);
+  };
+  const handleConfirmFinality = () => {
+    setOpenModalFinality(false);
+    console.log('Itinerario finalizado');
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,6 +71,16 @@ function ItineraryPage() {
       setIsModalOpen(true);
     }
   };
+
+  const navigate = useNavigate();
+
+  const handleRegresarClick = () => {
+    navigate('/Categorias-page');
+  }
+
+  const handleFinalizarClick = () => {
+    navigate('/itinerary');
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -161,7 +187,7 @@ function ItineraryPage() {
                   <CloseIcon />
                 </IconButton>
               </DialogTitle>
-              <DialogContent sx={{ maxWidth:'35rem' }}>
+              <DialogContent sx={{ maxWidth: '35rem' }}>
                 <MoreInfoPlace place={selectedPlace} />
               </DialogContent>
             </Dialog>
@@ -169,8 +195,52 @@ function ItineraryPage() {
 
         </Grid>
 
-      </Container> {/* Cierre de Container principal */}
+        {/* Botones de regresar y finalizar */}
+        <Stack direction='row' sx={{ justifyContent: 'space-between', margin: '30px 0 30px 0' }}>
+          <ButtonsMod
+            variant='principal'
+            textCont='Regresar'
+            clickEvent={handleRegresarClick}
+          />
+          <ButtonsMod
+            variant='principal'
+            textCont='Finalizar'
+            clickEvent={handleOpenModalFinality}
+          />
+        </Stack>
 
+        {/* Modal de confirmación para "Finalizar" */}
+        <Dialog
+          open={openModalFinality}
+          onClose={handleCloseModalFinality}
+          aria-labelledby='finality-dialog-title'
+          aria-describedby='finality-dialog-description'
+        >
+          <DialogTitle id='finality-dialog-title'>
+            <Typography fontFamily={'poppins'} className='fw-medium fs-5 text-center'>¿Deseas finalizar tu itinerario?</Typography>
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id='finality-dialog-description'>
+              <Typography fontFamily={'poppins'} className='fw-normal text-center'>Confirma si deseas finalizar este itinerario. Podrás consultarlo más tarde en la sección de .</Typography>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <ButtonsMod
+              variant='secundario'
+              textCont='Cancelar'
+              clickEvent={handleCloseModalFinality}
+            />
+            <ButtonsMod
+              variant='principal'
+              textCont='Finalizar'
+              // para backend: aqui podrian modificar la funcion para que guarde el itinerario en la bdd o algo asi
+              clickEvent={handleConfirmFinality}
+            />
+
+          </DialogActions>
+        </Dialog>
+
+      </Container> {/* Cierre de Container principal */}
       <Footer showIncorporaLugar={true} />
     </ThemeProvider>
   )

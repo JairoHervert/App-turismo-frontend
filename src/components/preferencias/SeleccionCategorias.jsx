@@ -1,31 +1,42 @@
 import React, { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Container, Box } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Container, Box } from '@mui/material';
 import CardPref from './CardPref';
 import categorias from './CategoriasPref';
 import ButtonsMod from '../ButtonsMod';
-import { pink } from "@mui/material/colors";
-
+import img from '../../img/Itinerary/turist-for-another.jpg';
+import AlertD from '../alert';
+import { useRef } from 'react';
+import ThemeMaterialUI from '../ThemeMaterialUI';
+import { ThemeProvider } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
 
 function SeleccionCategorias({ open, handleClose, handleSubmit }) {
-  const [subcategoriasSeleccionadas, setSubcategoriasSeleccionadas] = useState({});
+  const theme = useTheme();
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState({});
+
+  //obtener la referencia del componente AlertD
+  const alertRef = useRef();
+
+  //funcion para abrir la alerta
+  const handleClickOpen = () => {
+      if (alertRef.current) {
+          alertRef.current.handleClickOpen();
+      }
+  };
 
   const handleCategoriaSelect = (categoria) => {
-    setSubcategoriasSeleccionadas((prev) => {
+    setCategoriasSeleccionadas((prev) => {
       if (prev[categoria.id]) {
         const { [categoria.id]: _, ...rest } = prev;
         return rest;
       } else {
         return {
           ...prev,
-          [categoria.id]: categoria.subcategorias,
+          [categoria.id]: true,
         };
       }
     });
-  };
-
-  const handleSubcategoriaSelect = (subcategoria) => {
-    // Aquí puedes manejar la selección de subcategorías si es necesario
   };
 
   const handleDialogClose = (event, reason) => {
@@ -34,33 +45,44 @@ function SeleccionCategorias({ open, handleClose, handleSubmit }) {
     }
   };
 
+  const handleFormSubmit = () => {
+    if (Object.keys(categoriasSeleccionadas).length === 0) {
+      handleClickOpen();
+    } else {
+      handleSubmit();
+    }
+  };
+
   return (
-    <Dialog open={open} onClose={handleDialogClose} maxWidth="lg" fullWidth>
-      <DialogTitle sx={{ fontFamily: 'Montserrat, sans-serif', color: pink[600], fontWeight: 'bold' }}>Preferencias</DialogTitle>
+    <ThemeProvider theme={ThemeMaterialUI}> 
+    <Dialog open={open} onClose={handleDialogClose} maxWidth='lg' fullWidth>
+      <DialogTitle sx={{ fontFamily: 'Montserrat, sans-serif', color: theme.palette.primary.main, fontWeight: 'bold' }}>Preferencias</DialogTitle>
       <DialogContent sx={{ fontFamily: 'Poppins, sans-serif' }}>
         <DialogContentText>
-          Escoje las categorías y subcategorías que más te interesen.
+          Escoje las categorías que más te interesen.
         </DialogContentText>
-        <Box sx={{ mt: 2, maxHeight: '500px', overflow: 'auto' }}> 
-        <Container sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
-          <CardPref
-            categorias={categorias}
-            onSelect={handleCategoriaSelect}
-            subcategoriasSeleccionadas={subcategoriasSeleccionadas}
-            onSubcategoriaSelect={handleSubcategoriaSelect}
-          />
-        </Container>
+        <Box sx={{ mt: 2, maxHeight: '500px', overflow: 'auto' }}>
+          <Container sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+            <CardPref
+              categorias={categorias}
+              onSelect={handleCategoriaSelect}
+              categoriasSeleccionadas={categoriasSeleccionadas}
+            />
+          </Container>
         </Box>
         <DialogActions>
-          {/*
-          <Button onClick={handleClose} color="secondary">
-            Cancelar
-          </Button>
-          */}
-          <ButtonsMod variant='principal' textCont='Enviar' height='3rem' clickEvent={handleSubmit} color="primary" />
+          <ButtonsMod variant='principal' textCont='Enviar' height='3rem' clickEvent={handleFormSubmit} color='primary' />
+          <AlertD
+                ref={alertRef}
+                titulo="Escoge al menos una categoría"
+                mensaje="Debes escoger por lo menos una categoría para poder personalizar tus itinerarios."
+                imagen={img}
+                boton2="Aceptar"
+            />
         </DialogActions>
       </DialogContent>
     </Dialog>
+    </ThemeProvider>
   );
 }
 
