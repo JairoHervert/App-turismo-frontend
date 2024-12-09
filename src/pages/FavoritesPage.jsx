@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, TextField, Box, InputAdornment, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
@@ -11,7 +11,6 @@ import Footer from '../components/Footer';
 import ItemFavoritos from '../components/favorites/ItemFavoritos';
 
 import { handleFavoritos } from '../pagesHandlers/user_handler';
-import { useEffect, useState } from 'react';
 import { isLogged } from '../schemas/isLogged';
 import { useNavigate } from 'react-router-dom';
 

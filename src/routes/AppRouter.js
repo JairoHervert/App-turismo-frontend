@@ -57,7 +57,7 @@ function AppRouter() {
         <Route path='/ingresar-nueva-contrasena' element={<IngresarNuevaContrasena />} />
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
         <Route path="/recuperacion/:token" element={<IngresarNuevaContrasena />} />
-        <Route path='/all-places' element={<AllPlacesPage/>} />
+        <Route path='/lugares' element={<AllPlacesPage/>} />
         <Route path='/preferencias' element={<PreferenciasModal/>} />
         <Route path='/Admin-SavedPlaces' element={<AdminSavedPlaces/>}/>
       </Routes>
