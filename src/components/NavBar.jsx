@@ -129,13 +129,17 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                       </button>
                       <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         {/* Opciones del menú */}
-                        <li><Link className="dropdown-item" to='/perfil-page'>Mi Perfil</Link></li>
+                        <li><Link className='dropdown-item' to='/lugares'>General - Todos los lugares</Link></li>
+                        <li><Link className="dropdown-item" to='/perfil-page'>Usuario - Perfil</Link></li>
+                        <li><Link className='dropdown-item' to='/confirmacion-registro'>Usuario - Confirmación Registro</Link></li>
+                        <li><Link className='dropdown-item' to='/recuperar-contrasena'>Usuario - Recuperar Contraseña</Link></li>
+                        <li><Link className='dropdown-item' to='/ingresar-nueva-contrasena'>Usuario - Ingresar Nueva Contraseña</Link></li>
+                        <li><Link className='dropdown-item' to='/deseados'>Usuario - Deseados</Link></li>
+                        <li><Link className='dropdown-item' to='/favoritos'>Usuario - Favoritos</Link></li>
+                        <li><Link className='dropdown-item' to='/itinerariesSaved'>Usuario - Itinerarios guardados</Link></li>
+                        <li><Link className='dropdown-item' to='/HistoryPage'>Usuario - Historial</Link></li>
                         <li><Link className="dropdown-item" to="/settings">Configuración</Link></li>
-                        <li><Link className='dropdown-item' to='/Categorias-page'>Categorías</Link></li>
-                        <li><Link className='dropdown-item' to='/confirmacion-registro'>Confirmación Registro</Link></li>
-                        <li><Link className='dropdown-item' to='/deseados'>Deseados User</Link></li>
-                        <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
-                        <li><Link className='dropdown-item' to='/HistoryPage'>Historial de búsqueda</Link></li>
+                        <li><Link className='dropdown-item' to='/Categorias-page'>Itinerario - Categorías</Link></li>
                         <li><Link className='dropdown-item' to='/resume-page'>Página de resumen</Link></li>
                         <li><Link className='dropdown-item' to='/itinerary'>Página de itinerario</Link></li>
                         <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
@@ -143,10 +147,6 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                         <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
                         <li><Link className='dropdown-item' to='/Admin-dashboard'>Dashboard de administrador</Link></li>
                         <li><Link className='dropdown-item' to='/Admin-SavedPlaces'>Lugares de administrador</Link></li>
-                        <li><Link className='dropdown-item' to='/favoritos'>Favoritos User</Link></li>
-                        <li><Link className='dropdown-item' to='/recuperar-contrasena'>Recuperar Contraseña</Link></li>
-                        <li><Link className='dropdown-item' to='/ingresar-nueva-contrasena'>Ingresar Nueva Contraseña</Link></li>
-                        <li><Link className='dropdown-item' to='/lugares'>Todos los lugares</Link></li>
                         <li><hr className="dropdown-divider" /></li>
                         <li><Link className="dropdown-item" to="/logout" onClick={handleLogout}>Cerrar Sesión</Link></li>
                       </ul>
