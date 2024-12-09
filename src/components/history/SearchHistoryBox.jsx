@@ -6,7 +6,7 @@ import '../../css/History.css';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 
-function SearchHistoryBox ({ searchHistory }) {
+function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
 
   const formatoFecha = (fecha) => {
     // Se crea un objeto Date a partir de la fecha pasada
@@ -40,14 +40,14 @@ function SearchHistoryBox ({ searchHistory }) {
         
         {/* Se mapean los items y se muestran en una lista */}
         <List dense>
-          {day.items.map((item) => (
+          {day.items.map((item, index) => (
 
             <ListItem
-              key={item.id}
+              key={item.id || index}
               sx={{ paddingLeft: '0', transition: '0.2s', positon: 'relative', '&:hover': { backgroundColor: 'rgba(185, 229, 247, 0.5)', cursor: 'pointer' } }}
               secondaryAction={
                 /* Ícono para borrar Item */
-                <IconButton onClick={() => handleDelete(item.id)} >
+                <IconButton onClick={() => onEliminarLugar(item.idLugar)} >
                   <CloseIcon sx={{ width: '0.8rem', height: '0.8rem' }}/>
                 </IconButton>
               }
@@ -69,7 +69,7 @@ function SearchHistoryBox ({ searchHistory }) {
                     <Typography variant='body2' className='query-time-history me-2'>{item.time}</Typography>
                     {/* Nombre del lugar */}
                     <Typography variant='body1'>
-                      <Link to={`/search?q=${item.query}`} className='query-text-history'>
+                      <Link to={`/placepage/${item.idLugar}`} className='query-text-history'>
                         {item.query}
                       </Link>
                     </Typography>

@@ -5,7 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import '../../css/AllPlaces.css';
 
-function MenuFilters({ setIsModalOpen, selectedFilters, setSelectedFilters }) {
+function MenuFilters({ setIsModalOpen, selectedFilters, onApplyFilters  }) {
   const alcaldias = [
     'Álvaro Obregón',
     'Azcapotzalco',
@@ -31,7 +31,7 @@ function MenuFilters({ setIsModalOpen, selectedFilters, setSelectedFilters }) {
     'Comida Rápida',
     'Restaurante',
     'Cafetería',
-    'Bar',
+    'Bares',
     'Arte',
     'Historia',
     'Museos',
@@ -46,13 +46,13 @@ function MenuFilters({ setIsModalOpen, selectedFilters, setSelectedFilters }) {
 
   // analiza si el checkbox fue seleccionado o no para mostrrlo en el modl
   const handleCheckboxChange = (filterType, filterValue) => {
-    setSelectedFilters((prev) => {
-      const isSelected = prev[filterType].includes(filterValue);
-      const updatedFilters = isSelected
-        ? prev[filterType].filter((item) => item !== filterValue)
-        : [...prev[filterType], filterValue];
-      return { ...prev, [filterType]: updatedFilters };
-    });
+    const isSelected = selectedFilters[filterType].includes(filterValue);
+    const updatedFilters = isSelected
+      ? selectedFilters[filterType].filter((item) => item !== filterValue)
+      : [...selectedFilters[filterType], filterValue];
+    
+    // Llama a onApplyFilters con los nuevos filtros
+    onApplyFilters({ ...selectedFilters, [filterType]: updatedFilters });
   };
 
   return (

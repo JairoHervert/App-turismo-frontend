@@ -4,7 +4,6 @@ import { Container, Stack, TextField, Box, InputAdornment, Typography } from '@m
 import Grid from '@mui/material/Grid2';
 import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
-import Pagination from '@mui/material/Pagination';
 // Componentes
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -33,6 +32,8 @@ function FavoritesPage() {
   };
   //const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [favoritos, setFavoritos] = useState([]);
+  const [originalFavoritos, setOriginalFavoritos] = useState([]); // Copia original
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate(); // Inicializa useNavigate
 
   useEffect(() => {
@@ -41,7 +42,6 @@ function FavoritesPage() {
         const loggedIn = await isLogged();
         if (!loggedIn.logged) {
           navigate('/login');
-          return;
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
@@ -56,7 +56,7 @@ function FavoritesPage() {
         
         const resultado = await handleFavoritos(id); // Espera la resolución de la promesa
         setFavoritos(resultado);
-        console.log(favoritos);
+        setOriginalFavoritos(resultado); // Copia original
       } catch (error) {
         console.error('Error al obtener lugares favoritos:', error);
       }
@@ -65,6 +65,19 @@ function FavoritesPage() {
     fetchLoginStatus();
     fetchFavoritos(); // Llama a la función para obtener los datos
   }, []);
+
+  const obtenerFavoritosFiltrados = () => {
+    const term = searchTerm.toLowerCase();
+    return originalFavoritos.filter((lugar) =>
+      lugar.nombre.toLowerCase().includes(term) ||
+      (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term))
+    );
+  };
+
+  useEffect(() => {
+    const filtrados = obtenerFavoritosFiltrados();
+    setFavoritos(filtrados);
+  }, [searchTerm, originalFavoritos]);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -89,6 +102,8 @@ function FavoritesPage() {
             variant='outlined'
             size='small'
             sx={{ maxWidth: 250 }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -103,10 +118,11 @@ function FavoritesPage() {
           {favoritos && favoritos.length > 0 ? (
             currentItems.map((place, index) => (
               <ItemFavoritos
-                key={index}
-                imagen={place.image}
-                nombre={place.name}
-                descripcion={place.description}
+                key={index} // Usa un identificador único si está disponible, por ejemplo, 'lugar.id'
+                idLugar={lugar.id}
+                nombre={lugar.nombre}
+                descripcion={lugar.descripcion}
+                imagen={lugar.imagen}
               />
             ))
           ) : (

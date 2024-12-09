@@ -62,6 +62,20 @@ class userModel {
     });
   }
 
+  static async UsuarioVerCategorias(id) {
+    const query = 'CALL usuario_ver_vategorias(?)';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({categorias: resultado});
+      });
+    });
+  }
 }
 
 module.exports = userModel;

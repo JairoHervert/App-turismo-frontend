@@ -12,7 +12,7 @@ function PlaceCard({ id, isLogged, imagen, name, description, isClickedDeseados,
     navigate(`/placepage/${id}`);
   };
 
-  const image = imagen ? imagen : require(`../../img/HomePage/places/home-places-ven-carranza.jpg`);
+  const image = imagen ? (imagen.startsWith('http') ? imagen : `${process.env.PUBLIC_URL}/fotosLugares/${imagen}`) : require(`../../img/HomePage/places/home-places-ven-carranza.jpg`);
   
   return (
     <div className="card mb-4 custom-card">

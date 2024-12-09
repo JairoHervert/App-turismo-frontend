@@ -5,7 +5,7 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
   const navigate = useNavigate();
 
   const informacionLugar = () => {
-    navigate(`/placepage`); // redirige a la página de inicio, actualizar con la ruta correcta si es necesario
+    navigate(`/placepage/${idLugar}`);
   };
 
   const handleFavoriteClick = () => {
@@ -16,7 +16,8 @@ function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar
   };
 
   const esURL = imagenLugar.startsWith('http://') || imagenLugar.startsWith('https://');
-  const imagenSrc = esURL ? imagenLugar : require(`../../img/HomePage/places/${imagenLugar}`);
+  // const imagenSrc = esURL ? imagenLugar : require(`../../img/HomePage/places/${imagenLugar}`);
+  const imagenSrc = esURL ? imagenLugar : `${process.env.PUBLIC_URL}/fotosLugares/${imagenLugar}`;
 
   return (
     <div 

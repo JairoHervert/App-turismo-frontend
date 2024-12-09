@@ -13,7 +13,8 @@ import ButtonsMod from '../components/ButtonsMod';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { handleEsFavorito, handleEsDeseado } from '../pagesHandlers/favDeseados-handler';
-import { handleDatosLugar, handleFotosLugar, handleSubcategoriasLugar } from '../pagesHandlers/place-handler';
+import { handleDatosLugar, handleFotosLugar, handleCategoriasLugar } from '../pagesHandlers/place-handler';
+import { registrarHistorial } from '../pagesHandlers/history-handler';
 
 const PlacePage = () => {
   const { id } = useParams();
@@ -50,108 +51,7 @@ const PlacePage = () => {
 
   const [fotos, setFotos] = useState(imagenes);
 
-  useEffect(() => {
-    if (!id) {
-      navigate("/");
-      return;
-    }
-
-    const fetchPlace = async () => {
-      try {
-
-        const idUsuario = localStorage.getItem('id');
-        if(idUsuario) {
-          // Verifica si está en favoritos
-          const favorito = await handleEsFavorito(idUsuario, id);
-          setIsFavorito(favorito.esFavorito);
-
-          // Verifica si está en deseados
-          const deseado = await handleEsDeseado(idUsuario, id);
-          setIsDeseado(deseado.esDeseado);
-          setLogged(true);
-        }
-
-        const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
-        if(!resultado) {
-          navigate("/");
-        }
-        let copiaResultado = resultado;
-        copiaResultado.accesibilidad = "";
-        if(resultado.accesibilidadParking && resultado.accesibilidadParking == 1)
-          copiaResultado.accesibilidad += "Con estacionamiento exclusivo";
-        if(resultado.accesibilidadEntrance && resultado.accesibilidadEntrance == 1) {
-          if(copiaResultado.accesibilidad == "")
-            copiaResultado.accesibilidad += "Con entrada accesible";
-          else
-            copiaResultado.accesibilidad += ", con entrada accesible";
-        }
-        if(resultado.accesibilidadRestroom && resultado.accesibilidadRestroom == 1) {
-          if(copiaResultado.accesibilidad == "")
-            copiaResultado.accesibilidad += "Con sanitarios accesibles";
-          else
-            copiaResultado.accesibilidad += ", con sanitarios accesibles";
-        }
-        if(resultado.accesibilidadSeating && resultado.accesibilidadSeating == 1) {
-          if(copiaResultado.accesibilidad == "")
-            copiaResultado.accesibilidad += "Con asientos accesibles";
-          else
-            copiaResultado.accesibilidad += ", con asientos accesibles";
-        }
-        setPlace(copiaResultado);
-        console.log(copiaResultado);
-      } catch (error) {
-        console.error('Error al obtener datos del lugar', error);
-      }
-    };
-
-    const fetchFotos = async () => {
-      try {
-        console.log("Id lugar", id);
-        
-        const resultado = await handleFotosLugar(id); // Espera la resolución de la promesa
-
-        let array = [];
-        resultado.forEach(element => {
-          array.push(element.URL);
-        });
-        setFotos(array);
-        console.log(array);
-      } catch (error) {
-        console.error('Error al obtener foto del lugar', error);
-      }
-    };
-
-    const fetchSubcategorias = async () => {
-      try {
-        console.log("Id lugar", id);
-        
-        const resultado = await handleSubcategoriasLugar(id); // Espera la resolución de la promesa
-
-        let array = [];
-        resultado.forEach(element => {
-          array.push(element.subcategoria);
-        });
-        setCategorias(array);
-        console.log(array);
-      } catch (error) {
-        console.error('Error al obtener foto del lugar', error);
-      }
-    };
-
-    fetchPlace();
-    fetchFotos();
-    fetchSubcategorias();
-  }, [id, navigate]);
-
-  if (!place) {
-    return <div>Cargando...</div>; // Muestra un loader mientras se obtiene el lugar
-  }
-
-  const handleHomePageClick = () => {
-    navigate('/');
-  };
-  
-  const allReviews = [
+  const rev = [
     {
       nombreUsuario: 'Brandon Segura',
       antiguedadReview: '10 meses',
@@ -203,6 +103,117 @@ const PlacePage = () => {
     },
   ];
 
+  const [allReviews, setReviews] = useState(rev);
+
+  useEffect(() => {
+    if (!id) {
+      navigate("/");
+      return;
+    }
+
+    const fetchPlace = async () => {
+      try {
+
+        const idUsuario = localStorage.getItem('id');
+        if(idUsuario) {
+          // Verifica si está en favoritos
+          const favorito = await handleEsFavorito(idUsuario, id);
+          setIsFavorito(favorito.esFavorito);
+
+          // Verifica si está en deseados
+          const deseado = await handleEsDeseado(idUsuario, id);
+          setIsDeseado(deseado.esDeseado);
+          setLogged(true);
+
+          //Registrar el lugar en el historial
+          await registrarHistorial(idUsuario, id);
+        }
+
+        const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
+        if(!resultado) {
+          navigate("/");
+        }
+        let copiaResultado = resultado;
+        copiaResultado.accesibilidad = "";
+        if(resultado.accesibilidadParking && resultado.accesibilidadParking == 1)
+          copiaResultado.accesibilidad += "Con estacionamiento exclusivo";
+        if(resultado.accesibilidadEntrance && resultado.accesibilidadEntrance == 1) {
+          if(copiaResultado.accesibilidad == "")
+            copiaResultado.accesibilidad += "Con entrada accesible";
+          else
+            copiaResultado.accesibilidad += ", con entrada accesible";
+        }
+        if(resultado.accesibilidadRestroom && resultado.accesibilidadRestroom == 1) {
+          if(copiaResultado.accesibilidad == "")
+            copiaResultado.accesibilidad += "Con sanitarios accesibles";
+          else
+            copiaResultado.accesibilidad += ", con sanitarios accesibles";
+        }
+        if(resultado.accesibilidadSeating && resultado.accesibilidadSeating == 1) {
+          if(copiaResultado.accesibilidad == "")
+            copiaResultado.accesibilidad += "Con asientos accesibles";
+          else
+            copiaResultado.accesibilidad += ", con asientos accesibles";
+        }
+        copiaResultado.horarios = JSON.parse(copiaResultado.regularOpeningHours).weekdayDescriptions;
+        copiaResultado.reseñas = [];
+        let reseñasJSON = JSON.parse(copiaResultado.reviewsGoogle);
+        reseñasJSON.forEach(r => {
+          let reseña = {};
+          reseña.nombreUsuario = r.authorAttribution.displayName;
+          reseña.antiguedadReview = r.relativePublishTimeDescription;
+          reseña.comentarioUsuario = r.originalText.text;
+          reseña.valueReview = r.rating;
+          reseña.userPhoto = r.authorAttribution.photoUri;
+          copiaResultado.reseñas.push(reseña);
+        });
+        setPlace(copiaResultado);
+        setReviews(copiaResultado.reseñas);
+      } catch (error) {
+        console.error('Error al obtener datos del lugar o registrar en el historial', error);
+      }
+    };
+
+    const fetchFotos = async () => {
+      try {
+        const resultado = await handleFotosLugar(id); // Espera la resolución de la promesa
+
+        let array = [];
+        resultado.forEach(element => {
+          array.push(element.URL);
+        });
+        setFotos(array);
+      } catch (error) {
+        console.error('Error al obtener foto del lugar', error);
+      }
+    };
+
+    const fetchCategorias = async () => {
+      try {
+        const resultado = await handleCategoriasLugar(id); // Espera la resolución de la promesa
+        let array = [];
+        resultado.forEach(element => {
+          array.push(element.categoria);
+        });
+        setCategorias(array);
+      } catch (error) {
+        console.error('Error al obtener categorías', error);
+      }
+    };
+
+    fetchPlace();
+    fetchFotos();
+    fetchCategorias();
+  }, [id, navigate]);
+
+  if (!place) {
+    return <div>Cargando...</div>; // Muestra un loader mientras se obtiene el lugar
+  }
+
+  const handleHomePageClick = () => {
+    navigate('/');
+  };
+
   const indexOfLastReview = currentPage * reviewsPerPage;
   const indexOfFirstReview = indexOfLastReview - reviewsPerPage;
   const currentReviews = allReviews.slice(indexOfFirstReview, indexOfLastReview);
@@ -229,6 +240,7 @@ const PlacePage = () => {
       const closeDay = daysOfWeek[close.day];
       const openTime = `${open.time.slice(0, 2)}:${open.time.slice(2)}`;
       const closeTime = `${close.time.slice(0, 2)}:${close.time.slice(2)}`;
+      let cad = `${openDay}: ${openTime} - ${closeTime}${openDay !== closeDay ? ` (${closeDay})` : ''}`;
 
       return `${openDay}: ${openTime} - ${closeTime}${openDay !== closeDay ? ` (${closeDay})` : ''}`;
     });
@@ -249,10 +261,10 @@ const PlacePage = () => {
       />
       
       <DescripcionLugar
-        nombreLugar={place && place.nombre ? place.nombre : 'Lugar'}
-        value={4.6}
-        resumenLugar={place && place.descripcion ? place.descripcion : 'Descripción'}
-        direccionLugar={place && place.direccion ? place.direccion : 'Dirección'}
+        nombreLugar={place && place.nombre ? place.nombre : 'Nombre no disponible'}
+        value={place && place.rating ? place.rating : 0.0}
+        resumenLugar={place && place.descripcion ? place.descripcion : ''}
+        direccionLugar={place && place.direccion ? place.direccion : 'Sin dirección registrada'}
         /* Para el siguiente parámetro [costoLugar]
           Si se cuenta con la información, se mandan como parámetros 1/2/3/4
           Ejemplo:
@@ -268,15 +280,15 @@ const PlacePage = () => {
           Es accesible a silla de ruedas -> {true} 
           No es accesible a silla de ruedas -> {false} 
           No se cuenta con la información -> {null} [Si no cuenta con la información, no aparecerá] */
-        accesibilidadLugar={place && place.accesibilidad ? place.accesibilidad : 'Dirección'}
+        accesibilidadLugar={place && place.accesibilidad ? place.accesibilidad : ''}
         petFriendly={place.allowsDogs}
-        veganFriendly={null}
+        veganFriendly={place.servesVegetarianFood}
         familiar={place.goodForChildren}
         goodForGroups={place.goodForGroups}
         metodoPago={null}
         website={place && place.webpage != undefined && place.webpage != null ? place.webpage : ''}
         /* Esta sección de horarios puede cambiar dependiendo de cómo traten la información */
-        horarioLugar={horarioLugar}
+        horarioLugar={place.horarios}
         /*  */
         categoria={categorias}
         /* Si no hay imágenes -> {null} */

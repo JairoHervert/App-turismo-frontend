@@ -11,11 +11,13 @@ import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl,
 import { ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {handleActualizar} from '../pagesHandlers/recuperacion-handler';
+import { Construction } from '@mui/icons-material';
 
 const IngresarNuevaContrasena = () => {
   const [contraseña, setContraseña] = useState('');
   const [confirmarContraseña, setConfirmarContraseña] = useState('');
-  const [mostrarContraseña, setMostrarContraseña] = useState(true);
+  const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [mostrarConfirmarContraseña, setMostrarConfirmarContraseña] = useState(false);
   const [errores, setErrores] = useState({
     contraseña: '',
@@ -80,12 +82,12 @@ const IngresarNuevaContrasena = () => {
     else if (confirmarContraseña !== contraseña) {
       nuevosErrores.confirmarContraseña = 'Las contraseñas no coinciden';
     }
-
-    if (Object.keys(nuevosErrores).length > 0) {
+    const erroresActivos = Object.values(nuevosErrores).filter((error) => error !== '');
+    if (erroresActivos.length > 0) {
       setErrores(nuevosErrores);
-    }
-    else {
-      console.log('Formulario enviado');
+    } else {
+      const token = window.location.pathname.split('/')[2];
+      handleActualizar(token, contraseña);
     }
   }
 

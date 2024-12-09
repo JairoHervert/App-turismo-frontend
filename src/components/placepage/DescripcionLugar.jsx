@@ -24,6 +24,8 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
   };
 
   const breakPoint = useMediaQuery('(max-width: 960px');
+  
+  const pathFotosLocal = "../../LugaresRegistrados/fotos/";
 
   const galeria = () => {
     if (!imagenesLugar || imagenesLugar.length === 0) {
@@ -41,7 +43,7 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
           /* para que la primera imagen ocupe más espacio */
           <ImageListItem key={index} cols={index === 0 ? 2 : 1} rows={index === 0 ? 2 : 1}>
             <img
-              src={imagen}
+              src={imagen.startsWith('http') ? imagen : `${process.env.PUBLIC_URL}/fotosLugares/${imagen}`}
               loading='lazy'
               style={{ objectFit: 'cover' }}
             />

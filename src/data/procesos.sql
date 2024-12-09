@@ -15,14 +15,19 @@ DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAnadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
+DROP PROCEDURE IF EXISTS usuario_anadir_categoria;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
+DROP PROCEDURE IF EXISTS usuario_ver_vategorias;
 # Lugar
+DROP PROCEDURE IF EXISTS getCategorias;
 DROP PROCEDURE IF EXISTS LugarRegistro;
+DROP PROCEDURE IF EXISTS getLugaresTodos;
 DROP PROCEDURE IF EXISTS getLugaresCategoria4;
 DROP PROCEDURE IF EXISTS getLugaresCategoriaHomeUsuario;
 DROP PROCEDURE IF EXISTS LugarGetDatos;
 DROP PROCEDURE IF EXISTS RegistrarSubcategoria;
+DROP PROCEDURE IF EXISTS LugarGetCategorias;
 DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
 DROP PROCEDURE IF EXISTS RegistrarFoto;
 DROP PROCEDURE IF EXISTS LugarGetFotos;
@@ -216,14 +221,14 @@ BEGIN
    DECLARE v_contraseña VARCHAR(255);
    DECLARE v_imagen VARCHAR(512);
    DECLARE v_confirmacion BOOLEAN;
+   DECLARE v_ultimaConexion DATETIME;
    
-
    SET correoInvalido = NOT (p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$');
 
    IF correoInvalido THEN
       SELECT 'correo_invalido' AS 'error';
    ELSE
-      SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_confirmacion
+      SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_confirmacion, v_ultimaConexion
       FROM Usuario
       WHERE correo = UPPER(p_correo);
 
@@ -239,7 +244,8 @@ BEGIN
             v_apellido AS apellido,
             v_contraseña AS contraseña,
             v_imagen AS imagen,
-            v_confirmacion AS confirmacion;
+            v_confirmacion AS confirmacion
+            v_ultimaConexion AS ultimaConexion;
       END IF;
    END IF;
    
@@ -261,7 +267,7 @@ BEGIN
    DECLARE v_imagen VARCHAR(512);
    DECLARE v_confirmacion BOOLEAN;
 
-   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion
+   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion, v_ultimaConexion
    FROM Usuario
    WHERE tokenGoogle = p_token;
    
@@ -274,7 +280,8 @@ BEGIN
          v_nombre AS nombre,
          v_apellido AS apellido,
          v_imagen AS imagen,
-         v_confirmacion AS confirmacion;
+         v_confirmacion AS confirmacion
+         v_ultimaConexion AS ultimaConexion;
    END IF;
 END //
 
@@ -293,7 +300,7 @@ BEGIN
    DECLARE v_imagen VARCHAR(512);
    DECLARE v_confirmacion BOOLEAN;
 
-   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion
+   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion, v_ultimaConexion;
    FROM Usuario
    WHERE tokenFacebook = p_token;
 
@@ -309,7 +316,8 @@ BEGIN
          v_nombre AS nombre,
          v_apellido AS apellido,
          v_imagen AS imagen,
-         v_confirmacion AS confirmacion;
+         v_confirmacion AS confirmacion
+         v_ultimaConexion AS ultimaConexion;
    END IF;
 END //
 
@@ -463,6 +471,39 @@ BEGIN
 END //
 
 -- -----------------------------------------------------
+-- Process `AppTurismo`.`usuario_anadir_categoria`
+-- -----------------------------------------------------
+CREATE PROCEDURE usuario_anadir_categoria (
+   IN p_idUsuario INT,
+   IN p_idCategoria VARCHAR(40)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   DECLARE categoriaExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_idUsuario;
+   
+   SELECT COUNT(*) INTO categoriaExistente
+   FROM Categoria
+   WHERE id = p_idCategoria;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      IF categoriaExistente = 0 THEN
+         SELECT 'categoria_no_existente' AS 'error';
+      ELSE
+         INSERT INTO CategoriaFavorita (idUsuario, idCategoria, auditoria)
+         VALUES (p_idUsuario, p_idCategoria, NOW());
+      
+         SELECT 1 AS 'success';
+      END IF;
+   END IF;   
+END //
+
+-- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioVerDeseados`
 -- -----------------------------------------------------
 CREATE PROCEDURE UsuarioVerDeseados (
@@ -564,9 +605,54 @@ BEGIN
    END IF;
 END //
 
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`usuario_ver_vategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE usuario_ver_vategorias (
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT 
+         c.id,
+         c.nombre,
+         c.imagen,
+         GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias,
+         EXISTS (
+            SELECT 1 
+            FROM CategoriaFavorita cf
+            WHERE cf.idUsuario = p_id AND cf.idCategoria = c.id
+         ) AS esFavorita
+      FROM Categoria c
+      JOIN Subcategoria s ON c.id = s.idCategoria
+      GROUP BY c.id, c.nombre, c.imagen;
+   END IF;
+END //
+
 -- ---------------------------------------------------------------------------------------------------
 --                                               LUGARES
 -- ---------------------------------------------------------------------------------------------------
+
+CREATE PROCEDURE getCategorias (
+)
+BEGIN
+   SELECT 
+      c.id,
+      c.nombre,
+      c.imagen,
+      GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+   FROM Categoria c
+   JOIN Subcategoria s ON c.id = s.idCategoria
+   GROUP BY c.id, c.nombre, c.imagen;
+END //
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarRegistro`
@@ -620,6 +706,29 @@ BEGIN
    ELSE
       SELECT 'lugar_ya_registrado' AS 'error';
    END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`getLugaresTodos`
+-- -----------------------------------------------------
+CREATE PROCEDURE getLugaresTodos (
+)
+BEGIN
+   SELECT 
+      l.id,
+      l.nombre,
+      l.direccion,
+      l.descripcion,
+      l.imagen,
+      l.attributions,
+      ROUND(l.rating) AS 'rating',
+      l.teléfono AS 'teléfono',
+      GROUP_CONCAT(DISTINCT c.nombre ORDER BY c.nombre ASC) AS categorias
+   FROM Lugar l
+   JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+   JOIN Subcategoria s ON s.id = ls.idSubcategoria
+   JOIN Categoria c ON c.id = s.idCategoria
+   GROUP BY l.id, l.nombre, l.direccion, l.descripcion, l.imagen, l.attributions;
 END //
 
 -- -----------------------------------------------------
@@ -771,6 +880,34 @@ BEGIN
    END IF;
 END //
 
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`LugarGetCategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE LugarGetCategorias (
+   IN p_id VARCHAR(40)
+)
+BEGIN
+   DECLARE lugarExistente INT;
+
+   SELECT COUNT(*) INTO lugarExistente
+   FROM Lugar
+   WHERE id = p_id;
+    
+   IF lugarExistente = 0 THEN
+      SELECT 'lugar_no_registrado' AS 'error';
+   ELSE
+      SELECT
+         c.nombre AS categoria,
+         GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+      FROM Lugar l
+      JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE ls.idLugar = p_id
+      GROUP BY c.nombre;
+   END IF;
+END //
+   
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`LugarGetSubcategorias`
 -- -----------------------------------------------------

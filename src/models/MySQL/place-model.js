@@ -2,6 +2,21 @@ const db = require('./db');
 
 class placeModel {
 
+  static async LugaresTodos() {
+    const query = 'CALL getLugaresTodos();';
+    return new Promise((resolve, reject) => {
+      db.query(query, [], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
+
   static async LugarGetDatos(id) {
     const query = 'CALL LugarGetDatos(?);';
     return new Promise((resolve, reject) => {
@@ -19,6 +34,21 @@ class placeModel {
   
   static async LugarGetFotos(id) {
     const query = 'CALL LugarGetFotos(?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
+
+  static async LugarGetCategorias(id) {
+    const query = 'CALL LugarGetCategorias(?);';
     return new Promise((resolve, reject) => {
       db.query(query, [id], (err, results) => {
         if (err) {
@@ -77,6 +107,21 @@ class placeModel {
     });
   }
   
+  static async getCategorias() {
+    const query = 'CALL getCategorias();';
+    return new Promise((resolve, reject) => {
+      db.query(query, [], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
+
 }
 
 module.exports = placeModel;

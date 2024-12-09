@@ -1,5 +1,5 @@
 // componentes online
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, TextField, InputAdornment, Typography, Dialog, IconButton } from '@mui/material';
@@ -23,13 +23,53 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 // lugares de prueba guardados en un objeto js
 import Places from '../components/AllPlaces/Places';
 
+import { handleAllPlaces } from '../pagesHandlers/place-handler';
+
 function AllPlacesPage() {
+
+  const [isLogged, setLogged] = useState(false);
+  const [id, setId] = useState(null);
+  const [lugares, setLugares] = useState(Places);
+  const [allLugares, setAllLugares] = useState([]); // Lugares originales
+  const [searchTerm, setSearchTerm] = useState(''); // Estado para el término de búsqueda
+
+  useEffect(() => {
+    const fetchLoginStatus = async () => {
+      try {
+        const loggedIn = await isLogged();
+        setLogged(loggedIn.logged);
+        if(loggedIn.logged) {
+          const idLocal = loggedIn.data.id;
+          setId(idLocal);
+        }
+        else
+          console.log('El usuario no ha iniciado sesión');
+      } catch (error) {
+        console.log('El usuario no ha iniciado sesión', error);
+      }
+    };
+
+    const fetchLugares = async () => {
+      try {
+        const resultado = await handleAllPlaces();
+        setLugares(resultado); // Lugares iniciales visibles
+        setAllLugares(resultado); // Guardar una copia original
+        console.log(resultado);
+      } catch (error) {
+        console.error('Error al obtener lugares', error);
+      }
+    };
+
+    fetchLoginStatus();
+    fetchLugares();
+  }, []);
+
   // Estado para manejar la página actual
   const [page, setPage] = useState(1);
   const itemsPorPagina = 12;
 
   const startIndex = (page - 1) * itemsPorPagina;
-  const currentItems = Places.slice(startIndex, startIndex + itemsPorPagina);
+  const currentItems = lugares.slice(startIndex, startIndex + itemsPorPagina);
 
   const handleChangePage = (e, value) => {
     setPage(value);
@@ -44,11 +84,62 @@ function AllPlacesPage() {
     categorias: [],
   });
 
+  const obtenerLugaresFiltrados = () => {
+    const lugaresFiltrados = allLugares.filter((lugar) => {
+      const buscaTermino = searchTerm
+        ? (lugar.nombre && eliminarAcentos(lugar.nombre).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase())) ||
+          (lugar.descripcion &&  eliminarAcentos(lugar.descripcion).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase()))
+        : true;
+
+      const tieneAlcaldia = 
+        selectedFilters.alcaldias.length > 0 
+          ? selectedFilters.alcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia))
+          : true;
+
+      const tieneCategoria = 
+        selectedFilters.categorias.length > 0
+          ? selectedFilters.categorias.some((categoria) => lugar.categorias.includes(categoria))
+          : true;
+
+      // Ambas categorías y alcaldías están activas
+      if (selectedFilters.alcaldias.length > 0 && selectedFilters.categorias.length > 0) {
+        return tieneAlcaldia && tieneCategoria && buscaTermino;
+      }
+
+      if (selectedFilters.alcaldias.length > 0) {
+        return tieneAlcaldia && buscaTermino;
+      }
+
+      if (selectedFilters.categorias.length > 0) {
+        return tieneCategoria && buscaTermino;
+      }
+
+      // Si no hay filtros activos, mostrar todos los lugares
+      return buscaTermino;
+    });
+
+    return lugaresFiltrados;
+  };
+
   const handleApplyFilters = (filters) => {
     setSelectedFilters(filters); // Actualiza los filtros seleccionados
     console.log('Filtros aplicados:', filters);
+  }
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
+  useEffect(() => {
+    const lugaresFiltrados = obtenerLugaresFiltrados();
+    console.log("Lugares filtrados devueltos:", lugaresFiltrados);
+    setLugares(lugaresFiltrados);
+  }, [searchTerm, selectedFilters, allLugares]);
+
+  const eliminarAcentos = (texto) => {
+    return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Normaliza y elimina los acentos
+  };
+  
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -78,6 +169,8 @@ function AllPlacesPage() {
               size='small'
               color='primary'
               sx={{ maxWidth: 250 }}
+              onChange={handleSearchChange} // Manejador para actualizar el término de búsqueda
+              value={searchTerm} // Vincular con el estado de búsqueda
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -93,13 +186,14 @@ function AllPlacesPage() {
           {currentItems.map((place, index) => (
             <PlaceItem
               key={index}
-              name={place.name}
-              description={place.description}
-              image={place.image}
-              category={place.category}
-              address={place.address}
+              id={place.id}
+              name={place.nombre}
+              description={place.descripcion}
+              image={place.imagen}
+              category={place.categorias}
+              address={place.direccion}
               rating={place.rating}
-              phone={place.phone}
+              phone={place.teléfono}
             />
           ))}
         </Grid>
@@ -107,7 +201,7 @@ function AllPlacesPage() {
         <Box className='d-flex justify-content-center mt-4 mb-4'>
           <Stack spacing={2} className='d-flex justify-content-center'>
             <Pagination
-              count={Math.ceil(Places.length / itemsPorPagina)}
+              count={Math.ceil(lugares.length / itemsPorPagina)}
               page={page}
               onChange={handleChangePage}
               color='secondary'
@@ -125,7 +219,7 @@ function AllPlacesPage() {
               <MenuFilters
                 setIsModalOpen={setIsModalOpen}
                 selectedFilters={selectedFilters}
-                setSelectedFilters={handleApplyFilters}
+                onApplyFilters={handleApplyFilters}
               />
             </Box>
 

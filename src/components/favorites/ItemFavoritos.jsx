@@ -3,15 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import '../../css/FavoritesPage.css';
 import ButtonsMod from '../ButtonsMod';
+import {handleEliminarFavorito} from '../../pagesHandlers/favDeseados-handler';
 
-function ItemFavoritos({ imagen, nombre, descripcion }) {
+function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
-  const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
+  // const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
+  const imagenSrc = esURL ? imagen : `${process.env.PUBLIC_URL}/fotosLugares/${imagen}`;
   
   const navigate = useNavigate();
   const redigirALugar = () => {
-    //navigateTo(`/placepage/${id}`); // pa los de back: si definimos un id, podria reedirigirse al lugar en especifico, por ahora redirige a la pagina placePage estatica
-    navigate(`/placepage`); // redirige a la página de inicio
+    navigate(`/placepage/${idLugar}`);
+  };
+
+  const EliminarLugar = () => {
+    handleEliminarFavorito(localStorage.getItem('id'), idLugar);
+    window.location.reload();
   };
 
   return (
@@ -37,7 +43,7 @@ function ItemFavoritos({ imagen, nombre, descripcion }) {
             textCont='Eliminar'
             variant='secundario'
             startIcon={<DeleteIcon />}
-            clickEvent={() => alert('Eliminar')}
+            clickEvent={EliminarLugar}
           />
         </CardActions>
       </Card>

@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
+const historyRoutes = require('./src/routes/history-routes');
 const recuperacionController = require('./src/controllers/recuperacion-controller');
 const favDeseadosController = require('./src/controllers/favDeseados-controller');
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/api/places', placesRoutes);
+app.use('/', historyRoutes);
 
 const PORT = 3001;
 
@@ -44,6 +46,7 @@ app.post('/user_datos', userController.getDatos);
 app.post('/user_guardar_datos', userController.setDatos);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
+app.post('/user_categorias', userController.verCategorias);
 
 app.post('/agregar-favoritos', favDeseadosController.Favoritos);
 app.post('/agregar-deseados', favDeseadosController.Deseados);
@@ -54,12 +57,14 @@ app.post('/es-favorito', favDeseadosController.EsFavorito);
 app.post('/es-deseado', favDeseadosController.EsDeseado);
 
 // Rutas para manejar los lugares
-
+app.post('/lugares_todos', placeController.LugaresTodos);
 app.post('/lugar_datos', placeController.getDatos);
 app.post('/lugar_fotos', placeController.getFotos);
+app.post('/lugar_categorias', placeController.lugarGetCategorias);
 app.post('/lugar_subcategorias', placeController.getSubcategorias);
 app.post('/lugar_getLugaresPor4Categorias', placeController.getLugaresPor4Categorias);
 app.post('/lugar_getLugaresPor4CategoriasUsuario', placeController.getLugaresPor4CategoriasUsuario);
+app.post('/getCategorias', placeController.getCategorias);
 app.post('/isLogged', (req, res) => {
   // // Recibir el valor de id y de un token, para verificar si el token es válido
   const {id, token} = req.body;

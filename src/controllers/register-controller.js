@@ -79,7 +79,6 @@ class registerController {
       html: `<div style="background-color: #f6f6f6; font-family: Arial, sans-serif; padding: 20px; text-align: center; color: #ffffff;">
       <div style="background-color: #9bd8f0; padding: 20px; border-radius: 10px;">
         <!-- Logo de la aplicación -->
-        <img src="../img/logo-provicional.png" alt="Logo de AppTurismo" style="max-width: 100px; margin-bottom: 10px;" />
         <h1 style="color: #FFFFFF; font-size: 24px; margin: 0;">¡Bienvenido a AppTurismo!</h1>
       </div>
       <p style="color: #333333; font-size: 16px; margin: 20px 0;">

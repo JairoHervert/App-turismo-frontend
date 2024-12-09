@@ -1,14 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Card, CardHeader, CardContent, Divider, Box, Stack, Typography, ListItem, ListItemText, List, IconButton} from '@mui/material';
 import { DeleteOutline as DeleteOutlineIcon, List as ListIcon } from '@mui/icons-material';
 import Grid from '@mui/material/Grid2';
 import '../../css/Categorias.css';
 
-import CardCategorias from './CardCategorias';
-import categorias from '../preferencias/CategoriasPref.js';
+function ContenedorCategorias({ categoriasIniciales }) {
 
-function ContenedorCategorias() {
+  /*
+  const itemsPorPagina = 9;
+  
+  const [categoriasVisibles, setCategoriasVisibles] = useState(categoriasIniciales);
+  const [pagina, setPagina] = useState(1);
+  const [categoriasLista, setCategoriasLista] = useState([]);
+
+  // Efecto para actualizar las categorías visibles cuando cambien las iniciales
+  useEffect(() => {
+    // Función para mezclar las categorías de manera aleatoria
+    const shuffleArray = (array) => {
+      return array
+        .map(value => ({ value, sort: Math.random() })) // Asocia cada elemento con un número aleatorio
+        .sort((a, b) => a.sort - b.sort) // Ordena según el número aleatorio
+        .map(({ value }) => value); // Recupera solo los valores originales
+    };
+  
+    const categoriasAleatorias = shuffleArray(categoriasIniciales);
+    setCategoriasVisibles(categoriasAleatorias);
+  }, [categoriasIniciales]);
+
+  const handleCategoriaClick = (categoriaId) => {
+    // Buscar la categoría seleccionada
+    const categoriaSeleccionada = categoriasVisibles.find(categoria => categoria.id === categoriaId);
+
+    // Si la categoría ya está seleccionada, la quitamos de la lista
+    if (categoriasLista.includes(categoriaSeleccionada.nombre)) {
+      setCategoriasLista(prevSeleccionadas => prevSeleccionadas.filter(categoria => categoria !== categoriaSeleccionada.nombre));
+    } else {
+      // Si no está seleccionada, se agrega
+      setCategoriasLista(prevSeleccionadas => [...prevSeleccionadas, categoriaSeleccionada.nombre]);
+    }
+  }
+
+  const indexInicio = (pagina - 1) * itemsPorPagina;
+  const indexFin = indexInicio + itemsPorPagina;
+  const categoriasPagina = categoriasVisibles.slice(indexInicio, indexFin);
+
+  const handleChange = (event, value) => {
+    setPagina(value);
+  }
+
+  */
 
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState({});
   
@@ -26,7 +67,6 @@ function ContenedorCategorias() {
       }
     });
   }
-
   return (
     <Grid container spacing={2} columns={12}>
       <Grid size={{sm: 12, md: 8, lg: 8}}>
