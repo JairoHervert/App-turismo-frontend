@@ -221,14 +221,14 @@ BEGIN
    DECLARE v_contraseña VARCHAR(255);
    DECLARE v_imagen VARCHAR(512);
    DECLARE v_confirmacion BOOLEAN;
+   DECLARE v_ultimaConexion DATETIME;
    
-
    SET correoInvalido = NOT (p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$');
 
    IF correoInvalido THEN
       SELECT 'correo_invalido' AS 'error';
    ELSE
-      SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_confirmacion
+      SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_confirmacion, v_ultimaConexion
       FROM Usuario
       WHERE correo = UPPER(p_correo);
 
@@ -244,7 +244,8 @@ BEGIN
             v_apellido AS apellido,
             v_contraseña AS contraseña,
             v_imagen AS imagen,
-            v_confirmacion AS confirmacion;
+            v_confirmacion AS confirmacion
+            v_ultimaConexion AS ultimaConexion;
       END IF;
    END IF;
    
@@ -266,7 +267,7 @@ BEGIN
    DECLARE v_imagen VARCHAR(512);
    DECLARE v_confirmacion BOOLEAN;
 
-   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion
+   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion, v_ultimaConexion
    FROM Usuario
    WHERE tokenGoogle = p_token;
    
@@ -279,7 +280,8 @@ BEGIN
          v_nombre AS nombre,
          v_apellido AS apellido,
          v_imagen AS imagen,
-         v_confirmacion AS confirmacion;
+         v_confirmacion AS confirmacion
+         v_ultimaConexion AS ultimaConexion;
    END IF;
 END //
 
@@ -298,7 +300,7 @@ BEGIN
    DECLARE v_imagen VARCHAR(512);
    DECLARE v_confirmacion BOOLEAN;
 
-   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion
+   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion, v_ultimaConexion;
    FROM Usuario
    WHERE tokenFacebook = p_token;
 
@@ -314,7 +316,8 @@ BEGIN
          v_nombre AS nombre,
          v_apellido AS apellido,
          v_imagen AS imagen,
-         v_confirmacion AS confirmacion;
+         v_confirmacion AS confirmacion
+         v_ultimaConexion AS ultimaConexion;
    END IF;
 END //
 

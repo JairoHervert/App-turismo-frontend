@@ -25,3 +25,4 @@ yarn-error.log*
 # Variables de entorno
 .env
 src/data/inserciones_lugar.sql
+src/data/inserciones_prueba.sql
