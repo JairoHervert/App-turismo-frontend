@@ -1,18 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import '../../css/DeseadosPage.css';
 
-function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar, idLugar, isFavorite, toggleFavorite }) {
+import {handleFavoritos} from '../../pagesHandlers/favDeseados-handler';
+
+function UDCuadroLugar({ nombreLugar, descripcionLugar, imagenLugar, tiempoLugar, costoLugar, idLugar, isFavorite }) {
   const navigate = useNavigate();
 
   const informacionLugar = () => {
     navigate(`/placepage/${idLugar}`);
   };
 
-  const handleFavoriteClick = () => {
-    // Acción al hacer clic en el ícono de corazón, por ahora solo imprime un mensaje en la consola
-    //console.log('Lugar agregado a favoritos');
-    //e.stopPropagation();
-    toggleFavorite(nombreLugar);
+  const handleFavoriteClick = (e) => {
+    e.stopPropagation();
+    const idUsuario = localStorage.getItem('id');
+    isFavorite = handleFavoritos(idUsuario, idLugar);
+    console.log(isFavorite);
   };
 
   const esURL = imagenLugar.startsWith('http://') || imagenLugar.startsWith('https://');
