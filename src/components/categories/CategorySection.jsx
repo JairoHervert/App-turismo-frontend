@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import PlaceCard from './PlaceCard';
 
 function CategorySection({ isLogged, places, clickedDeseados, clickedFavoritos, onDeseadosClick, onFavoritosClick }) {
+  // Limita el número de places a 6
+  const limitedPlaces = places.slice(0, 6);
+
   return (
     <div className="container">
       <div className="row justify-content-center">
-        {places.map((place, index) => (
+        {limitedPlaces.map((place, index) => (
           <div
             key={index}
             className="col-md-4 d-flex justify-content-center mb-4"
