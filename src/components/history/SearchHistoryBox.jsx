@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, Typography, List, ListItem, Checkbox, ListItemAvatar, ListItemText, Stack } from '@mui/material';
+import { Card, CardContent, Typography, List, ListItem, ListItemText, Stack } from '@mui/material';
 
 import '../../css/History.css';
 import CloseIcon from '@mui/icons-material/Close';
@@ -49,14 +49,6 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
               }
             >
 
-              {/* CheckBox para seleccionar Item */}
-              <ListItemAvatar sx={{ minWidth: 0 }}>
-                <Checkbox
-                  onChange={(event) => handleCheckboxChange(event, item.id)}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              </ListItemAvatar>
-
               {/* Texto descriptivo del Item/Lugar */}
               <ListItemText
                 primary={
@@ -75,7 +67,6 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
             </ListItem>
           ))}
         </List>
-
       </div>
       ))}
       </CardContent>
