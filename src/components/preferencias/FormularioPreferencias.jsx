@@ -18,39 +18,44 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 import ButtonsMod from "../ButtonsMod";
 import Grid from "@mui/material/Grid2";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from 'dayjs';
-import 'dayjs/locale/es';
-import '../../css/prefModal.css';
-import '../../css/LoginPage.css';
+import dayjs from "dayjs";
+import "dayjs/locale/es";
+import "../../css/LoginPage.css";
 
 function FormularioPreferencias({ open, handleClose, handleSubmit }) {
-  const theme = useTheme(); // Usar el hook useTheme para acceder al tema
+  const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState(null);
   const [foodPreference, setFoodPreference] = useState("");
   const [hasDisability, setHasDisability] = useState(false);
-  const [genero, setGenero] = useState("");
+  const [sexo, setSexo] = useState("");
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [userName, setUserName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [userNameRules, setUserNameRules] = useState({
+    minLength: false,
+  });
+
   const [firstNameRules, setFirstNameRules] = useState({
     onlyLetters: false,
     minLength: false,
+    startsWithUppercase: false,
   });
   const [lastNameRules, setLastNameRules] = useState({
     onlyLetters: false,
     minLength: false,
+    startsWithUppercase: false,
   });
-  const [fechaError, setFechaError] = useState(false);
-  const [fechaHelperText, setFechaHelperText] = useState(
-    'La edad debe ser de entre 18 a 65 años'
+  const [dateError, setDateError] = useState(false);
+  const [dateHelperText, setDateHelperText] = useState(
+    "La edad debe ser de entre 18 a 65 años"
   );
 
-  // Manejo de eventos
   const handleDateChange = (newValue) => {
     setSelectedDate(newValue);
   };
@@ -63,8 +68,17 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
     setHasDisability(event.target.checked);
   };
 
-  const handleGeneroChange = (event) => {
-    setGenero(event.target.value);
+  const handleSexoChange = (event) => {
+    setSexo(event.target.value);
+  };
+
+  const handleUserNameChange = (e) => {
+    const name = e.target.value;
+    setUserNameRules({
+      minLength: name.length >= 2,
+    });
+
+    setUserName(name);
   };
 
   const handleFirstNameChange = (e) => {
@@ -73,6 +87,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
     setFirstNameRules({
       onlyLetters: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(name),
       minLength: name.length >= 2,
+      startsWithUppercase: /^[A-ZÁÉÍÓÚÑÜ]/.test(name),
     });
   };
 
@@ -82,43 +97,75 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
     setLastNameRules({
       onlyLetters: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(name),
       minLength: name.length >= 2,
+      startsWithUppercase: /^[A-ZÁÉÍÓÚÑÜ]/.test(name),
     });
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-    if (
-      firstName &&
-      lastName &&
-      selectedDate &&
-      genero &&
-      foodPreference &&
-      firstNameRules.onlyLetters &&
-      firstNameRules.minLength &&
-      lastNameRules.onlyLetters &&
-      lastNameRules.minLength
-    ) {
-      handleSubmit(event);
-    }
-  };
 
-  const handleFechaNacimientoChange = (nuevaFecha) => {
-    if (!nuevaFecha) {
-      setFechaError(true);
-      setFechaHelperText('La edad debe ser de entre 18 a 65 años');
+    // Actualiza las reglas de validación
+    setFirstNameRules({
+      onlyLetters: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(firstName),
+      minLength: firstName.length >= 2,
+      startsWithUppercase: /^[A-ZÁÉÍÓÚÑÜ]/.test(firstName),
+    });
+
+    setLastNameRules({
+      onlyLetters: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(lastName),
+      minLength: lastName.length >= 2,
+      startsWithUppercase: /^[A-ZÁÉÍÓÚÑÜ]/.test(lastName),
+    });
+
+    // Verifica las reglas de validación antes de enviar el formulario
+    if (
+      !userNameRules.minLength ||
+      !firstNameRules.onlyLetters ||
+      !firstNameRules.minLength ||
+      !firstNameRules.startsWithUppercase ||
+      !lastNameRules.onlyLetters ||
+      !lastNameRules.minLength ||
+      !lastNameRules.startsWithUppercase ||
+      !selectedDate ||
+      dateError ||
+      !sexo ||
+      !foodPreference
+    ) {
       return;
     }
-    const fechaNacimientoActual = dayjs();
-    const edad = fechaNacimientoActual.diff(nuevaFecha, "year");
-    if (edad < 18 || edad > 65) {
-      setFechaError(true);
-      setFechaHelperText('Edad fuera del rango permitido (18 a 65 años)');
-    } else {
-      setFechaError(false);
-      setFechaHelperText("");
+
+    handleSubmit({
+      userName,
+      firstName,
+      lastName,
+      selectedDate,
+      sexo,
+      foodPreference,
+      hasDisability,
+      userNameRules,
+      firstNameRules,
+      lastNameRules,
+      dateError,
+    });
+  };
+
+  const handleDateOfBirthChange = (newDate) => {
+    if (!newDate) {
+      setDateError(true);
+      setDateHelperText("La edad debe ser de entre 18 a 65 años");
+      return;
     }
-    setSelectedDate(nuevaFecha);
+    const currentDate = dayjs();
+    const age = currentDate.diff(newDate, "year");
+    if (age < 18 || age > 65) {
+      setDateError(true);
+      setDateHelperText("Edad fuera del rango permitido (18 a 65 años)");
+    } else {
+      setDateError(false);
+      setDateHelperText("");
+    }
+    setSelectedDate(newDate);
   };
 
   const handleDialogClose = (event, reason) => {
@@ -131,54 +178,96 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
     <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth>
       <DialogTitle
         sx={{
-          fontFamily: 'Montserrat, sans-serif',
+          fontFamily: "Montserrat, sans-serif",
           color: theme.palette.primary.main,
-          fontWeight: 'bold',
+          fontWeight: "bold",
         }}
       >
         Preferencias
       </DialogTitle>
-      <DialogContent sx={{ fontFamily: 'Poppins, sans-serif' }}>
+      <DialogContent sx={{ fontFamily: "Poppins, sans-serif" }}>
         <DialogContentText>
           Para ofrecerte una mejor experiencia, necesitamos conocerte mejor. Por
           favor, completa la siguiente información.
         </DialogContentText>
         <Box
-          component='form'
+          component="form"
           noValidate
-          autoComplete='off'
+          autoComplete="off"
           onSubmit={handleFormSubmit}
           sx={{ mt: 2 }}
-          className='pref-modal-textfield'
+          className="pref-modal-textfield"
         >
           <Grid container spacing={2}>
+            <Grid size={{ xs: 12 }}>
+              <TextField
+                margin="dense"
+                id="userName"
+                name="userName"
+                label="Nombre de usuario"
+                placeholder="Ej. eduardo123_12"
+                fullWidth
+                variant="outlined"
+                value={userName}
+                onChange={handleUserNameChange}
+                error={formSubmitted && !userNameRules.minLength}
+                required
+              />
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                className="mb-2 ms-2 fw-medium"
+              >
+                El nombre de usuario debe cumplir con las siguientes reglas:
+              </Typography>
+              <ul>
+                <li
+                  className={`lo_pa-rule-input fw-medium ${
+                    userNameRules.minLength ? "text-success fw-semibold" : ""
+                  }`}
+                >
+                  Debe contener al menos 2 caracteres.
+                </li>
+              </ul>
+            </Grid>
+
             <Grid size={{ xs: 12, md: 6 }}>
               <TextField
-                margin='dense'
-                id='firstName'
-                name='firstName'
-                label='Nombre(s)'
-                placeholder='Ej. Eduardo Raúl'
+                margin="dense"
+                id="firstName"
+                name="firstName"
+                label="Nombre(s)"
+                placeholder="Ej. Eduardo Raúl"
                 fullWidth
-                variant='outlined'
+                variant="outlined"
                 value={firstName}
                 onChange={handleFirstNameChange}
                 error={
                   formSubmitted &&
                   (!firstName ||
                     !firstNameRules.onlyLetters ||
-                    !firstNameRules.minLength)
+                    !firstNameRules.minLength ||
+                    !firstNameRules.startsWithUppercase)
                 }
                 required
               />
               <Typography
-                variant='body2'
-                color='textSecondary'
-                className='mb-2 ms-2 fw-medium'
+                variant="body2"
+                color="textSecondary"
+                className="mb-2 ms-2 fw-medium"
               >
                 El nombre debe cumplir con las siguientes reglas:
               </Typography>
               <ul>
+                <li
+                  className={`lo_pa-rule-input fw-medium ${
+                    firstNameRules.startsWithUppercase
+                      ? "text-success fw-semibold"
+                      : ""
+                  }`}
+                >
+                  Debe comenzar con mayúscula.
+                </li>
                 <li
                   className={`lo_pa-rule-input fw-medium ${
                     firstNameRules.onlyLetters ? "text-success fw-semibold" : ""
@@ -197,20 +286,21 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <TextField
-                margin='dense'
-                id='lastName'
-                name='lastName'
-                label='Apellido(s)'
+                margin="dense"
+                id="lastName"
+                name="lastName"
+                label="Apellido(s)"
                 fullWidth
-                variant='outlined'
-                placeholder='Ej. Arreola Medina'
+                variant="outlined"
+                placeholder="Ej. Arreola Medina"
                 value={lastName}
                 onChange={handleLastNameChange}
                 error={
                   formSubmitted &&
                   (!lastName ||
                     !lastNameRules.onlyLetters ||
-                    !lastNameRules.minLength)
+                    !lastNameRules.minLength ||
+                    !lastNameRules.startsWithUppercase)
                 }
                 required
               />
@@ -222,6 +312,16 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                 El apellido debe cumplir con las siguientes reglas:
               </Typography>
               <ul>
+                <li
+                  className={`lo_pa-rule-input fw-medium ${
+                    lastNameRules.startsWithUppercase
+                      ? "text-success fw-semibold"
+                      : ""
+                  }`}
+                >
+                  Debe comenzar con mayúscula.
+                </li>
+
                 <li
                   className={`lo_pa-rule-input fw-medium ${
                     lastNameRules.onlyLetters ? "text-success fw-semibold" : ""
@@ -244,7 +344,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                 adapterLocale="es"
               >
                 <DatePicker
-                  label='Fecha de nacimiento'
+                  label="Fecha de nacimiento"
                   sx={{ width: "100%" }}
                   format="DD-MM-YYYY"
                   margin="dense"
@@ -252,30 +352,30 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                   value={selectedDate}
                   maxDate={dayjs().subtract(18, "year")}
                   minDate={dayjs().subtract(65, "year")}
-                  onChange={handleFechaNacimientoChange}
+                  onChange={handleDateOfBirthChange}
                   slotProps={{
                     textField: {
-                      error: formSubmitted && (!selectedDate || fechaError),
-                      helperText: fechaHelperText,
+                      error: formSubmitted && (!selectedDate || dateError),
+                      helperText: dateHelperText,
                     },
                   }}
                 />
               </LocalizationProvider>
             </Grid>
             <Grid size={{ xs: 5, md: 6 }}>
-              <FormControl fullWidth required error={formSubmitted && !genero}>
-                <InputLabel id="genero-label">Género</InputLabel>
+              <FormControl fullWidth required error={formSubmitted && !sexo}>
+                <InputLabel id="gender-label">Sexo</InputLabel>
                 <Select
-                  labelId="genero-label"
-                  id="genero"
-                  value={genero}
-                  label="Género"
-                  onChange={handleGeneroChange}
+                  labelId="sexo-label"
+                  id="sexo"
+                  value={sexo}
+                  label="Sexo"
+                  onChange={handleSexoChange}
                 >
                   <MenuItem value="Masculino">Masculino</MenuItem>
                   <MenuItem value="Femenino">Femenino</MenuItem>
                   <MenuItem value="Prefiero no decirlo">
-                    Prefiero no decirlo
+                  Otro
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -283,18 +383,12 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
             <Grid size={{ xs: 12 }}>
               <FormControl
                 component="fieldset"
-                sx={{
-                  "& .MuiFormLabel-root": {
-                    "&.Mui-focused": {
-                      color: theme.palette.primary.dark, // Color cuando está enfocado
-                    },
-                  },
-                }}
+
                 fullWidth
                 required
                 error={formSubmitted && !foodPreference}
               >
-                <FormLabel component='legend'>
+                <FormLabel component="legend">
                   Preferencia alimenticia
                 </FormLabel>
                 <RadioGroup
@@ -304,26 +398,16 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                   onChange={handleFoodPreferenceChange}
                 >
                   <FormControlLabel
-                    value='ninguno'
+                    value="ninguno"
                     control={
-                      <Radio
-                        sx={{
-                          color: theme.palette.primary.dark,
-                          "&.Mui-checked": { color: theme.palette.primary.main },
-                        }}
-                      />
+                      <Radio/>
                     }
                     label="Ninguno"
                   />
                   <FormControlLabel
-                    value='vegetariano'
+                    value="vegetariano"
                     control={
-                      <Radio
-                        sx={{
-                          color: theme.palette.primary.main,    
-                          "&.Mui-checked": { color: theme.palette.primary.main },
-                        }}
-                      />
+                      <Radio/>
                     }
                     label="Vegetariano(a)"
                   />
@@ -337,10 +421,6 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
                     checked={hasDisability}
                     onChange={handleDisabilityChange}
                     name="hasDisability"
-                    sx={{
-                      color: theme.palette.primary.dark,
-                      "&.Mui-checked": { color: theme.palette.primary.main },
-                    }}
                   />
                 }
                 label="¿Tienes alguna discapacidad motriz?"
@@ -348,18 +428,12 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
             </Grid>
           </Grid>
           <DialogActions sx={{ mt: 2 }}>
-            {/*
-          <Button onClick={handleClose} color="secondary">
-            Cancelar
-          </Button>
-          */}
-
             <ButtonsMod
-              variant='principal'
-              textCont='Guardar y continuar'
-              width='auto'
-              height='2rem'
-              type='submit'
+              variant="principal"
+              textCont="Guardar y continuar"
+              width="auto"
+              height="2rem"
+              type="submit"
             />
           </DialogActions>
         </Box>

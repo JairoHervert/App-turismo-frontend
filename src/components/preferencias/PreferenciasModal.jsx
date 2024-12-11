@@ -19,23 +19,18 @@ function PreferenciasModal() {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(form.entries());
-    const hasDisability = formJson.hasDisability || false; // Define hasDisability
+  const handleSubmit = (formData) => {
+    console.log('Formulario enviado:', formData); 
     setFormData({
-      ...formJson,
+      ...formData,
       selectedDate,
-      hasDisability,
     });
     setOpen(false);
     setOpenSecondModal(true);
   };
 
-  const handleSecondModalSubmit = () => {
-    console.log('Form Data:', formData);
-    // Aquí se puede enviar la información al servidor o realizar cualquier otra cosa
+  const handleSecondModalSubmit = (categoriasSeleccionadas) => {
+    console.log('Categorías seleccionadas:', categoriasSeleccionadas); // Agrega este console.log
     setOpenSecondModal(false);
   };
 
