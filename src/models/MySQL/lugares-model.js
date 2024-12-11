@@ -158,4 +158,18 @@ const registrarFotoPrincipal = async (idLugar, foto) => {
   }
 }
 
-module.exports = { registrarLugar , obtenerTodasSubcategorias, registrarFoto, registrarFotoPrincipal };
+const obtenerLugarNombreDireccion = async () => {
+  const query = 'SELECT * FROM Lugar';
+  try {
+    const [results] = await db.promise().query(query);
+    if (results && results.error) {
+      throw new Error(results.error);
+    }
+    return results;
+  } catch (error) {
+    console.error('Error al obtener el lugar por nombre y dirección:', error.message);
+    throw new Error('Error al obtener el lugar por nombre y dirección.');
+  }
+}
+
+module.exports = { registrarLugar , obtenerTodasSubcategorias, registrarFoto, registrarFotoPrincipal, obtenerLugarNombreDireccion};
