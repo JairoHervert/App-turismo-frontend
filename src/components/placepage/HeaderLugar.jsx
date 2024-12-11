@@ -25,8 +25,9 @@ function HeaderLugar({ categoria }) {
     const navigate = useNavigate();
 
     const handleHomePageClick = () => {
-            navigate('/');
-        };
+        //Regresar a la pagina anterior
+        navigate(-1);
+    };
 
     const imagenesHeader = {
         'Deportes': DeportesImg,

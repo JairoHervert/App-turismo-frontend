@@ -18,8 +18,6 @@ import { Box } from '@mui/system';
 import { handleDatosUsuario } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
 
-const categorias = ['Deportes', 'Comida Rápida', 'Restaurante', 'Cafetería', 'Bar', 'Arte', 'Historia', 'Museos', 'Educativos', 'Compras', 'Parques', 'Juegos recreativos al aire libre', 'Juegos recreativos bajo techo', 'Zoológicos', 'Religión'];
-
 const Perfil = () => {
   const navigate = useNavigate(); // Inicializa useNavigate
   const [datos, setDatos] = useState(null);
@@ -119,7 +117,7 @@ const Perfil = () => {
         lightLink={false} />
 
       <Box className='perfil-usuario-background'></Box>
-      <Container maxWidth='lg' className='md-4'>
+      <Container maxWidth='lg' className='md-4' sx={{ minHeight: '80vh' }}>
 
         {/* Perfil Usuario Header */}
         <InformacionHeader
@@ -139,15 +137,16 @@ const Perfil = () => {
         { /* Información Personal Usuario */}
         {datos ? (
           <InformacionPersonal
-          id={datos && datos.id ? datos.id : ''}
-          correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
-          nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
-          apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}
-          fechaNacimiento={datos && datos.fechaNacimiento ? datos.fechaNacimiento : 'Sin especificar'}
-        />
+            id={datos && datos.id ? datos.id : ''}
+            correoElectronico={datos && datos.correo ? datos.correo : 'uncorreo2@gmail.com'}
+            nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
+            apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}
+            fechaNacimiento={datos && datos.fechaNacimiento ? datos.fechaNacimiento : 'Sin especificar'}
+            genero={null}
+            preferenciaAlimenticia={null}
+          />
 
         ):(
-          // Puedes agregar un mensaje de carga si lo prefieres
           <p>Cargando datos...</p>
         )}
         { /* Categorías de Interés Usuario */}
