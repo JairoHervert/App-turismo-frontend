@@ -54,7 +54,7 @@ function SeleccionCategorias({ open, handleClose, handleSubmit }) {
         <DialogTitle sx={{ fontFamily: 'Montserrat, sans-serif', color: theme.palette.primary.main, fontWeight: 'bold' }}>Preferencias</DialogTitle>
         <DialogContent sx={{ fontFamily: 'Poppins, sans-serif' }}>
           <DialogContentText>
-            Escoje las categorías que más te interesen.
+            Escoge las categorías que más te interesen.
           </DialogContentText>
           <Box sx={{ mt: 2, maxHeight: '26rem', overflow: 'auto' }}>
             <Container sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>

@@ -11,10 +11,10 @@
     "@mui/icons-material": "^6.1.6",
     "@mui/lab": "^6.0.0-beta.15",
     "@mui/material": "^6.1.6",
-    "@mui/x-date-pickers": "^7.22.2",
-    "@react-google-maps/api": "^2.20.3",
     "@mui/system": "^6.1.7",
     "@mui/utils": "^6.1.7",
+    "@mui/x-date-pickers": "^7.22.2",
+    "@react-google-maps/api": "^2.20.3",
     "@react-oauth/google": "^0.12.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -39,7 +39,8 @@
     "recharts": "^2.13.3",
     "slick-carousel": "^1.8.1",
     "sweetalert2": "11.14.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "concurrently \"npm run server\" \"react-scripts start\"",
