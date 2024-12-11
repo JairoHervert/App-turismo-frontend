@@ -7,7 +7,6 @@
 
 # testing
 /coverage
-db.js
 
 # production
 /build
