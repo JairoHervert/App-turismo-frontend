@@ -1,7 +1,7 @@
 import React, { useState, useEffect  } from 'react';
 import '../../css/Perfil.css';
 
-import { Stack, Card, Typography, CardHeader, CardContent, Divider, TextField } from '@mui/material';
+import { Stack, Card, Typography, CardHeader, CardContent, Divider, TextField, Select, MenuItem } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import ButtonsMod from '../ButtonsMod';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -10,18 +10,20 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 // íconos
-import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Phone as PhoneIcon, Flag as FlagIcon, NoMealsRounded } from '@mui/icons-material';
+import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Transgender as TrasgenderIcon, BrunchDining as BrunchDiningIcon } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 
 import { handleGuardarDatos } from '../../pagesHandlers/user_handler';
 
-function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNacimiento}) {
+function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia}) {
 
   const [original, setOriginal] = useState({
     correoElectronico,
     nombre,
     apellido,
     fechaNacimiento,
+    genero,
+    preferenciaAlimenticia,
   });
 
   console.log("original", original);
@@ -33,6 +35,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       nombre,
       apellido,
       fechaNacimiento,
+      genero,
+      preferenciaAlimenticia,
   });
 
   // Para la validación del nombre
@@ -62,14 +66,18 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       nombre,
       apellido,
       fechaNacimiento,
+      genero,
+      preferenciaAlimenticia,
     });
     setFormData({
       correoElectronico,
       nombre,
       apellido,
       fechaNacimiento,
+      genero,
+      preferenciaAlimenticia,
     });
-  }, [correoElectronico, nombre, apellido, fechaNacimiento]);
+  }, [correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia]);
 
   const handleEdit = () => {
       setIsEditing((prev) => !prev);
@@ -96,7 +104,12 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     
     if (valid) {
       console.log('Datos guardados: ', formData);
-      if(formData.nombre !== original.nombre || formData.apellido != original.apellido || formData.fechaNacimiento != original.fechaNacimiento) {
+      if( formData.nombre !== original.nombre 
+          || formData.apellido != original.apellido 
+          || formData.fechaNacimiento != original.fechaNacimiento
+          || formData.genero !== original.genero
+          || formData.preferenciaAlimenticia !== original.preferenciaAlimenticia
+        ) {
         console.log("?")
         Swal.fire({
           title: "¿Deseas guardar los cambios?",
@@ -264,16 +277,15 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
           />
 
         <Divider variant='middle' sx={{borderColor: 'rgb(0 0 0)'}}/>
-        { /* Card - Correo, Nombre, FechaNacimiento, Teléfono, País */}
+        { /* Card - Correo, Nombre, Apellido, FechaNacimiento, Género */}
         <CardContent>
-            { /* Sección - Correo, Nombre, FechaNacimiento */}
             <Stack direction='column' sx={{width: '100%'}}>
               {/* Correo electrónico */}
-              <Stack direction={{xs: 'row', sm: 'colum'}} spacing={5} className='perfil-informacion-personal-items'>
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
                 <Grid container sx={{width: '100%'}}>
                   <Grid size={{xs: 12, sm: 5, md: 4}}>
-                      <Stack direction='row' spacing={1}>
-                        <MailOutlineIcon fontSize='small' sx={{ color: '#73C2FB', opacity: '0.6'}} />
+                      <Stack direction='row' spacing={1} className='perfil-informacion-personal-header-items'>
+                        <MailOutlineIcon fontSize='small' sx={{ color: '#73C2FB' }} />
                         <Typography variant='body1' color='#777777'> 
                         Correo Electrónico
                         </Typography>
@@ -283,7 +295,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                       {/* EDITAR CORREO ELECTRÓNICO */}
                         {isEditing ? (
                             <TextField
-                                disabled // por si no se puede cambiar el correo
+                                disabled
                                 variant='outlined'
                                 size='small'
                                 name='correoElectronico'
@@ -298,11 +310,11 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                 </Grid>
               </Stack>
               { /* Nombre completo */}
-              <Stack direction={{xs: 'row', sm: 'colum'}} spacing={5} className='perfil-informacion-personal-items'>
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
                 <Grid container sx={{width: '100%'}}>
                   <Grid size={{xs: 12, sm: 5, md: 4}}>
-                      <Stack direction='row' spacing={1}>
-                        <BadgeIcon fontSize='small' sx={{ color: '#73C2FB', opacity: '0.6'}} />
+                      <Stack direction='row' spacing={1} className='perfil-informacion-personal-header-items'>
+                        <BadgeIcon fontSize='small' sx={{ color: '#73C2FB' }} />
                         <Typography variant='body1' color='#777777'> 
                           Nombre
                         </Typography>
@@ -328,11 +340,11 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                 </Grid>
               </Stack>
               { /* Apellido */}
-              <Stack direction={{xs: 'row', sm: 'colum'}} spacing={5} className='perfil-informacion-personal-items'>
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
                 <Grid container sx={{width: '100%'}}>
                   <Grid size={{xs: 12, sm: 5, md:4}}>
-                      <Stack direction='row' spacing={1}>
-                        <BadgeIcon fontSize='small' sx={{ color: '#73C2FB', opacity: '0.6'}} />
+                      <Stack direction='row' spacing={1} className='perfil-informacion-personal-header-items'>
+                        <BadgeIcon fontSize='small' sx={{ color: '#73C2FB' }} />
                         <Typography variant='body1' color='#777777'> 
                           Apellido
                         </Typography>
@@ -358,11 +370,11 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                 </Grid>
               </Stack>
               { /* Fecha de nacimiento */}
-              <Stack direction={{xs: 'row', sm: 'colum'}} spacing={5} className='perfil-informacion-personal-items'>
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
                 <Grid container sx={{width: '100%'}}>
                   <Grid size={{xs: 12, sm: 5, md: 4}}>
                       <Stack direction='row' spacing={1} alignItems='center'>
-                        <CakeIcon fontSize='small' sx={{ color: '#73C2FB', opacity: '0.6'}} />
+                        <CakeIcon fontSize='small' sx={{ color: '#73C2FB' }} />
                         <Typography variant='body1' color='#777777'> 
                         Fecha de Nacimiento
                         </Typography>
@@ -373,7 +385,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <LocalizationProvider dateAdapter={AdapterDayjs}>               
                             <DatePicker 
-                              sx={{ width: '100%', }}
+                              sx={{ width: '100%' }}
                               format='DD-MM-YYYY'
                               margin='dense'
                               value={formData.fechaNacimiento ? dayjs(formData.fechaNacimiento, 'DD-MM-YYYY') : null}
@@ -396,7 +408,66 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                   </Grid>
                 </Grid>
               </Stack>
-              
+              { /* Género */}
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
+                <Grid container sx={{width: '100%'}}>
+                  <Grid size={{xs: 12, sm: 5, md:4}}>
+                    <Stack direction='row' spacing={1} className='perfil-informacion-personal-header-items'>
+                      <TrasgenderIcon fontSize='small' sx={{ color: '#73C2FB' }} />
+                      <Typography variant='body1' color='#777777'> 
+                        Género
+                      </Typography>
+                    </Stack>
+                  </Grid>              
+                  <Grid size={{xs: 12, sm: 7, md:8}} sx={{paddingTop: '0'}}>
+                    { /* EDITAR GÉNERO */}
+                    {isEditing ? (
+                        <Select
+                          id='genero'
+                          // value={}
+                          // onChange={}
+                          sx={{ width: '100%', height: '3rem' }}
+                        >
+                          <MenuItem value='Masculino'>Masculino</MenuItem>
+                          <MenuItem value='Femenino'>Femenino</MenuItem>
+                          <MenuItem value='Prefiero no decirlo'>Prefiero no decirlo</MenuItem>
+                        </Select>
+                    ) : (
+                      <Typography variant='body1'>{formData.genero || 'Sin especificar'}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </Stack>
+              { /* Preferencia Alimenticia */}
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
+                <Grid container sx={{width: '100%'}}>
+                  <Grid size={{xs: 12, sm: 5, md:4}}>
+                    <Stack direction='row' spacing={1} className='perfil-informacion-personal-header-items'>
+                      <BrunchDiningIcon fontSize='small' sx={{ color: '#73C2FB' }} />
+                      <Typography variant='body1' color='#777777'> 
+                        Preferencia Alimenticia
+                      </Typography>
+                    </Stack>
+                  </Grid>              
+                  <Grid size={{xs: 12, sm: 7, md:8}} sx={{paddingTop: '0'}}>
+                    { /* EDITAR PREFERENCIA ALIMENTICIA */}
+                    {isEditing ? (
+                        <Select
+                          id='preferenciaAlimenticia'
+                          // value={}
+                          // onChange={}
+                          sx={{ width: '100%', height: '3rem' }}
+                        >
+                          <MenuItem value='Ninguno'>Ninguno</MenuItem>
+                          <MenuItem value='Vegetariano'>Vegetariano(a)</MenuItem>
+                        </Select>
+                    ) : (
+                      <Typography variant='body1'>{formData.preferenciaAlimenticia || 'Sin especificar'}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </Stack>
+
             </Stack>
       
         </CardContent>
