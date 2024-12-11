@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { Star as StarIcon, StarBorder as StarBorderIcon, Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
 import '../../css/FavoritesPage.css';
 import ButtonsMod from '../ButtonsMod';
-import { handleEliminarFavorito } from '../../pagesHandlers/favDeseados-handler';
+import { handleEliminarFavorito, handleDeseados, handleEsDeseado } from '../../pagesHandlers/favDeseados-handler';
 
 function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
@@ -17,20 +17,36 @@ function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
     navigate(`/placepage/${idLugar}`);
   };
 
-  const EliminarLugar = () => {
+  // estados y manejadores de los botones de favoritos y deseados
+  const [isFavorite, setIsFavorite] = useState(true);
+  const [isDeseado, setIsDeseado] = useState(false);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const idUsuario = localStorage.getItem('id');
+      if (idUsuario) {
+        try {
+
+          const deseado = await handleEsDeseado(idUsuario, idLugar);
+          setIsDeseado(deseado.esDeseado);
+        } catch (error) {
+          console.error('Error verificando favoritos o deseados:', error);
+        }
+      }
+    };
+
+    fetchStatus();
+  }, [idLugar]);
+
+  const handleFavoritosClick = (e) => {
+    e.stopPropagation();
     handleEliminarFavorito(localStorage.getItem('id'), idLugar);
     window.location.reload();
   };
-
-  // estados y manejadores de los botones de favoritos y deseados
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isDeseado, setIsDeseado] = useState(false);
-  const handleFavoritosClick = (e) => {
-    e.stopPropagation();
-    setIsFavorite(!isFavorite);
-  };
   const handleDeseadosClick = (e) => {
     e.stopPropagation();
+    const idUsuario = localStorage.getItem('id');
+    handleDeseados(idUsuario, idLugar );
     setIsDeseado(!isDeseado);
   };
 
@@ -94,14 +110,7 @@ function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions sx={{ justifyContent: 'flex-end' }}>
-        <ButtonsMod
-          textCont='Eliminar'
-          variant='secundario'
-          startIcon={<DeleteIcon />}
-          clickEvent={EliminarLugar}
-        />
-      </CardActions>
+      
     </Card>
   )
 }
