@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Rating, Typography, Button, Box } from '@mui/material'
 import { Star as StarIcon, StarBorder as StarBorderIcon, Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom'
-import Grid from '@mui/material/Grid2'
+import { handleFavoritos, handleDeseados, handleEsFavorito,handleEsDeseado } from '../../pagesHandlers/favDeseados-handler';
+
 
 // componentes locales y estilos
 import ButtonsMod from '../ButtonsMod'
 import '../../css/AllPlaces.css'
 
 function PlaceItem({ id, name, description, image, category, address, rating, phone }) {
+
   const navigate = useNavigate();
 
   // Está redundante el código pero da flojera cambiarlo
@@ -31,12 +33,37 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
   // estados y manejadores de los botones de favoritos y deseados
   const [isFavorite, setIsFavorite] = useState(false);
   const [isDeseado, setIsDeseado] = useState(false);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const idUsuario = localStorage.getItem('id');
+      if (idUsuario) {
+        try {
+          const favorito = await handleEsFavorito(idUsuario, id);
+          setIsFavorite(favorito.esFavorito);
+
+          const deseado = await handleEsDeseado(idUsuario, id);
+          setIsDeseado(deseado.esDeseado);
+        } catch (error) {
+          console.error('Error verificando favoritos o deseados:', error);
+        }
+      }
+    };
+
+    fetchStatus();
+  }, [id]);
+
   const handleFavoritosClick = (e) => {
     e.stopPropagation();
+   const idUsuario = localStorage.getItem('id');
+    handleFavoritos(idUsuario,id );
     setIsFavorite(!isFavorite);
   };
+
   const handleDeseadosClick = (e) => {
     e.stopPropagation();
+    const idUsuario = localStorage.getItem('id');
+    handleDeseados(idUsuario, id );
     setIsDeseado(!isDeseado);
   };
 
