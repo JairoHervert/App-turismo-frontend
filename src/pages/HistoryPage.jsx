@@ -51,7 +51,6 @@ function HistoryPage() {
 
   const [searchHistory, setSearchHistory] = useState([]); // Estado para el historial
   const [searchText, setSearchText] = useState(''); // Estado para el texto de búsqueda
-  const todayDate = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   useEffect(() => {
     const fetchHistorial = async () => {
@@ -135,7 +134,7 @@ function HistoryPage() {
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar />
  
-      <Container maxWidth='lg' className='my-4'>
+      <Container maxWidth='lg' className='my-4' sx={{ minHeight: '80vh' }}>
         
         <Stack direction={{ xs: 'column', md: 'row' }} sx={{ justifyContent: {sm: 'space-between'}, alignItems: 'center' }}>
           {/* Título Historial */}
@@ -164,14 +163,6 @@ function HistoryPage() {
         </Stack>
         
         <Stack direction={{xs: 'column', sm: 'row'}} justifyContent={{ md: 'end', xs: 'center' }} alignItems='center' marginBottom='1.5rem' marginTop='1.5rem'>
-          {/* Botón de filtrado */}
-          <Box sx={{ marginRight: {xs: '0', sm: '1rem'}, marginBottom: {xs: '1rem', sm: 0}}}>
-            <ButtonsMod
-              variant='secundario'
-              textCont='Filtrar'
-              startIcon={<FilterListIcon />}
-            />
-          </Box>
           {/* Botón borrar historial */}
           <ButtonsMod
             variant='secundario'
