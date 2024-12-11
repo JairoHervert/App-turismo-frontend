@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container, Stack, TextField, Box, InputAdornment, Typography } from '@mui/material';
+import { Container, Stack, TextField, Box, InputAdornment, Typography, Dialog, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { FavoriteRounded as FavoriteRoundedIcon } from '@mui/icons-material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
 import Pagination from '@mui/material/Pagination';
+import { useNavigate } from 'react-router-dom';
+
 // Componentes
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -12,10 +15,12 @@ import ItemFavoritos from '../components/favorites/ItemFavoritos';
 
 import { handleFavoritos } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
-import { useNavigate } from 'react-router-dom';
+import MenuFilters from '../components/AllPlaces/MenuFilters';
+
 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/FavoritesPage.css';
+import grillo from '../img/grillo.png';
 
 // lugares de prueba guardados en un objeto js
 import Places from '../components/AllPlaces/Places';
@@ -26,7 +31,7 @@ function FavoritesPage() {
   const [favoritos, setFavoritos] = useState([]);
   const [originalFavoritos, setOriginalFavoritos] = useState([]); // Copia original
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Estado para manejar la página actual
   const [page, setPage] = useState(1);
   const itemsPorPagina = 12;
@@ -37,6 +42,15 @@ function FavoritesPage() {
   const handleChangePage = (e, value) => {
     setPage(value);
   };
+
+  // Estado para manejar el modal de filtros de busqueda
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Estado para los filtros seleccionados (el estado se maneja en el componente MenuFilters.jsx)
+  const [selectedFilters, setSelectedFilters] = useState({
+    alcaldias: [],
+    categorias: [],
+  });
 
 
   useEffect(() => {
@@ -56,7 +70,7 @@ function FavoritesPage() {
       try {
         const id = localStorage.getItem('id');
         console.log(id);
-        
+
         const resultado = await handleFavoritos(id); // Espera la resolución de la promesa
         setFavoritos(resultado);
         setOriginalFavoritos(resultado); // Copia original
@@ -100,21 +114,27 @@ function FavoritesPage() {
             <Typography variant='h1' className='fw-bold' sx={{ fontSize: '3rem' }}>Favoritos</Typography>
           </Stack>
 
-          <TextField
-            label='Buscar en favoritos'
-            variant='outlined'
-            size='small'
-            sx={{ maxWidth: 250 }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <SearchRoundedIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
+          <Box className='d-flex align-items-center justify-content-center'>
+            <IconButton className='me-2' onClick={() => setIsModalOpen(true)}>
+              <FilterListRoundedIcon color='primary' sx={{ fontSize: '1.8rem' }} />
+            </IconButton>
+
+            <TextField
+              label='Buscar en favoritos'
+              variant='outlined'
+              size='small'
+              sx={{ maxWidth: 250 }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} // Actualiza el estado
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
         </Stack>
 
         <Grid container spacing={2} justifyContent='center' alignItems='center'>
@@ -129,11 +149,27 @@ function FavoritesPage() {
               />
             ))
           ) : (
-            <div className='d-flex justify-content-center'>
-              <h3 className='fw-bold'>No se encontraron lugares favoritos.</h3>
-            </div>
+            <Box
+              className='d-flex justify-content-center align-items-center flex-column'
+              sx={{ minHeight: '50vh' }}
+            >
+              <Typography
+                className='fw-medium text-center'
+                sx={{ fontSize: '2rem', fontFamily: 'poppins', mb: 2 }}
+              >
+                No tienes lugares favoritos
+              </Typography>
+              <Box
+                component='img'
+                src={grillo}
+                alt='Grillo'
+                sx={{
+                  width: '10rem', // Ajusta el ancho
+                  height: 'auto', // Mantén la proporción
+                }}
+              />
+            </Box>
           )}
-          {}
         </Grid>
 
         <Box className='d-flex justify-content-center mt-4 mb-4'>
@@ -147,8 +183,24 @@ function FavoritesPage() {
           </Stack>
         </Box>
 
-      </Container>
+        {/* Modal de filtros de búsqueda  */}
+        <Box>
+          <Dialog
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+          >
+            <Box>
+              <MenuFilters
+                setIsModalOpen={setIsModalOpen}
+                selectedFilters={selectedFilters}
+                onApplyFilters={setSelectedFilters}
+              />
+            </Box>
 
+          </Dialog>
+        </Box>
+
+      </Container>
       <Footer showIncorporaLugar={true} />
     </ThemeProvider>
   );

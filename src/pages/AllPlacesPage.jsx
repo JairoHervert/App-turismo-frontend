@@ -16,6 +16,7 @@ import MenuFilters from '../components/AllPlaces/MenuFilters';
 import PlaceRoundedIcon from '@mui/icons-material/PlaceRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
+import grillo from '../img/grillo.png';
 
 // temas
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
@@ -38,7 +39,7 @@ function AllPlacesPage() {
       try {
         const loggedIn = await isLogged();
         setLogged(loggedIn.logged);
-        if(loggedIn.logged) {
+        if (loggedIn.logged) {
           const idLocal = loggedIn.data.id;
           setId(idLocal);
         }
@@ -88,15 +89,15 @@ function AllPlacesPage() {
     const lugaresFiltrados = allLugares.filter((lugar) => {
       const buscaTermino = searchTerm
         ? (lugar.nombre && eliminarAcentos(lugar.nombre).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase())) ||
-          (lugar.descripcion &&  eliminarAcentos(lugar.descripcion).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase()))
+        (lugar.descripcion && eliminarAcentos(lugar.descripcion).toLowerCase().includes(eliminarAcentos(searchTerm).toLowerCase()))
         : true;
 
-      const tieneAlcaldia = 
-        selectedFilters.alcaldias.length > 0 
+      const tieneAlcaldia =
+        selectedFilters.alcaldias.length > 0
           ? selectedFilters.alcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia))
           : true;
 
-      const tieneCategoria = 
+      const tieneCategoria =
         selectedFilters.categorias.length > 0
           ? selectedFilters.categorias.some((categoria) => lugar.categorias.includes(categoria))
           : true;
@@ -139,7 +140,7 @@ function AllPlacesPage() {
   const eliminarAcentos = (texto) => {
     return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Normaliza y elimina los acentos
   };
-  
+
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -183,19 +184,46 @@ function AllPlacesPage() {
         </Stack>
 
         <Grid container spacing={2} justifyContent='center' alignItems='center'>
-          {currentItems.map((place, index) => (
-            <PlaceItem
-              key={index}
-              id={place.id}
-              name={place.nombre}
-              description={place.descripcion}
-              image={place.imagen}
-              category={place.categorias}
-              address={place.direccion}
-              rating={place.rating}
-              phone={place.teléfono}
-            />
-          ))}
+
+          {
+            // Si no hay lugares, mostrar un la leyenda de que no se encontraron lugares
+            lugares.length === 0 && (
+              <Box
+                className='d-flex justify-content-center align-items-center flex-column'
+                sx={{ minHeight: '50vh' }}
+              >
+                <Typography
+                  className='fw-medium text-center'
+                  sx={{ fontSize: '2rem', fontFamily: 'poppins', mb: 2 }}
+                >
+                  No se encontraron lugares
+                </Typography>
+                <Box
+                  component='img'
+                  src={grillo}
+                  alt='Grillo'
+                  sx={{
+                    width: '10rem', // Ajusta el ancho
+                    height: 'auto', // Mantén la proporción
+                  }}
+                />
+              </Box>
+            )}
+          {
+            // Si hay lugares, mostrar los lugares
+            currentItems.map((place, index) => (
+              <PlaceItem
+                key={index}
+                id={place.id}
+                name={place.nombre}
+                description={place.descripcion}
+                image={place.imagen}
+                category={place.categorias}
+                address={place.direccion}
+                rating={place.rating}
+                phone={place.teléfono}
+              />
+            ))}
         </Grid>
 
         <Box className='d-flex justify-content-center mt-4 mb-4'>

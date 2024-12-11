@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import StarIcon from '@mui/icons-material/StarRateRounded';
 import { TextField, InputAdornment, Box } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/Search';
+import Typography from '@mui/material/Typography';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
 import Pagination from '@mui/material/Pagination';
@@ -15,6 +16,7 @@ import { handleDeseados } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
 import { useNavigate } from 'react-router-dom';
 import '../css/DeseadosPage.css';
+import grillo from '../img/grillo.png';
 
 function DeseadosPage() {
   const navigate = useNavigate();
@@ -29,8 +31,8 @@ function DeseadosPage() {
   const obtenerDeseadosFiltrados = () => {
     const term = searchTerm.toLowerCase();
     return deseados.filter((lugar) =>
-      (lugar.nombre.toLowerCase().includes(term) || 
-      (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term))) &&
+      (lugar.nombre.toLowerCase().includes(term) ||
+        (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term))) &&
       (selectedAlcaldias.length === 0 || selectedAlcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia)))
     );
   };
@@ -43,7 +45,7 @@ function DeseadosPage() {
 
   const handleFilterChange = (newAlcaldias) => {
     setSelectedAlcaldias(newAlcaldias);
-    setPage(1); 
+    setPage(1);
   };
 
   useEffect(() => {
@@ -91,10 +93,10 @@ function DeseadosPage() {
             <h1 className="fw-bolder fontMontserrat mb-4 us_de-deseados-text">Deseados</h1>
           </div>
           <div className="us_de-cont-buscador-filtro">
-            <TextField 
-              label="Buscar en deseados" 
-              variant="outlined" 
-              size="small" 
+            <TextField
+              label="Buscar en deseados"
+              variant="outlined"
+              size="small"
               sx={{ maxWidth: 250 }}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -124,19 +126,38 @@ function DeseadosPage() {
                 />
               ))
             ) : (
-              <p>No se encontraron lugares deseados.</p>
+              <Box
+                className='d-flex justify-content-center align-items-center flex-column'
+                sx={{ minHeight: '50vh' }}
+              >
+                <Typography
+                  className='fw-medium text-center'
+                  sx={{ fontSize: '2rem', fontFamily: 'poppins', mb: 2 }}
+                >
+                  No tienes lugares en tu lista de deseados
+                </Typography>
+                <Box
+                  component='img'
+                  src={grillo}
+                  alt='Grillo'
+                  sx={{
+                    width: '10rem', // Ajusta el ancho
+                    height: 'auto', // Mantén la proporción
+                  }}
+                />
+              </Box>
             )}
             <Box className="d-flex justify-content-center mt-4 mb-4">
               <Stack spacing={2} className="d-flex justify-content-center">
-                <Pagination 
-                  count={Math.ceil(obtenerDeseadosFiltrados().length / itemsPorPagina)} 
-                  page={page} 
-                  onChange={handleChangePage} 
-                  color="secondary" 
+                <Pagination
+                  count={Math.ceil(obtenerDeseadosFiltrados().length / itemsPorPagina)}
+                  page={page}
+                  onChange={handleChangePage}
+                  color="secondary"
                 />
               </Stack>
             </Box>
-          
+
           </div>
           <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
             <div className='us_de-contenedor-filtros my-4 d-flex flex-column justify-content-center align-items-center'>
