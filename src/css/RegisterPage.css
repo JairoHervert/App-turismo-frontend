@@ -7,14 +7,14 @@
    height: 100%;
 }
 
-.lo_pa-rule-input {
+.re_pa-rule-input {
    font-size: 0.8rem;
 }
-.lo_pa-container-tool{
+.re_pa-container-tool{
    min-height: 100vh;
 }
 
-.lo_pa-just-texts {
+.re_pa-just-texts {
    font-size: 8rem;
 }
 
@@ -47,7 +47,7 @@
       border-radius: 6px;
       overflow: hidden;
    }
-   .lo_pa-iniciar-olvidaste {
+   .re_pa-iniciar-olvidaste {
       display: flex;
       flex-direction: column;
       align-items: center;

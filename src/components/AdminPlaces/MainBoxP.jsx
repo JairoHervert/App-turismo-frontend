@@ -32,7 +32,7 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
 
   return (
     <Box
-      className="formulario-container-admin-places us_de-deseados-text"
+      className="formulario-container-admin-places ad-places-text"
       sx={{
         overflow: 'hidden',
         padding: 2,
@@ -46,7 +46,7 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
     >
       <Typography
         variant="h4"
-        className="fw-bolder fontMontserrat mb-4 us_de-deseados-text"
+        className="fw-bolder fontMontserrat mb-4 ad-places-text"
         sx={{
           fontFamily: 'Montserrat',
           fontWeight: 'bold',

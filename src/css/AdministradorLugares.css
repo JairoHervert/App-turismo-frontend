@@ -172,6 +172,8 @@
   margin-bottom: 16px;
 }
 
+
+
 .controls-container-admin-places .MuiTextField-root {
   max-width: 250px;
 }
@@ -181,26 +183,26 @@
 }
 
 /* Clase para personalizar la scrollbar */
-.us_de-deseados-text {
+.ad-places-text {
   max-height: 500px; /* Límite de altura */
   overflow-y: auto; /* Scroll vertical */
 }
 
 /* Personalización de la scrollbar para navegadores WebKit */
-.us_de-deseados-text::-webkit-scrollbar {
+.ad-places-text::-webkit-scrollbar {
   width: 8px; /* Ancho de la scrollbar */
 }
 
-.us_de-deseados-text::-webkit-scrollbar-track {
+.ad-places-text::-webkit-scrollbar-track {
   background: #f1f1f1; /* Fondo del track */
 }
 
-.us_de-deseados-text::-webkit-scrollbar-thumb {
+.ad-places-text::-webkit-scrollbar-thumb {
   background: #888; /* Color del pulgar */
   border-radius: 4px; /* Bordes redondeados */
 }
 
-.us_de-deseados-text::-webkit-scrollbar-thumb:hover {
+.ad-places-text::-webkit-scrollbar-thumb:hover {
   background: #555; /* Color más oscuro al pasar el mouse */
 }
 
@@ -211,7 +213,7 @@
 }
 
 /* Compatibilidad con Firefox */
-.us_de-deseados-text {
+.ad-places-text {
   scrollbar-width: thin; /* Scroll delgado */
   scrollbar-color: #888 #f1f1f1; /* Pulgar y fondo del track */
 }
@@ -286,7 +288,6 @@
   }
 }
 
-/* A partir de 857px */
 @media (max-width: 857px) {
   .second-container-admin-places {
     flex-direction: column; /* Cambia a disposición en columna */
