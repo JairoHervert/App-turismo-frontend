@@ -10,12 +10,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 // íconos
-import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Transgender as TrasgenderIcon, BrunchDining as BrunchDiningIcon } from '@mui/icons-material';
+import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Transgender as TrasgenderIcon, BrunchDining as BrunchDiningIcon, Accessible as AccessibleIcon } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 
 import { handleGuardarDatos } from '../../pagesHandlers/user_handler';
 
-function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia}) {
+function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia, discapacidadMotriz}) {
 
   const [original, setOriginal] = useState({
     correoElectronico,
@@ -24,6 +24,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     fechaNacimiento,
     genero,
     preferenciaAlimenticia,
+    discapacidadMotriz,
   });
 
   console.log("original", original);
@@ -37,6 +38,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
+      discapacidadMotriz,
   });
 
   // Para la validación del nombre
@@ -68,6 +70,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
+      discapacidadMotriz,
     });
     setFormData({
       correoElectronico,
@@ -76,8 +79,9 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
+      discapacidadMotriz,
     });
-  }, [correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia]);
+  }, [correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia, discapacidadMotriz]);
 
   const handleEdit = () => {
       setIsEditing((prev) => !prev);
@@ -463,6 +467,35 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                         </Select>
                     ) : (
                       <Typography variant='body1'>{formData.preferenciaAlimenticia || 'Sin especificar'}</Typography>
+                    )}
+                  </Grid>
+                </Grid>
+              </Stack>
+              {/* Discapacidad Motriz  */}
+              <Stack direction={{xs: 'row', sm: 'column'}} spacing={5} className='perfil-informacion-personal-items'>
+                <Grid container sx={{width: '100%'}}>
+                  <Grid size={{xs: 12, sm: 5, md:4}}>
+                    <Stack direction='row' spacing={1} className='perfil-informacion-personal-header-items'>
+                      <AccessibleIcon fontSize='small' sx={{ color: '#73C2FB' }} />
+                      <Typography variant='body1' color='#777777'> 
+                        Discapacidad Motriz
+                      </Typography>
+                    </Stack>
+                  </Grid>              
+                  <Grid size={{xs: 12, sm: 7, md:8}} sx={{paddingTop: '0'}}>
+                    { /* EDITAR DISCAPACIDAD MOTRIZ */}
+                    {isEditing ? (
+                        <Select
+                          id='discapacidadMotriz'
+                          // value={}
+                          // onChange={}
+                          sx={{ width: '100%', height: '3rem' }}
+                        >
+                          <MenuItem value='Si'>Sí</MenuItem>
+                          <MenuItem value='No'>No</MenuItem>
+                        </Select>
+                    ) : (
+                      <Typography variant='body1'>{formData.discapacidadMotriz || 'Sin especificar'}</Typography>
                     )}
                   </Grid>
                 </Grid>

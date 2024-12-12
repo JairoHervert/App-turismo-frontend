@@ -5,12 +5,12 @@ import Footer from '../components/Footer';
 import HeaderLugar from '../components/placepage/HeaderLugar';
 import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
+import { ThemeProvider } from '@mui/material/styles';
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
 // CSS
 import '../css/PlacePage.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
-import ButtonsMod from '../components/ButtonsMod';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { handleEsFavorito, handleEsDeseado } from '../pagesHandlers/favDeseados-handler';
 import { handleDatosLugar, handleFotosLugar, handleCategoriasLugar } from '../pagesHandlers/place-handler';
@@ -246,10 +246,8 @@ const PlacePage = () => {
     });
   }
 
-  const horarioLugar = formatHorarios(horariosDeApertura);
-
   return (
-    <div>
+    <ThemeProvider theme={ThemeMaterialUI}>
       <NavBarHome
         showingresa={true}
         showRegistrate={true}
@@ -327,7 +325,7 @@ const PlacePage = () => {
 
       <Footer
         showIncorporaLugar={false} />
-    </div>
+    </ThemeProvider>
   );
 };
 

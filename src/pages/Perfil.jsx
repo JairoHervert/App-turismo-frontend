@@ -14,6 +14,7 @@ import '../css/Perfil.css';
 import { Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/system';
+import categorias from '../components/preferencias/CategoriasPref';
 
 import { handleDatosUsuario } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
@@ -69,44 +70,6 @@ const Perfil = () => {
     fetchLoginStatus();
     fetchDatos(); // Llama a la función para obtener los datos
   }, []);
-
-  const categorias = [
-    {
-      id: 1,
-      nombre: 'Deportes',
-      subcategorias: [
-        { id: 101, nombre: 'Arena' },
-        { id: 102, nombre: 'Athletic Field' },
-        { id: 103, nombre: 'Golf Course' },
-        { id: 104, nombre: 'Ice Skating Rink' },
-        { id: 105, nombre: 'Sports Club' },
-        { id: 106, nombre: 'Playground' },
-        { id: 107, nombre: 'Sports Activity Location' },
-        { id: 108, nombre: 'Swimming Pool' },
-      ],
-    },
-    {
-      id: 2,
-      nombre: 'Comida Rápida',
-      subcategorias: [
-        { id: 201, nombre: 'Bagel Shop' },
-        { id: 202, nombre: 'Acai Shop' },
-        { id: 203, nombre: 'Bakery' },
-        { id: 204, nombre: 'Fast Food Restaurant' },
-        { id: 205, nombre: 'Ice Cream Shop' },
-      ],
-    },
-    {
-      id: 3,
-      nombre: 'Historia',
-      subcategorias: [
-        { id: 301, nombre: 'Historical Place' },
-        { id: 302, nombre: 'Monument' },
-        { id: 303, nombre: 'Historial Landmark' },
-      ],
-    },
-  ];
-
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>

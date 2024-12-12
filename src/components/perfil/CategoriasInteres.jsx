@@ -2,27 +2,22 @@ import React, { useState } from 'react';
 import '../../css/Perfil.css';
 import ButtonsMod from '../ButtonsMod';
 
-import { Card, CardHeader, CardContent, Divider, Box, Stack, Chip, Checkbox, Accordion, AccordionSummary, AccordionDetails, Typography, FormControlLabel, FormGroup } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Card, CardHeader, CardContent, Divider, Box, Chip, CardActionArea, CardMedia, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import CategoryIcon from '@mui/icons-material/Category';
 
 function CategoriasInteres({ categoriasUsuario }) {
   const [isEditing, setIsEditing] = useState(false);
-  // Para solo tener un acordeón abierto a la vez
-  const [acordeonAbierto, setAcordeonAbierto] = useState(null);
   // Se inicializa un arreglo con las subcategorías seleccionadas (almacena el id)
-  const [subcategoriasSeleccionadas, setSubcategoriasSeleccionadas] = useState([]);
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
   
-  // Para seleccionar y deseleccionar subcategorías
-  const handleSubcategoriaSeleccionada = (id) => {
-    console.log('Seleccionando subcategoría:', id);
-    setSubcategoriasSeleccionadas((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  const toggleCategoriaSeleccionada = (categoriaId) => {
+    setCategoriasSeleccionadas((prev) =>
+      prev.includes(categoriaId)
+        ? prev.filter((id) => id !== categoriaId)
+        : [...prev, categoriaId]
+    )
   }
-
-  // Para saber si la subcategoría está seleccionada
-  const esSubcategoriaSeleccionada = (id) => subcategoriasSeleccionadas.includes(id);
 
   const handleSave = () => {
     setIsEditing(!isEditing);
@@ -58,60 +53,68 @@ function CategoriasInteres({ categoriasUsuario }) {
 
       <Divider variant='middle' sx={{ borderColor: 'rgb(0 0 0)' }} />
       
-      <CardContent>
+      <CardContent sx={{ width: '100%' }}>
         {/* Inicia contenido para EDITAR categorías y subcategorías */}
         {isEditing ? (
-          categoriasUsuario.map((categoria) => (
-            /* Para que solo un acordeón esté abierto a la vez */
-            <Accordion 
-              key={categoria.id}
-              expanded={acordeonAbierto === categoria.id}
-              onChange={() =>
-                setAcordeonAbierto((prev) => (prev === categoria.id ? null : categoria.id))
-              }
-            >
-              {/* Nombre de la categoría */}
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>
-                  {categoria.nombre}
-                </Typography>
-              </AccordionSummary>
-              { /* Nombre de las subcategorías de esa categoría */}
-              <AccordionDetails>
-                <Stack direction='column' >
-                  {/* Lista de las subcategorías */}
-                  {categoria.subcategorias.map((subcategoria) => (
-
-                    <FormGroup key={subcategoria.id} >
-                      <FormControlLabel 
-                        label={subcategoria.nombre} 
-                        control={
-                          <Checkbox 
-                            checked={esSubcategoriaSeleccionada(subcategoria.id)}
-                            onChange={() => handleSubcategoriaSeleccionada(subcategoria.id, categoria.nombre)}
-                          />
-                        }
-                      />
-                    </FormGroup>
-
-                  ))}
-                </Stack>
-              </AccordionDetails>
-            </Accordion>
-          ))
+          <Box sx={{ maxHeight: '500px', overflow: 'auto', padding: '1%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+            <Grid container spacing={2} columns={12} justifyContent='center'>
+              {categoriasUsuario.map((categoria) => {
+                const isSelected = categoriasSeleccionadas.includes(categoria.id);
+        
+                return (
+                  <Grid item xs={12} sm={6} md={4} key={categoria.id} width={{md: '30%', sm: '48%', xs: '100%'}} >
+                    <Card
+                      sx={{
+                        position: 'relative',
+                        boxShadow: 3,
+                        height: '150px',
+                        outline: isSelected ? '2.5px solid RGB(225, 48, 167)' : 'none',
+                      }}
+                    >
+                      <CardActionArea onClick={() => toggleCategoriaSeleccionada(categoria.id)}>
+                        <CardMedia
+                          component='img'
+                          height='150'
+                          image={categoria.imagen}
+                          alt={categoria.nombre}
+                        />
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white',
+                            backgroundColor: isSelected ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.6)',
+                          }}
+                        >
+                          <Typography variant='body1' sx={{ textAlign: 'center', fontWeight: '600', fontSize: '1.2rem', background: isSelected ? 'rgba(0, 0, 0, 0.5)' : 'none' }}>
+                            {categoria.nombre}
+                          </Typography>
+                        </Box>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
           /* Termina contenido para EDITAR categorías y subcategorías */
         ) : (
           /* Inicia MODO VISUALIZACIÓN de categorías y subcategorías */
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {/* Si hay subcategorías seleccionadas */}
-            {subcategoriasSeleccionadas.length > 0 ? (
+            {categoriasSeleccionadas.length > 0 ? (
               categoriasUsuario
-                .flatMap((categoria) => categoria.subcategorias)
-                .filter((sub) => subcategoriasSeleccionadas.includes(sub.id))
-                .map((sub) => (
+                .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
+                .map((categoria) => (
                   <Chip
-                    key={sub.id}
-                    label={sub.nombre}
+                    key={categoria.id}
+                    label={categoria.nombre}
                     sx={{
                       backgroundColor: '#FFFF',
                       color: '#E4007C',
