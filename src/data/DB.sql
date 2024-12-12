@@ -54,6 +54,7 @@ CREATE TABLE `Lugar` (
    `teléfono` VARCHAR(20) NULL,
    `precioNivel` TINYINT NULL,
    `precioRango` VARCHAR(45) NULL,
+   `precioAproximado` INT NULL,
    `rating` VARCHAR(10) NULL,
    `regularOpeningHours` TEXT NULL,
    `userRatingCount` VARCHAR(45) NULL,
