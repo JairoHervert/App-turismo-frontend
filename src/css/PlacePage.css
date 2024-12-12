@@ -306,7 +306,19 @@
         margin-left: 0px;
         width: 100%;
     }
-    .pp-btn-deseados {
-        margin-left: 0;
+    .pp-informacion-principal-calificacion {
+        align-items: center;
+    }
+    .pp-informacion-principal-calificacion-titulo h2 {
+        font-size: 1.5rem;
+    }
+    .pp-informacion-principal-calificacion-rating {
+        font-size: 1.5rem !important;
+    }
+    .pp-informacion-principal-nombre-lugar {
+        font-size: 2rem;
+    }
+    .pp-informacion-principal-btnDeseados {
+        margin-left: 0!important;
     }
 }
