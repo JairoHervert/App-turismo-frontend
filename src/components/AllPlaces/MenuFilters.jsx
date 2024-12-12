@@ -25,6 +25,7 @@ function MenuFilters({ setIsModalOpen, selectedFilters, onApplyFilters  }) {
     'Xochimilco',
   ];
 
+  {/* Nuevas categorías de lugares turísticos */}
   const categorias = [
     'Arcades',
     'Arena de luchas',
