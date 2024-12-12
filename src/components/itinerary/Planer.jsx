@@ -29,6 +29,15 @@ import '../../css/ItineraryPage.css';
 // itinerario de prueba (puede cambiarse a Itinerario1 o Itinerario3)
 import itinerario from './ItinerariosDePrueba/Itinerario2';
 
+//botón
+import ButtonsMod from '../ButtonsMod';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
+import AlertDialog from './AddPlaces'; // Adjust the path as necessary
+
+
+import Recomendados from './Recomendados';
+
 
 function Planer({ setSelectedPlace }) {
   // arrays para el formato de la fecha
@@ -78,8 +87,6 @@ function Planer({ setSelectedPlace }) {
     const nextMonday = monday.add(7, 'day');
     setMonday(nextMonday);
   };
-
-
 
   // como el itinerario es un objeto, se debe extraer el array de lugares del día seleccionado, se usa para el drag and drop
   const [itineraryItems, setItineraryItems] = useState(itinerario[selectedDay]);
@@ -155,6 +162,41 @@ function Planer({ setSelectedPlace }) {
     // Nota para el equipo de backend: aquí también se debe enviar la actualización a la base de datos para reflejar la eliminación.
   };
 
+  // Función para descargar el itinerario en PDF
+  const handlePDF = () => {
+    // Aquí se debe implementar la lógica para descargar el itinerario en PDF
+    alert('Descargando PDF...');
+  };
+
+
+  const [open, setOpen] = useState(false);
+  const [suggestedPlaces, setSuggestedPlaces] = useState([...Recomendados  ]);
+  const [acceptedPlaces, setAcceptedPlaces] = useState([]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAcceptPlace = (place) => {
+    setAcceptedPlaces([...acceptedPlaces, place]);
+    setSuggestedPlaces(suggestedPlaces.filter((p) => p !== place));
+  };
+
+  const handleRemovePlace = (place) => {
+    setAcceptedPlaces(acceptedPlaces.filter((p) => p !== place));
+    setSuggestedPlaces([...suggestedPlaces, place]);
+  };
+
+  const handleConfirmPlaces = () => {
+    console.log('Lugares aceptados:', acceptedPlaces); // Imprime los lugares aceptados
+    setAcceptedPlaces([]);
+    setSuggestedPlaces(suggestedPlaces.filter((place) => !acceptedPlaces.includes(place)));
+  
+  };
 
 
   return (
@@ -235,10 +277,32 @@ function Planer({ setSelectedPlace }) {
         </Box> {/* Cierre de Box que aloja los botones de flecha y los días de la semana */}
 
 
-        <Box className='ms-2 mt-4'>
+        <Box className='ms-2 mt-4' sx={{ fontSize: '1.5rem' }}>
           <Typography fontFamily={'poppins'} className='fw-normal it_pa-format-day-selected' sx={{ fontSize: '1.5rem' }}>
             {daysOfWeek[dayjs(selectedDay, 'DD-MM-YYYY').day()]}, {dayjs(selectedDay, 'DD-MM-YYYY').format('DD')} de {months[dayjs(selectedDay, 'DD-MM-YYYY').month()]} de {dayjs(selectedDay, 'DD-MM-YYYY').format('YYYY')}
           </Typography>
+
+          <Box className='ms-2 mt-4' sx={{ display: 'flex', gap: '1rem' }}>
+            <ButtonsMod
+              variant='secundario'
+              textCont='Descargar PDF'
+              width='auto'
+              height='2.4rem'
+              clickEvent={handlePDF}
+              startIcon={<PictureAsPdfIcon />}
+              type='submit'
+            />
+
+            <ButtonsMod
+              variant='secundario'
+              textCont='Agregar Lugar'
+              width='auto'
+              height='2.4rem'
+              clickEvent={handleClickOpen} // Abre el modal al hacer clic
+              startIcon={<AddLocationIcon />}
+              type='submit'
+            />
+          </Box>
         </Box>
 
         <Box className='my-4' sx={{ width: '100%' }}>
@@ -277,6 +341,17 @@ function Planer({ setSelectedPlace }) {
             </SortableContext>
           </DndContext>
         </Box>
+
+        {/* Modal AlertDialog */}
+        <AlertDialog
+          open={open}
+          handleClose={handleClose}
+          suggestedPlaces={suggestedPlaces}
+          acceptedPlaces={acceptedPlaces}
+          onAcceptPlace={handleAcceptPlace}
+          onRemovePlace={handleRemovePlace}
+          onConfirmPlaces={handleConfirmPlaces} // Pasa la función para confirmar los lugares aceptados
+        />
       </Box>
     </ThemeProvider>
   );
