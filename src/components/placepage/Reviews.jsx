@@ -20,7 +20,7 @@ function Reviews({ nombreUsuario, antiguedadReview, comentarioUsuario, valueRevi
             <p className='mb-2'>{nombreUsuario}</p>
           </div>
           <div className='row gx-0'>
-            <p>Hace {antiguedadReview}</p>
+            <p style={{fontSize: '0.9rem'}}>{antiguedadReview}</p>
           </div>
         </div>
 

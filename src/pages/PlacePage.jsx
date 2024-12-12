@@ -9,8 +9,6 @@ import Reviews from '../components/placepage/Reviews';
 import '../css/PlacePage.css';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Pagination } from '@mui/material';
-import ButtonsMod from '../components/ButtonsMod';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import { handleEsFavorito, handleEsDeseado } from '../pagesHandlers/favDeseados-handler';
 import { handleDatosLugar, handleFotosLugar, handleCategoriasLugar } from '../pagesHandlers/place-handler';
@@ -245,8 +243,6 @@ const PlacePage = () => {
       return `${openDay}: ${openTime} - ${closeTime}${openDay !== closeDay ? ` (${closeDay})` : ''}`;
     });
   }
-
-  const horarioLugar = formatHorarios(horariosDeApertura);
 
   return (
     <div>

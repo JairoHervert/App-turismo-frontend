@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // Material UI
-import { Rating, Box, Chip } from '@mui/material';
+import { Rating } from '@mui/material';
 import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
 // Íconos
 import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
