@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 // Material UI
 import { Rating } from '@mui/material';
-import { ImageList, ImageListItem, useMediaQuery } from '@mui/material';
+import { ImageList, ImageListItem, useMediaQuery, Button } from '@mui/material';
 // Íconos
-import { StarBorder as StarBorderIcon, FavoriteBorder as FavoriteBorderIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
+import { StarBorder as StarBorderIcon, Star as StarIcon, FavoriteBorder as FavoriteBorderIcon, Favorite as FavoriteIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
 import { Accessible as AccessibleIcon, AccessTime as AccessTimeIcon, FamilyRestroom as FamilyRestroomIcon, Grass as GrassIcon, Language as LanguageIcon, Category as CategoryIcon, Groups as GroupsIcon } from '@mui/icons-material';
 import { handleFavoritos, handleDeseados } from '../../pagesHandlers/favDeseados-handler';
 
@@ -230,19 +230,55 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
                   defaultValue={value}
                   readOnly
                   size='large'
-                  precision={0.1} />
+                  precision={0.1}
+                  className='pp-informacion-principal-calificacion-rating'
+                />
               </div>
             </div>
             { /* Guardar en Favoritos y Deseados */}
             <div className='pp-informacion-principal-btns'>
               {isLogged ?
               <>
-                <button className={`btn ${isClickedDeseados ? 'pp-btnOnClick' : 'btn-light'} pp-btn-deseados`} onClick={handleButtonDeseadosClick}>
-                  <StarBorderIcon />
-                </button>
-                <button className={`btn ${isClickedFavoritos ? 'pp-btnOnClick' : 'btn-light'} pp-btn-favoritos`} onClick={handleButtonFavoritosClick}>
-                  <FavoriteBorderIcon />
-                </button>
+                {/* Botón agregar a Deseados */}
+                <Button
+                  variant='outlined'
+                  className= 'pp-informacion-principal-btnDeseados'
+                  onClick={handleButtonDeseadosClick}
+                  size='small'
+                  sx={{
+                    borderColor: '#FFC001',
+                    color:'#FFC001',
+                    backgroundColor: 'white',
+                    marginLeft: '5px',
+                    '&:hover': {
+                      color: '#FAC902',
+                    },
+                    minWidth: '40px', 
+                    minHeight: '40px',
+                  }}
+                >
+                  {isClickedDeseados ? <StarIcon /> : <StarBorderIcon />}
+                </Button>
+                {/* Botón agregar a Favoritos */}
+                <Button
+                  variant='outlined'
+                  onClick={handleButtonFavoritosClick}
+                  size='small' 
+                  sx={{
+                    borderColor:'red',
+                    color: 'red',
+                    backgroundColor: 'white',
+                    marginLeft: '5px',
+                    '&:hover': {
+                      color: 'red',
+                    },
+                    minWidth: '40px', 
+                    minHeight: '40px', 
+
+                  }}
+                >
+                  {isClickedFavoritos ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </Button>
               </>
               :
                 ''

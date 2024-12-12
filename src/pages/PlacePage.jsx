@@ -5,6 +5,8 @@ import Footer from '../components/Footer';
 import HeaderLugar from '../components/placepage/HeaderLugar';
 import DescripcionLugar from '../components/placepage/DescripcionLugar';
 import Reviews from '../components/placepage/Reviews';
+import { ThemeProvider } from '@mui/material/styles';
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
 // CSS
 import '../css/PlacePage.css';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -245,7 +247,7 @@ const PlacePage = () => {
   }
 
   return (
-    <div>
+    <ThemeProvider theme={ThemeMaterialUI}>
       <NavBarHome
         showingresa={true}
         showRegistrate={true}
@@ -323,7 +325,7 @@ const PlacePage = () => {
 
       <Footer
         showIncorporaLugar={false} />
-    </div>
+    </ThemeProvider>
   );
 };
 
