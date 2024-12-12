@@ -57,12 +57,12 @@ function CategoriasInteres({ categoriasUsuario }) {
         {/* Inicia contenido para EDITAR categorías y subcategorías */}
         {isEditing ? (
           <Box sx={{ maxHeight: '500px', overflow: 'auto', padding: '1%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-            <Grid container spacing={2} columns={12}>
+            <Grid container spacing={2} columns={12} justifyContent='center'>
               {categoriasUsuario.map((categoria) => {
                 const isSelected = categoriasSeleccionadas.includes(categoria.id);
         
                 return (
-                  <Grid item xs={12} sm={6} md={4} key={categoria.id} width={{md: '30%', sm: '48%', xs: '100%'}} justifyContent='center'>
+                  <Grid item xs={12} sm={6} md={4} key={categoria.id} width={{md: '30%', sm: '48%', xs: '100%'}} >
                     <Card
                       sx={{
                         position: 'relative',
