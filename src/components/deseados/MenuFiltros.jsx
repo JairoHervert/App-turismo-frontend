@@ -89,22 +89,38 @@ function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
           >
             <div className='accordion-body ud_de-accordion-body'>
               <ul className='list-unstyled'>
-                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Salud y Bienestar</label></li>
-                <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>Deportes</label></li>
-                <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Comida Rápida</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Restaurante</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Cafetería</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Bar</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Arte</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Historia</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Museos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Educativos</label></li>
+                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Arcades</label></li>
+                <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>Arena de luchas</label></li>
+                <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Arte y cultura</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Bares</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Bibliotecas</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Boleras</label></li>
+                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Buffets</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Cafeterías</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Clubes</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Comida rápida</label></li>
                 <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Compras</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Juegos recreativos al aire libre</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Juegos recreativos bajo techo</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Zoológicos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Karaokes</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Aventura</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Historia</label></li>
                 <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Religión</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Mariscos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Museos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques de diversiones</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques de skate</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Patinaje sobre hielo</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes africanos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes americanos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes asiáticos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes brasileños</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes de medio oriente</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes europeros</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes mexicanos</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Salones de té</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>SteakHouses</label></li>
+                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Zoológicos</label></li>
               </ul>
             </div>
           </div>
