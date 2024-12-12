@@ -26,22 +26,38 @@ function MenuFilters({ setIsModalOpen, selectedFilters, onApplyFilters  }) {
   ];
 
   const categorias = [
-    'Salud y Bienestar',
-    'Deportes',
-    'Comida Rápida',
-    'Restaurante',
-    'Cafetería',
+    'Arcades',
+    'Arena de luchas',
+    'Arte y cultura',
     'Bares',
-    'Arte',
-    'Historia',
-    'Museos',
-    'Educativos',
+    'Bibliotecas',
+    'Boleras',
+    'Buffets',
+    'Cafeterías',
+    'Clubes',
+    'Comida rápida',
     'Compras',
-    'Parques',
-    'Juegos recreativos al aire libre',
-    'Juegos recreativos bajo techo',
-    'Zoológicos',
+    'Karaoke',
+    'Aventura',
+    'Historia',
     'Religión',
+    'Mariscos',
+    'Museos',
+    'Parques',
+    'Parques de diversiones',
+    'Parques de skate',
+    'Patinaje sobre hielo',
+    'Restaurantes',
+    'Restaurantes africanos',
+    'Restaurantes americanos',
+    'Restaurantes asiáticos',
+    'Restaurantes brasileños',
+    'Restaurantes de medio oriente',
+    'Restaurantes europeros',
+    'Restaurantes mexicanos',
+    'Salones de té',
+    'SteakHouses',
+    'Zoológicos',
   ];
 
   // analiza si el checkbox fue seleccionado o no para mostrrlo en el modl
@@ -73,28 +89,6 @@ function MenuFilters({ setIsModalOpen, selectedFilters, onApplyFilters  }) {
 
       <DialogContent sx={{ maxWidth: '35rem' }}>
         <Box className='d-flex'>
-          {/* Sección Alcaldías */}
-          <Box className='all_places-filter-alcaldia'>
-            <Typography className='fw-medium mb-1' fontSize={'1.1rem'} fontFamily={'Poppins'}>
-              Alcaldías
-            </Typography>
-            <FormGroup>
-              {alcaldias.map((alcaldia) => (
-                <FormControlLabel
-                  key={alcaldia}
-                  control={
-                    <Checkbox
-                      checked={selectedFilters.alcaldias.includes(alcaldia)}
-                      onChange={() => handleCheckboxChange('alcaldias', alcaldia)}
-                    />
-                  }
-                  label={alcaldia}
-                />
-              ))}
-            </FormGroup>
-          </Box>
-          <Divider sx={{ my: 3 }} />
-
           {/* Sección Categorías */}
           <Box>
             <Typography className='fw-medium mb-1' fontSize={'1.1rem'} fontFamily={'Poppins'}>
@@ -111,6 +105,28 @@ function MenuFilters({ setIsModalOpen, selectedFilters, onApplyFilters  }) {
                     />
                   }
                   label={categoria}
+                />
+              ))}
+            </FormGroup>
+          </Box>
+          <Divider sx={{ my: 3 }} />
+
+          {/* Sección Alcaldías */}
+          <Box className='all_places-filter-alcaldia'>
+            <Typography className='fw-medium mb-1' fontSize={'1.1rem'} fontFamily={'Poppins'}>
+              Alcaldías
+            </Typography>
+            <FormGroup>
+              {alcaldias.map((alcaldia) => (
+                <FormControlLabel
+                  key={alcaldia}
+                  control={
+                    <Checkbox
+                      checked={selectedFilters.alcaldias.includes(alcaldia)}
+                      onChange={() => handleCheckboxChange('alcaldias', alcaldia)}
+                    />
+                  }
+                  label={alcaldia}
                 />
               ))}
             </FormGroup>
