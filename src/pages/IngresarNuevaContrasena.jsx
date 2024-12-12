@@ -6,13 +6,12 @@ import '../css/RecuperarContrasena.css';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import PatternIcon from '@mui/icons-material/Pattern';
 import ButtonsMod from '../components/ButtonsMod';
-import {  InputLabel,InputAdornment, IconButton } from '@mui/material';
-import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl, OutlinedInput, TextField } from '@mui/material';
+import { InputAdornment, IconButton } from '@mui/material';
+import { Container, Card, Box, Typography, CardHeader, CardContent, FormControl, TextField } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {handleActualizar} from '../pagesHandlers/recuperacion-handler';
-import { Construction } from '@mui/icons-material';
 
 const IngresarNuevaContrasena = () => {
   const [contraseña, setContraseña] = useState('');
@@ -27,8 +26,8 @@ const IngresarNuevaContrasena = () => {
 
   const validarContraseña = (pwd) => {
     const errores = [];
-    if (pwd.length < 8 || pwd.length > 128) {
-      errores.push('La contraseña debe tener entre 8 y 128 caracteres.');
+    if (pwd.length < 8 || pwd.length > 16) {
+      errores.push('La contraseña debe tener entre 8 y 16 caracteres.');
     }
     if (!/[A-Z]/.test(pwd)) {
       errores.push('Debe contener al menos una letra mayúscula.');
@@ -125,7 +124,7 @@ const IngresarNuevaContrasena = () => {
 
             <CardContent>
               <Typography variant='body1' sx={{ marginBottom: '30px' }}>
-                La contraseña debe contener una longitud de entre 8 a 128 caracteres e incluir al menos una letra minúscula, una mayúscula y un número.
+                La contraseña debe contener una longitud de entre 8 a 16 caracteres e incluir al menos una letra minúscula, una mayúscula y un número.
               </Typography>
 
               <FormControl fullWidth size='small'>
