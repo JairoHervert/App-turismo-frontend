@@ -8,10 +8,10 @@ import Recibidos from '../components/Administrador/Recibidos';
 
 function SearchHistoryPageHistory() {
   const location = useLocation();
-  const lugar = location.state?.lugar;  // Aquí obtenemos los datos del lugar
+  const lugar = location.state?.lugar;
 
   // Lista de lugares (simulada con un estado)
-  const [lugares] = useState([
+  const [lugares, setLugares] = useState([
     { nombre: 'Lugar 1', estado: 'Aceptado' },
     { nombre: 'Lugar 2', estado: 'Rechazado' },
     { nombre: 'Lugar 3', estado: 'Aceptado' },
@@ -21,21 +21,21 @@ function SearchHistoryPageHistory() {
   const [selectedLugar, setSelectedLugar] = useState(null);
 
   // Filtrar lugares según la categoría seleccionada
-  const filteredLugares = lugares.filter(lugar => 
+  const filteredLugares = lugares.filter(lugar =>
     selectedCategory === 'Todos' || lugar.estado === selectedCategory
   );
 
   // Actualizar el lugar seleccionado cada vez que se cambia la categoría
   useEffect(() => {
     if (filteredLugares.length > 0) {
-      setSelectedLugar(filteredLugares[0]);  // Mostrar el primer lugar de la categoría seleccionada
+      setSelectedLugar(filteredLugares[0]); // Mostrar el primer lugar de la categoría seleccionada
     } else {
-      setSelectedLugar(null);  // Si no hay lugares, se resetea el lugar seleccionado
+      setSelectedLugar(null); // Si no hay lugares, se resetea el lugar seleccionado
     }
   }, [selectedCategory, filteredLugares]);
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory(category);  // Cambiar la categoría
+    setSelectedCategory(category); // Cambiar la categoría
   };
 
   return (
@@ -48,28 +48,22 @@ function SearchHistoryPageHistory() {
         staticNavbarAD={false}
       />
 
-      {/* Contenedor principal para Dashboard y FormularioLugar */}
       <div className="contenedor-principal">
         <div className="">
           <Dashboard />
         </div>
         <div className="main-content-container">
-  {/*  esta       
-     <Recibidos
-            selectedCategory={selectedCategory}
-            setSelectedCategory={handleCategoryChange}
-          /> */}
-
           {/* Mostrar el lugar filtrado */}
           {selectedLugar ? (
             <FormularioLugar
+              lugares={lugares}           // Pasar lugares al componente
+              setLugares={setLugares}     // Pasar la función setLugares al componente
               addplace={selectedLugar.nombre}
               nombre="Persona Ejemplo"
               correo="correo@ejemplo.com"
               date="16 de octubre del 2024"
               hour="2:30 p.m."
             />
-            
           ) : (
             <p>No se encontraron lugares en esta categoría.</p>
           )}
