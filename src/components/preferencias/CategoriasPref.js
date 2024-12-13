@@ -21,6 +21,16 @@ import img20ParquesDeSkate from "../../img/pref_user/categorySkate.webp";
 import img21PatinajeSobreHielo from "../../img/pref_user/categoryPatinajeHielo.webp";
 import img22Restaurantes from "../../img/pref_user/categoryRestaurante.webp";
 import img23RestaurantesAfricanos from "../../img/pref_user/categoryRestauranteAfricano.webp";
+import img23RestaurantesAmericanos from "../../img/pref_user/categoryRestauranteAmericano.webp";
+import img23RestaurantesAsiaticos from "../../img/pref_user/categoryRestauranteAsiatico.webp";
+import img23RestaurantesBrasilenos from "../../img/pref_user/categoryRestauranteBrasileno.webp";
+import img23RestaurantesMedioOriente from "../../img/pref_user/categoryRestauranteMedioOriente.webp";
+import img23RestaurantesEuropeos from "../../img/pref_user/categoryRestauranteEuropeo.webp";
+import img23RestaurantesMexicanos from "../../img/pref_user/categoryRestauranteMexicano.webp";
+import img23SalonesDeTe from "../../img/pref_user/categoryTe.webp";
+import img23SteakHouses from "../../img/pref_user/categorySteakHouse.webp";
+import img23Zoo from "../../img/pref_user/categoryZoologico.webp";
+
 
 const categorias = [
   {
@@ -138,6 +148,51 @@ const categorias = [
     nombre: 'Restaurantes africanos',
     imagen: img23RestaurantesAfricanos,
   },
+  {
+    id: 24,
+    nombre: 'Restaurantes americanos',
+    imagen: img23RestaurantesAmericanos,
+  },
+  {
+    id: 25,
+    nombre: 'Restaurantes asiáticos',
+    imagen: img23RestaurantesAsiaticos, 
+  },
+  {
+    id: 26,
+    nombre: 'Restaurantes brasileños',
+    imagen: img23RestaurantesBrasilenos,
+  },
+  {
+    id: 27,
+    nombre: 'Restaurantes de medio oriente',
+    imagen: img23RestaurantesMedioOriente,
+  },
+  {
+    id: 28,
+    nombre: 'Restaurantes europeos',
+    imagen: img23RestaurantesEuropeos,
+  },
+  {
+    id: 29,
+    nombre: 'Restaurantes mexicanos',
+    imagen: img23RestaurantesMexicanos,
+  },
+  {
+    id: 30,
+    nombre: 'Salones de té',
+    imagen: img23SalonesDeTe,
+  },
+  {
+    id: 31,
+    nombre: 'Steak houses',
+    imagen: img23SteakHouses,
+  },
+  {
+    id: 32,
+    nombre: 'Zoológicos',
+    imagen: img23Zoo
+  }
 ];
 
 export default categorias;
