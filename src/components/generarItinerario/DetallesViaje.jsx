@@ -96,7 +96,7 @@ function DetallesViaje ({medioTransporte, setMedioTransporte, setErrorMedioTrans
                         >
                             <MenuItem value='pie'>A pie</MenuItem>
                             <MenuItem value='conduccion'>Conducción</MenuItem>
-                            <MenuItem value='ciclismo'>Ciclismo (Ej. Bibicleta)</MenuItem>
+                            <MenuItem value='ciclismo'>Ciclismo (Ej. Bicicleta)</MenuItem>
                             <MenuItem value='transito'>Tránsito (Ej. Autobús, metro, tranvía, ferrocarril)</MenuItem>
                         </Select>
                         {helperTextTransporte && (
