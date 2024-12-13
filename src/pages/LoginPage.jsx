@@ -14,11 +14,14 @@ import { Visibility, VisibilityOff, Google as GoogleIcon, FacebookRounded as Fac
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/login/LeftImage';
+import FormularioPreferencias from '../components/preferencias/FormularioPreferencias';
+import SeleccionCategorias from '../components/preferencias/SeleccionCategorias';
 
 //componentes de back
 import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { handleLogin, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/login-handler';
+import { handleCompletarPerfil, handleActualizarCategorias } from '../pagesHandlers/user_handler';
 
 // estilos importados
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
@@ -30,6 +33,8 @@ import fuenteTlaloc from '../img/PlacePage/place-img-fuentetlaloc.jpg';
 import casaLeon from '../img/PlacePage/place-img-casadeleon.jpg';
 
 function LoginPage() {
+  const navigate = useNavigate();
+
   // validacion de correo
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -39,6 +44,7 @@ function LoginPage() {
     arrobaCaracteres: false,
     dominioConPunto: false,
   });
+  const[datosIniciales, setDatosIniciales] = useState({});
 
   const handleCorreoChange = (e) => {
     const correo = e.target.value;
@@ -58,12 +64,73 @@ function LoginPage() {
     setContraseña(e.target.value);
   };
 
-  const handleFormSubmit = (e) => {
+  const [open, setOpen] = useState(false);
+  const [openSecondModal, setOpenSecondModal] = useState(false);
+  const [formData, setFormData] = useState({});
+  const selectedDate = new Date(); // Define selectedDate
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleSubmit = async (formData) => {
+    console.log('Formulario enviado:', formData); 
+    if(!formData) {
+      return;
+    }
+    setFormData({
+      ...formData,
+      selectedDate,
+    });
+    let fecha = formData.selectedDate;
+    const fechaFormateada = fecha.format("DD-MM-YYYY");
+    const response = await handleCompletarPerfil(
+      datosIniciales.resultado.id, formData.userName, formData.firstName, formData.lastName, fechaFormateada, formData.sexo, formData.foodPreference, formData.hasDisability
+    );
+    if(response) {
+      setOpen(false);
+      setOpenSecondModal(true);
+    }
+  };
+
+  const handleSecondModalSubmit = async (categoriasSeleccionadas) => {
+    console.log('Categorías seleccionadas:', categoriasSeleccionadas); // Agrega este console.log
+    let cadena = '';
+    for(var i=0; i<categoriasSeleccionadas.length; i++) {
+      if(i!==0){
+        cadena+=',';
+      }
+      cadena+=categoriasSeleccionadas[i];
+    }
+    const response = await handleActualizarCategorias(datosIniciales.resultado.id, cadena);
+    console.log(response);
+    if(response) {
+      localStorage.setItem('access_token', datosIniciales.token);
+      localStorage.setItem('id', datosIniciales.resultado.id);
+      setOpenSecondModal(false);
+      navigate('/');
+    }
+    //setOpenSecondModal(false);
+  };
+
+  const handleCloseSecondModal = () => {
+    setOpenSecondModal(false);
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
 
     if (correoReglas.sinEspacios && correoReglas.arrobaCaracteres && correoReglas.dominioConPunto && correoReglas.noVacio && (contraseña.length > 0)) {
-      handleLogin(e, correo, contraseña);
+      const respuesta = await handleLogin(e, correo, contraseña);
+      if(respuesta && respuesta.resultado && !respuesta.resultado.ultimaConexion) {
+        setDatosIniciales(respuesta);
+        setOpen(true);
+      } else if(respuesta && respuesta.resultado) {
+        localStorage.setItem('access_token', respuesta.token);
+        localStorage.setItem('id', respuesta.resultado.id);
+        navigate('/');
+      }
     }
   };
 
@@ -81,7 +148,6 @@ function LoginPage() {
   };
 
   // redireccionamiento a home
-  const navigate = useNavigate();
   const handleHomeClick = () => {
     navigate('/');
   };
@@ -102,6 +168,8 @@ function LoginPage() {
             lightLink={false}
             staticNavbar={false}
           />
+          <FormularioPreferencias open={open} handleClose={handleClose} handleSubmit={handleSubmit} datosIniciales={datosIniciales.resultado}/>
+          <SeleccionCategorias open={openSecondModal} handleClose={handleCloseSecondModal} handleSubmit={handleSecondModalSubmit} />
           <Container maxWidth='md' disableGutters className='my-5 py-4 d-flex align-items-center justify-content-center' >
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
               {/* lado izquierdo imagen con texto */}

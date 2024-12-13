@@ -35,7 +35,6 @@ app.post('/Correo-Recuperacion', recuperacionController.enviarCorreoRecuperacion
 app.post('/actualizar-contrasena', recuperacionController.actualizarContrasena);
 
 // Rutas para manejar el registro y el inicio de sesión
-
 app.post('/registro', registerController.registroRegular);
 app.post('/registroGoogle', registerController.registroGoogle);
 app.post('/registro_Facebook', registerController.registroFacebook);
@@ -44,6 +43,8 @@ app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/login_Facebook', loginController.iniciarSesionFacebook);
 app.post('/user_datos', userController.getDatos);
 app.post('/user_guardar_datos', userController.setDatos);
+app.post('/user_completar_perfil', userController.completarPerfil);
+app.post('/user_actualizar_categorias', userController.actualizarCategorias);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
 app.post('/user_categorias', userController.verCategorias);

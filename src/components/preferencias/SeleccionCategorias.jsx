@@ -10,7 +10,7 @@ import ThemeMaterialUI from '../ThemeMaterialUI';
 
 function SeleccionCategorias({ open, handleClose, handleSubmit }) {
   const theme = useTheme();
-  const [selectedCategories, setSelectedCategories] = useState({});
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const alertRef = useRef();
 
   const handleClickOpen = () => {
@@ -21,14 +21,10 @@ function SeleccionCategorias({ open, handleClose, handleSubmit }) {
 
   const handleCategorySelect = (category) => {
     setSelectedCategories((prev) => {
-      if (prev[category.nombre]) {
-        const { [category.nombre]: _, ...rest } = prev;
-        return rest;
+      if (prev.includes(category.nombre)) {
+        return prev.filter((item) => item !== category.nombre);
       } else {
-        return {
-          ...prev,
-          [category.nombre]: true,
-        };
+        return [...prev, category.nombre];
       }
     });
   };
@@ -40,11 +36,11 @@ function SeleccionCategorias({ open, handleClose, handleSubmit }) {
   };
 
   const handleFormSubmit = (event) => {
-    if (Object.keys(selectedCategories).length === 0) {
+    if (selectedCategories.length === 0) {
       handleClickOpen();
     } else {
       event.preventDefault();
-      handleSubmit(selectedCategories);
+      handleSubmit(selectedCategories); // Ya es un arreglo
     }
   };
 

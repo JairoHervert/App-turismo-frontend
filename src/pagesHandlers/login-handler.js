@@ -9,11 +9,14 @@ const handleLogin = async (e, correo, contraseña) => {
     if (response.data.resultado.id) {
       console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
 
+      return response.data;
+      
+
       localStorage.setItem('access_token', response.data.token);
       localStorage.setItem('id', response.data.resultado.id);
 
       console.log(response.data.resultado);
-      Swal.fire({
+      /*Swal.fire({
         icon: 'success',
         title: 'Inicio de sesión exitoso',
         text: '¡Bienvenido! Has iniciado sesión correctamente.',
@@ -22,28 +25,17 @@ const handleLogin = async (e, correo, contraseña) => {
         willClose: () => {
           window.location.href = '/'
         }
-      });
+      });*/
+    } else {
+      //throw()
     }
   } catch (error) {
     // Mostrar el mensaje de error específico
     if (error.response && error.response.data && error.response.data.error) {
-      console.error("Error:", error.response.data.error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Inicio de sesión fallido',
-        text: error.response.data.error,
-        timer: 5000,
-        showConfirmButton: false
-      });
+      alert_error(error.response.data.error);
     } else {
       console.error("Error al intentar iniciar sesión:", error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Inicio de sesión fallido',
-        text: 'Algo falló en la solicitud',
-        timer: 5000,
-        showConfirmButton: false
-      });
+      alert_error('Algo falló en la solicitud');
     }
   }
 };
@@ -86,6 +78,7 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
       console.error("Error:", error.response.data.error);
+      alert(error.response.data.error);
       Swal.fire({
         icon: 'error',
         title: 'Inicio de sesión fallido',
@@ -200,6 +193,15 @@ const responseFacebook = async (response) => {
       showConfirmButton: false
     });
   }
+};
+
+function alert_error(mensaje) {
+  Swal.fire({
+    icon: 'error',
+    title: 'Inicio de sesión fallido',
+    text: mensaje,
+    showConfirmButton: true
+  });
 };
 
 // Exports
