@@ -110,7 +110,6 @@
     width: 100%;
     aspect-ratio: 1.4;
     /* de a mientras una imagen :) */
-    background-image: url('../img/HomePage/mapa.png');
     background-size: cover;
     background-position: center;
     margin-bottom: 5px;

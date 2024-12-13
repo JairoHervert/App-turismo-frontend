@@ -130,6 +130,7 @@ const PlacePage = () => {
         }
 
         const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
+        console.log(resultado);
         if(!resultado) {
           navigate("/");
         }
@@ -295,6 +296,7 @@ const PlacePage = () => {
         isFavoritoInicial={isFavorito}
         isDeseadoInicial={isDeseado}
         isLogged={isLogged}
+        coordenadas={{ lat: place.latitud, lng: place.longitud }}
       />
 
       <section className='pp-reviews'>
