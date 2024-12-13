@@ -184,7 +184,7 @@ function RegisterPage() {
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Box className="register-background">
-        <Box className="lo_pa-container-tool">
+        <Box className="re_pa-container-tool">
           <Navbar
             showingresa={false}
             showRegistrate={false}
@@ -234,7 +234,7 @@ function RegisterPage() {
 
                         <Box className="my-3">
                           <ul>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 2 y 60 caracteres.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 2 y 60 caracteres.</li>
                           </ul>
                         </Box>
 
@@ -254,10 +254,10 @@ function RegisterPage() {
                             El correo debe cumplir con las siguientes reglas:
                           </Typography>
                           <ul>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.noVacio ? 'text-success fw-semibold' : ''}`}>No debe estar vacío.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.sinEspacios ? 'text-success fw-semibold' : ''}`}>No debe contener espacios.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbolo @.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.correo?.dominioConPunto ? 'text-success fw-semibold' : ''}`}>Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.correo?.noVacio ? 'text-success fw-semibold' : ''}`}>No debe estar vacío.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.correo?.sinEspacios ? 'text-success fw-semibold' : ''}`}>No debe contener espacios.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.correo?.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbore @.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.correo?.dominioConPunto ? 'text-success fw-semibold' : ''}`}>Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).</li>
                           </ul>
                         </Box>
 
@@ -314,11 +314,11 @@ function RegisterPage() {
 
                         <Box className="my-3">
                           <ul>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.longitudValida ? 'text-success fw-semibold' : ''}`}>Debe tener entre 8 y 16 caracteres.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.mayuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra mayúscula.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.minuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra minúscula.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña?.numero ? 'text-success fw-semibold' : ''}`}>Debe contener al menos un número.</li>
-                            <li className={`lo_pa-rule-input fw-medium ${errors.contraseña2 ? 'text-success fw-semibold' : ''}`}>Las contraseñas coinciden.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.contraseña?.longitudValida ? 'text-success fw-semibold' : ''}`}>Debe tener entre 8 y 16 caracteres.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.contraseña?.mayuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra mayúscula.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.contraseña?.minuscula ? 'text-success fw-semibold' : ''}`}>Debe contener al menos una letra minúscula.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.contraseña?.numero ? 'text-success fw-semibold' : ''}`}>Debe contener al menos un número.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.contraseña2 ? 'text-success fw-semibold' : ''}`}>Las contraseñas coinciden.</li>
                           </ul>
                         </Box>
 

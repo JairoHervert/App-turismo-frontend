@@ -5,6 +5,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import NavbarAD from '../components/NavBarA';
 import Footer from '../components/Footer';
 import Dashboard from '../components/Administrador/Dashboard';
+import '../css/Admin2.css';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import StatCard from '../components/dashboard/statcard';
 import RatedPlaces from '../components/dashboard/ratedplaces';
@@ -25,9 +26,10 @@ function DashboardAdmin() {
                 staticNavbarAD={false}
             />
 
+            <div className="contenedor-principal">
+            <Dashboard />
             <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2 }, py: { xs: 2, sm: 4 }, width: '100%' }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2, minHeight: '100vh', width: '100%' }}>
-                    {!isMobile && <Dashboard />}
                     <Box sx={{ flexGrow: 1, width: '100%', ...(isMobile && { mt: 2 }) }}>
                         <Paper elevation={3} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 2, backgroundColor: 'rgba(255, 255, 255, 0.98)', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}>
                             <Box sx={{ mb: { xs: 2, sm: 4 } }}>
@@ -85,6 +87,7 @@ function DashboardAdmin() {
                     </Box>
                 </Box>
             </Container>
+            </div>
 
             <Footer showIncorporaLugar={false} />
         </ThemeProvider>

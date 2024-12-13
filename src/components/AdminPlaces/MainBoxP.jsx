@@ -7,36 +7,44 @@ import '../../css/AdministradorLugares.css';
 const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
   const navigate = useNavigate();
 
-  // Filtrar los lugares según la categoría seleccionada
   const filteredLugares = lugares.filter(
     (lugar) =>
       selectedCategory === 'Todos' || lugar.categoria === selectedCategory
   );
 
   const handleAction = (lugar, action) => {
-    // Evitar duplicados: Solo se realiza la acción si el lugar no tiene una categoría
-    if (lugar.categoria === 'Ninguna') {
-      const updatedLugares = lugares.map((l) =>
+    setLugares((prevLugares) => {
+      const updatedLugares = prevLugares.map((l) =>
         l.nombreLugar === lugar.nombreLugar
           ? { ...l, categoria: action }
           : l
       );
-      setLugares(updatedLugares); // Actualizar el estado con el nuevo arreglo de lugares
-    }
+      return updatedLugares;
+    });
 
-    // Si es aceptado, redirigir a una nueva página con los datos del lugar
     if (action === 'Leídos') {
-      navigate('/Admin-Page', { state: { lugar } }); // Pasar datos del lugar como estado en la URL
+      navigate('/Admin-Page', { state: { lugar } });
+    }
+  
+    if (action === 'Aceptados') {
+      setLugares((prevLugares) => {
+        const updatedLugares = prevLugares.map((l) =>
+          l.nombreLugar === lugar.nombreLugar
+            ? { ...l, categoria: 'Aceptados' }
+            : l
+        );
+        return updatedLugares;
+      });
     }
   };
 
   return (
     <Box
-      className="formulario-container-admin-places us_de-deseados-text"
+      className="formulario-container-admin-places ad-places-text"
       sx={{
         overflow: 'hidden',
         padding: 2,
-        marginLeft:'auto',
+        marginLeft: 'auto',
         backgroundColor: 'white',
         borderRadius: 2,
         maxHeight: '500px',
@@ -46,7 +54,7 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
     >
       <Typography
         variant="h4"
-        className="fw-bolder fontMontserrat mb-4 us_de-deseados-text"
+        className="fw-bolder fontMontserrat mb-4 ad-places-text"
         sx={{
           fontFamily: 'Montserrat',
           fontWeight: 'bold',
@@ -68,14 +76,22 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
                 padding: '8px 0',
                 borderBottom: '1px solid #ccc',
                 width: '100%',
-                
               }}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', padding:'8px',  }}>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '8px' }}>
                 <Typography variant="body1" sx={{ flex: 1, fontWeight: 'bold', fontFamily: 'montserrat' }}>
                   {lugar.NombrePersona} ({lugar.correoPersona})
                 </Typography>
-                <Typography variant="body1" sx={{ color: '#ff007f', fontWeight: 'bold', flex: 2, textAlign: 'center', fontFamily: 'montserrat' }}>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: '#ff007f',
+                    fontWeight: 'bold',
+                    flex: 2,
+                    textAlign: 'center',
+                    fontFamily: 'montserrat',
+                  }}
+                >
                   Agregar: {lugar.nombreLugar}
                 </Typography>
                 <Typography variant="body1" sx={{ flex: 1, textAlign: 'right', fontWeight: 'bold', fontFamily: 'montserrat' }}>
@@ -83,7 +99,6 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
                 </Typography>
               </Box>
 
-              {/* Deshabilitar botones si ya tiene categoría asignada */}
               {lugar.categoria === 'Ninguna' ? (
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, alignItems: 'flex-end', marginTop: '10px' }}>
                   <Button
@@ -101,7 +116,7 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
                     Aceptar
                   </Button>
                   <Button
-                    variant="outlined"                
+                    variant="outlined"
                     onClick={() => handleAction(lugar, 'Rechazados')}
                     sx={{ fontSize: '0.8rem', padding: '4px 8px', width: '120px' }}
                   >
@@ -116,8 +131,8 @@ const MainBox = ({ lugares = [], selectedCategory, setLugares }) => {
             </Grid2>
           ))
         ) : (
-          <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', width: '100%' }}>
-            No hay lugares disponibles para mostrar.
+          <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center' }}>
+            No hay lugares disponibles
           </Typography>
         )}
       </Grid2>

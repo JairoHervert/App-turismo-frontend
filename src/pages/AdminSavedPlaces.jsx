@@ -6,6 +6,7 @@ import ThemeMaterialUI from "../components/ThemeMaterialUI";
 import { ThemeProvider } from "@mui/material/styles";
 import {Container,Stack,TextField,Box,InputAdornment, Paper} from "@mui/material";
 import {Search as SearchIcon,Bookmark as BookmarkIcon,} from "@mui/icons-material";
+import '../css/Admin2.css';
 import AdminPlacesSaved from "../components/PlacesAd/AdminPlacesSaved";
 import Dashboard from '../components/Administrador/Dashboard';
 
@@ -23,6 +24,8 @@ return (
             staticNavbar={false}
         />
 
+        <div className="contenedor-principal">
+        <Dashboard />
         <Container maxWidth="lg" className="it-my-4">
             <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -67,6 +70,7 @@ return (
             </Box>
 
         </Container>
+        </div>
 
         <Footer showIncorporaLugar={true} />
     </ThemeProvider>

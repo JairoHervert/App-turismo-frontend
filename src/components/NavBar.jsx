@@ -89,13 +89,10 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                 <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/lugares">Lugares</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Gastronomía</Link>
+                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/alcaldias">Alcaldías</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/">Museos</Link>
-              </li>
-              <li className="nav-item">
-                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/generar-itinerario">Generar itinerario</Link>
+                <Link className={`nav-link ${lightLink ? 'blanco' : ''}`} to="/generar-itinerario">Genera un itinerario</Link>
               </li>
             </ul>
             {/* Sección de perfil de usuario */}
