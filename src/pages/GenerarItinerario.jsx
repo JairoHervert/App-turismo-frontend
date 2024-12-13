@@ -23,26 +23,38 @@ const GenerarItinerario = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    let hayError = false;
     // Validaciones presupuesto
     if (presupuesto === '') {
       setError(true);
       setHelperText('Este campo no debe estar vacío');
-      return;
-    }
-    const regex = /^0$|^[1-9][0-9]*$/;
-    if (!regex.test(presupuesto)) {
-      setError(true);
-      setHelperText('Ingresa solo valores numéricos enteros');
-      return;
+      hayError = true;
+    } 
+    else {
+      const regex = /^0$|^[1-9][0-9]*$/;
+      if (!regex.test(presupuesto)) {
+        setError(true);
+        setHelperText('Ingresa solo valores numéricos enteros');
+        hayError = true;
+      }
     }
 
     // Validaciones fecha de inicio y fin
     if (fechaFin.isBefore(fechaInicio)) {
       setErrorFechaFin(true);
-      return;
+      hayError = true;
     }
 
-    navigate('/Categorias-page');
+    // Validación medio de transporte
+    if (!medioTransporte) {
+      setErrorMedioTransporte(true);
+      setHelperTextTransporte('Selecciona un medio de transporte antes de continuar');
+      hayError = true;
+    }
+
+    if (!hayError) {
+      navigate('/Categorias-page');
+    }
   }
 
   // Sección - Fecha Inicio y Fecha Fin **Por defecto se llena con la fecha de hoy
@@ -55,6 +67,11 @@ const GenerarItinerario = () => {
   const [presupuesto, setPresupuesto] = useState('');
   const [error, setError] = useState(false);
   const [helperText, setHelperText] = useState('Ingresa solo valores numéricos enteros');
+
+  // Sección - Detalles del viaje
+  const [medioTransporte, setMedioTransporte] = useState('');
+  const [errorMedioTransporte, setErrorMedioTransporte] = useState(false);
+  const [helperTextTransporte, setHelperTextTransporte] = useState('');
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -121,7 +138,14 @@ const GenerarItinerario = () => {
           </Stack>
 
           { /* Sección - Card Detalles del viaje */}
-          <DetallesViaje />
+          <DetallesViaje
+            medioTransporte={medioTransporte}
+            setMedioTransporte={setMedioTransporte}
+            errorMedioTransporte={errorMedioTransporte}
+            setErrorMedioTransporte={setErrorMedioTransporte}
+            helperTextTransporte={helperTextTransporte}
+            setHelperTextTransporte={setHelperTextTransporte}
+          />
 
         </Stack>
 
