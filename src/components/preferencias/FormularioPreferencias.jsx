@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Dialog,
@@ -27,20 +27,34 @@ import dayjs from "dayjs";
 import "dayjs/locale/es";
 import "../../css/LoginPage.css";
 
-function FormularioPreferencias({ open, handleClose, handleSubmit }) {
+function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciales }) {
+  console.log("datosIniciales", datosIniciales)
+  useEffect(() => {
+    let fechaFormateada = null;
+    if(datosIniciales?.fechaNacimiento) {
+      fechaFormateada = dayjs(datosIniciales?.fechaNacimiento);
+    }
+    setUserName(datosIniciales?.username || "");
+    setFirstName(datosIniciales?.nombre || "");
+    setLastName(datosIniciales?.apellido || "");
+    setSelectedDate(fechaFormateada);
+    setSexo(datosIniciales?.sexo || "");
+  }, [datosIniciales]);
+
   const theme = useTheme();
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [foodPreference, setFoodPreference] = useState("");
-  const [hasDisability, setHasDisability] = useState(false);
-  const [sexo, setSexo] = useState("");
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [userName, setUserName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [sexo, setSexo] = useState("");
+  const [foodPreference, setFoodPreference] = useState("");
+  const [hasDisability, setHasDisability] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  // Reglas
   const [userNameRules, setUserNameRules] = useState({
     minLength: false,
   });
-
   const [firstNameRules, setFirstNameRules] = useState({
     onlyLetters: false,
     minLength: false,
@@ -56,51 +70,90 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
     "La edad debe ser de entre 18 a 65 años"
   );
 
-  const handleDateChange = (newValue) => {
-    setSelectedDate(newValue);
-  };
-
-  const handleFoodPreferenceChange = (event) => {
-    setFoodPreference(event.target.value);
-  };
-
-  const handleDisabilityChange = (event) => {
-    setHasDisability(event.target.checked);
-  };
-
-  const handleSexoChange = (event) => {
-    setSexo(event.target.value);
-  };
-
+  // -------------------------- userName --------------------------
   const handleUserNameChange = (e) => {
     const name = e.target.value;
-    setUserNameRules({
-      minLength: name.length >= 2,
-    });
-
     setUserName(name);
   };
 
+  useEffect(() => {
+    const name = userName;
+    const object = {minLength: false};
+    if(name)
+      object.minLength = name.length >= 2;
+    setUserNameRules(object);
+  }, [userName]);
+
+  // -------------------------- firstName --------------------------
   const handleFirstNameChange = (e) => {
     const name = e.target.value;
     setFirstName(name);
+  };
+
+  useEffect(() => {
+    const name = firstName;
     setFirstNameRules({
       onlyLetters: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(name),
       minLength: name.length >= 2,
       startsWithUppercase: /^[A-ZÁÉÍÓÚÑÜ]/.test(name),
     });
-  };
+  }, [firstName]);
 
+  // -------------------------- lastName --------------------------
   const handleLastNameChange = (e) => {
     const name = e.target.value;
     setLastName(name);
+  };
+
+  useEffect(() => {
+    const name = lastName;
     setLastNameRules({
       onlyLetters: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(name),
       minLength: name.length >= 2,
       startsWithUppercase: /^[A-ZÁÉÍÓÚÑÜ]/.test(name),
     });
+  }, [lastName]);
+
+  // -------------------------- selectedDate --------------------------
+  const handleDateOfBirthChange = (newDate) => {
+    setSelectedDate(newDate);
   };
 
+  useEffect(() => {
+    if (!selectedDate) {
+      setDateError(true);
+      setDateHelperText("La edad debe ser de entre 18 a 65 años");
+      return;
+    }
+    const currentDate = dayjs();
+    const age = currentDate.diff(selectedDate, "year");
+    if (age < 18 || age > 65) {
+      setDateError(true);
+      setDateHelperText("Edad fuera del rango permitido (18 a 65 años)");
+    } else {
+      setDateError(false);
+      setDateHelperText("");
+    }
+  }, [selectedDate]);
+
+  // -------------------------- sexo --------------------------
+  const handleSexoChange = (event) => {
+    setSexo(event.target.value);
+  };
+
+  // -------------------------- foodPreference --------------------------
+  const handleFoodPreferenceChange = (event) => {
+    setFoodPreference(event.target.value);
+  };
+
+  // -------------------------- hasDisability --------------------------
+  const handleDisabilityChange = (event) => {
+    setHasDisability(event.target.checked);
+  };
+
+  // ------------------------------------------------------------------------------------------------------
+  //                                                  SUBMIT
+  // ------------------------------------------------------------------------------------------------------
   const handleFormSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
@@ -148,24 +201,6 @@ function FormularioPreferencias({ open, handleClose, handleSubmit }) {
       lastNameRules,
       dateError,
     });
-  };
-
-  const handleDateOfBirthChange = (newDate) => {
-    if (!newDate) {
-      setDateError(true);
-      setDateHelperText("La edad debe ser de entre 18 a 65 años");
-      return;
-    }
-    const currentDate = dayjs();
-    const age = currentDate.diff(newDate, "year");
-    if (age < 18 || age > 65) {
-      setDateError(true);
-      setDateHelperText("Edad fuera del rango permitido (18 a 65 años)");
-    } else {
-      setDateError(false);
-      setDateHelperText("");
-    }
-    setSelectedDate(newDate);
   };
 
   const handleDialogClose = (event, reason) => {

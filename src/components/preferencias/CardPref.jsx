@@ -10,7 +10,7 @@ function CardPref({ categorias, onSelect, categoriasSeleccionadas }) {
           key={categoria.id}
           categoria={categoria}
           onSelect={onSelect}
-          isSelected={!!categoriasSeleccionadas[categoria.nombre]}
+          isSelected={categoriasSeleccionadas.includes(categoria.nombre)}
         />
       ))}
     </Grid>

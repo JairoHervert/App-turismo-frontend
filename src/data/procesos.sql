@@ -10,6 +10,8 @@ DROP PROCEDURE IF EXISTS UsuarioIniciarSesion;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionGoogle;
 DROP PROCEDURE IF EXISTS UsuarioIniciarSesionFacebook;
 # Usuario Información
+DROP PROCEDURE IF EXISTS UsuarioCompletarPerfil;
+DROP PROCEDURE IF EXISTS ActualizarCategoriasFavoritas;
 DROP PROCEDURE IF EXISTS UsuarioGetDatos;
 DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
 # Usuario Preferencias
@@ -18,7 +20,8 @@ DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
 DROP PROCEDURE IF EXISTS usuario_anadir_categoria;
 DROP PROCEDURE IF EXISTS UsuarioVerDeseados;
 DROP PROCEDURE IF EXISTS UsuarioVerFavoritos;
-DROP PROCEDURE IF EXISTS usuario_ver_vategorias;
+DROP PROCEDURE IF EXISTS UsuarioVerCategorias;
+DROP PROCEDURE IF EXISTS usuario_categorias_all;
 # Lugar
 DROP PROCEDURE IF EXISTS getCategorias;
 DROP PROCEDURE IF EXISTS LugarRegistro;
@@ -220,10 +223,15 @@ BEGIN
    DECLARE v_apellido VARCHAR(60);
    DECLARE v_contraseña VARCHAR(255);
    DECLARE v_imagen VARCHAR(512);
+   DECLARE v_sexo VARCHAR(20);
+   DECLARE v_alimentacion VARCHAR(20);
+   DECLARE v_discapacidad VARCHAR(20);
    DECLARE v_confirmacion BOOLEAN;
+   DECLARE v_fechaNacimiento DATETIME;
    DECLARE v_ultimaConexion DATETIME;
    
-   SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_confirmacion, v_ultimaConexion
+   SELECT id, username, nombre, apellido, contraseña, ligaFotoPerfil, fechaNacimiento, sexo, preferenciaAlimenticia, requiereAccesibilidad, ultimaConexion, confirmacion
+   INTO v_id, v_username, v_nombre, v_apellido, v_contraseña, v_imagen, v_fechaNacimiento, v_sexo, v_alimentacion, v_discapacidad, v_ultimaConexion, v_confirmacion
    FROM Usuario
    WHERE correo = p_correo;
    
@@ -244,8 +252,12 @@ BEGIN
             v_apellido AS apellido,
             v_contraseña AS contraseña,
             v_imagen AS imagen,
-            v_confirmacion AS confirmacion,
-            v_ultimaConexion AS ultimaConexion;
+            DATE(v_fechaNacimiento) AS fechaNacimiento,
+            v_sexo AS sexo,
+            v_alimentacion AS preferenciaAlimenticia,
+            v_discapacidad AS requiereAccesibilidad,
+            v_ultimaConexion AS ultimaConexion,
+            v_confirmacion AS confirmacion;
       END IF;
    END IF;
 END //
@@ -324,6 +336,81 @@ END //
 -- ---------------------------------------------------------------------------------------------------
 --                                          USUARIO INFORMACIÓN
 -- ---------------------------------------------------------------------------------------------------
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioCompletarPerfil`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioCompletarPerfil (
+   IN p_id INT,
+   IN p_username VARCHAR(60),
+   IN p_nombre VARCHAR(60),
+   IN p_apellido VARCHAR(60),
+   IN p_fechaNacimiento VARCHAR(10),
+   IN p_sexo VARCHAR(20),
+   IN p_alimentacion VARCHAR(20),
+   IN p_discapacidad VARCHAR(20)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      UPDATE Usuario
+      SET
+         username = p_username,
+         nombre = p_nombre, 
+         apellido = p_apellido, 
+         fechaNacimiento = STR_TO_DATE(p_fechaNacimiento, '%d-%m-%Y'),
+         sexo = p_sexo,
+         preferenciaAlimenticia = p_alimentacion,
+         requiereAccesibilidad = p_discapacidad
+      WHERE id = p_id;
+      
+      SELECT
+         username, nombre, apellido, fechaNacimiento, sexo, preferenciaAlimenticia, requiereAccesibilidad
+      FROM Usuario
+      WHERE id = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`ActualizarCategoriasFavoritas`
+-- -----------------------------------------------------
+CREATE PROCEDURE ActualizarCategoriasFavoritas(
+    IN p_idUsuario INT,
+    IN p_categorias VARCHAR(255)
+)
+BEGIN
+    CREATE TEMPORARY TABLE TempCategorias (
+        idCategoria INT NOT NULL
+    );
+
+    INSERT INTO TempCategorias (idCategoria)
+    SELECT id
+    FROM Categoria
+    WHERE FIND_IN_SET(nombre, p_categorias) > 0;
+
+    DELETE FROM CategoriaFavorita
+    WHERE idUsuario = p_idUsuario
+      AND idCategoria NOT IN (SELECT idCategoria FROM TempCategorias);
+
+    INSERT IGNORE INTO CategoriaFavorita (idUsuario, idCategoria, auditoria)
+    SELECT p_idUsuario, idCategoria, NOW()
+    FROM TempCategorias;
+
+    DROP TEMPORARY TABLE TempCategorias;
+
+    UPDATE Usuario
+    SET ultimaConexion = NOW()
+    WHERE id = p_idUsuario;
+    
+    CALL UsuarioVerCategorias(p_idUsuario);
+END//
 
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`UsuarioGetDatos`
@@ -608,7 +695,36 @@ END //
 -- -----------------------------------------------------
 -- Process `AppTurismo`.`usuario_ver_vategorias`
 -- -----------------------------------------------------
-CREATE PROCEDURE usuario_ver_vategorias (
+CREATE PROCEDURE UsuarioVerCategorias (
+   IN p_id INT
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      SELECT 
+         c.id,
+         c.nombre,
+         c.imagen,
+         GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+      FROM Categoria c
+      JOIN Subcategoria s ON c.id = s.idCategoria
+      JOIN CategoriaFavorita cf ON c.id = cf.idCategoria
+      WHERE cf.idUsuario = p_id
+      GROUP BY c.id, c.nombre, c.imagen;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`usuario_ver_vategorias`
+-- -----------------------------------------------------
+CREATE PROCEDURE usuario_categorias_all (
    IN p_id INT
 )
 BEGIN

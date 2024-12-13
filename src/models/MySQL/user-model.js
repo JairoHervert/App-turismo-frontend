@@ -16,6 +16,36 @@ class userModel {
       });
     });
   }
+  
+  static async UsuarioCompletarPerfil(id, username, nombre, apellido, fechaNacimiento, sexo, alimentacion, discapacidad) {
+    const query = 'CALL UsuarioCompletarPerfil(?, ?, ?, ?, ?, ?, ?, ?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id, username, nombre, apellido, fechaNacimiento, sexo, alimentacion, discapacidad], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0][0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
+
+  static async UsuarioActualizarCategorias(id, categorias) {
+    const query = 'CALL ActualizarCategoriasFavoritas(?, ?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id, categorias], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
 
   static async UsuarioSetDatos(id, nombre, apellido, fecha) {
     const query = 'CALL UsuarioGuardarDatos(?, ?, ?, ?);';
@@ -63,7 +93,7 @@ class userModel {
   }
 
   static async UsuarioVerCategorias(id) {
-    const query = 'CALL usuario_ver_vategorias(?)';
+    const query = 'CALL usuario_categorias_all(?)';
     return new Promise((resolve, reject) => {
       db.query(query, [id], (err, results) => {
         if (err) {
