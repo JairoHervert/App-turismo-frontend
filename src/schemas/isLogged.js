@@ -14,7 +14,10 @@ const isLogged = async() => {
     return {logged: false, data: null};
   if(googleToken) {
     const response = await axios.post('http://localhost:3001/isLogged', {id, token});
-    console.log(response.data.decoded);
+    if(!response.data.logged) {
+      localStorage.removeItem('id');
+      return {logged: false, data: null};
+    }
     // Nombre en el NavBar
     if(response.data.decoded.username)
       nombreUsuario = response.data.decoded.username;
@@ -29,7 +32,10 @@ const isLogged = async() => {
   }
   else if(facebookToken) {
     const response = await axios.post('http://localhost:3001/isLogged', {id, token});
-    console.log(response.data.decoded);
+    if(!response.data.logged) {
+      localStorage.removeItem('id');
+      return {logged: false, data: null};
+    }
     // Nombre en el NavBar
     if(response.data.decoded.username)
       nombreUsuario = response.data.decoded.username;
@@ -46,7 +52,10 @@ const isLogged = async() => {
     // Aquí solo sería modificar la respuesta de la petición en el backend para que me regrese el username y no el token decoded,
     // es decir, hay que hacer una petición a la base de acuerdo con el correo que hay en decoded y que me regrese el username.
     const response = await axios.post('http://localhost:3001/isLogged', {id, token});
-    console.log(response.data.decoded);
+    if(!response.data.logged) {
+      localStorage.removeItem('id');
+      return {logged: false, data: null};
+    }
     // Nombre en el NavBar
     if(response.data.decoded.username)
       nombreUsuario = response.data.decoded.username;

@@ -10,8 +10,8 @@ class favDeseadosModel {
         if (err) {
           reject(err);
         }
-        const resultado = results || null;
-        console.log("resultado deseados", resultado);
+        const resultado = results[0][0] || null;
+        console.log("RESULTADO DESEADOS", resultado);
         if (resultado && resultado.error)
           return reject(new Error(resultado.error));
         resolve({ message: 'Lugar agregado a deseados'});

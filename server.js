@@ -75,9 +75,12 @@ app.post('/isLogged', (req, res) => {
     if(err){
       res.json({logged: false, decoded: null});
     } else {
-      res.json({logged: true, decoded});
+      if(decoded)
+        res.json({logged: true, decoded});
+      else
+        res.json({logged: false, decoded: null});
     }
-    console.log(decoded);
+    console.log("decoded", decoded);
   });
 });
 
