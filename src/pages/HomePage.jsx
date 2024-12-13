@@ -7,6 +7,9 @@ import PreguntaRegistro from '../components/preguntaRegistro';
 import { useNavigate } from 'react-router-dom';
 import ButtonsMod from '../components/ButtonsMod';
 import { isLogged } from '../schemas/isLogged';
+import ThemeMaterialUI from '../components/ThemeMaterialUI';
+import { ThemeProvider } from '@mui/material/styles';
+
 
 // import css
 import 'slick-carousel/slick/slick.css';
@@ -88,6 +91,7 @@ const HomePage = () => {
   }, []);
 
   return (
+    <ThemeProvider theme={ThemeMaterialUI}>
     <div>
       <NavBarHome
         showingresa={true}
@@ -174,6 +178,7 @@ const HomePage = () => {
       <Footer
         showIncorporaLugar={false} />
     </div>
+    </ThemeProvider>
   );
 };
 
