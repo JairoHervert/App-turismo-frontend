@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 
 import { Stack, Card, Typography, CardHeader, CardContent, Select, MenuItem, CardMedia } from '@mui/material';
-import { FormControl, FormGroup, FormControlLabel, Checkbox, Box, InputLabel } from '@mui/material';
+import { FormControl, FormGroup, FormControlLabel, Checkbox, Box, InputLabel, FormHelperText } from '@mui/material';
 import pasaporteImagen from '../../img/GenerarItinerario/generarItinerario-imagen-decorativo.avif';
 
 import { TipsAndUpdates as TipsAndUpdatesIcon, CheckBoxOutlineBlank as CheckBoxOutlineBlankIcon, CheckBox as CheckBoxIcon} from '@mui/icons-material';
 
-function DetallesViaje () {
+function DetallesViaje ({medioTransporte, setMedioTransporte, setErrorMedioTransporte, helperTextTransporte, setHelperTextTransporte}) {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     // Número de viajantes - por defecto es un viajante
     const [numeroViajantes, setNumeroViajantes] = useState('1');
+
+    const handleTransporteChange = (event) => {
+        setMedioTransporte(event.target.value);
+        setErrorMedioTransporte(false);
+        setHelperTextTransporte('');
+    }
 
     return (
         <Stack
@@ -76,6 +82,26 @@ function DetallesViaje () {
                             </MenuItem>
                             ))}
                         </Select>
+                    </FormControl>
+                </Box>
+
+                <Box className='gi-card-detallesViaje-numeroViajantes'>
+                    <FormControl fullWidth error={Boolean(helperTextTransporte)}>
+                        <InputLabel id='medio-transporte-label'>Medio de transporte</InputLabel>
+                        <Select
+                            labelId='medio-transporte-label'
+                            value={medioTransporte}
+                            onChange={handleTransporteChange}
+                            label='Medio de transporte'
+                        >
+                            <MenuItem value='pie'>A pie</MenuItem>
+                            <MenuItem value='conduccion'>Conducción</MenuItem>
+                            <MenuItem value='ciclismo'>Ciclismo (Ej. Bibicleta)</MenuItem>
+                            <MenuItem value='transito'>Tránsito (Ej. Autobús, metro, tranvía, ferrocarril)</MenuItem>
+                        </Select>
+                        {helperTextTransporte && (
+                            <FormHelperText>{helperTextTransporte}</FormHelperText>
+                        )}
                     </FormControl>
                 </Box>
 
