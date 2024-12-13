@@ -39,10 +39,18 @@ function CategoriaCard({ categoria, onSelect, isSelected }) {
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              backgroundColor: isSelected ? 'transparent' : 'rgba(0, 0, 0, 0.5)', // Condiciona el color de fondo
             }}
           >
-            <Typography variant='h5' sx={{textAlign: 'center'}}>
+            <Typography
+              variant='h5'
+              sx={{
+                textAlign: 'center',
+                backgroundColor: isSelected ? 'rgba(0, 0, 0, 0.5)' : 'transparent', // Fondo del título cuando se selecciona
+                padding: '0.2rem',
+                borderRadius: '0.5rem',
+              }}
+            >
               {categoria.nombre}
             </Typography>
           </Box>
