@@ -1,5 +1,10 @@
 import React, { useRef, useState } from "react";
 import { GoogleMap, useLoadScript, Autocomplete, Marker } from "@react-google-maps/api";
+import ThemeMaterialUI from './ThemeMaterialUI';
+import { ThemeProvider } from '@mui/material/styles';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -19,6 +24,7 @@ const MapWithSearch = () => {
 
   const [selected, setSelected] = useState(null);
   const autocompleteRef = useRef(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   if (!isLoaded) return <div>Cargando mapa...</div>;
 
@@ -46,42 +52,50 @@ const MapWithSearch = () => {
   };
 
   return (
-    <div>
-      <div style={{ marginBottom: "10px" }}>
-        <Autocomplete
-          onLoad={(ref) => (autocompleteRef.current = ref)}
-          onPlaceChanged={handlePlaceSelected}
-          options={autocompleteOptions} // Agregamos las opciones
-        >
-          <input
-            type="text"
-            placeholder="Busca un lugar en CDMX"
-            style={{
-              width: "100%",
-              padding: "10px",
-              fontSize: "16px",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
-          />
-        </Autocomplete>
+    <ThemeProvider theme={ThemeMaterialUI}>
+      <div style={{ paddingRight: "20px", paddingLeft:'20px', paddingTop:'5px', borderRadius: "8px" }}>
+        <div style={{ marginBottom: "20px", display: "flex",  }}>
+          <Autocomplete
+            onLoad={(ref) => (autocompleteRef.current = ref)}
+            onPlaceChanged={handlePlaceSelected}
+            options={autocompleteOptions}
+          >
+            <TextField
+              label="Buscar lugares"
+              variant="outlined"
+              size="small"
+              sx={{ width: 400 }}
+              margin="dense"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchRoundedIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Autocomplete>
+        </div>
+        <div style={{ borderRadius: "8px", overflow: "hidden" }}>
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            zoom={12}
+            center={selected || center}
+          >
+            {selected && <Marker position={selected} />}
+          </GoogleMap>
+        </div>
       </div>
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        zoom={12}
-        center={selected || center}
-      >
-        {selected && <Marker position={selected} />}
-      </GoogleMap>
-    </div>
+    </ThemeProvider>
   );
 };
 
 export default MapWithSearch;
 
 
-
-{/* 
+/* 
 import React from 'react';
 import mapImage from '../img/HomePage/mapa.png';
 
@@ -129,4 +143,4 @@ function FullSizeMapPlaceholder() {
 
 export default FullSizeMapPlaceholder;
 
-*/}
+*/
