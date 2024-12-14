@@ -11,17 +11,46 @@ function InformacionHeader({ nombreUsuario, itinerariosCreados, favoritos, desea
   const [obtenerInicial] = nombreUsuario?.charAt(0).toUpperCase(); 
   const [openModal, setOpenModal] = useState(false);
   const [newAvatarUrl, setNewAvatarUrl] = useState('');
+  const [urlError, setUrlError] = useState('');
 
-  const handleAvatarChange = () => {
+  // Validación - URL de imagen
+  const validarUrlImagen = async (url) => {
+    const trimmedUrl = url.trim();
+  
+    try {
+      const parsedUrl = new URL(trimmedUrl);
+  
+      // Para comprobar que tenga extensión de imagen
+      if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(parsedUrl.pathname)) {
+        throw new Error('La URL debe apuntar a una imagen válida (.jpg, .png, etc.)');
+      }
+  
+      return '';
+    } catch (error) {
+      return error.message; 
+    }
+  }
+
+  const handleAvatarChange = async () => {
+    const error = await validarUrlImagen(newAvatarUrl);
+  
+    if (error) {
+      setUrlError(error);
+      return;
+    }
+  
     setAvatarNuevo(newAvatarUrl);
     setOpenModal(false);
     setNewAvatarUrl('');
-  };
+    setUrlError('');
+  }
+  
 
   const handleCancel = () => {
     setOpenModal(false);
     setNewAvatarUrl('');
-  };
+    setUrlError('');
+  }
 
   return (
     <Card className='perfil-usuario-header'>
@@ -77,6 +106,8 @@ function InformacionHeader({ nombreUsuario, itinerariosCreados, favoritos, desea
           setNewAvatarUrl={setNewAvatarUrl}
           handleAvatarChange={handleAvatarChange}
           handleCancel={handleCancel}
+          urlError={urlError}
+          setUrlError={setUrlError}
         />
 
         {/* Perfil Usuario Header Informacion */}
