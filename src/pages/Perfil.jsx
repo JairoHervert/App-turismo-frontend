@@ -140,7 +140,7 @@ const Perfil = () => {
         )}
         { /* Categorías de Interés Usuario */}
         <CategoriasInteres
-          catsTots={ categorias }
+          idUsuario={ datos && datos.id ? datos.id : null }
           categoriasUsuario={ categoriasInteres }
         />
 

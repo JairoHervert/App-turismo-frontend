@@ -6,7 +6,13 @@ import { Card, CardHeader, CardContent, Divider, Box, Chip, CardActionArea, Card
 import Grid from '@mui/material/Grid2';
 import CategoryIcon from '@mui/icons-material/Category';
 
-function CategoriasInteres({ categoriasUsuario }) {
+import { handleActualizarCategorias } from '../../pagesHandlers/user_handler';
+
+function CategoriasInteres({ idUsuario, categoriasUsuario }) {
+  const [id, setId] = useState(idUsuario);
+  useEffect(() => {
+    setId(idUsuario);
+  }, [idUsuario]);
   const [isEditing, setIsEditing] = useState(false);
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState(categoriasUsuario);
   const [categoriasTotales, setCategoriasTotales] = useState([]);
@@ -19,8 +25,19 @@ function CategoriasInteres({ categoriasUsuario }) {
     )
   }
 
-  const handleSave = () => {
-    setIsEditing(!isEditing);
+  const handleSave = async () => {
+    if(categoriasSeleccionadas.length > 0) {
+      const nombresSeleccionados = categoriasTotales
+      .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
+      .map((categoria) => categoria.nombre)
+      .join(','); // Unir los nombres por comas
+    
+      const response = await handleActualizarCategorias(id, nombresSeleccionados);
+      console.log(response);
+      if(response) {
+        setIsEditing(!isEditing);
+      }
+    }
   }
 
   useEffect(() => {
