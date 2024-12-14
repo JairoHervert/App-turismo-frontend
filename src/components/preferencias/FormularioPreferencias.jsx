@@ -80,7 +80,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
     const name = userName;
     const object = {minLength: false};
     if(name)
-      object.minLength = name.length >= 2;
+      object.minLength = name.length >= 3;
     setUserNameRules(object);
   }, [userName]);
 
@@ -261,7 +261,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                     userNameRules.minLength ? "text-success fw-semibold" : ""
                   }`}
                 >
-                  Debe contener al menos 2 caracteres.
+                  Debe contener al menos 3 caracteres.
                 </li>
               </ul>
             </Grid>

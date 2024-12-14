@@ -26,6 +26,7 @@ import AdminDash from '../pages/AdminDashboard';
 import AllPlacesPage from '../pages/AllPlacesPage';
 import PreferenciasModal from '../components/preferencias/PreferenciasModal';
 import AdminSavedPlaces from '../pages/AdminSavedPlaces';
+import Carga from '../pages/Carga';
 
 
 function AppRouter() {
@@ -60,6 +61,7 @@ function AppRouter() {
         <Route path='/lugares' element={<AllPlacesPage/>} />
         <Route path='/preferencias' element={<PreferenciasModal/>} />
         <Route path='/Admin-SavedPlaces' element={<AdminSavedPlaces/>}/>
+        <Route path='/Carga' element={<Carga />} /> 
       </Routes>
     </Router>
   );
