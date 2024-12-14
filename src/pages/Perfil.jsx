@@ -16,13 +16,14 @@ import { ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/system';
 import categorias from '../components/preferencias/CategoriasPref';
 
-import { handleDatosUsuario } from '../pagesHandlers/user_handler';
+import { handleDatosUsuario, handleTodasCategoriasUsuario } from '../pagesHandlers/user_handler';
 import { isLogged } from '../schemas/isLogged';
 
 const Perfil = () => {
   const navigate = useNavigate(); // Inicializa useNavigate
   const [datos, setDatos] = useState(null);
   const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/commons/4/41/Siberischer_tiger_de_edit02.jpg');
+  const [categoriasInteres, setCategorias] = useState([]);
 
   useEffect(() => {
     const fetchLoginStatus = async () => {
@@ -65,17 +66,34 @@ const Perfil = () => {
         const fechaFormateada = `${dia}-${mes}-${anio}`;
         datos.fechaNacimiento = fechaFormateada;
 
+        datos.nDeseados = resultado.nDeseados;
+        datos.nFavoritos = resultado.nFavoritos;
+        datos.nItinerarios = resultado.nItinerarios;
+
         setDatos(datos);
         setProfileImage(datos.imagen);
-        console.log("Resultado consulta", datos);
-        console.log("Resultado imagen", datos.imagen);
       } catch (error) {
         console.error('Error al obtener datos del usuario:', error);
       }
     };
 
+    const fetchCategorias = async () => {
+      try {
+        const id = localStorage.getItem('id');
+
+        const resultado = await handleTodasCategoriasUsuario(id);
+        if(!resultado)
+          navigate('/');
+        
+        setCategorias(resultado);
+      } catch (error) {
+        console.error('Error al obtener las categorías del usuario: ', error)
+      }
+    }
+
     fetchLoginStatus();
     fetchDatos();
+    fetchCategorias();
   }, []);
 
   return (
@@ -99,9 +117,9 @@ const Perfil = () => {
           /* Si no cuenta con foto de perfil, su avatar sería un fondo genérico y 
              la primera letra de su nombre de usuario */
           //avatar={null}
-          itinerariosCreados={datos && datos.nItinerarios != undefined && datos.nItinerarios != null ? datos.nItinerarios : '-'}
-          favoritos={datos && datos.nFavoritos != undefined && datos.nFavoritos != null ? datos.nFavoritos : '-'}
-          deseados={datos && datos.nDeseados != undefined && datos.nDeseados != null ? datos.nDeseados : '-'}
+          itinerariosCreados={datos && datos.nItinerarios !== undefined && datos.nItinerarios !== null ? datos.nItinerarios : '-'}
+          favoritos={datos && datos.nFavoritos !== undefined && datos.nFavoritos !== null ? datos.nFavoritos : '-'}
+          deseados={datos && datos.nDeseados !== undefined && datos.nDeseados !== null ? datos.nDeseados : '-'}
         />
 
         { /* Información Personal Usuario */}
@@ -121,8 +139,9 @@ const Perfil = () => {
           <p>Cargando datos...</p>
         )}
         { /* Categorías de Interés Usuario */}
-        <CategoriasInteres 
-          categoriasUsuario={ categorias }
+        <CategoriasInteres
+          catsTots={ categorias }
+          categoriasUsuario={ categoriasInteres }
         />
 
       </Container>
