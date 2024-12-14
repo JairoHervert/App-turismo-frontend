@@ -3,7 +3,7 @@ import React from 'react';
 import ButtonsMod from '../ButtonsMod';
 import { Box, Modal, TextField, Typography } from '@mui/material';
 
-function InformacionHeader({ openModal, setOpenModal, newAvatarUrl, setNewAvatarUrl, handleAvatarChange, handleCancel }) {
+function InformacionHeader({ openModal, setOpenModal, newAvatarUrl, setNewAvatarUrl, handleAvatarChange, handleCancel, urlError, setUrlError}) {
 
   return (
     <Modal
@@ -37,6 +37,8 @@ function InformacionHeader({ openModal, setOpenModal, newAvatarUrl, setNewAvatar
             variant='outlined'
             value={newAvatarUrl}
             onChange={(e) => setNewAvatarUrl(e.target.value)}
+            error={!!urlError}
+            helperText={urlError || 'Ingresa una URL válida de una imagen'}
             sx={{ mb: 2, marginBottom: '30px' }}
           />
           <Box sx={{ display: 'flex', justifyContent: {sm: 'flex-end', xs: 'center' } }}>

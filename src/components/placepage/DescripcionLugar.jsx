@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 // Material UI
-import { Rating } from '@mui/material';
-import { ImageList, ImageListItem, useMediaQuery, Button } from '@mui/material';
+import {Rating, ImageList, ImageListItem, useMediaQuery, Button } from '@mui/material';
 // Íconos
 import { StarBorder as StarBorderIcon, Star as StarIcon, FavoriteBorder as FavoriteBorderIcon, Favorite as FavoriteIcon, Pets as PetsIcon, Place as PlaceIcon, AttachMoney as AttachMoneyIcon, Payment as PaymentIcon } from '@mui/icons-material';
 import { Accessible as AccessibleIcon, AccessTime as AccessTimeIcon, FamilyRestroom as FamilyRestroomIcon, Grass as GrassIcon, Language as LanguageIcon, Category as CategoryIcon, Groups as GroupsIcon } from '@mui/icons-material';
 import { handleFavoritos, handleDeseados } from '../../pagesHandlers/favDeseados-handler';
 
-function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value, placeId, isFavoritoInicial, isDeseadoInicial, isLogged}) {
+import {APIProvider, Map} from '@vis.gl/react-google-maps';
+
+function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLugar, accesibilidadLugar, petFriendly, veganFriendly, familiar, goodForGroups, metodoPago, website, horarioLugar, categoria, imagenesLugar, value, placeId, isFavoritoInicial, isDeseadoInicial, isLogged,coordenadas}) {
   const [isClickedDeseados, setIsClickedDeseados] = useState(isDeseadoInicial);
   const [isClickedFavoritos, setIsClickedFavoritos] = useState(isFavoritoInicial);
- 
+  const { lat, lng } = coordenadas;
+  const locations = { key: nombreLugar, location: { lat: lat, lng: lng } };
+  
+
   const handleButtonDeseadosClick = () => {
     const idUsuario = localStorage.getItem('id');
     handleDeseados(idUsuario, placeId);
@@ -25,8 +29,6 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
 
   const breakPoint = useMediaQuery('(max-width: 960px');
   
-  const pathFotosLocal = "../../LugaresRegistrados/fotos/";
-
   const galeria = () => {
     if (!imagenesLugar || imagenesLugar.length === 0) {
       return <p>No hay imágenes disponibles.</p>;
@@ -63,10 +65,13 @@ function DescripcionLugar({ nombreLugar, resumenLugar, direccionLugar, costoLuga
           <div className='card pp-informacion-lugar-card'>
 
             { /* Subsección - Mapa del lugar */}
-            <div className='pp-informacion-lugar-card-mapa'>
-              {/* para poner el mapa, de a mientras es una imagen*/}
+            <div id="map" className='pp-informacion-lugar-card-mapa'>
+            <APIProvider apiKey={process.env.REACT_APP_GOOGLE_API_KEY} onLoad={() => console.log('Maps API has loaded.')}>
+              <Map defaultZoom={18} defaultCenter={ { lat: lat, lng: lng } } >
+              </Map>
+            </APIProvider>
             </div>
-            <a className='pp-informacion-lugar-card-link' href='#'>Ver en GoogleMaps</a>
+            <a className="pp-informacion-lugar-card-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nombreLugar)}`} >Ver en GoogleMaps</a>
 
             { /* Subsección - Información del lugar */}
             { /* Direccion */}

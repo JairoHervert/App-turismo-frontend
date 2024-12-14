@@ -47,7 +47,7 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
 
   const body = {
     textQuery: query,
-    //includedType: 'museum', // Limita a museos
+    //includedType: 'monument', // Limita a museos
     //strictTypeFiltering: true, // Aplica el filtro estricto
     languageCode: 'es', // Idioma preferido
     regionCode: 'MX', // Código de región para México
@@ -80,34 +80,6 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
         'X-Goog-FieldMask': 'places.displayName,places.id,places.formattedAddress,places.location,places.rating,places.photos,places.googleMapsUri,places.websiteUri,places.types,places.priceLevel,places.currentOpeningHours,places.internationalPhoneNumber,places.userRatingCount,places.reviews,places.paymentOptions,places.editorialSummary,places.accessibilityOptions,places.addressComponents,places.priceRange,places.goodForChildren,places.goodForGroups,places.reservable,places.servesVegetarianFood,nextPageToken,places.allowsDogs,places.restroom,places.attributions',
       },
     });
-
-    //console.log('Respuesta de la API:', JSON.stringify(response.data, null, 2));
-
-
-    // [
-    //   [],
-    //   [],
-    //   20 lugares
-
-    // ]
-    // [
-    //   [],
-    //   [],
-    //   20 lugares
-
-    // ]
-    
-
-    // final
-    // [
-    //   [],
-    //   [],
-    //   [],
-    //   [],
-    //   1000 lugares
-    //   []
-    // ]
-
 
     if (!response.data.places || !Array.isArray(response.data.places)) {
       console.error('Error: La API no devolvió resultados válidos:', response.data);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Container, Stack, Typography, TextField, InputAdornment, Box } from '@mui/material';
 import { History as HistoryIcon, Delete as DeleteIcon, Search as SearchIcon } from '@mui/icons-material';
 import Navbar from '../components/NavBar';
@@ -11,10 +11,20 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 
 import '../css/History.css';
 import ButtonsMod from '../components/ButtonsMod';
+import grillo from '../img/grillo.png';
+import AlertD from '../components/alert';
 
 function HistoryPage() { 
   const [searchHistory, setSearchHistory] = useState([]); // Estado para el historial
   const [searchText, setSearchText] = useState(''); // Estado para el texto de búsqueda
+
+  // Modal - Borrar historial
+  const alertRef = useRef();
+  const handleOpenModal = () => {
+    if (alertRef.current) {
+        alertRef.current.handleClickOpen();
+    }
+  }
 
   useEffect(() => {
     const fetchHistorial = async () => {
@@ -122,19 +132,51 @@ function HistoryPage() {
         </Stack>
         
         <Stack direction={{xs: 'column', sm: 'row'}} justifyContent={{ md: 'end', xs: 'center' }} alignItems='center' marginBottom='1.5rem' marginTop='1.5rem'>
-          <ButtonsMod
-            variant='secundario'
-            textCont='Borrar historial'
-            width='fit-content'
-            startIcon={<DeleteIcon />}
-            clickEvent={handleBorrarHistorial}
-          />
+          {obtenerHistorialFiltrado().length > 0 && (
+            <>
+            <ButtonsMod
+              variant='secundario'
+              textCont='Borrar historial'
+              width='fit-content'
+              startIcon={<DeleteIcon />}
+              clickEvent={handleOpenModal}
+            />
+            <AlertD
+              ref={alertRef}
+              titulo='¿Estás seguro de que deseas eliminar todo el historial?'
+              mensaje='Esta acción no se puede deshacer'
+              boton1='Aceptar'
+              boton2='Cancelar'
+              onConfirm={handleBorrarHistorial}
+            />
+            </>
+          )}
         </Stack>
 
-        <SearchHistoryBox
-          searchHistory={obtenerHistorialFiltrado()}
-          onEliminarLugar={handleEliminarLugar}
-        />
+        {obtenerHistorialFiltrado().length > 0 ? (
+          <SearchHistoryBox
+            searchHistory={obtenerHistorialFiltrado()}
+            onEliminarLugar={handleEliminarLugar}
+          />
+        ) : (
+          <Box className='d-flex justify-content-center align-items-center flex-column' sx={{ minHeight: '50vh' }}>
+            <Typography className='fw-medium text-center'
+              sx={{ fontSize: {md: '2rem'}, fontFamily: 'poppins', mb: 2 }}
+            >
+              Todavía no tienes un historial de búsqueda.
+            </Typography>
+            <Box
+              component='img'
+              src={grillo}
+              alt='Grillo'
+              sx={{
+                width: '10rem', 
+                height: 'auto', 
+              }}
+            />
+          </Box>
+        )}
+        
       </Container>
       <Footer />
     </ThemeProvider>

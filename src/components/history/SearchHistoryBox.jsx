@@ -1,27 +1,46 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, Typography, List, ListItem, ListItemText, Stack } from '@mui/material';
 
 import '../../css/History.css';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import AlertD from '../alert';
 
 function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
+  // Modal - Eliminar un item del historial 
+  const alertRef = useRef();
+  const [idItemEliminar, setIdItemEliminar] = useState(null);
+
+  const handleOpenModal = (id) => {
+    setIdItemEliminar(id);
+    if (alertRef.current) {
+        alertRef.current.handleClickOpen();
+    }
+  }
+
+  const Borrar = () => {
+    if (idItemEliminar) {
+      onEliminarLugar(idItemEliminar);
+    }
+  }
+
+  // Funciones para las fechas en el historial
+  const obtenerFechaLocal = (fecha) => {
+    const fechaObj = new Date(fecha);
+    fechaObj.setMinutes(fechaObj.getMinutes() + fechaObj.getTimezoneOffset());
+    return fechaObj;
+  }
 
   const formatoFecha = (fecha) => {
-    // Se crea un objeto Date a partir de la fecha pasada
-    const fechaObj = new Date(fecha);
-  
-    // Formato de fecha
-    const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
-    return fechaObj.toLocaleDateString('es-ES', opciones);
+
+  const fechaLocal = obtenerFechaLocal(fecha);
+
+  const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+    return fechaLocal.toLocaleDateString('es-ES', opciones);
   }
 
-  const fechaHoy = new Date().toISOString().split('T')[0];
-  
-  const handleCheckboxChange = (event, itemId) => {
-    console.log(`Checkbox changed for item ID: ${itemId}, checked: ${event.target.checked}`);
-  }
+  const fechaHoy = obtenerFechaLocal(new Date()).toISOString().split('T')[0];
 
   return (
     <Card>
@@ -43,7 +62,10 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
               sx={{ paddingLeft: '0', transition: '0.2s', positon: 'relative', '&:hover': { backgroundColor: 'rgba(185, 229, 247, 0.5)', cursor: 'pointer' } }}
               secondaryAction={
                 /* Ícono para borrar Item */
-                <IconButton onClick={() => onEliminarLugar(item.id)} >
+                <IconButton 
+                  // onClick={() => onEliminarLugar(item.id)}
+                  onClick={() => handleOpenModal(item.id)}
+                >
                   <CloseIcon sx={{ width: '0.8rem', height: '0.8rem' }}/>
                 </IconButton>
               }
@@ -70,6 +92,15 @@ function SearchHistoryBox ({ searchHistory, onEliminarLugar }) {
       </div>
       ))}
       </CardContent>
+
+      <AlertD
+        ref={alertRef}
+        titulo='¿Estas seguro de eliminar este ítem?'
+        mensaje='Esta acción no se puede deshacer'
+        boton1='Aceptar'
+        boton2='Cancelar'
+        onConfirm={Borrar}
+      />
     </Card>
   );
 };
