@@ -44,9 +44,14 @@ class loginModel {
           username: resultado ? resultado.username : null,
           nombre: resultado ? resultado.nombre : null,
           apellido: resultado ? resultado.apellido : null,
+          tokenGoogle: resultado ? resultado.tokenGoogle : null,
           imagen: resultado ? resultado.imagen : null,
-          confirmacion: resultado ? resultado.confirmacion : null,
+          fechaNacimiento: resultado ? resultado.fechaNacimiento : null,
+          sexo: resultado ? resultado.sexo : null,
+          preferenciaAlimenticia: resultado ? resultado.preferenciaAlimenticia : null,
+          requiereAccesibilidad: resultado ? resultado.requiereAccesibilidad : null,
           ultimaConexion: resultado ? resultado.ultimaConexion : null,
+          confirmacion: resultado ? resultado.confirmacion : null,
         });
       });
     });
@@ -67,9 +72,14 @@ class loginModel {
           username: resultado ? resultado.username : null,
           nombre: resultado ? resultado.nombre : null,
           apellido: resultado ? resultado.apellido : null,
+          tokenFacebook: resultado ? resultado.tokenFacebook : null,
           imagen: resultado ? resultado.imagen : null,
-          confirmacion: resultado ? resultado.confirmacion : null,
+          fechaNacimiento: resultado ? resultado.fechaNacimiento : null,
+          sexo: resultado ? resultado.sexo : null,
+          preferenciaAlimenticia: resultado ? resultado.preferenciaAlimenticia : null,
+          requiereAccesibilidad: resultado ? resultado.requiereAccesibilidad : null,
           ultimaConexion: resultado ? resultado.ultimaConexion : null,
+          confirmacion: resultado ? resultado.confirmacion : null,
         });
       });
     });

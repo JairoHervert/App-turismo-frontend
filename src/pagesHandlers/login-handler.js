@@ -10,22 +10,6 @@ const handleLogin = async (e, correo, contraseña) => {
       console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
 
       return response.data;
-      
-
-      localStorage.setItem('access_token', response.data.token);
-      localStorage.setItem('id', response.data.resultado.id);
-
-      console.log(response.data.resultado);
-      /*Swal.fire({
-        icon: 'success',
-        title: 'Inicio de sesión exitoso',
-        text: '¡Bienvenido! Has iniciado sesión correctamente.',
-        timer: 3000,
-        showConfirmButton: false,
-        willClose: () => {
-          window.location.href = '/'
-        }
-      });*/
     } else {
       //throw()
     }
@@ -53,26 +37,7 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
     if(response.data.resultado.id) {
       console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
       
-      // guardar el token en localStorage
-      localStorage.setItem('access_token', response.data.token);
-      localStorage.setItem('google_access_token', token);
-      localStorage.setItem('id', response.data.resultado.id);
-
-      // Verificar que se guardó bien
-      console.log(localStorage.getItem('access_token'));
-      localStorage.setItem('google_access_token', token);
-      console.log(localStorage.getItem('id'));
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Inicio de sesión exitoso',
-        text: '¡Bienvenido! Has iniciado sesión correctamente.',
-        timer: 2000,
-        showConfirmButton: false,
-        willClose: () => {
-          window.location.href = '/'
-        }
-      });
+      return response.data;
     }
 
   } catch (error) {
@@ -103,35 +68,6 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
 //                                GOOGLE
 // ----------------------------------------------------------------------
 
-const successGoogleHandler = async (tokenResponse) => {
-  console.log('Token de Google:', tokenResponse);
-  const accessToken = tokenResponse.access_token;
-  console.log('Token de acceso:', accessToken);
-  
-  // Llama a Google UserInfo API para obtener los datos del usuario
-  try {
-    const userInfo = await axios.get(
-      'https://www.googleapis.com/oauth2/v3/userinfo',
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    console.log('Información del usuario:', userInfo.data);
-    await handleLoginGoogle(
-      userInfo.data.email,
-      userInfo.data.name,
-      userInfo.data.picture,
-      userInfo.data.sub);
-    
-      // Mostrar un SweetAlert de éxito si el registro es exitoso
-
-  } catch (error) {
-    console.error('Error al obtener información del usuario:', error);
-  }
-};
-
 const errorGoogleHandler = () => {
   console.log('Error al autenticar con Google');
 };
@@ -142,7 +78,7 @@ const errorGoogleHandler = () => {
 
 const responseFacebook = async (response) => {
   console.log(response);
-  if(response.status && response.status == 'unknown') {
+  if(response.status && response.status === 'unknown') {
     return;
   }
 
@@ -207,7 +143,7 @@ function alert_error(mensaje) {
 // Exports
 export {
   handleLogin,
-  successGoogleHandler,
+  handleLoginGoogle,
   errorGoogleHandler,
   responseFacebook
 };
