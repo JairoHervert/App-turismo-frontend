@@ -43,26 +43,30 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
 
   // Para la validación del nombre
   const [nombreError, setNombreError] = useState(false);
-  const [nombreHelperText, setNombreHelperText] = useState('Este campo es opcional');
+  const [nombreHelperText, setNombreHelperText] = useState('El nombre debe empezar con una letra mayúscula y tener al menos dos letras válidas');
   // Para la validación del apellido
   const [apellidoError, setApellidoError] = useState(false);
-  const [apellidoHelperText, setApellidoHelperText] = useState('Este campo es opcional');
+  const [apellidoHelperText, setApellidoHelperText] = useState('El apellido debe empezar con una letra mayúscula y tener al menos dos letras válidas');
   // Para la validación de fecha de nacimiento
   const [fechaError, setFechaError] = useState(false);
   const [fechaHelperText, setFechaHelperText] = useState('La edad debe ser de entre 18 a 65 años');
 
   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value, }));
-      // validación nombre completo
-      if (name === 'nombre') {
-        validarNombre(value);
-      } else if (name === 'apellido') {
-        validarApellido(value);
-      }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value, }));
+    // validación nombre completo
+    if (name === 'nombre') {
+      validarNombre(value);
+    } else if (name === 'apellido') {
+      validarApellido(value);
+    }
   }
 
   useEffect(() => {
+    let accesibilidad = 'No';
+    if(discapacidadMotriz === "1") {
+      accesibilidad = 'Si';
+    }
     setOriginal({
       correoElectronico,
       nombre,
@@ -70,7 +74,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
-      discapacidadMotriz,
+      accesibilidad,
     });
     setFormData({
       correoElectronico,
@@ -79,7 +83,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
-      discapacidadMotriz,
+      accesibilidad,
     });
   }, [correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia, discapacidadMotriz]);
 
@@ -88,11 +92,11 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       
       if (!formData.nombre) {
         setNombreError(false);
-        setNombreHelperText('Este campo es opcional');
+        setNombreHelperText('El nombre debe empezar con una letra mayúscula y tener al menos dos letras válidas');
       }
       if (!formData.apellido) {
         setApellidoError(false);
-        setApellidoHelperText('Este campo es opcional');
+        setApellidoHelperText('El nombre debe empezar con una letra mayúscula y tener al menos dos letras válidas');
       }
   }
 
@@ -171,44 +175,92 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
 
   // Validación - Nombre
   const validarNombre = (nombre) => {
-    if (nombre.trim() === '') {
+    const trimmedNombre = nombre.trim();
+  
+    // Si está vacío, no se muestra un error
+    if (trimmedNombre === '') {
       setNombreError(false);
-      setNombreHelperText('Este campo es opcional');
+      setNombreHelperText('El nombre debe empezar con una letra mayúscula y tener al menos dos letras válidas');
       return true;
     }
-
-    const esValido = /^[a-zA-ZÀ-ÿ\s]{3,}$/.test(nombre.trim());
-
-    if (!esValido) {
+  
+    // Si pone otros caracteres inválidos
+    if (/[^a-zA-ZÀ-ÿ\s]/.test(trimmedNombre)) {
       setNombreError(true);
-      setNombreHelperText('El nombre debe contener al menos tres letras válidas');
+      setNombreHelperText('El campo contiene caracteres no permitidos');
       return false;
-    } else {
-      setNombreError(false);
-      setNombreHelperText('');
-      return true;
     }
-  }
+  
+    // Para que empiece con una letra mayúscula válida
+    if (!/^[A-ZÀ-Ÿ]/.test(trimmedNombre)) {
+      setNombreError(true);
+      setNombreHelperText('El nombre debe empezar con una letra mayúscula');
+      return false;
+    }
+  
+    // Número de caracteres (entre 2 y 60)
+    if (trimmedNombre.length < 2 || trimmedNombre.length > 60) {
+      setNombreError(true);
+      setNombreHelperText('El nombre debe tener entre 2 y 60 caracteres');
+      return false;
+    }
 
+    // Que el nombre tenga al menos una letra válida además de la inicial
+    if (!/^[A-ZÀ-Ÿ][a-zA-ZÀ-ÿ\s]{1,}$/.test(trimmedNombre)) {
+      setNombreError(false); // Información, no error
+      setNombreHelperText('Falta al menos una letra válida para el nombre');
+      return false;
+    }
+  
+    // Si todo es válido
+    setNombreError(false);
+    setNombreHelperText('');
+    return true;
+  }
+  
   // Validación - Apellido
   const validarApellido = (apellido) => {
-    if (apellido.trim() === '') {
+    const trimmedApellido = apellido.trim();
+  
+    // Si está vacío, no se muestra un error
+    if (trimmedApellido === '') {
       setApellidoError(false);
-      setApellidoHelperText('Este campo es opcional');
+      setApellidoHelperText('El apellido debe empezar con una letra mayúscula y tener al menos dos letras válidas');
       return true;
     }
-    // hay apellidos con solo dos letras
-    const esValido = /^[a-zA-ZÀ-ÿ\s]{2,}$/.test(apellido.trim());
-    
-    if (!esValido) {
+  
+    // Si pone otros caracteres inválidos
+    if (/[^a-zA-ZÀ-ÿ\s]/.test(trimmedApellido)) {
       setApellidoError(true);
-      setApellidoHelperText('El nombre debe contener al menos dos letras válidas');
+      setApellidoHelperText('El campo contiene caracteres no permitidos');
       return false;
-    } else {
-      setApellidoError(false);
-      setApellidoHelperText('');
-      return true;
     }
+  
+    // Para que empiece con una letra mayúscula válida
+    if (!/^[A-ZÀ-Ÿ]/.test(trimmedApellido)) {
+      setApellidoError(true);
+      setApellidoHelperText('El apellido debe empezar con una letra mayúscula');
+      return false;
+    }
+  
+    // Número de caracteres (entre 2 y 60)
+    if (trimmedApellido.length < 2 || trimmedApellido.length > 60) {
+      setApellidoError(true);
+      setApellidoHelperText('El apellido debe tener entre 2 y 60 caracteres');
+      return false;
+    }
+
+    // Que el nombre tenga al menos una letra válida además de la inicial
+    if (!/^[A-ZÀ-Ÿ][a-zA-ZÀ-ÿ\s]{1,}$/.test(trimmedApellido)) {
+      setApellidoError(false); // Información, no error
+      setApellidoHelperText('Falta al menos una letra válida para el apellido');
+      return false;
+    }
+  
+    // Si todo es válido
+    setApellidoError(false);
+    setApellidoHelperText('');
+    return true;
   }
 
   // Validación - Fecha de nacimiento
@@ -329,6 +381,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <TextField
                             fullWidth
+                            required
                             variant='outlined'
                             size='small'
                             name='nombre'
@@ -359,6 +412,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <TextField
                           fullWidth
+                          required
                           variant='outlined'
                           size='small'
                           name='apellido'
@@ -428,7 +482,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <Select
                           id='genero'
-                          // value={}
+                          value={formData.genero}
                           // onChange={}
                           sx={{ width: '100%', height: '3rem' }}
                         >
@@ -458,12 +512,12 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <Select
                           id='preferenciaAlimenticia'
-                          // value={}
+                          value={formData.preferenciaAlimenticia}
                           // onChange={}
                           sx={{ width: '100%', height: '3rem' }}
                         >
                           <MenuItem value='Ninguno'>Ninguno</MenuItem>
-                          <MenuItem value='Vegetariano'>Vegetariano(a)</MenuItem>
+                          <MenuItem value='Vegetariano(a)'>Vegetariano(a)</MenuItem>
                         </Select>
                     ) : (
                       <Typography variant='body1'>{formData.preferenciaAlimenticia || 'Sin especificar'}</Typography>
@@ -487,7 +541,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <Select
                           id='discapacidadMotriz'
-                          // value={}
+                          value={formData.accesibilidad}
                           // onChange={}
                           sx={{ width: '100%', height: '3rem' }}
                         >
@@ -495,7 +549,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                           <MenuItem value='No'>No</MenuItem>
                         </Select>
                     ) : (
-                      <Typography variant='body1'>{formData.discapacidadMotriz || 'Sin especificar'}</Typography>
+                      <Typography variant='body1'>{formData.accesibilidad || 'Sin especificar'}</Typography>
                     )}
                   </Grid>
                 </Grid>

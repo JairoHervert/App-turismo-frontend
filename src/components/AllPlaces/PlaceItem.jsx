@@ -9,7 +9,7 @@ import { handleFavoritos, handleDeseados, handleEsFavorito,handleEsDeseado } fro
 import ButtonsMod from '../ButtonsMod'
 import '../../css/AllPlaces.css'
 
-function PlaceItem({ id, name, description, image, category, address, rating, phone }) {
+function PlaceItem({ id, name, description, image, category, address, rating, phone, idUsuario }) {
 
   const navigate = useNavigate();
 
@@ -36,13 +36,13 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
 
   useEffect(() => {
     const fetchStatus = async () => {
-      const idUsuario = localStorage.getItem('id');
-      if (idUsuario) {
+      const user = idUsuario;
+      if (user) {
         try {
-          const favorito = await handleEsFavorito(idUsuario, id);
+          const favorito = await handleEsFavorito(user, id);
           setIsFavorite(favorito.esFavorito);
 
-          const deseado = await handleEsDeseado(idUsuario, id);
+          const deseado = await handleEsDeseado(user, id);
           setIsDeseado(deseado.esDeseado);
         } catch (error) {
           console.error('Error verificando favoritos o deseados:', error);
@@ -73,7 +73,9 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
       <CardActionArea onClick={redigirALugar}>
         {/* Botones en la esquina superior derecha */}
         <Box sx={{ top: '7px', right: '63%' }} className="position-absolute d-flex gap-0 UD_buttons_star_heart">
-          <Button
+          {idUsuario ?
+            <>
+            <Button
             variant="outlined"
             className="pc-btn-deseados"
             onClick={handleDeseadosClick}
@@ -91,8 +93,7 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
             }}
           >
             {isDeseado ? <StarIcon /> : <StarBorderIcon />}
-          </Button>
-          <Button
+          </Button><Button
             variant="outlined"
             className="pc-btn-favoritos"
             onClick={handleFavoritosClick}
@@ -109,8 +110,10 @@ function PlaceItem({ id, name, description, image, category, address, rating, ph
               minHeight: '40px', // Personaliza el alto mínimo del botón
             }}
           >
-            {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </Button>
+              {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </Button>
+            </>
+            : ""}
         </Box>
         <CardMedia
           component='img'

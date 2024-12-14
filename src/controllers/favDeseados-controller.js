@@ -8,7 +8,11 @@ class favDeseadosController {
       const favorito = await favDeseadosModel.Favoritos(idUsuario, IdLugar);
       res.status(200).json({ message: 'Lugar agregado a favoritos' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al agregar a favoritos' });
+      if (error.message) {
+        let mensajeError = errorHandler(error.message);
+        return res.status(400).json({ error: mensajeError });
+      }
+      res.status(500).json({ error: 'Error al agregar a favoritos' });
     }
   }
 

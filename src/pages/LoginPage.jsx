@@ -5,6 +5,7 @@ import { Container, Box, Typography } from '@mui/material';
 import { TextField, Grid2 as Grid, FormControl, InputLabel, Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FormHelperText from '@mui/material/FormHelperText';
+import axios from 'axios';
 
 // modulos de iconos
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
@@ -20,7 +21,7 @@ import SeleccionCategorias from '../components/preferencias/SeleccionCategorias'
 //componentes de back
 import { useGoogleLogin } from '@react-oauth/google';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { handleLogin, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/login-handler';
+import { handleLogin, handleLoginGoogle, errorGoogleHandler, responseFacebook } from '../pagesHandlers/login-handler';
 import { handleCompletarPerfil, handleActualizarCategorias } from '../pagesHandlers/user_handler';
 
 // estilos importados
@@ -34,6 +35,9 @@ import casaLeon from '../img/PlacePage/place-img-casadeleon.jpg';
 
 function LoginPage() {
   const navigate = useNavigate();
+  const handleHomeClick = () => {
+    navigate('/');
+  };
 
   // validacion de correo
   const [correo, setCorreo] = useState('');
@@ -107,10 +111,13 @@ function LoginPage() {
     if(response) {
       localStorage.setItem('access_token', datosIniciales.token);
       localStorage.setItem('id', datosIniciales.resultado.id);
+      if(datosIniciales.resultado.tokenFacebook)
+        localStorage.setItem('google_access_token', datosIniciales.resultado.tokenGoogle);
+      else if(datosIniciales.resultado.tokenFacebook)
+        localStorage.setItem('facebook_access_token', datosIniciales.resultado.tokenFacebook);
       setOpenSecondModal(false);
       navigate('/');
     }
-    //setOpenSecondModal(false);
   };
 
   const handleCloseSecondModal = () => {
@@ -147,14 +154,50 @@ function LoginPage() {
     event.preventDefault();
   };
 
-  // redireccionamiento a home
-  const handleHomeClick = () => {
-    navigate('/');
+  const successGoogleHandler = async (tokenResponse) => {
+    console.log('Token de Google:', tokenResponse);
+    const accessToken = tokenResponse.access_token;
+    console.log('Token de acceso:', accessToken);
+    
+    // Llama a Google UserInfo API para obtener los datos del usuario
+    try {
+      const userInfo = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log('Información del usuario:', userInfo.data);
+      const respuesta = await handleLoginGoogle(
+        userInfo.data.email,
+        userInfo.data.name,
+        userInfo.data.picture,
+        userInfo.data.sub);
+      console.log("ESTA ES LA RESPUESTA", respuesta);
+      if(respuesta && respuesta.resultado && !respuesta.resultado.ultimaConexion) {
+        setDatosIniciales(respuesta);
+        setOpen(true);
+      } else if(respuesta && respuesta.resultado) {
+        localStorage.setItem('access_token', respuesta.token);
+        localStorage.setItem('google_access_token', userInfo.data.sub);
+        localStorage.setItem('id', respuesta.resultado.id);
+        navigate('/');
+      }
+      // Mostrar un SweetAlert de éxito si el registro es exitoso
+  
+    } catch (error) {
+      console.error('Error al obtener información del usuario:', error);
+    }
   };
+
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: successGoogleHandler,
     onError: errorGoogleHandler,
   });
+
+
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>

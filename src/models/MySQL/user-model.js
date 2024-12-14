@@ -92,7 +92,22 @@ class userModel {
     });
   }
 
-  static async UsuarioVerCategorias(id) {
+  static async UsuarioVerCategorias(id){ 
+    const query = 'CALL UsuarioVerCategorias(?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0] || null;
+        if (resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({categorias: resultado});
+      });
+    });
+  }
+
+  static async UsuarioTodasCategorias(id) {
     const query = 'CALL usuario_categorias_all(?)';
     return new Promise((resolve, reject) => {
       db.query(query, [id], (err, results) => {

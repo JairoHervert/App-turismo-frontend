@@ -54,12 +54,12 @@ BEGIN
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
-   WHERE correo = UPPER(p_correo);
+   WHERE UPPER(correo) = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
       IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
          INSERT INTO Usuario (username, correo, contraseña, auditoria, confirmacion)
-         VALUES (p_username, UPPER(p_correo), p_contraseña, NOW(), 0);
+         VALUES (p_username, p_correo, p_contraseña, NOW(), 0);
       ELSE
          SELECT 'correo_invalido' AS 'error';
       END IF;
@@ -115,8 +115,8 @@ BEGIN
    IF correoExistente = 0 THEN
       IF googleExistente = 0 THEN
          IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
-            INSERT INTO Usuario (nombre, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
-            VALUES (p_nombre, UPPER(p_correo), p_imagen, p_token, 1, NOW(), 'google');
+            INSERT INTO Usuario (nombre, apellido, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
+            VALUES (p_nombre, p_apellido, p_correo, p_imagen, p_token, 1, NOW(), 'google');
 
             SELECT id FROM Usuario
             WHERE nombre = p_nombre AND correo = UPPER(p_correo);
@@ -275,10 +275,16 @@ BEGIN
    DECLARE v_nombre VARCHAR(60);
    DECLARE v_apellido VARCHAR(60);
    DECLARE v_imagen VARCHAR(512);
+   DECLARE v_sexo VARCHAR(20);
+   DECLARE v_alimentacion VARCHAR(20);
+   DECLARE v_discapacidad VARCHAR(20);
    DECLARE v_confirmacion BOOLEAN;
+   DECLARE v_fechaNacimiento DATETIME;
    DECLARE v_ultimaConexion DATETIME;
+   DECLARE v_google VARCHAR(255);
 
-   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion, v_ultimaConexion
+   SELECT id, username, nombre, apellido, tokenGoogle, ligaFotoPerfil, fechaNacimiento, sexo, preferenciaAlimenticia, requiereAccesibilidad, ultimaConexion, confirmacion
+   INTO v_id, v_username, v_nombre, v_apellido, v_google, v_imagen, v_fechaNacimiento, v_sexo, v_alimentacion, v_discapacidad, v_ultimaConexion, v_confirmacion
    FROM Usuario
    WHERE tokenGoogle = p_token;
    
@@ -290,9 +296,14 @@ BEGIN
          v_username AS username,
          v_nombre AS nombre,
          v_apellido AS apellido,
+         v_google AS tokenGoogle,
          v_imagen AS imagen,
-         v_confirmacion AS confirmacion,
-         v_ultimaConexion AS ultimaConexion;
+         DATE(v_fechaNacimiento) AS fechaNacimiento,
+         v_sexo AS sexo,
+         v_alimentacion AS preferenciaAlimenticia,
+         v_discapacidad AS requiereAccesibilidad,
+         v_ultimaConexion AS ultimaConexion,
+         v_confirmacion AS confirmacion;
    END IF;
 END //
 
@@ -309,10 +320,16 @@ BEGIN
    DECLARE v_nombre VARCHAR(60);
    DECLARE v_apellido VARCHAR(60);
    DECLARE v_imagen VARCHAR(512);
+   DECLARE v_sexo VARCHAR(20);
+   DECLARE v_alimentacion VARCHAR(20);
+   DECLARE v_discapacidad VARCHAR(20);
    DECLARE v_confirmacion BOOLEAN;
+   DECLARE v_fechaNacimiento DATETIME;
    DECLARE v_ultimaConexion DATETIME;
+   DECLARE v_facebook VARCHAR(255);
 
-   SELECT id, username, nombre, apellido, ligaFotoPerfil, confirmacion, ultimaConexion INTO v_id, v_username, v_nombre, v_apellido, v_imagen, v_confirmacion, v_ultimaConexion
+   SELECT id, username, nombre, apellido, tokenFacebook, ligaFotoPerfil, fechaNacimiento, sexo, preferenciaAlimenticia, requiereAccesibilidad, ultimaConexion, confirmacion
+   INTO v_id, v_username, v_nombre, v_apellido, v_facebook, v_imagen, v_fechaNacimiento, v_sexo, v_alimentacion, v_discapacidad, v_ultimaConexion, v_confirmacion
    FROM Usuario
    WHERE tokenFacebook = p_token;
 
@@ -327,9 +344,14 @@ BEGIN
          v_username AS username,
          v_nombre AS nombre,
          v_apellido AS apellido,
+         v_facebook AS tokenFacebook,
          v_imagen AS imagen,
-         v_confirmacion AS confirmacion,
-         v_ultimaConexion AS ultimaConexion;
+         DATE(v_fechaNacimiento) AS fechaNacimiento,
+         v_sexo AS sexo,
+         v_alimentacion AS preferenciaAlimenticia,
+         v_discapacidad AS requiereAccesibilidad,
+         v_ultimaConexion AS ultimaConexion,
+         v_confirmacion AS confirmacion;
    END IF;
 END //
 
@@ -435,6 +457,9 @@ BEGIN
          u.correo AS 'correo',
          u.ligaFotoPerfil AS 'imagen',
          DATE(u.fechaNacimiento) AS 'fechaNacimiento',
+         u.sexo AS 'sexo',
+         u.preferenciaAlimenticia AS 'preferenciaAlimenticia',
+         u.requiereAccesibilidad AS 'requiereAccesibilidad',
          u.ultimaConexion AS 'ultimaConexion',
          (SELECT COUNT(*) FROM LugarDeseado WHERE idUsuario = p_id) AS 'nDeseados',
          (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos',

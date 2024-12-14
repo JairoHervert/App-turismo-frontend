@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/HomePage.css';
 import { Navigate } from 'react-router-dom';
 import { handleFavoritos, handleDeseados } from '../../pagesHandlers/favDeseados-handler';
-import { handleUserCategorias } from '../../pagesHandlers/user_handler';
+import { handleTodasCategoriasUsuario } from '../../pagesHandlers/user_handler';
 import { handleCategorias } from '../../pagesHandlers/place-handler';
 import places from './CategoriesArrays';
 
@@ -34,7 +34,7 @@ const CategoryHome = ({ isLogged, id }) => {
       try {
         let lista_categorias;
         if(id) {
-          const resultado = await handleUserCategorias(id);
+          const resultado = await handleTodasCategoriasUsuario(id);
           console.log(id);
           console.log(resultado);
 

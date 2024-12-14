@@ -25,10 +25,11 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import Places from '../components/AllPlaces/Places';
 
 import { handleAllPlaces } from '../pagesHandlers/place-handler';
+import { isLogged } from '../schemas/isLogged';
 
 function AllPlacesPage() {
 
-  const [isLogged, setLogged] = useState(false);
+  const [logged, setLogged] = useState(false);
   const [id, setId] = useState(null);
   const [lugares, setLugares] = useState(Places);
   const [allLugares, setAllLugares] = useState([]); // Lugares originales
@@ -222,6 +223,7 @@ function AllPlacesPage() {
                 address={place.direccion}
                 rating={place.rating}
                 phone={place.teléfono}
+                idUsuario={id}
               />
             ))}
         </Grid>

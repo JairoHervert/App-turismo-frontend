@@ -48,6 +48,7 @@ app.post('/user_actualizar_categorias', userController.actualizarCategorias);
 app.post('/user_deseados', userController.verDeseados);
 app.post('/user_favoritos', userController.verFavoritos);
 app.post('/user_categorias', userController.verCategorias);
+app.post('/user_todas_categorias', userController.todasCategorias);
 
 app.post('/agregar-favoritos', favDeseadosController.Favoritos);
 app.post('/agregar-deseados', favDeseadosController.Deseados);
@@ -75,9 +76,12 @@ app.post('/isLogged', (req, res) => {
     if(err){
       res.json({logged: false, decoded: null});
     } else {
-      res.json({logged: true, decoded});
+      if(decoded)
+        res.json({logged: true, decoded});
+      else
+        res.json({logged: false, decoded: null});
     }
-    console.log(decoded);
+    console.log("decoded", decoded);
   });
 });
 

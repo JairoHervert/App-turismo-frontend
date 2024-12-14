@@ -434,14 +434,14 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                   onChange={handleFoodPreferenceChange}
                 >
                   <FormControlLabel
-                    value="ninguno"
+                    value="Ninguno"
                     control={
                       <Radio/>
                     }
                     label="Ninguno"
                   />
                   <FormControlLabel
-                    value="vegetariano"
+                    value="Vegetariano(a)"
                     control={
                       <Radio/>
                     }

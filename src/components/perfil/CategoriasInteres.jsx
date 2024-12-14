@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../css/Perfil.css';
 import ButtonsMod from '../ButtonsMod';
 
@@ -6,10 +6,16 @@ import { Card, CardHeader, CardContent, Divider, Box, Chip, CardActionArea, Card
 import Grid from '@mui/material/Grid2';
 import CategoryIcon from '@mui/icons-material/Category';
 
-function CategoriasInteres({ categoriasUsuario }) {
+import { handleActualizarCategorias } from '../../pagesHandlers/user_handler';
+
+function CategoriasInteres({ idUsuario, categoriasUsuario }) {
+  const [id, setId] = useState(idUsuario);
+  useEffect(() => {
+    setId(idUsuario);
+  }, [idUsuario]);
   const [isEditing, setIsEditing] = useState(false);
-  // Se inicializa un arreglo con las subcategorías seleccionadas (almacena el id)
-  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+  const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState(categoriasUsuario);
+  const [categoriasTotales, setCategoriasTotales] = useState([]);
   
   const toggleCategoriaSeleccionada = (categoriaId) => {
     setCategoriasSeleccionadas((prev) =>
@@ -19,9 +25,37 @@ function CategoriasInteres({ categoriasUsuario }) {
     )
   }
 
-  const handleSave = () => {
-    setIsEditing(!isEditing);
+  const handleSave = async () => {
+    if(categoriasSeleccionadas.length > 0) {
+      const nombresSeleccionados = categoriasTotales
+      .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
+      .map((categoria) => categoria.nombre)
+      .join(','); // Unir los nombres por comas
+    
+      const response = await handleActualizarCategorias(id, nombresSeleccionados);
+      console.log(response);
+      if(response) {
+        setIsEditing(!isEditing);
+      }
+    }
   }
+
+  useEffect(() => {
+    let id_categorias_seleccionadas = [];
+    let categorias = []
+    categoriasUsuario.forEach(categoria => {
+      let newCategoria = {};
+      newCategoria.id = categoria.id;
+      newCategoria.nombre = categoria.nombre;
+      newCategoria.imagen = categoria.imagen;
+      categorias.push(newCategoria)
+      
+      if(categoria.esFavorita == '1')
+        id_categorias_seleccionadas.push(categoria.id);
+    });
+    setCategoriasTotales(categorias);
+    setCategoriasSeleccionadas(id_categorias_seleccionadas);
+  }, [categoriasUsuario]);
 
   return (
     <Card
@@ -58,7 +92,7 @@ function CategoriasInteres({ categoriasUsuario }) {
         {isEditing ? (
           <Box sx={{ maxHeight: '500px', overflow: 'auto', padding: '1%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
             <Grid container spacing={2} columns={12} justifyContent='center'>
-              {categoriasUsuario.map((categoria) => {
+              {categoriasTotales.map((categoria) => {
                 const isSelected = categoriasSeleccionadas.includes(categoria.id);
         
                 return (
@@ -109,7 +143,7 @@ function CategoriasInteres({ categoriasUsuario }) {
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {/* Si hay subcategorías seleccionadas */}
             {categoriasSeleccionadas.length > 0 ? (
-              categoriasUsuario
+              categoriasTotales
                 .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
                 .map((categoria) => (
                   <Chip

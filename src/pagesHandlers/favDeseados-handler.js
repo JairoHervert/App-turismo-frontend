@@ -16,7 +16,7 @@ const handleDeseados = async (idUsuario, IdLugar) => {
       return response.data;
     }
   } catch (error) {      
-    throw new Error(error.response?.data?.error || 'Error al agregar a deseados');
+    console.log(error.response?.data?.error || 'Error al agregar a deseados');
   }
 }
 
@@ -42,13 +42,13 @@ const handleFavoritos = async (idUsuario, IdLugar) => {
 
 const handleEsDeseado = async (idUsuario, IdLugar) => {
   const response = await axios.post('http://localhost:3001/es-deseado', { idUsuario, IdLugar });
-  console.log("handleEsDeseado", response);
+  //console.log("handleEsDeseado", response);
   return response.data;
 };
 
 const handleEsFavorito = async (idUsuario, IdLugar) => {
   const response = await axios.post('http://localhost:3001/es-favorito', { idUsuario, IdLugar });
-  console.log("handleEsFavorito", response);
+  //console.log("handleEsFavorito", response);
   return response.data;
 };
 

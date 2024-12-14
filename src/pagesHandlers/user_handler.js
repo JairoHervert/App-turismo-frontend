@@ -102,10 +102,29 @@ const handleFavoritos = async (id) => {
   }
 }
 
-const handleUserCategorias = async (id) => {
-
+const handleCategorias = async (id) => {
   try {
     const response = await axios.post('http://localhost:3001/user_categorias', { id });
+    if(response.data.resultado.categorias) {
+      const favoritos = response.data.resultado.categorias;
+      console.log(favoritos);
+      return favoritos;
+    }
+    
+  }
+  catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      console.error("Error:", error.response.data.error);
+    } else {
+      console.error("Error al intentar obtener favoritos:", error);
+    }
+  }
+}
+
+const handleTodasCategoriasUsuario = async (id) => {
+
+  try {
+    const response = await axios.post('http://localhost:3001/user_todas_categorias', { id });
     if(response.data.resultado.categorias) {
       return response.data.resultado.categorias;
     }
@@ -114,7 +133,7 @@ const handleUserCategorias = async (id) => {
     if (error.response && error.response.data && error.response.data.error) {
       console.error("Error:", error.response.data.error);
     } else {
-      console.error("Error al intentar obtener favoritos:", error);
+      console.error("Error al intentar obtener categorias favoritas:", error);
     }
   }
 }
@@ -126,5 +145,6 @@ export {
   handleGuardarDatos,
   handleDeseados,
   handleFavoritos,
-  handleUserCategorias,
+  handleCategorias,
+  handleTodasCategoriasUsuario,
 }
