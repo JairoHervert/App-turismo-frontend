@@ -5,13 +5,17 @@ import ModalAvatar from './ModalAvatar.jsx';
 import { Box, Avatar, Stack, Card, Typography } from '@mui/material';
 import { Map as MapIcon, FavoriteRounded as FavoriteRoundedIcon, Star as StarIcon, Edit as EditIcon } from '@mui/icons-material';
 
-function InformacionHeader({ nombreUsuario, itinerariosCreados, favoritos, deseados }) {
+function InformacionHeader({ avatar, nombreUsuario, itinerariosCreados, favoritos, deseados }) {
 
   const [avatarNuevo, setAvatarNuevo] = useState(null);
   const [obtenerInicial] = nombreUsuario?.charAt(0).toUpperCase(); 
   const [openModal, setOpenModal] = useState(false);
   const [newAvatarUrl, setNewAvatarUrl] = useState('');
 
+  useEffect(() => {
+    setAvatarNuevo(avatar);
+  }, [avatar]);
+  
   const handleAvatarChange = () => {
     setAvatarNuevo(newAvatarUrl);
     setOpenModal(false);

@@ -52,17 +52,21 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
   const [fechaHelperText, setFechaHelperText] = useState('La edad debe ser de entre 18 a 65 años');
 
   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value, }));
-      // validación nombre completo
-      if (name === 'nombre') {
-        validarNombre(value);
-      } else if (name === 'apellido') {
-        validarApellido(value);
-      }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value, }));
+    // validación nombre completo
+    if (name === 'nombre') {
+      validarNombre(value);
+    } else if (name === 'apellido') {
+      validarApellido(value);
+    }
   }
 
   useEffect(() => {
+    let accesibilidad = 'No';
+    if(discapacidadMotriz === "1") {
+      accesibilidad = 'Si';
+    }
     setOriginal({
       correoElectronico,
       nombre,
@@ -70,7 +74,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
-      discapacidadMotriz,
+      accesibilidad,
     });
     setFormData({
       correoElectronico,
@@ -79,7 +83,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       fechaNacimiento,
       genero,
       preferenciaAlimenticia,
-      discapacidadMotriz,
+      accesibilidad,
     });
   }, [correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia, discapacidadMotriz]);
 
@@ -428,7 +432,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <Select
                           id='genero'
-                          // value={}
+                          value={formData.genero}
                           // onChange={}
                           sx={{ width: '100%', height: '3rem' }}
                         >
@@ -458,12 +462,12 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <Select
                           id='preferenciaAlimenticia'
-                          // value={}
+                          value={formData.preferenciaAlimenticia}
                           // onChange={}
                           sx={{ width: '100%', height: '3rem' }}
                         >
                           <MenuItem value='Ninguno'>Ninguno</MenuItem>
-                          <MenuItem value='Vegetariano'>Vegetariano(a)</MenuItem>
+                          <MenuItem value='Vegetariano(a)'>Vegetariano(a)</MenuItem>
                         </Select>
                     ) : (
                       <Typography variant='body1'>{formData.preferenciaAlimenticia || 'Sin especificar'}</Typography>
@@ -487,7 +491,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     {isEditing ? (
                         <Select
                           id='discapacidadMotriz'
-                          // value={}
+                          value={formData.accesibilidad}
                           // onChange={}
                           sx={{ width: '100%', height: '3rem' }}
                         >
@@ -495,7 +499,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                           <MenuItem value='No'>No</MenuItem>
                         </Select>
                     ) : (
-                      <Typography variant='body1'>{formData.discapacidadMotriz || 'Sin especificar'}</Typography>
+                      <Typography variant='body1'>{formData.accesibilidad || 'Sin especificar'}</Typography>
                     )}
                   </Grid>
                 </Grid>

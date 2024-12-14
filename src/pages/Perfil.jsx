@@ -45,19 +45,26 @@ const Perfil = () => {
         const resultado = await handleDatosUsuario(id); // Espera la resolución de la promesa
         if(!resultado)
           navigate('/');
-        let datos = resultado;
+        let datos = {};
         datos.id = id;
-        // Convertir la cadena a un objeto Date
-        const fecha = new Date(datos.fechaNacimiento);
+        datos.correo = resultado.correo;
+        datos.nombre = resultado.nombre;
+        datos.apellido = resultado.apellido;
+        datos.imagen = resultado.imagen;
+        datos.sexo = resultado.sexo;
+        datos.preferenciaAlimenticia = resultado.preferenciaAlimenticia;
+        datos.requiereAccesibilidad = resultado.requiereAccesibilidad;
 
+        // Convertir la cadena a un objeto Date
+        const fecha = new Date(resultado.fechaNacimiento);
         // Formatear a DD-MM-YYYY
         const dia = String(fecha.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
         const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
         const anio = fecha.getFullYear();
-
         // Combinar el formato
         const fechaFormateada = `${dia}-${mes}-${anio}`;
         datos.fechaNacimiento = fechaFormateada;
+
         setDatos(datos);
         setProfileImage(datos.imagen);
         console.log("Resultado consulta", datos);
@@ -68,7 +75,7 @@ const Perfil = () => {
     };
 
     fetchLoginStatus();
-    fetchDatos(); // Llama a la función para obtener los datos
+    fetchDatos();
   }, []);
 
   return (
@@ -105,8 +112,9 @@ const Perfil = () => {
             nombre={datos && datos.nombre ? datos.nombre : 'Sin especificar'}
             apellido={datos && datos.apellido ? datos.apellido : 'Sin especificar'}
             fechaNacimiento={datos && datos.fechaNacimiento ? datos.fechaNacimiento : 'Sin especificar'}
-            genero={null}
-            preferenciaAlimenticia={null}
+            genero={datos && datos.sexo ? datos.sexo : 'Sin especificar'}
+            preferenciaAlimenticia={datos && datos.preferenciaAlimenticia ? datos.preferenciaAlimenticia : 'Sin especificar'}
+            discapacidadMotriz={datos && datos.requiereAccesibilidad ? datos.requiereAccesibilidad : 'Sin especificar'}
           />
 
         ):(
