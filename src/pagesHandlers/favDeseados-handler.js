@@ -65,10 +65,24 @@ const handleEliminarFavorito = async (idUsuario, IdLugar) => {
   
 };
 
+const handleEliminarDeseado = async (idUsuario, IdLugar) => {
+  try{
+
+  const response = await axios.post('http://localhost:3001/eliminar-deseados', { idUsuario, IdLugar });
+  return response.data;
+
+  }
+  catch (error) {
+    throw new Error(error.response?.data?.error || 'Error al eliminar de favoritos');
+  }
+  
+};
+
 export { 
     handleFavoritos,
     handleDeseados,
     handleEsFavorito,
     handleEsDeseado,
-    handleEliminarFavorito
+    handleEliminarFavorito,
+    handleEliminarDeseado
 }    

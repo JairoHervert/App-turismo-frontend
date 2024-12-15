@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { Star as StarIcon, StarBorder as StarBorderIcon, Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
 import '../../css/DeseadosPage.css';
+import { handleFavoritos,handleEsFavorito,handleEliminarDeseado } from '../../pagesHandlers/favDeseados-handler';
 
 function UDCuadroLugar({
   nombreLugar,
@@ -16,7 +17,23 @@ function UDCuadroLugar({
   const navigate = useNavigate();
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isDeseado, setIsDeseado] = useState(false);
+  const [isDeseado, setIsDeseado] = useState(true);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const idUsuario = localStorage.getItem('id');
+      if (idUsuario) {
+        try {
+          const favorito = await handleEsFavorito(idUsuario, idLugar);
+          setIsFavorite(favorito.esFavorito);
+        } catch (error) {
+          console.error('Error verificando favoritos o deseados:', error);
+        }
+      }
+    };
+
+    fetchStatus();
+  }, [idLugar]);
 
   const informacionLugar = () => {
     navigate(`/placepage/${idLugar}`);
@@ -24,12 +41,14 @@ function UDCuadroLugar({
 
   const handleFavoritosClick = (e) => {
     e.stopPropagation();
+    handleFavoritos(localStorage.getItem('id'), idLugar);
     setIsFavorite(!isFavorite);
   };
 
   const handleDeseadosClick = (e) => {
     e.stopPropagation();
-    setIsDeseado(!isDeseado);
+    handleEliminarDeseado(localStorage.getItem('id'), idLugar);
+    window.location.reload();
   };
 
   const esURL = imagenLugar.startsWith('http://') || imagenLugar.startsWith('https://');
