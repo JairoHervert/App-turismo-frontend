@@ -23,9 +23,9 @@ const obtenerCategoriasFavoritass = async (idUsuario) => {
 
 // Hacer una llamada a la base para obtener cada categoria favorita con el filtro de restricciones del usuario
 
-const obtenerLugaresCategoria = async (idCategoria, esActividad, impedimentoFisico, familiar, vegetarianFriendly, petFriendly) => {
+const obtenerLugaresCategoria = async (idCategoria, esActividad, nivelPresupuesto, impedimentoFisico, familiar, vegetarianFriendly, petFriendly, goodForGroups) => {
     try {
-        const lugares = await obtenerLugaresCategoriaRestricciones(idCategoria, esActividad, impedimentoFisico, familiar, vegetarianFriendly, petFriendly);
+        const lugares = await obtenerLugaresCategoriaRestricciones(idCategoria, esActividad, nivelPresupuesto, impedimentoFisico, familiar, vegetarianFriendly, petFriendly, goodForGroups);
         return lugares;
     } catch (error) {
         console.error('Error obtenerLugaresCategoria:', error);
@@ -35,13 +35,13 @@ const obtenerLugaresCategoria = async (idCategoria, esActividad, impedimentoFisi
 
 // Devuelve un arreglo de objetos con la categoria y sus lugares filtrados
 
-const obtenerArregloCategorias = async (idUsuario, esActividad, restricciones) => {
+const obtenerArregloCategorias = async (idUsuario, esActividad, nivelPresupuesto, restricciones) => {
     // Obtener las categorías favoritas del usuario
     const categoriasFavoritas = await obtenerCategoriasFavoritass(idUsuario);
     // Crear un arreglo de objetos con las categorías favoritas y sus lugares filtrados
     const arregloCategorias = [];
     for (const categoria of categoriasFavoritas) {
-        const lugares = await obtenerLugaresCategoria(categoria, esActividad, restricciones.impedimentoFisico, restricciones.familiar, restricciones.vegetarianFriendly, restricciones.petFriendly);
+        const lugares = await obtenerLugaresCategoria(categoria, esActividad, nivelPresupuesto, restricciones.impedimentoFisico, restricciones.familiar, restricciones.vegetarianFriendly, restricciones.petFriendly, restricciones.goodForGroups);
         if(lugares.length > 0)
             arregloCategorias.push({categoria, lugares});
     }
@@ -58,9 +58,9 @@ const obtenerLugaresDeseadoss = async (idUsuario) => {
     }
 }
 
-const obtenerLugaresRestriccioness = async (esActividad, restricciones) => {
+const obtenerLugaresRestriccioness = async (esActividad, nivelPresupuesto, restricciones) => {
     try {
-        const lugaresRestricciones = await obtenerLugaresRestricciones(esActividad, restricciones.impedimentoFisico, restricciones.familiar, restricciones.vegetarianFriendly, restricciones.petFriendly);
+        const lugaresRestricciones = await obtenerLugaresRestricciones(esActividad, nivelPresupuesto, restricciones.impedimentoFisico, restricciones.familiar, restricciones.vegetarianFriendly, restricciones.petFriendly, restricciones.goodForGroups);
         return lugaresRestricciones;
     } catch (error) {
         console.error('Error obtenerLugaresRestricciones:', error);
@@ -68,9 +68,9 @@ const obtenerLugaresRestriccioness = async (esActividad, restricciones) => {
     }
 }
 
-const obtenerTodosLugaress = async (esActividad) => {
+const obtenerTodosLugaress = async (esActividad, nivelPresupuesto) => {
     try {
-        const todosLugares = await obtenerTodosLugares(esActividad);
+        const todosLugares = await obtenerTodosLugares(esActividad, nivelPresupuesto);
         return todosLugares;
     } catch (error) {
         console.error('Error obtenerTodosLugares:', error);
@@ -151,16 +151,16 @@ const formatoDiaHorario = (dia, horario) => {
     return {horarioInicio, horarioFin};
 }
 
-const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAleatoriedad, presupuesto, horaInicio, horaFin, fechaInicio, fechaFin) => {
+const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAleatoriedad, nivelPresupuesto, horaInicio, horaFin, fechaInicio, fechaFin) => {
     const probabilidadAleatoria = gradoAleatoriedad / 100;
     // Calcular el número de días del viaje y el que dia de la semana es la fecha de inicio (0-6)
     const dias = dayjs(fechaFin).diff(dayjs(fechaInicio), 'day') + 1;
     const diaSemanaInicio = dayjs(fechaInicio).day();
-    const arregloCategorias = await obtenerArregloCategorias(idUsuario, true, restricciones); // Recibir como parámetro en el futuro
+    const arregloCategorias = await obtenerArregloCategorias(idUsuario, true, nivelPresupuesto, restricciones); // Recibir como parámetro en el futuro
     const lugaresDeseados = await obtenerLugaresDeseadoss(idUsuario);
-    const lugaresRestricciones = await obtenerLugaresRestriccioness(true, restricciones);
-    const todosLugares = await obtenerTodosLugaress(true);
-    const restauranteArregloCategorias = await obtenerArregloCategorias(idUsuario, false, restricciones);
+    const lugaresRestricciones = await obtenerLugaresRestriccioness(true, nivelPresupuesto, restricciones);
+    const todosLugares = await obtenerTodosLugaress(true, nivelPresupuesto);
+    const restauranteArregloCategorias = await obtenerArregloCategorias(idUsuario, false, nivelPresupuesto, restricciones);
     const duracionActividad = 2.5; // Duración de una actividad en horas
     const duracionComida = 2.5; // Duración de una comida en horas
     // Llenar un arreglo con los restaurantes de restauranteArregloCategorias
@@ -173,8 +173,8 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             }
         }
     }
-    const restauranteLugaresRestricciones = await obtenerLugaresRestriccioness(false, restricciones);
-    const restauranteTodosLugares = await obtenerTodosLugaress(false);
+    const restauranteLugaresRestricciones = await obtenerLugaresRestriccioness(false, nivelPresupuesto, restricciones);
+    const restauranteTodosLugares = await obtenerTodosLugaress(false, nivelPresupuesto);
     const numActividades = Math.floor(dias * 5);
     const numCategorias = arregloCategorias.length;
     let numTotalLugaresCategorias = 0;
@@ -213,7 +213,13 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
         lugaresDeseadosSet.add(lugar.idLugar);
     }
 
-
+    // Imprimir la cantidad de lugares en cada arreglo
+    console.log('numTotalLugaresCategorias:', numTotalLugaresCategorias);
+    console.log('numTotalRestauranteLugaresCategorias:', numTotalRestauranteLugaresCategorias);
+    console.log('lugaresRestricciones:', lugaresRestricciones.length);
+    console.log('todosLugares:', todosLugares.length);
+    console.log('restauranteLugaresRestricciones:', restauranteLugaresRestricciones.length);
+    console.log('restauranteTodosLugares:', restauranteTodosLugares.length);
 
     // Arreglo para guardar los lugares seleccionados, tiene un objeto con la fecha del dia y sus lugares, por ejemplo: [{fecha: '2024-12-16', lugares: [lugar1, lugar2, lugar3]}]
     const lugaresItinerario = [];
@@ -234,11 +240,25 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
         // Crear un objeto con la fecha de inicio y el lugar inicial
         lugaresItinerario.push({fecha: dayjs(fechaInicio).add(0, 'day').format('YYYY-MM-DD'), lugares: [{data: lugarInicial, horaInicio: horaActual.format('HH:mm')}]})
     }
-    else{
+    else if(lugaresRestricciones.length > 0){
         // Elegir un lugar aleatorio inicial de lugaresRestricciones
         let indexLugarInicial = Math.floor(Math.random() * lugaresRestricciones.length);
         let lugarInicial = lugaresRestricciones[indexLugarInicial];
         console.log(lugaresRestricciones.length);
+        longitudActual = lugarInicial.longitud;
+        latitudActual = lugarInicial.latitud;
+        lugaresSeleccionados.add(lugarInicial.id);
+        // Crear un objeto con la fecha de inicio y el lugar inicial
+        // lugaresItinerario.push({fecha: fechaInicio, lugares: [lugarInicial]});
+        lugaresItinerario.push({fecha: dayjs(fechaInicio).add(0, 'day').format('YYYY-MM-DD'), lugares: [{data: lugarInicial, horaInicio: horaActual.format('HH:mm')}]})
+        // Convertir json a objeto
+        regularOpeningHours = JSON.parse(lugarInicial.regularOpeningHours);
+        console.log(regularOpeningHours.weekdayDescriptions);
+    }
+    else{
+        // Elegir un lugar aleatorio inicial de todosLugares
+        let indexLugarInicial = Math.floor(Math.random() * todosLugares.length);
+        let lugarInicial = todosLugares[indexLugarInicial];
         longitudActual = lugarInicial.longitud;
         latitudActual = lugarInicial.latitud;
         lugaresSeleccionados.add(lugarInicial.id);
@@ -352,7 +372,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                         let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                         let horarioFin = formatoDiaHorarioObj.horarioFin;
                         
-                        if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                        if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                             continue;
                         }
 
@@ -386,7 +406,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                         let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                         let horarioFin = formatoDiaHorarioObj.horarioFin;
                         
-                        if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                        if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                             continue;
                         }
 
@@ -418,7 +438,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
                     
-                    if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                    if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
 
@@ -440,6 +460,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             
             if(idLugarSeleccionado === "") {
                 // No se pudo crear el itinerario
+                console.log("indiceDia:", indiceDia);
                 console.log("No se pudo crear el itinerario");
                 return;
             }
@@ -519,7 +540,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
                     
-                    if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                    if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
 
@@ -554,7 +575,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
                     
-                    if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                    if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
 
@@ -587,7 +608,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                 let horarioFin = formatoDiaHorarioObj.horarioFin;
                 
-                if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                     continue;
                 }
 
@@ -609,6 +630,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
         if(idRestauranteSeleccionado === "") {
             // No se pudo crear el itinerario
+            console.log("indiceDia:", indiceDia);
             console.log("No se pudo crear el itinerario");
             return;
         }
@@ -707,7 +729,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                         let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                         let horarioFin = formatoDiaHorarioObj.horarioFin;
                         
-                        if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                        if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                             continue;
                         }
 
@@ -741,7 +763,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                         let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                         let horarioFin = formatoDiaHorarioObj.horarioFin;
                         
-                        if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                        if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                             continue;
                         }
 
@@ -774,7 +796,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
                     
-                    if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                    if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
 
@@ -796,6 +818,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
             if(idLugarSeleccionado === "") {
                 // No se pudo crear el itinerario
+                console.log("indiceDia:", indiceDia);
                 console.log("No se pudo crear el itinerario");
                 return;
             }
@@ -875,7 +898,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
                     
-                    if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                    if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
 
@@ -909,7 +932,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
                     
-                    if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                    if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
 
@@ -942,7 +965,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                 let horarioFin = formatoDiaHorarioObj.horarioFin;
                 
-                if (lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
+                if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                     continue;
                 }
 
@@ -964,6 +987,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
         if(idRestauranteSeleccionado === "") {
             // No se pudo crear el itinerario
+            console.log("indiceDia:", indiceDia);
             console.log("No se pudo crear el itinerario");
             return;
         }
@@ -1000,15 +1024,15 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
 // obtenerArregloCategorias(1, false, {impedimentoFisico: true, familiar: true, vegetarianFriendly: true, petFriendly: true});
 
-// seleccionarLugaresPorDistancia(1, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false}, 50, 100, 1, "09:00", "18:00");
-seleccionarLugaresPorDistancia(1, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false}, 50, 100, "09:00", "18:00", "2024-12-16", "2024-12-17");
+seleccionarLugaresPorDistancia(1, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 50, 1, "09:00", "18:00", "2024-12-16", "2024-12-17");
 
 // lugarAbierto("02:00", "02:00", "22:00", "03:00");
 
 // FALTA CONSIDERAR EL PRESUPUESTO, HORARIO DE INICIO Y FIN Y LAS HORAS EN LAS QUE ABREN LOS LUGARES
 
 // PASOS
-// 2. CONSIDERAR LAS HORAS DE APERTURA Y CIERRE DE LOS LUGARES
 // 3. CONSIDERAR EL PRESUPUESTO
+    // Hacer la función que llama a seleccionarLugaresPorDistancia con el presupuesto adecuado
+// 4. GUARDAR EN LA BASE DE DATOS
 
 // {"openNow":true,"periods":[{"open":{"day":0,"hour":10,"minute":0,"date":{"year":2024,"month":12,"day":1}},"close":{"day":0,"hour":19,"minute":0,"date":{"year":2024,"month":12,"day":1}}},{"open":{"day":1,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":2}},"close":{"day":2,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":3}}},{"open":{"day":2,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":3}},"close":{"day":3,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":4}}},{"open":{"day":3,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":4}},"close":{"day":4,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":5}}},{"open":{"day":4,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":5}},"close":{"day":5,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":6}}},{"open":{"day":5,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":6}},"close":{"day":6,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":7}}},{"open":{"day":6,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":7}},"close":{"day":6,"hour":23,"minute":59,"truncated":true,"date":{"year":2024,"month":12,"day":7}}}],"weekdayDescriptions":["lunes: 13:00–24:00","martes: 13:00–24:00","miércoles: 13:00–24:00","jueves: 13:00–24:00","viernes: 13:00–24:00","sábado: 13:00–24:00","domingo: 10:00–19:00"],"nextCloseTime":"2024-12-02T01:00:00Z"}
