@@ -1,6 +1,7 @@
 import React from 'react';
 
-function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
+function MenuFiltros({ modal, selectedAlcaldias, selectedCategorias, onFilterChange, onCategoryChange }) { // NUEVO: Props para categorías
+    // Manejo de alcaldías seleccionadas
     const toggleAlcaldia = (alcaldia) => {
       const newSelectedAlcaldias = selectedAlcaldias.includes(alcaldia)
         ? selectedAlcaldias.filter((item) => item !== alcaldia) // Quita si ya está seleccionada
@@ -8,6 +9,16 @@ function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
   
       onFilterChange(newSelectedAlcaldias); // Notifica al padre
     };
+
+    // Manejo de categorías seleccionadas // NUEVO
+    const toggleCategoria = (categoria) => {
+      const newSelectedCategorias = selectedCategorias.includes(categoria)
+        ? selectedCategorias.filter((item) => item !== categoria) // Quita si ya está seleccionada
+        : [...selectedCategorias, categoria]; // Agrega si no está seleccionada
+
+      onCategoryChange(newSelectedCategorias); // Notifica al padre
+    };
+
   return (
     <div>
       <div className={`accordion ${modal ? 'us_de-modal-filtro' : ''}`} id='accordionFiltro'>
@@ -33,7 +44,7 @@ function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
           >
             <div className="accordion-body ud_de-accordion-body">
               <ul className="list-unstyled">
-                {[
+                {[ // Lista de alcaldías
                   'Álvaro Obregón',
                   'Azcapotzalco',
                   'Benito Juárez',
@@ -55,8 +66,8 @@ function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
                     <input
                       type="checkbox"
                       id={`alcaldia-${alcaldia}`}
-                      checked={selectedAlcaldias.includes(alcaldia)}
-                      onChange={() => toggleAlcaldia(alcaldia)}
+                      checked={selectedAlcaldias.includes(alcaldia)} // Verifica si está seleccionada
+                      onChange={() => toggleAlcaldia(alcaldia)} // Maneja el cambio
                     />
                     <label htmlFor={`alcaldia-${alcaldia}`}>{alcaldia}</label>
                   </li>
@@ -89,38 +100,50 @@ function MenuFiltros({ modal, selectedAlcaldias, onFilterChange }) {
           >
             <div className='accordion-body ud_de-accordion-body'>
               <ul className='list-unstyled'>
-                <li><input type='checkbox' id='option19' /> <label htmlFor='option19'>Arcades</label></li>
-                <li><input type='checkbox' id='option22' /> <label htmlFor='option22'>Arena de luchas</label></li>
-                <li><input type='checkbox' id='option21' /> <label htmlFor='option21'>Arte y cultura</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Bares</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Bibliotecas</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Boleras</label></li>
-                <li><input type='checkbox' id='option26' /> <label htmlFor='option26'>Buffets</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Cafeterías</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Clubes</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Comida rápida</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Compras</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Karaokes</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Aventura</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Historia</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Religión</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Mariscos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Museos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques de diversiones</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Parques de skate</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Patinaje sobre hielo</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes africanos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes americanos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes asiáticos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes brasileños</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes de medio oriente</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes europeros</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Restaurantes mexicanos</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Salones de té</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>SteakHouses</label></li>
-                <li><input type='checkbox' id='option18' /> <label htmlFor='option18'>Zoológicos</label></li>
+                {[ // NUEVO: Lista de categorías
+                  'Arcades',
+                  'Arena de luchas',
+                  'Arte y cultura',
+                  'Bares',
+                  'Bibliotecas',
+                  'Boleras',
+                  'Buffets',
+                  'Cafeterías',
+                  'Clubes',
+                  'Comida rápida',
+                  'Compras',
+                  'Karaokes',
+                  'Aventura',
+                  'Historia',
+                  'Religión',
+                  'Mariscos',
+                  'Museos',
+                  'Parques',
+                  'Parques de diversiones',
+                  'Parques de skate',
+                  'Patinaje sobre hielo',
+                  'Restaurantes',
+                  'Restaurantes africanos',
+                  'Restaurantes americanos',
+                  'Restaurantes asiáticos',
+                  'Restaurantes brasileños',
+                  'Restaurantes de medio oriente',
+                  'Restaurantes europeos',
+                  'Restaurantes mexicanos',
+                  'Salones de té',
+                  'SteakHouses',
+                  'Zoológicos',
+                ].map((categoria) => (
+                  <li key={categoria}>
+                    <input
+                      type="checkbox"
+                      id={`categoria-${categoria}`}
+                      checked={selectedCategorias.includes(categoria)} // NUEVO: Verifica si la categoría está seleccionada
+                      onChange={() => toggleCategoria(categoria)} // NUEVO: Maneja el cambio
+                    />
+                    <label htmlFor={`categoria-${categoria}`}>{categoria}</label>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>

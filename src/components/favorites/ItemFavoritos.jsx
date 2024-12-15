@@ -7,7 +7,7 @@ import '../../css/FavoritesPage.css';
 import ButtonsMod from '../ButtonsMod';
 import { handleEliminarFavorito, handleDeseados, handleEsDeseado } from '../../pagesHandlers/favDeseados-handler';
 
-function ItemFavoritos({ idLugar, imagen, nombre, descripcion }) {
+function ItemFavoritos({ idLugar, imagen, nombre, descripcion, category }) {
   const esURL = imagen.startsWith('http://') || imagen.startsWith('https://');
   // const imagenSrc = esURL ? imagen : require(`../../img/HomePage/places/${imagen}`);
   const imagenSrc = esURL ? imagen : `${process.env.PUBLIC_URL}/fotosLugares/${imagen}`;

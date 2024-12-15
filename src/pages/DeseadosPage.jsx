@@ -23,6 +23,7 @@ function DeseadosPage() {
   const [deseados, setDeseados] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedAlcaldias, setSelectedAlcaldias] = useState([]);
+  const [selectedCategorias, setSelectedCategorias] = useState([]);
   const [page, setPage] = useState(1);
   const itemsPorPagina = 3;
 
@@ -30,12 +31,29 @@ function DeseadosPage() {
 
   const obtenerDeseadosFiltrados = () => {
     const term = searchTerm.toLowerCase();
-    return deseados.filter((lugar) =>
-      (lugar.nombre.toLowerCase().includes(term) ||
-        (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term))) &&
-      (selectedAlcaldias.length === 0 || selectedAlcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia)))
-    );
+    return deseados.filter((lugar) => {
+      const coincideBusqueda =
+        lugar.nombre.toLowerCase().includes(term) ||
+        (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term));
+  
+      const coincideAlcaldia =
+        selectedAlcaldias.length === 0 ||
+        selectedAlcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia));
+  
+      // Asegúrate de que las categorías sean un arreglo
+      const categoriasArray = Array.isArray(lugar.categorias)
+        ? lugar.categorias
+        : lugar.categorias.split(',').map((cat) => cat.trim());
+  
+      const coincideCategoria =
+        selectedCategorias.length === 0 ||
+        categoriasArray.some((categoria) => selectedCategorias.includes(categoria));
+
+  
+      return coincideBusqueda && coincideAlcaldia && coincideCategoria;
+    });
   };
+  
 
   const currentItems = obtenerDeseadosFiltrados().slice(startIndex, startIndex + itemsPorPagina);
 
@@ -123,6 +141,7 @@ function DeseadosPage() {
                   imagenLugar={lugar.imagen}
                   tiempoLugar={lugar.tiempo}
                   costoLugar={lugar.costo}
+                  categoriaLugar={lugar.categorias}
                 />
               ))
             ) : (
@@ -162,13 +181,19 @@ function DeseadosPage() {
           <div className='col-12 col-lg-3 d-flex flex-column align-items-center d-none d-xl-block'>
             <div className='us_de-contenedor-filtros my-4 d-flex flex-column justify-content-center align-items-center'>
               <h2 className='fs-2 fw-semibold mt-2 fontMontserrat'>Filtros de búsqueda</h2>
-              <MenuFiltros modal={false} selectedAlcaldias={selectedAlcaldias} onFilterChange={handleFilterChange} />
-            </div>
-            <div>
-              <button type='button' className='btn us_de-button-agregar fw-medium'>
-                <i className='bi bi-person-heart us_de-icono me-2 fs-5'></i>
-                Agregar rápidamente
-              </button>
+              <MenuFiltros
+                modal={false}
+                selectedAlcaldias={selectedAlcaldias}
+                selectedCategorias={selectedCategorias} // NUEVO: Pasa las categorías seleccionadas
+                onFilterChange={(newAlcaldias) => {
+                  setSelectedAlcaldias(newAlcaldias);
+                  setPage(1);
+                }}
+                onCategoryChange={(newCategorias) => { // NUEVO: Maneja el cambio de categorías seleccionadas
+                  setSelectedCategorias(newCategorias);
+                  setPage(1);
+                }}
+              />
             </div>
           </div>
         </div>
