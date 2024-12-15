@@ -41,7 +41,7 @@ const Perfil = () => {
 
     const fetchDatos = async () => {
       try {
-        const id = localStorage.getItem('id');
+        let id = localStorage.getItem('id');
         
         const resultado = await handleDatosUsuario(id); // Espera la resolución de la promesa
         if(!resultado)
@@ -109,7 +109,11 @@ const Perfil = () => {
 
         {/* Perfil Usuario Header */}
         <InformacionHeader
+          idUsuario={datos && datos.id ? datos.id : null}
           nombreUsuario={datos && datos.username ? datos.username : 'Usuario'}
+          nom={datos && datos.nombre ? datos.nombre : ''}
+          ape={datos && datos.apellido ? datos.apellido : ''}
+          correo={datos && datos.correo ? datos.correo : ''}
           /* Si el usuario ya cuenta con una imagen para el avatar (ya sea porque
             inicio sesión con fb o google), se le puede mandar como parámetro la
             imagen */

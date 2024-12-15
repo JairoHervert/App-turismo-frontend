@@ -14,6 +14,7 @@ DROP PROCEDURE IF EXISTS UsuarioCompletarPerfil;
 DROP PROCEDURE IF EXISTS ActualizarCategoriasFavoritas;
 DROP PROCEDURE IF EXISTS UsuarioGetDatos;
 DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
+DROP PROCEDURE IF EXISTS UsuarioSetImagen;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAnadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
@@ -507,6 +508,33 @@ BEGIN
          (SELECT COUNT(*) FROM LugarFavorito WHERE idUsuario = p_id) AS 'nFavoritos'
          FROM Usuario u
       WHERE u.id = p_id;
+   END IF;
+END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioSetImagen`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioSetImagen (
+   IN p_id INT,
+   IN p_imagen VARCHAR(512)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      UPDATE Usuario
+      SET
+         ligaFotoPerfil = p_imagen
+      WHERE id = p_id;
+      
+      SELECT id, ligaFotoPerfil FROM Usuario
+      WHERE id = p_id;
    END IF;
 END //
 

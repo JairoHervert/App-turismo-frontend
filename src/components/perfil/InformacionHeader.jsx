@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../../css/Perfil.css';
 import ModalAvatar from './ModalAvatar.jsx';
 
 import { Box, Avatar, Stack, Card, Typography } from '@mui/material';
 import { Map as MapIcon, FavoriteRounded as FavoriteRoundedIcon, Star as StarIcon, Edit as EditIcon } from '@mui/icons-material';
 
-function InformacionHeader({ avatar, nombreUsuario, itinerariosCreados, favoritos, deseados }) {
+import { handleGuardarImagen } from '../../pagesHandlers/user_handler.js'
 
+function InformacionHeader({ idUsuario, avatar, nombreUsuario, nom, ape, correo, itinerariosCreados, favoritos, deseados }) {
+
+  const [id, setId] = useState(idUsuario);
   const [avatarNuevo, setAvatarNuevo] = useState(null);
   const [obtenerInicial] = nombreUsuario?.charAt(0).toUpperCase(); 
   const [openModal, setOpenModal] = useState(false);
@@ -17,6 +21,10 @@ function InformacionHeader({ avatar, nombreUsuario, itinerariosCreados, favorito
     setAvatarNuevo(avatar);
   }, [avatar]);
 
+  useEffect(() => {
+    setId(idUsuario);
+  }, [idUsuario]);
+
   // Validación - URL de imagen
   const validarUrlImagen = async (url) => {
     const trimmedUrl = url.trim();
@@ -25,9 +33,9 @@ function InformacionHeader({ avatar, nombreUsuario, itinerariosCreados, favorito
       const parsedUrl = new URL(trimmedUrl);
   
       // Para comprobar que tenga extensión de imagen
-      if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(parsedUrl.pathname)) {
+      /*if (!/\.(jpg|jpeg|png|gif|webp)$/i.test(parsedUrl.pathname)) {
         throw new Error('La URL debe apuntar a una imagen válida (.jpg, .png, etc.)');
-      }
+      }*/
   
       return '';
     } catch (error) {
@@ -43,13 +51,25 @@ function InformacionHeader({ avatar, nombreUsuario, itinerariosCreados, favorito
       return;
     }
   
-    setAvatarNuevo(newAvatarUrl);
-    setOpenModal(false);
-    setNewAvatarUrl('');
-    setUrlError('');
+    const response = await handleGuardarImagen(id, newAvatarUrl);
+    if (response) {
+      // Solicitar un nuevo token al servidor
+      const refreshResponse = await axios.post('http://localhost:3001/refreshToken', { id });
+      if (refreshResponse.data.success) {
+        // Actualizar el token en el almacenamiento local
+        localStorage.setItem('token', refreshResponse.data.token);
+        window.location.reload();
+        // Actualizar el estado local con la nueva imagen
+        setAvatarNuevo(newAvatarUrl);
+        setOpenModal(false);
+        setNewAvatarUrl('');
+        setUrlError('');
+      } else {
+        console.error('Error al actualizar el token');
+      }
+    }
   }
   
-
   const handleCancel = () => {
     setOpenModal(false);
     setNewAvatarUrl('');

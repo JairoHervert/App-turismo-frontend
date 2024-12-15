@@ -66,6 +66,22 @@ class userController {
     }
   }
 
+  static async setImagen(req, res) {
+    const { id, imagen } = req.body;
+    try {
+      const resultado = await userModel.UsuarioSetImagen(id, imagen);
+
+      res.json({resultado: resultado});
+    } catch (error) {
+      if(error.message) {
+        let mensajeError = errorHandler(error.message);
+        return res.status(400).json({ error: mensajeError });
+      } else{
+        return res.status(500).json({ error: error });
+      }
+    }
+  }
+
   static async verDeseados(req, res) {
     const { id } = req.body;
     try {

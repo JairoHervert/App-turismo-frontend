@@ -62,6 +62,22 @@ class userModel {
     });
   }
 
+  static async UsuarioSetImagen(id, imagen) {
+    console.log("LE LLEGA", id, imagen)
+    const query = 'CALL UsuarioSetImagen(?, ?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [id, imagen], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const resultado = results[0][0] || null;
+        if(resultado && resultado.error)
+          return reject(new Error(resultado.error));
+        resolve({datos: resultado});
+      });
+    });
+  }
+
   static async UsuarioVerDeseados(id){
     const query = 'CALL UsuarioVerDeseados(?);';
     return new Promise((resolve, reject) => {

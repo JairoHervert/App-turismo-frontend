@@ -8,6 +8,7 @@ const placeController = require('./src/controllers/place-controller');
 const confirmacionRegistroController = require('./src/controllers/confirmacionRegistro-controller');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const db = require('./src/models/MySQL/db');
 const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
 const historyRoutes = require('./src/routes/history-routes');
@@ -43,6 +44,7 @@ app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/login_Facebook', loginController.iniciarSesionFacebook);
 app.post('/user_datos', userController.getDatos);
 app.post('/user_guardar_datos', userController.setDatos);
+app.post('/user_guardar_imagen', userController.setImagen)
 app.post('/user_completar_perfil', userController.completarPerfil);
 app.post('/user_actualizar_categorias', userController.actualizarCategorias);
 app.post('/user_deseados', userController.verDeseados);
@@ -82,6 +84,30 @@ app.post('/isLogged', (req, res) => {
         res.json({logged: false, decoded: null});
     }
     console.log("decoded", decoded);
+  });
+});
+app.post('/refreshToken', (req, res) => {
+  const { id } = req.body;
+  db.query('SELECT username, nombre, apellido, correo, ligaFotoPerfil FROM Usuario WHERE id = ?', [id], (err, results) => {
+    if (err || results.length === 0) {
+      return res.status(500).json({ success: false, message: 'Error al obtener datos del usuario' });
+    }
+
+    const user = results[0];
+    const newToken = jwt.sign(
+      { 
+        id, 
+        username: user.username, 
+        nombre: user.nombre, 
+        apellido: user.apellido, 
+        correo: user.correo, 
+        imagen: user.ligaFotoPerfil 
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.json({ success: true, token: newToken });
   });
 });
 
