@@ -29,7 +29,7 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
   useEffect(() => {
     const fetchLoginStatus = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('access_token');
         const id = localStorage.getItem('id');
         
         if (token && id) {
