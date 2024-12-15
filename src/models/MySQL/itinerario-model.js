@@ -71,7 +71,7 @@ class itinerarioModel {
     });
   }
 
-  static async obtenerLugaresRestricciones(id, esActividad, impedimentoFisico, familiar, vegetarianFriendly, petFriendly){
+  static async obtenerLugaresRestricciones(esActividad, impedimentoFisico, familiar, vegetarianFriendly, petFriendly){
     let restricciones = '';
     if (impedimentoFisico) {
         restricciones += ' AND (accesibilidadParking OR accesibilidadEntrance OR accesibilidadRestroom OR accesibilidadSeating)';
@@ -91,10 +91,9 @@ class itinerarioModel {
     else{
         restricciones += ' AND NOT(tipos LIKE "%restaurant%")';
     }
-
-    const query = `SELECT * FROM Lugar WHERE id = ? ${restricciones};`;
+    const query = `SELECT * FROM Lugar WHERE 1=1 ${restricciones};`;
     return new Promise((resolve, reject) => {
-        db.query(query, [id], (err, results) => {
+        db.query(query, (err, results) => {
             if (err) {
                 reject(err);
             }
