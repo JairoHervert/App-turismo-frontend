@@ -57,7 +57,7 @@ function InformacionHeader({ idUsuario, avatar, nombreUsuario, nom, ape, correo,
       const refreshResponse = await axios.post('http://localhost:3001/refreshToken', { id });
       if (refreshResponse.data.success) {
         // Actualizar el token en el almacenamiento local
-        localStorage.setItem('token', refreshResponse.data.token);
+        localStorage.setItem('access_token', refreshResponse.data.token);
         window.location.reload();
         // Actualizar el estado local con la nueva imagen
         setAvatarNuevo(newAvatarUrl);

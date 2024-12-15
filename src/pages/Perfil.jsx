@@ -48,6 +48,7 @@ const Perfil = () => {
           navigate('/');
         let datos = {};
         datos.id = id;
+        datos.username = resultado.username;
         datos.correo = resultado.correo;
         datos.nombre = resultado.nombre;
         datos.apellido = resultado.apellido;
