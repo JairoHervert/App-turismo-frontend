@@ -710,10 +710,23 @@ BEGIN
          l.accesibilidadParking AS accesibilidadParking,
          l.accesibilidadEntrance AS accesibilidadEntrance,
          l.accesibilidadRestroom AS accesibilidadRestroom,
-         l.accesibilidadSeating AS accesibilidadSeating
+         l.accesibilidadSeating AS accesibilidadSeating,
+         GROUP_CONCAT(DISTINCT c.nombre ORDER BY c.nombre ASC) AS categorias -- Concatena las categorías asociadas
       FROM LugarFavorito
       JOIN Lugar l ON LugarFavorito.idLugar = l.id
-      WHERE LugarFavorito.idUsuario = p_id;
+      JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE LugarFavorito.idUsuario = p_id
+      GROUP BY 
+         l.id, l.nombre, l.direccion, l.descripcion, l.imagen, 
+         l.attributions, l.latitud, l.longitud, l.fotos, l.tipos, 
+         l.teléfono, l.precioNivel, l.precioRango, l.rating, 
+         l.regularOpeningHours, l.userRatingCount, l.website, 
+         l.goodForChildren, l.goodForGroups, l.paymentOptions, 
+         l.reservable, l.servesVegetarianFood, l.allowsDogs, 
+         l.reviewsGoogle, l.accesibilidadParking, l.accesibilidadEntrance, 
+         l.accesibilidadRestroom, l.accesibilidadSeating;
    END IF;
 END //
 
