@@ -1,11 +1,16 @@
 // modulos importados
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Box, Typography } from '@mui/material';
 import { TextField, Grid2 as Grid, FormControl, InputLabel, Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
+
+// Alert
+import img from '../img/Itinerary/turist-for-another.jpg';
+import AlertD from './../components/alert';
+import ButtonsMod from './../components/ButtonsMod';
 
 // modulos de iconos
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
@@ -39,6 +44,18 @@ function LoginPage() {
     navigate('/');
   };
 
+  
+  const alertRef = useRef();
+  const handleClickOpen = () => {
+    if (alertRef.current) {
+        alertRef.current.handleClickOpen();
+    }
+  };
+  const handleConfirm = () => {
+    console.log('Action confirmed');
+    alert('Action confirmed');
+  };
+
   // validacion de correo
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -53,7 +70,6 @@ function LoginPage() {
   const handleCorreoChange = (e) => {
     const correo = e.target.value;
     setCorreo(correo);
-    console.log(correo);
 
     // Validar reglas
     setCorreoReglas({
@@ -137,6 +153,9 @@ function LoginPage() {
         localStorage.setItem('access_token', respuesta.token);
         localStorage.setItem('id', respuesta.resultado.id);
         navigate('/');
+      } else {
+        console.log(respuesta);
+        handleClickOpen();
       }
     }
   };
@@ -169,13 +188,11 @@ function LoginPage() {
           },
         }
       );
-      console.log('Información del usuario:', userInfo.data);
       const respuesta = await handleLoginGoogle(
         userInfo.data.email,
         userInfo.data.name,
         userInfo.data.picture,
         userInfo.data.sub);
-      console.log("ESTA ES LA RESPUESTA", respuesta);
       if(respuesta && respuesta.resultado && !respuesta.resultado.ultimaConexion) {
         setDatosIniciales(respuesta);
         setOpen(true);
@@ -197,7 +214,25 @@ function LoginPage() {
     onError: errorGoogleHandler,
   });
 
+  const handleFacebook = async (response) => {
+    console.log(response);
+    if(response.status && response.status === 'unknown') {
+      return;
+    }
+    const { userID } = response;
 
+    const resultado = await responseFacebook(response);
+    console.log(resultado);
+    if(resultado && resultado.resultado && !resultado.resultado.ultimaConexion) {
+      setDatosIniciales(resultado);
+      setOpen(true);
+    } else if(resultado && resultado.resultado) {
+      localStorage.setItem('access_token', resultado.token);
+      localStorage.setItem('facebook_access_token', userID);
+      localStorage.setItem('id', resultado.resultado.id);
+      navigate('/');
+    }
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -210,6 +245,16 @@ function LoginPage() {
             transparentNavbar={false}
             lightLink={false}
             staticNavbar={false}
+          />
+          <AlertD
+            ref={alertRef}
+            titulo="Alerta de ejemplo"
+            mensaje="Este es un mensaje de alerta."
+            imagen={img}
+            //el botón 1 no es obligatorio,por ejemplo, se puede mostrar nada mas como un mensaje por si no selecciona una opción o así
+            boton1="Aceptar"
+            boton2="Cancelar"
+            onConfirm={handleConfirm}
           />
           <FormularioPreferencias open={open} handleClose={handleClose} handleSubmit={handleSubmit} datosIniciales={datosIniciales.resultado}/>
           <SeleccionCategorias open={openSecondModal} handleClose={handleCloseSecondModal} handleSubmit={handleSecondModalSubmit} />
@@ -312,7 +357,7 @@ function LoginPage() {
                             <FacebookLogin
                               appId="1276060800080687"
                               autoLoad={false}
-                              callback={responseFacebook}
+                              callback={handleFacebook}
                               render={(renderProps) => (
                                 <IconButton aria-label="facebook" color='facebook' onClick={renderProps.onClick}>
                                   <FacebookRoundedIcon />
