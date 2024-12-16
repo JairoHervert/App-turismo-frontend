@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -12,6 +13,7 @@ const db = require('./src/models/MySQL/db');
 const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
 const historyRoutes = require('./src/routes/history-routes');
+const itinerarioRoutes = require('./src/routes/itinerario-routes');
 const recuperacionController = require('./src/controllers/recuperacion-controller');
 const favDeseadosController = require('./src/controllers/favDeseados-controller');
 
@@ -22,6 +24,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/api/places', placesRoutes);
 app.use('/', historyRoutes);
+app.use('/api', itinerarioRoutes);
 
 const PORT = 3001;
 
@@ -109,6 +112,28 @@ app.post('/refreshToken', (req, res) => {
 
     res.json({ success: true, token: newToken });
   });
+});
+
+app.get('/api/distancematrix', async (req, res) => {
+  const { origins, destinations, mode, key } = req.query;
+
+  try {
+      const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json`,
+          {
+              params: {
+                  origins,
+                  destinations,
+                  mode,
+                  key,
+              },
+          }
+      );
+      res.json(response.data);
+  } catch (error) {
+      console.error('Error al llamar a la API de Google:', error);
+      res.status(500).json({ error: 'Error al llamar a la API de Google' });
+  }
 });
 
 app.listen(PORT, () => {

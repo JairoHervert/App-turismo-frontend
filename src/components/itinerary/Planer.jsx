@@ -1,5 +1,5 @@
 // componentes online
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, IconButton, Typography } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -26,8 +26,11 @@ import SortablePlaceItem from './SortablePlaceItem';
 import ThemeMaterialUI from '../ThemeMaterialUI';
 import '../../css/ItineraryPage.css';
 
+//Handler fotos
+import { handleFotosLugar } from '../../pagesHandlers/place-handler';
+
 // itinerario de prueba (puede cambiarse a Itinerario1 o Itinerario3)
-import itinerario from './ItinerariosDePrueba/Itinerario2';
+//import itinerario from './ItinerariosDePrueba/Itinerario2';
 
 //botón
 import ButtonsMod from '../ButtonsMod';
@@ -39,7 +42,9 @@ import AlertDialog from './AddPlaces'; // Adjust the path as necessary
 import Recomendados from './Recomendados';
 
 
-function Planer({ setSelectedPlace }) {
+function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpdateItinerario = () => {}, distanciasTiempos, lugaresFiltrados = [], onDeletePlace}) {
+  const [calculated, setCalculated] = useState(false);
+  const [lastDistances, setLastDistances] = useState(null);
   // arrays para el formato de la fecha
   const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -60,15 +65,346 @@ function Planer({ setSelectedPlace }) {
   const [monday, setMonday] = useState(initialMonday);
   const todayFormatted = today.format('DD-MM-YYYY');
 
+  // Estado del itinerario
+  const [itinerario, setItinerary] = useState({});
+
   // state para el dia seleccionado en la barra de dias
-  const initialSelectedDay = itinerario[todayFormatted] ? todayFormatted : Object.keys(itinerario)[0];
-  const [selectedDay, setSelectedDay] = useState(initialSelectedDay);
-  console.log('selectedDay: ' + selectedDay);
+  //const initialSelectedDay = itinerario[todayFormatted] ? todayFormatted : Object.keys(itinerario)[0];
+  const [selectedDay, setSelectedDay] = useState(todayFormatted);
+  //console.log('selectedDay: ' + selectedDay);
 
   // Actualiza la semana mostrada según el día seleccionado
   useEffect(() => {
     setMonday(searchMonday(dayjs(selectedDay, 'DD-MM-YYYY')));
   }, [selectedDay]);
+
+  // Obtener y transformar los datos de la base de datos
+  useEffect(() => {
+    const fetchItinerary = async () => {
+      const idUsuarioLocal = idUsuario || localStorage.getItem('id');
+      if (!idUsuarioLocal) {
+        console.error('idUsuario no fue proporcionado y no se encontró en localStorage Planer.');
+        return;
+      }
+  
+      //console.log('El ID del usuario en el Planer.jsx es: ', idUsuarioLocal);
+      try {
+        //CAMBIAR EL IDITINERARIO PARA QUE SEA DE MANERA DINAMICA
+        const response = await fetch(`http://localhost:3001/api/itinerario?idUsuario=${idUsuarioLocal}&idItinerario=1`);
+        const data = await response.json();
+
+        // Transformar los datos al formato esperado
+          const transformedItinerary = {};
+
+          for (const place of data) {
+          //console.log('Datos del lugar:', place); // Aquí imprimimos los datos de cada lugar antes de procesarlos
+          //alert(`Datos del lugar: ${JSON.stringify(place)}`);
+          //console.log('Fecha enviada por lugar es:', place.fecha);
+          console.log('El orden del lugar: ',place.nombre,' es ',place.orden);
+          //console.log('Hora de llegada para el lugar ',place.nombre,' es: ',place.horaLlegada);
+          //console.log('Hora de llegada para el lugar ',place.nombre,' es: ',place.horaSalida);
+          const dateKey = place.fecha ? dayjs(place.fecha).format('DD-MM-YYYY') : 'NA'; // Usa 'sin-fecha' si no hay fecha
+          //console.log('Fecha original en place.fecha:', dateKey);
+          if (!transformedItinerary[dateKey]) {
+            transformedItinerary[dateKey] = [];
+          }
+
+          // Parsear regularOpeningHours y buscar horas según el día
+          let openHour = '00:00 am';
+          let closeHour = '00:00 pm';
+
+          if (place.regularOpeningHours) {
+            //console.log('RegularOpeningHours encontrado:', place.regularOpeningHours);
+            try {
+              // Parsear el JSON de regularOpeningHours
+              const openingHours = JSON.parse(place.regularOpeningHours);
+              //console.log('Opening hours (parseado):', openingHours);
+          
+              if (openingHours.periods) {
+                // Parsear la fecha de place.fecha para obtener el día de la semana
+                const selectedDate = dayjs(dateKey, 'DD-MM-YYYY');
+                //console.log('Fecha convertida con dayjs:', selectedDate.format('DD-MM-YYYY'));
+                const dayOfWeek = selectedDate.day(); // Obtiene el día de la semana (0: domingo, ..., 6: sábado)
+                //console.log('Fecha seleccionada:', dateKey);
+                //console.log('Día de la semana:', dayOfWeek);
+          
+                // Buscar el periodo correspondiente al día de la semana
+                const periodForDay = openingHours.periods.find(
+                  (period) => period.open.day === dayOfWeek
+                );
+                //console.log('Periodo para el día seleccionado:', periodForDay);
+          
+                if (periodForDay) {
+                  // Formatear horas de apertura y cierre en el formato deseado
+                  openHour = `${(periodForDay.open.hour % 12 || 12)}:${periodForDay.open.minute
+                    .toString()
+                    .padStart(2, '0')} ${periodForDay.open.hour < 12 ? 'am' : 'pm'}`;
+          
+                  closeHour = `${(periodForDay.close.hour % 12 || 12)}:${periodForDay.close.minute
+                    .toString()
+                    .padStart(2, '0')} ${periodForDay.close.hour < 12 ? 'am' : 'pm'}`;
+                  //console.log('Horario formateado de apertura:', openHour);
+                  //console.log('Horario formateado de cierre:', closeHour);
+                } else {
+                  console.warn(`No se encontró un periodo para el día ${dayOfWeek} en place.fecha ${dateKey}`);
+                }
+              } else {
+                console.warn('No se encontraron periodos en regularOpeningHours:', openingHours);
+              }
+            } catch (error) {
+              console.error('Error al parsear regularOpeningHours:', error);
+            }
+          } else {
+            console.warn('No se encontró regularOpeningHours para el lugar:', place);
+          }
+
+  
+          // Fetch de las imágenes del lugar
+          let placeImages = [];
+          try {
+            const resultado = await handleFotosLugar(place.idLugar); // Espera la resolución de la promesa
+            placeImages = resultado.map((element) => `http://localhost:3000/fotosLugares/${element.URL}`);
+          } catch (error) {
+            console.error('Error al obtener foto del lugar', error);
+            placeImages = ['https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg']; // Imagen predeterminada en caso de error
+          }
+          
+
+          //console.log(`Imágenes para el lugar ${place.idLugar}:`, placeImages);
+
+          // Parsear subcategorías
+          const placeSubcategories = place.subcategorias 
+          ? place.subcategorias.split(/,\s*/).slice(0, 3) // Toma solo las primeras 3 subcategorías
+          : [];
+
+          //console.log('Subcategorías procesadas:', placeSubcategories);
+
+
+          transformedItinerary[dateKey].push({
+            placeTime: place.horaLlegada 
+            ? place.horaLlegada.slice(0, 5) // Toma solo los primeros 5 caracteres (HH:MM)
+            : `${10 + transformedItinerary[dateKey].length}:00`, // Genera una hora genérica si no está disponible
+            placeTime1: place.horaSalida.slice(0, 5),
+            placeFecha: place.fecha,
+            placeId: place.idLugar,
+            placeName: place.nombre || 'Sin nombre',
+            placeDescription: place.descripcion || 'Sin descripción',
+            placeLongDescription: place.descripcion || 'Sin descripción',
+            placeThings: placeSubcategories,
+            //placeThings: JSON.parse(place.tipos || '[]'), // Parsear tipos si están en formato JSON
+            placeOpenHour: openHour || '00:00 am', // Hora genérica si no está disponible
+            placeCloseHour: closeHour || '00:00 pm',
+            placeOrden: place.orden || transformedItinerary[dateKey].length + 1,
+            latitude: place.latitud || 0,
+            longitude: place.longitud || 0,
+            placeAddress: place.direccion || 'Sin dirección',
+            placePhone: place.teléfono || 'Sin teléfono',
+            placeImages: placeImages, // Ruta para imágenes
+            placeRating: parseFloat(place.rating) || 0,
+            finalItem: false, // El último elemento en el array será marcado como `true`
+          });
+        }
+
+        // Encuentra la primera fecha del itinerario disponible
+        const firstDay = Object.keys(transformedItinerary).sort((a, b) => 
+          dayjs(a, 'DD-MM-YYYY').isBefore(dayjs(b, 'DD-MM-YYYY')) ? -1 : 1
+        )[0];
+
+        setItinerary(transformedItinerary);
+        setSelectedDay(firstDay); // Establece el primer día del itinerario como seleccionado
+      } catch (error) {
+        console.error('Error al obtener los datos del itinerario:', error);
+      }
+    };
+
+    fetchItinerary();
+  }, [idUsuario]);
+
+  // como el itinerario es un objeto, se debe extraer el array de lugares del día seleccionado, se usa para el drag and drop
+  const [itineraryItems, setItineraryItems] = useState([]);
+
+  // Efecto para actualizar el itinerario cuando cambia el día seleccionado
+  useEffect(() => {
+    const currentDayItems = itinerario[selectedDay] || [];
+  
+    if (lugaresFiltrados.length > 0) {
+      const filteredItems = currentDayItems.filter((item) =>
+        lugaresFiltrados.some((filtered) => filtered.placeName === item.placeName)
+      );
+      if (JSON.stringify(filteredItems) !== JSON.stringify(itineraryItems)) {
+        setItineraryItems(filteredItems);
+      }
+    } else {
+      if (JSON.stringify(currentDayItems) !== JSON.stringify(itineraryItems)) {
+        setItineraryItems(currentDayItems);
+      }
+    }
+  }, [selectedDay, itinerario, lugaresFiltrados, itineraryItems]); 
+
+  // Restablecer el cálculo al cambiar de día
+  useEffect(() => {
+    setCalculated(false); // Permite recalcular las horas al cambiar de día
+    console.log(`Cambio al día: ${selectedDay}`);
+  }, [selectedDay]);
+
+  useEffect(() => {
+    if (JSON.stringify(itineraryItems) !== JSON.stringify(lugaresFiltrados)) {
+      onSelectPlaces(itineraryItems); // Enviar lugares al componente padre
+    }
+  }, [itineraryItems, onSelectPlaces, lugaresFiltrados]);
+
+  useEffect(() => {
+    console.log('distanciasTiempos:', distanciasTiempos);
+  }, [distanciasTiempos]);
+
+  //Cálculo de la hora de salida de cada lugar
+
+  // Función para calcular las horas de salida
+  
+  const calculateDepartureTimes = useCallback(() => {
+    if (distanciasTiempos.length > 0 && itineraryItems.length > 1) {
+      const updatedItinerary = [...itineraryItems];
+      let hasChanges = false;
+  
+      // Hora base inicial para el primer lugar
+      let currentTime = dayjs("10:00", "HH:mm"); // Hora inicial del primer lugar
+  
+      for (let i = 0; i < updatedItinerary.length; i++) {
+        const currentPlace = updatedItinerary[i];
+        const tiempoTraslado = i > 0 ? parseInt(distanciasTiempos[i - 1]?.tiempo.split(" ")[0]) || 0 : 0;
+  
+        // Calcular hora de llegada basada en la hora de salida del lugar anterior y tiempo de traslado
+        const newPlaceTime = i === 0 ? currentTime : currentTime.add(tiempoTraslado, "minute");
+  
+        // Calcular hora de salida basada en hora de llegada y tiempo de estancia
+        const newPlaceTime1 = newPlaceTime.add(2, "hour"); // Estancia fija de 2 horas, ajustable
+  
+        // Actualizar los tiempos si hay cambios
+        if (
+          currentPlace.placeTime !== newPlaceTime.format("HH:mm") ||
+          currentPlace.placeTime1 !== newPlaceTime1.format("HH:mm")
+        ) {
+          currentPlace.placeTime = newPlaceTime.format("HH:mm");
+          currentPlace.placeTime1 = newPlaceTime1.format("HH:mm");
+          hasChanges = true;
+  
+          console.log(`Lugar: ${currentPlace.placeName}`);
+          console.log(`Nueva hora de llegada calculada: ${currentPlace.placeTime}`);
+          console.log(`Nueva hora de salida calculada: ${currentPlace.placeTime1}`);
+        }
+  
+        // Actualizar `currentTime` para el siguiente lugar
+        currentTime = newPlaceTime1;
+      }
+  
+      // Actualizar el estado solo si hubo cambios
+      if (hasChanges) {
+        setItineraryItems(updatedItinerary);
+        setLastDistances(distanciasTiempos);
+      }
+    }
+  }, [distanciasTiempos, itineraryItems]);
+
+  //Para checar el estado de la hora de salida y de llegada
+  useEffect(() => {
+    if (itineraryItems.length > 0) {
+      console.log(`Día seleccionado: ${selectedDay}`);
+      itineraryItems.forEach((place, index) => {
+        console.log(`Lugar ${index + 1}: ${place.placeName}`);
+        console.log(`Hora de llegada: ${place.placeTime || "No definida"}`); // placeTime como horaLlegada
+        console.log(`Hora de salida: ${place.placeTime1 || "Aún no calculada"}`); // horaSalida si está definida
+        console.log(`Orden: ${place.placeOrden}`);
+      });
+    } else {
+      console.log(`Día seleccionado: ${selectedDay}`);
+      console.log('No hay lugares en este día.');
+    }
+  }, [itineraryItems, selectedDay]);
+
+  // useEffect para disparar el cálculo cuando cambien los datos relevantes
+  useEffect(() => {
+    calculateDepartureTimes();
+  }, [distanciasTiempos, itineraryItems, calculateDepartureTimes]); 
+  
+  // Notificar al padre cuando cambie el itinerario completo
+  useEffect(() => {
+    onUpdateItinerario(itinerario);
+  }, [itinerario, onUpdateItinerario]);
+
+  // Función para reordenar los elementos del itinerario
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+  
+    if (!over || active.id === over.id) return;
+  
+    const oldIndex = itineraryItems.findIndex((_, index) => `place-${index}` === active.id);
+    const newIndex = itineraryItems.findIndex((_, index) => `place-${index}` === over.id);
+  
+    let updatedItems = [...itineraryItems];
+    const [movedItem] = updatedItems.splice(oldIndex, 1);
+    updatedItems.splice(newIndex, 0, movedItem);
+  
+    // Recalcular el orden y las horas
+    updatedItems = updatedItems.map((item, index) => {
+      const newPlaceOrden = index + 1;
+  
+      // Calcular horas basadas en la posición
+      let newPlaceTime = index === 0 ? dayjs("10:00", "HH:mm") : dayjs(updatedItems[index - 1].placeTime1, "HH:mm");
+      let newPlaceTime1 = newPlaceTime.add(2, "hour"); // Asume estancia de 2 horas por lugar
+  
+      return {
+        ...item,
+        placeOrden: newPlaceOrden,
+        placeTime: newPlaceTime.format("HH:mm"),
+        placeTime1: newPlaceTime1.format("HH:mm"),
+        finalItem: index === updatedItems.length - 1, // Marca el último lugar
+      };
+    });
+  
+    // Actualizar el itinerario global y local
+    updateGlobalItinerary(updatedItems);
+    setItineraryItems(updatedItems);
+  };
+
+  //Funcion para actualizar el itinerario global, en caso de que se hagan modificaciones de posicion y/o eliminacion
+  const updateGlobalItinerary = (updatedItems) => {
+    setItinerary((prevItinerary) => ({
+      ...prevItinerary,
+      [selectedDay]: updatedItems,
+    }));
+  };
+
+  // Función para eliminar un elemento del itinerario, se pasa como prop a SortablePlaceItem para que pueda ser llamada desde ahí (al hacer click en el botón de eliminar)
+  const handleDeleteItem = (indexToDelete,idLugar) => {
+    let updatedItems = [...itineraryItems];
+    updatedItems.splice(indexToDelete, 1);
+  
+    // Recalcular orden
+    updatedItems = updatedItems.map((item, index) => ({
+      ...item,
+      placeOrden: index + 1, // Reasigna el orden basado en la nueva posición
+      finalItem: index === updatedItems.length - 1, // Marca el último lugar
+    }));
+  
+    // Actualizar el itinerario global y local
+    updateGlobalItinerary(updatedItems); // Esto actualiza el itinerario global
+    setItineraryItems(updatedItems); // Esto actualiza el local
+
+    // Llamar a onDeletePlace para sincronizar con el servidor
+    onDeletePlace(1, idLugar, indexToDelete);
+  };
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Función para deshabilitar fechas que no están en el itinerario
   const shouldDisableDate = (date) => {
@@ -88,86 +424,11 @@ function Planer({ setSelectedPlace }) {
     setMonday(nextMonday);
   };
 
-  // como el itinerario es un objeto, se debe extraer el array de lugares del día seleccionado, se usa para el drag and drop
-  const [itineraryItems, setItineraryItems] = useState(itinerario[selectedDay]);
-
-  // Efecto para actualizar el itinerario cuando cambia el día seleccionado
-  useEffect(() => {
-    setItineraryItems(itinerario[selectedDay] || []);
-  }, [selectedDay]);
-
-  // Función para reordenar los elementos del itinerario
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-
-    // Si no hay un elemento sobre el cual se soltó, no hacer nada
-    if (!over || active.id === over.id) return;
-
-    // índices del elemento seleccionado pa mover y del destino
-    const oldIndex = itineraryItems.findIndex((_, index) => `place-${index}` === active.id);
-    const newIndex = itineraryItems.findIndex((_, index) => `place-${index}` === over.id);
-
-    // copia del itinerario actual
-    let updatedItinerary = [...itineraryItems];
-
-    // Extraer el elemento que fue arrastrado
-    const [movedItem] = updatedItinerary.splice(oldIndex, 1);
-
-    // Insertar el elemento en su nueva posición
-    updatedItinerary.splice(newIndex, 0, movedItem);
-
-    // Actualizar los horarios después del cambio de posición
-    updatedItinerary = updatedItinerary.map((item, index) => {
-      // Mantener el horario original del lugar en el índice actual, por la consistencia
-      return {
-        ...item,
-        placeTime: itineraryItems[index]?.placeTime || item.placeTime, // Preserva la hora del lugar original en esa posición
-      };
-    });
-
-    // el último elemento del itinerario debe tener finalItem en true, por cuestiones de estilo
-    updatedItinerary = updatedItinerary.map((item, index) => ({
-      ...item,
-      finalItem: index === updatedItinerary.length - 1,
-    }));
-
-    // Actuaklizamos el estado con el nuevo itinerario de manera local, esto debe hacerse en la bdd
-    setItineraryItems(updatedItinerary);
-    itinerario[selectedDay] = updatedItinerary;
-
-    // Sugerencia/Comentario para el equipo de backend:
-    // Aquí necesitamos enviar el itinerario actualizado al servidor o la bdd para guardar los cambios.
-    // no lo simule porque pense usar jsons para simulacion de itinerarios, pero hacerlo con json server no es lo más adecuado porque debo importarlo y hacer funciones extra
-    // como sugereancia podrian ghacer uso de algun endpoint que reciba el ID del itinerario (o la fecha, no se como lo esten manejando xd) y el nuevo orden de los lugares para actualizarlo en la base de datos.
-    // Este endpoint debe aceptar el cuerpo del itinerario actualizado (updatedItinerary) o pueden modificar esta funcion 
-    // para que retorne el itinerario actualizado y enviarlo desde el componente padre (ItineraryPage) al backend.
-    // funcionChidaParaActualizarItinerarioEnBackend(updatedItinerary); <----- 
-  };
-
-  // Función para eliminar un elemento del itinerario, se pasa como prop a SortablePlaceItem para que pueda ser llamada desde ahí (al hacer click en el botón de eliminar)
-  const handleDeleteItem = (indexToDelete) => {
-    let updatedItinerary = [...itineraryItems];
-    updatedItinerary.splice(indexToDelete, 1);
-
-    // Reorganizar las horas después de eliminar un lugar (mantener las horas originales, por consistencia)
-    updatedItinerary = updatedItinerary.map((item, index) => ({
-      ...item,
-      placeTime: itineraryItems[index]?.placeTime || item.placeTime, // Mantener las horas anteriores
-      finalItem: index === updatedItinerary.length - 1, // Solo el último elemento debe tener finalItem: true
-    }));
-
-    setItineraryItems(updatedItinerary);
-    itinerario[selectedDay] = updatedItinerary;
-
-    // Nota para el equipo de backend: aquí también se debe enviar la actualización a la base de datos para reflejar la eliminación.
-  };
-
   // Función para descargar el itinerario en PDF
   const handlePDF = () => {
     // Aquí se debe implementar la lógica para descargar el itinerario en PDF
     alert('Descargando PDF...');
   };
-
 
   const [open, setOpen] = useState(false);
   const [suggestedPlaces, setSuggestedPlaces] = useState([...Recomendados  ]);
@@ -206,7 +467,7 @@ function Planer({ setSelectedPlace }) {
         {/* Contenido de la pestaña 'Plan' */}
         <Box className='d-flex'>
           <Box className='it_pa-week-days'>
-            <IconButton color='black' aria-label='left arrow' onClick={handlePreviousWeek}>
+            <IconButton color='black' aria-label='left arrow' onClick={() => setMonday(monday.subtract(7, 'day'))}>
               <LeftRow sx={{ fontSize: '2.2rem' }} />
             </IconButton>
 
@@ -218,9 +479,10 @@ function Planer({ setSelectedPlace }) {
               {[...Array(7).keys()].map((i) => {
                 const day = monday.add(i, 'day');
                 const dayFormatted = day.format('DD-MM-YYYY');
+                const dayInItinerary = itinerario[dayFormatted];
 
                 //console.log('dayFormatted: ' + dayFormatted);
-                const dayInItinerary = dayFormatted in itinerario;
+                //const dayInItinerary = dayFormatted in itinerario;
 
                 // verificar condiciones para determinar la apariencia de los botones de los días
                 let dayStyle = 'fw-light';
@@ -263,7 +525,7 @@ function Planer({ setSelectedPlace }) {
                   }
                 }}
                 value={dayjs(selectedDay, 'DD-MM-YYYY')}
-                shouldDisableDate={shouldDisableDate}
+                shouldDisableDate={(date) => !itinerario[date.format('DD-MM-YYYY')]}
                 onChange={(newValue) => {
                   const formattedDate = newValue.format('DD-MM-YYYY');
                   setSelectedDay(formattedDate);
@@ -334,7 +596,7 @@ function Planer({ setSelectedPlace }) {
                     index={index}
                     setSelectedPlace={setSelectedPlace}
                     // como el botón de eliminar es parte del componente PlaceItemTimeline, se pasa la función handleDeleteItem como prop
-                    handleDeleteItem={() => handleDeleteItem(index)}
+                    handleDeleteItem={handleDeleteItem}
                   />
                 ))}
               </Timeline>
