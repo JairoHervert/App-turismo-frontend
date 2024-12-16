@@ -257,6 +257,25 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
     console.log('distanciasTiempos:', distanciasTiempos);
   }, [distanciasTiempos]);
 
+  //Convertir distanciatiempos en minutos, ya que puede dar horas
+
+  const convertirATiempoEnMinutos = (tiempo) => {
+    if (!tiempo || typeof tiempo !== 'string') {
+      console.warn('Valor inesperado para tiempo:', tiempo); // Opcional: Ayuda a depurar
+      return 0; // Si tiempo no es válido, devolvemos 0 minutos
+    }
+    
+    // Expresión regular para capturar horas y minutos
+    const horasMatch = tiempo.match(/(\d+)\s*hour[s]?/);   // Captura las horas
+    const minutosMatch = tiempo.match(/(\d+)\s*min[s]?/);  // Captura los minutos
+  
+    // Si encuentra coincidencias, convierte a números, si no, asigna 0
+    const horas = horasMatch ? parseInt(horasMatch[1], 10) : 0;
+    const minutos = minutosMatch ? parseInt(minutosMatch[1], 10) : 0;
+  
+    return horas * 60 + minutos; // Retorna el tiempo total en minutos
+  };  
+
   //Cálculo de la hora de salida de cada lugar
 
   // Función para calcular las horas de salida
@@ -271,8 +290,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
   
       for (let i = 0; i < updatedItinerary.length; i++) {
         const currentPlace = updatedItinerary[i];
-        const tiempoTraslado = i > 0 ? parseInt(distanciasTiempos[i - 1]?.tiempo.split(" ")[0]) || 0 : 0;
-  
+        const tiempoTraslado = i > 0 ? convertirATiempoEnMinutos(distanciasTiempos[i - 1]?.tiempo) : 0;
         // Calcular hora de llegada basada en la hora de salida del lugar anterior y tiempo de traslado
         const newPlaceTime = i === 0 ? currentTime : currentTime.add(tiempoTraslado, "minute");
   

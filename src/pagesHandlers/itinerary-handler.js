@@ -2,9 +2,13 @@ import axios from 'axios';
 
 
 //AQUI COLOCAR EL MODO DE TRANSPORTE EN EL QUE EL USUARIO VIAJARA.
-export async function calcularDistanciasYTiempo(lugares, modo = 'driving') {
+export async function calcularDistanciasYTiempo(lugares) {
   const apiKey = process.env.REACT_APP_GOOGLE_API_KEY; // Reemplaza con tu clave de API
   const resultados = [];
+
+  // Obtener el "modo" desde localStorage. Si no existe, se usa 'driving' como predeterminado.
+  const modo = localStorage.getItem('modo') || 'driving';
+  console.log("Modo de transporte seleccionado de itinerary-handler.js:", modo);
 
   // Agregar este console.log para verificar los datos recibidos
   //console.log("Lugares recibidos para cálculo:", lugares);

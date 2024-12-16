@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // estilos y componentes
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
@@ -72,6 +71,14 @@ const GenerarItinerario = () => {
   const [medioTransporte, setMedioTransporte] = useState('');
   const [errorMedioTransporte, setErrorMedioTransporte] = useState(false);
   const [helperTextTransporte, setHelperTextTransporte] = useState('');
+
+  // Guardar el valor de medioTransporte en localStorage cuando cambie
+  useEffect(() => {
+    if (medioTransporte) {
+      localStorage.setItem('modo', medioTransporte);
+      console.log('Modo de transporte guardado en el localstorage de generaritinerario.jsx:', medioTransporte);
+    }
+  }, [medioTransporte]);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
