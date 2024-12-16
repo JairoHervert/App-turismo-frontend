@@ -21,6 +21,7 @@ const PlacePage = () => {
   const navigate = useNavigate();
   const [place, setPlace] = useState(null);
   const [categorias, setCategorias] = useState(null);
+  const [categoriaAleatoria, setCategoriaAleatoria] = useState('Museos');
 
   const [isFavorito, setIsFavorito] = useState(false);
   const [isDeseado, setIsDeseado] = useState(false);
@@ -77,7 +78,6 @@ const PlacePage = () => {
         }
 
         const resultado = await handleDatosLugar(id); // Espera la resolución de la promesa
-        console.log(resultado);
         if(!resultado) {
           navigate("/");
         }
@@ -106,7 +106,6 @@ const PlacePage = () => {
         copiaResultado.horarios = JSON.parse(copiaResultado.regularOpeningHours).weekdayDescriptions;
         copiaResultado.reseñas = [];
         let reseñasJSON = JSON.parse(copiaResultado.reviewsGoogle);
-        console.log("reseñasJSON", reseñasJSON);
         reseñasJSON.forEach(r => {
           let reseña = {};
           reseña.nombreUsuario = r.authorAttribution.displayName;
@@ -145,6 +144,11 @@ const PlacePage = () => {
           array.push(element.categoria);
         });
         setCategorias(array);
+        // Seleccionar aleatoriamente una categoría del arreglo
+        if (array.length > 0) {
+          const randomIndex = Math.floor(Math.random() * array.length); // Índice aleatorio
+          setCategoriaAleatoria(array[randomIndex]); // Establecer la categoría aleatoria
+        }
       } catch (error) {
         console.error('Error al obtener categorías', error);
       }
@@ -176,12 +180,12 @@ const PlacePage = () => {
         lightLink={false} />
 
       <HeaderLugar
-        categoria='Museos'
+        categoria={categorias && categorias.length > 0 ? categorias[0] : null}
       />
       
       <DescripcionLugar
         nombreLugar={place && place.nombre ? place.nombre : 'Nombre no disponible'}
-        value={place && place.rating ? place.rating : 0.0}
+        value={place && place.rating ? place.rating : 0.0 }
         resumenLugar={place && place.descripcion ? place.descripcion : ''}
         direccionLugar={place && place.direccion ? place.direccion : 'Sin dirección registrada'}
         /* Para el siguiente parámetro [costoLugar]
