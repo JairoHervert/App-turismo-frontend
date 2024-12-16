@@ -8,9 +8,9 @@ import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
 
 // Alert
-import img from '../img/Itinerary/turist-for-another.jpg';
+import alertImgError from '../img/alertas/error.webp';
+import alertImgSuccess from '../img/alertas/success.webp';
 import AlertD from './../components/alert';
-import ButtonsMod from './../components/ButtonsMod';
 
 // modulos de iconos
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
@@ -34,8 +34,6 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/LoginPage.css';
 
 // elementos de la página
-import imgTeotihuacan from '../img/piramides-teotihuacan.webp';
-import fuenteTlaloc from '../img/PlacePage/place-img-fuentetlaloc.jpg';
 import casaLeon from '../img/PlacePage/place-img-casadeleon.jpg';
 
 function LoginPage() {
@@ -44,17 +42,27 @@ function LoginPage() {
     navigate('/');
   };
 
-  
-  const alertRef = useRef();
-  const handleClickOpen = () => {
-    if (alertRef.current) {
-        alertRef.current.handleClickOpen();
+  const alertError = useRef();
+  const [alertContentError, setAlertContentError] = useState('');
+  const handleClickOpenError = () => {
+    if (alertError.current) {
+      alertError.current.handleClickOpen();
     }
   };
-  const handleConfirm = () => {
-    console.log('Action confirmed');
-    alert('Action confirmed');
+  const handleConfirmError = () => {
+    alert('?')
   };
+
+  const alertSuccess = useRef();
+  const handleClickOpenSuccess = () => {
+    if (alertSuccess.current) {
+      alertSuccess.current.handleClickOpen();
+    }
+  };
+  const handleConfirmSuccess = () => {
+    navigate('/');
+  };
+  
 
   // validacion de correo
   const [correo, setCorreo] = useState('');
@@ -132,7 +140,7 @@ function LoginPage() {
       else if(datosIniciales.resultado.tokenFacebook)
         localStorage.setItem('facebook_access_token', datosIniciales.resultado.tokenFacebook);
       setOpenSecondModal(false);
-      navigate('/');
+      handleClickOpenSuccess();
     }
   };
 
@@ -152,10 +160,11 @@ function LoginPage() {
       } else if(respuesta && respuesta.resultado) {
         localStorage.setItem('access_token', respuesta.token);
         localStorage.setItem('id', respuesta.resultado.id);
-        navigate('/');
+        handleClickOpenSuccess();
       } else {
         console.log(respuesta);
-        handleClickOpen();
+        setAlertContentError(respuesta);
+        handleClickOpenError();
       }
     }
   };
@@ -200,7 +209,10 @@ function LoginPage() {
         localStorage.setItem('access_token', respuesta.token);
         localStorage.setItem('google_access_token', userInfo.data.sub);
         localStorage.setItem('id', respuesta.resultado.id);
-        navigate('/');
+        handleClickOpenSuccess();
+      } else {
+        setAlertContentError(respuesta);
+        handleClickOpenError();
       }
       // Mostrar un SweetAlert de éxito si el registro es exitoso
   
@@ -230,7 +242,10 @@ function LoginPage() {
       localStorage.setItem('access_token', resultado.token);
       localStorage.setItem('facebook_access_token', userID);
       localStorage.setItem('id', resultado.resultado.id);
-      navigate('/');
+      handleClickOpenSuccess();
+    } else {
+      setAlertContentError(resultado);
+      handleClickOpenError();
     }
   }
 
@@ -247,14 +262,21 @@ function LoginPage() {
             staticNavbar={false}
           />
           <AlertD
-            ref={alertRef}
-            titulo="Alerta de ejemplo"
-            mensaje="Este es un mensaje de alerta."
-            imagen={img}
-            //el botón 1 no es obligatorio,por ejemplo, se puede mostrar nada mas como un mensaje por si no selecciona una opción o así
-            boton1="Aceptar"
-            boton2="Cancelar"
-            onConfirm={handleConfirm}
+            ref={alertError}
+            titulo='Inicio de sesión fallido'
+            mensaje={alertContentError}
+            imagen={alertImgError}
+            boton2="Aceptar"
+            onConfirm={handleConfirmError}
+          />
+          <AlertD
+            ref={alertSuccess}
+            titulo='Inicio de sesión exitoso'
+            mensaje='¡Bienvenido!'
+            imagen={alertImgSuccess}
+            boton2="Aceptar"
+            onConfirm={handleConfirmSuccess}
+            onCloseAction={handleConfirmSuccess}
           />
           <FormularioPreferencias open={open} handleClose={handleClose} handleSubmit={handleSubmit} datosIniciales={datosIniciales.resultado}/>
           <SeleccionCategorias open={openSecondModal} handleClose={handleCloseSecondModal} handleSubmit={handleSecondModalSubmit} />

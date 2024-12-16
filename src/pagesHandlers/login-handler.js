@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Swal from 'sweetalert2';
 
 const handleLogin = async (e, correo, contraseña) => {
   e.preventDefault();
@@ -10,16 +9,14 @@ const handleLogin = async (e, correo, contraseña) => {
       console.log("Inicio de sesión exitoso. ID de usuario:", response.data.resultado.id);
       return response.data;
     } else {
-      //throw()
+      throw(new Error('Algo falló en la solicitud'));
     }
   } catch (error) {
-    // Mostrar el mensaje de error específico
     if (error.response && error.response.data && error.response.data.error) {
       return error.response.data.error
-      //alert_error(error.response.data.error);
     } else {
       console.error("Error al intentar iniciar sesión:", error);
-      //alert_error('Algo falló en la solicitud');
+      return 'Algo falló en la solicitud';
     }
   }
 };
@@ -41,10 +38,10 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
 
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
-      alert_error(error.response.data.error);
+      return error.response.data.error
     } else {
       console.error("Error al intentar iniciar sesión:", error);
-      alert_error('Algo falló en la solicitud');
+      return 'Algo falló en la solicitud';
     }
   }
 };
@@ -74,30 +71,15 @@ const responseFacebook = async (response) => {
     if (res.data.resultado.id) {
       console.log("Inicio de sesión exitoso. ID de usuario:", res.data.resultado.id);
       return res.data;
-      // guardar el token en localStorage
-      localStorage.setItem('access_token', res.data.token);
-      localStorage.setItem('id', res.data.resultado.id);
-      localStorage.setItem('facebook_access_token', accessToken);
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
-      alert_error(error.response.data.error);
-      return null;
+      return error.response.data.error
     } else {
       console.error("Error al intentar iniciar sesión:", error);
-      alert_error('Algo falló en la solicitud');
-      return null;
+      return 'Algo falló en la solicitud';
     }
   }
-};
-
-function alert_error(mensaje) {
-  Swal.fire({
-    icon: 'error',
-    title: 'Inicio de sesión fallido',
-    text: mensaje,
-    showConfirmButton: true
-  });
 };
 
 // Exports

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, forwardRef, useImperativeHandle } from "react";
+import { useNavigate } from 'react-router-dom';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -9,7 +10,7 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import { ThemeProvider } from '@mui/material/styles';
 import ButtonsMod from "./ButtonsMod";
 
-const AlertD = forwardRef(({ titulo, mensaje, imagen, boton1, boton2, onConfirm }, ref) => {
+const AlertD = forwardRef(({ titulo, mensaje, imagen, boton1, boton2, onConfirm, onCloseAction }, ref) => {
   const [open, setOpen] = useState(false);
 
   useImperativeHandle(ref, () => ({
@@ -20,6 +21,9 @@ const AlertD = forwardRef(({ titulo, mensaje, imagen, boton1, boton2, onConfirm 
 
   const handleClose = () => {
     setOpen(false);
+    if (onCloseAction) {
+      onCloseAction(); // Ejecuta acción personalizada al cerrar
+    }
   };
 
   const handleConfirm = () => {
