@@ -102,18 +102,6 @@ const lugarAbierto = (horaInicio, horaFin, horarioInicio, horarioFin) =>{
     }
 }
 
-// Recibe el dia en el que se encuentra el itinerario y el horario de apertura de todos los dias de la semana
-// En el formato [
-//   'lunes: 7:00–23:00',
-//   'martes: 7:00–23:00',
-//   'miércoles: 7:00–23:00',
-//   'jueves: 7:00–23:00',
-//   'viernes: 7:00–23:00',
-//   'sábado: 7:00–23:00',
-//   'domingo: 7:00–23:00'
-// ]
-// Retorna un objeto con los horarios de apertura y cierre del dia actual
-
 const formatoDiaHorario = (dia, horario) => {
     let horarioDia = null;
     try {
@@ -151,7 +139,7 @@ const formatoDiaHorario = (dia, horario) => {
     return {horarioInicio, horarioFin};
 }
 
-const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAleatoriedad, nivelPresupuesto, horaInicio, horaFin, fechaInicio, fechaFin) => {
+const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restricciones, gradoAleatoriedad, nivelPresupuesto, esAltoPresupuesto, horaInicio, horaFin, fechaInicio, fechaFin, latitudInicial, longitudInicial) => {
     const probabilidadAleatoria = gradoAleatoriedad / 100;
     // Calcular el número de días del viaje y el que dia de la semana es la fecha de inicio (0-6)
     const dias = dayjs(fechaFin).diff(dayjs(fechaInicio), 'day') + 1;
@@ -163,6 +151,8 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
     const restauranteArregloCategorias = await obtenerArregloCategorias(idUsuario, false, nivelPresupuesto, restricciones);
     const duracionActividad = 2.5; // Duración de una actividad en horas
     const duracionComida = 2.5; // Duración de una comida en horas
+    let costoAproximado = 0;
+
     // Llenar un arreglo con los restaurantes de restauranteArregloCategorias
     const restauranteLugaresCategorias = [];
     for (const categoria of restauranteArregloCategorias) {
@@ -180,12 +170,14 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
     let numTotalLugaresCategorias = 0;
     
     // Parámetros para el cálculo del score
-    const distRef = 0.18179334784903947;
-    let a = 0.5;
-    let b = 2;
-    let c = 0.5;
-    let d = 0.5;
-    let b_weight = 3;
+    const distRef = 0.18179334784903947;                        // Distancia de referencia
+    let a = 0.5;                                                // Si el lugar es deseado
+    let b = 2;                                                  // Si el lugar está cerca
+    let c = 0.5;                                                // Si el lugar 
+    let d = 0.5;                                                // Si el lugar cumple con las restricciones
+    let e_weight = 1.5;                                         // Peso del precio
+    let b_weight = 3.25;                                        // Peso de la distancia
+    let e = esAltoPresupuesto ? e_weight/4 : -e_weight/4;       // Precio del lugar
     
     // Contar los lugares en arregloCategorias
     for (const categoria of arregloCategorias) {
@@ -213,62 +205,13 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
         lugaresDeseadosSet.add(lugar.idLugar);
     }
 
-    // Imprimir la cantidad de lugares en cada arreglo
-    console.log('numTotalLugaresCategorias:', numTotalLugaresCategorias);
-    console.log('numTotalRestauranteLugaresCategorias:', numTotalRestauranteLugaresCategorias);
-    console.log('lugaresRestricciones:', lugaresRestricciones.length);
-    console.log('todosLugares:', todosLugares.length);
-    console.log('restauranteLugaresRestricciones:', restauranteLugaresRestricciones.length);
-    console.log('restauranteTodosLugares:', restauranteTodosLugares.length);
-
     // Arreglo para guardar los lugares seleccionados, tiene un objeto con la fecha del dia y sus lugares, por ejemplo: [{fecha: '2024-12-16', lugares: [lugar1, lugar2, lugar3]}]
     const lugaresItinerario = [];
     let indexCategoria = 0;
-    let longitudActual = 0;
-    let latitudActual = 0;
+    let longitudActual = longitudInicial;
+    let latitudActual = latitudInicial;
     let regularOpeningHours = null;
     let horaActual = dayjs(horaInicio, 'HH:mm', true);
-
-    if(hayCategorias){
-        // Elegir un numero aleatorio inicial, dentro de las categorías favoritas y un lugar aleatorio inicial
-        indexCategoria = Math.floor(Math.random() * arregloCategorias.length);
-        let indexLugarInicial = Math.floor(Math.random() * arregloCategorias[indexCategoria].lugares.length);
-        let lugarInicial = arregloCategorias[indexCategoria].lugares[indexLugarInicial];
-        longitudActual = lugarInicial.longitud;
-        latitudActual = lugarInicial.latitud;
-        lugaresSeleccionados.add(lugarInicial.id);
-        // Crear un objeto con la fecha de inicio y el lugar inicial
-        lugaresItinerario.push({fecha: dayjs(fechaInicio).add(0, 'day').format('YYYY-MM-DD'), lugares: [{data: lugarInicial, horaInicio: horaActual.format('HH:mm')}]})
-    }
-    else if(lugaresRestricciones.length > 0){
-        // Elegir un lugar aleatorio inicial de lugaresRestricciones
-        let indexLugarInicial = Math.floor(Math.random() * lugaresRestricciones.length);
-        let lugarInicial = lugaresRestricciones[indexLugarInicial];
-        console.log(lugaresRestricciones.length);
-        longitudActual = lugarInicial.longitud;
-        latitudActual = lugarInicial.latitud;
-        lugaresSeleccionados.add(lugarInicial.id);
-        // Crear un objeto con la fecha de inicio y el lugar inicial
-        // lugaresItinerario.push({fecha: fechaInicio, lugares: [lugarInicial]});
-        lugaresItinerario.push({fecha: dayjs(fechaInicio).add(0, 'day').format('YYYY-MM-DD'), lugares: [{data: lugarInicial, horaInicio: horaActual.format('HH:mm')}]})
-        // Convertir json a objeto
-        regularOpeningHours = JSON.parse(lugarInicial.regularOpeningHours);
-        console.log(regularOpeningHours.weekdayDescriptions);
-    }
-    else{
-        // Elegir un lugar aleatorio inicial de todosLugares
-        let indexLugarInicial = Math.floor(Math.random() * todosLugares.length);
-        let lugarInicial = todosLugares[indexLugarInicial];
-        longitudActual = lugarInicial.longitud;
-        latitudActual = lugarInicial.latitud;
-        lugaresSeleccionados.add(lugarInicial.id);
-        // Crear un objeto con la fecha de inicio y el lugar inicial
-        // lugaresItinerario.push({fecha: fechaInicio, lugares: [lugarInicial]});
-        lugaresItinerario.push({fecha: dayjs(fechaInicio).add(0, 'day').format('YYYY-MM-DD'), lugares: [{data: lugarInicial, horaInicio: horaActual.format('HH:mm')}]})
-        // Convertir json a objeto
-        regularOpeningHours = JSON.parse(lugarInicial.regularOpeningHours);
-        console.log(regularOpeningHours.weekdayDescriptions);
-    }
 
     // Cada dia cuenta con el siguiente orden: 3 actividades, 1 comida, 2 actividades, 1 cena
     // Se va a iterar por cada día del viaje
@@ -282,25 +225,11 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
         // Obtener el dia de la semana actual (domingo = 0, lunes = 1, ..., sábado = 6)
         const diaSemanaActual = (diaSemanaInicio + i) % 7;
 
-        if(i !== 0){
-            lugaresItinerario.push({fecha: dayjs(fechaInicio).add(i, 'day').format('YYYY-MM-DD'), lugares: []});
-        }
-        let indiceDia = null;
-        if(i === 0){
-            indiceDia = 1;
-            horaActual = horaActual.add(duracionActividad, 'hour');
-        }
-        else{
-            indiceDia = 0;
-        }
+        lugaresItinerario.push({fecha: dayjs(fechaInicio).add(i, 'day').format('YYYY-MM-DD'), lugares: []});
+        let indiceDia = 0;
 
         // Para llenar las primeras 3 actividades
         for(; indiceDia < 2; indiceDia++) {
-
-            // Se define un score basado en la distancia y si está en la lista de deseados
-            // score = a*esDeseado + b*(distRef^2-dist^2) + c*esCategoria + d*esRestriccion
-            // donde a = 1, b = abs(2/(distRef^2-distMin^2)), c = 1.5, d = 1.5
-            // distMin se define como la distancia mínima entre el lugar actual y (los lugares de la categoría y los lugares deseados)
 
             let categoria = null;
             let distanciaMinima = Infinity;
@@ -383,7 +312,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     }
 
                     const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d;
+                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d + lugar.precioNivel * e;
                     if (score > scoreMaximo) {
                         scoreMaximo = score;
                         idLugarSeleccionado = lugar.id;
@@ -416,7 +345,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                         continue;
                     }
                     const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d;
+                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d + lugar.precioNivel * e;
                     if (score > scoreMaximo) {
                         scoreMaximo = score;
                         idLugarSeleccionado = lugar.id;
@@ -449,7 +378,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 }
 
                 const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2));
+                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + lugar.precioNivel * e;
                 if (score > scoreMaximo) {
                     scoreMaximo = score;
                     idLugarSeleccionado = lugar.id;
@@ -460,9 +389,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             
             if(idLugarSeleccionado === "") {
                 // No se pudo crear el itinerario
-                console.log("indiceDia:", indiceDia);
-                console.log("No se pudo crear el itinerario");
-                return;
+                return {resultadoItinerario: false};
             }
             
             // Agregar el lugar seleccionado al itinerario, junto con su hora de inicio
@@ -477,6 +404,9 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             // Actualizar la hora actual sumandole la duración de la actividad
             horaActual = horaActual.add(duracionActividad, 'hour');
             // console.log(horaActual.format('HH:mm'));
+
+            // Actualizar el costo aproximado
+            costoAproximado += lugarObjeto.precioAproximado * numeroPersonas;
             
         }
 
@@ -551,7 +481,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 }
                 
                 const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d;
+                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d + lugar.precioNivel * e;
                 if (score > scoreMaximo) {
                     scoreMaximo = score;
                     idRestauranteSeleccionado = lugar.id;
@@ -586,7 +516,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 }
 
                 const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d;
+                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d + lugar.precioNivel * e;
                 if (score > scoreMaximo) {
                     scoreMaximo = score;
                     idRestauranteSeleccionado = lugar.id;
@@ -619,7 +549,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             }
 
             const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-            const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2));
+            const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + lugar.precioNivel * e;
             if (score > scoreMaximo) {
                 scoreMaximo = score;
                 idRestauranteSeleccionado = lugar.id;
@@ -630,9 +560,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
         if(idRestauranteSeleccionado === "") {
             // No se pudo crear el itinerario
-            console.log("indiceDia:", indiceDia);
-            console.log("No se pudo crear el itinerario");
-            return;
+            return {resultadoItinerario: false};
         }
 
         // Agregar el lugar seleccionado al itinerario, junto con su hora de inicio
@@ -648,15 +576,12 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
         horaActual = horaActual.add(duracionComida, 'hour');
         // console.log(horaActual.format('HH:mm'));
 
+        // Actualizar el costo aproximado
+        costoAproximado += lugarObjeto.precioAproximado * numeroPersonas;
+
         // Para llenar las últimas 2 actividades
         indiceDia = 0;
         for(; indiceDia < 2; indiceDia++) {
-
-            // Se define un score basado en la distancia y si está en la lista de deseados
-            // score = a*esDeseado + b*(distRef^2-dist^2) + c*esCategoria + d*esRestriccion
-            // donde a = 1, b = abs(2/(distRef^2-distMin^2)), c = 1.5, d = 1.5
-            // distMin se define como la distancia mínima entre el lugar actual y (los lugares de la categoría y los lugares deseados)
-
             let categoria = null;
             let distanciaMinima = Infinity;
 
@@ -740,7 +665,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     }
 
                     const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d;
+                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d + lugar.precioNivel * e;
                     if (score > scoreMaximo) {
                         scoreMaximo = score;
                         idLugarSeleccionado = lugar.id;
@@ -774,7 +699,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                     }
 
                     const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d;
+                    const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d + lugar.precioNivel * e;
                     if (score > scoreMaximo) {
                         scoreMaximo = score;
                         idLugarSeleccionado = lugar.id;
@@ -807,7 +732,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 }
 
                 const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2));
+                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + lugar.precioNivel * e;
                 if (score > scoreMaximo) {
                     scoreMaximo = score;
                     idLugarSeleccionado = lugar.id;
@@ -818,9 +743,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
             if(idLugarSeleccionado === "") {
                 // No se pudo crear el itinerario
-                console.log("indiceDia:", indiceDia);
-                console.log("No se pudo crear el itinerario");
-                return;
+                return {resultadoItinerario: false};
             }
 
             // Agregar el lugar seleccionado al itinerario, junto con su hora de inicio
@@ -835,6 +758,9 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             // Actualizar la hora actual sumandole la duración de la actividad
             horaActual = horaActual.add(duracionActividad, 'hour');
             // console.log(horaActual.format('HH:mm'));
+
+            // Actualizar el costo aproximado
+            costoAproximado += lugarObjeto.precioAproximado * numeroPersonas;
 
         }
 
@@ -909,7 +835,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 }
 
                 const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d;
+                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + c + d + lugar.precioNivel * e;
                 if (score > scoreMaximo) {
                     scoreMaximo = score;
                     idRestauranteSeleccionado = lugar.id;
@@ -943,7 +869,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
                 }
 
                 const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d;
+                const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + d + lugar.precioNivel * e;
                 if (score > scoreMaximo) {
                     scoreMaximo = score;
                     idRestauranteSeleccionado = lugar.id;
@@ -976,7 +902,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
             }
 
             const distancia = distanciaLugares(latitudActual, longitudActual, lugar.latitud, lugar.longitud);
-            const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2));
+            const score = a * lugaresDeseadosSet.has(lugar.id) + b * (Math.pow(distRef, 2) - Math.pow(distancia, 2)) + lugar.precioNivel * e;
             if (score > scoreMaximo) {
                 scoreMaximo = score;
                 idRestauranteSeleccionado = lugar.id;
@@ -987,9 +913,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
 
         if(idRestauranteSeleccionado === "") {
             // No se pudo crear el itinerario
-            console.log("indiceDia:", indiceDia);
-            console.log("No se pudo crear el itinerario");
-            return;
+            return {resultadoItinerario: false};
         }
 
         // Agregar el lugar seleccionado al itinerario, junto con su hora de inicio
@@ -1006,33 +930,53 @@ const seleccionarLugaresPorDistancia = async (idUsuario, restricciones, gradoAle
         horaActual = horaActual.add(duracionComida, 'hour');
         // console.log(horaActual.format('HH:mm'));
 
+        // Actualizar el costo aproximado
+        costoAproximado += lugarObjeto.precioAproximado * numeroPersonas;
 
     }
 
-    // console.log(lugaresItinerario);
-    for (const dia of lugaresItinerario) {
-        console.log(dia.fecha);
-        for (const lugar of dia.lugares) {
-            console.log(lugar.horaInicio);
-            console.log(lugar.data.nombre);
-        }
-    }
+    return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true};
 
 }
 
+const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFin, horaInicio, horaFin, gradoAleatoriedad, duracionActividad, duracionComida, presupuesto, restricciones, latitudInicial, longitudInicial) => {
+    // Probar desde el nivelPrecio más alto hasta el más bajo
+    let lugaresItinerario = [];
+    let costoAproximado = 0;
+    let resultadoItinerario = false;
 
+    for(let i = 4; i >= 1; i--){
+        for(let j = 0; j < 2; j++){
+            const itinerario = await seleccionarLugaresPorDistancia(idUsuario, numeroPersonas, restricciones, gradoAleatoriedad, i, j, horaInicio, horaFin, fechaInicio, fechaFin, latitudInicial, longitudInicial);
+            if(itinerario.resultadoItinerario){
+                if(itinerario.costoAproximado > costoAproximado && itinerario.costoAproximado <= presupuesto){
+                    lugaresItinerario = itinerario.lugaresItinerario;
+                    costoAproximado = itinerario.costoAproximado;
+                    resultadoItinerario = true;
+                }
+            }
+        }
+    }
 
-// obtenerArregloCategorias(1, false, {impedimentoFisico: true, familiar: true, vegetarianFriendly: true, petFriendly: true});
+    if(resultadoItinerario){
+        console.log(lugaresItinerario);
+        for (const dia of lugaresItinerario) {
+            console.log(dia.fecha);
+            for (const lugar of dia.lugares) {
+                console.log(lugar.horaInicio);
+                console.log(lugar.data.nombre);
+            }
+        }
+        console.log("Costo aproximado: " + costoAproximado);
+        return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true};
+    }
+    else {
+        console.log("No se pudo crear el itinerario con el presupuesto indicado");
+        return {resultadoItinerario: false};
+    }
+}
 
-seleccionarLugaresPorDistancia(1, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 50, 1, "09:00", "18:00", "2024-12-16", "2024-12-17");
-
-// lugarAbierto("02:00", "02:00", "22:00", "03:00");
-
-// FALTA CONSIDERAR EL PRESUPUESTO, HORARIO DE INICIO Y FIN Y LAS HORAS EN LAS QUE ABREN LOS LUGARES
+generarItinerario(1, 1, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 5000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.50611040318008, -99.14657412850516);
 
 // PASOS
-// 3. CONSIDERAR EL PRESUPUESTO
-    // Hacer la función que llama a seleccionarLugaresPorDistancia con el presupuesto adecuado
 // 4. GUARDAR EN LA BASE DE DATOS
-
-// {"openNow":true,"periods":[{"open":{"day":0,"hour":10,"minute":0,"date":{"year":2024,"month":12,"day":1}},"close":{"day":0,"hour":19,"minute":0,"date":{"year":2024,"month":12,"day":1}}},{"open":{"day":1,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":2}},"close":{"day":2,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":3}}},{"open":{"day":2,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":3}},"close":{"day":3,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":4}}},{"open":{"day":3,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":4}},"close":{"day":4,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":5}}},{"open":{"day":4,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":5}},"close":{"day":5,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":6}}},{"open":{"day":5,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":6}},"close":{"day":6,"hour":0,"minute":0,"date":{"year":2024,"month":12,"day":7}}},{"open":{"day":6,"hour":13,"minute":0,"date":{"year":2024,"month":12,"day":7}},"close":{"day":6,"hour":23,"minute":59,"truncated":true,"date":{"year":2024,"month":12,"day":7}}}],"weekdayDescriptions":["lunes: 13:00–24:00","martes: 13:00–24:00","miércoles: 13:00–24:00","jueves: 13:00–24:00","viernes: 13:00–24:00","sábado: 13:00–24:00","domingo: 10:00–19:00"],"nextCloseTime":"2024-12-02T01:00:00Z"}
