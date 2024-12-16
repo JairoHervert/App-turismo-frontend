@@ -52,16 +52,17 @@ const buscarLugaresPorTexto = async (query,pageToken = null) => {
     languageCode: 'es', // Idioma preferido
     regionCode: 'MX', // Código de región para México
     pageSize: 20, // Resultados por página
-    priceLevels: [
-      'PRICE_LEVEL_INEXPENSIVE', // Económico
-      'PRICE_LEVEL_MODERATE',    // Moderado
-      'PRICE_LEVEL_EXPENSIVE',   // Costoso
-      'PRICE_LEVEL_VERY_EXPENSIVE' // Muy costoso
-    ],
+    // priceLevels: [
+    //   'PRICE_LEVEL_FREE',        // Gratis
+    //   'PRICE_LEVEL_INEXPENSIVE', // Económico
+    //   'PRICE_LEVEL_MODERATE',    // Moderado
+    //   'PRICE_LEVEL_EXPENSIVE',   // Costoso
+    //   'PRICE_LEVEL_VERY_EXPENSIVE' // Muy costoso
+    // ],
     locationBias: {
       circle: {
-        center: { latitude: 19.4326, longitude: -99.1332 }, // Coordenadas de CDMX
-        radius: 50000, // Radio en metros (50 km)
+        center: { latitude: 19.436511157306374, longitude: -99.13954113405046 }, // Coordenadas de CDMX
+        radius: 30000, // Radio en metros (30 km)
       },
     },
     //rankPreference: 'DISTANCE', // Clasificación basada en distancia
