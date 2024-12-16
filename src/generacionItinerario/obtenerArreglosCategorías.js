@@ -7,7 +7,7 @@ dayjs.extend(customParseFormat);
 dayjs.locale(dayjs_es);
 
 const {obtenerCategoriasFavoritas, obtenerLugaresCategoriaRestricciones, obtenerLugaresDeseados, obtenerLugaresRestricciones, obtenerTodosLugares} = require('../models/MySQL/itinerario-model');
-const es = require('dayjs/locale/es');
+// const es = require('dayjs/locale/es');
 
 const obtenerCategoriasFavoritass = async (idUsuario) => {
     try {
@@ -91,7 +91,10 @@ const lugarAbierto = (horaInicio, horaFin, horarioInicio, horarioFin) =>{
 
     // Verificar si el lugar cierra a la madrugada
     if(horarioInicioObj.isAfter(horarioFinObj)){
-        if(((horaInicioObj.isAfter(horarioInicioObj) || horaInicioObj.isSame(horarioInicioObj)) && (horaFinObj.isBefore(horarioFinObj) || horaFinObj.isSame(horarioFinObj))) || (((horaInicioObj.isAfter(horarioInicioObj) || horaInicioObj.isSame(horarioInicioObj)) && (horaFinObj.isAfter(horarioInicioObj) || horaFinObj.isSame(horarioInicioObj))) || ((horaInicioObj.isBefore(horarioFinObj) || horaInicioObj.isSame(horarioFinObj)) && (horaFinObj.isBefore(horarioFinObj) || horaFinObj.isSame(horarioFinObj))) && horaInicioObj.isBefore(horaFinObj))){
+        const caso1 = (horaInicioObj.isAfter(horarioInicioObj) || horaInicioObj.isSame(horarioInicioObj)) && (horaFinObj.isBefore(horarioFinObj) || horaFinObj.isSame(horarioFinObj));
+        const caso2 = (horaInicioObj.isAfter(horarioInicioObj) || horaInicioObj.isSame(horarioInicioObj)) && (horaFinObj.isAfter(horarioInicioObj) || horaFinObj.isSame(horarioInicioObj));
+        const caso3 = (horaFinObj.isBefore(horarioFinObj) || horaFinObj.isSame(horarioFinObj)) && (horaInicioObj.isBefore(horarioFinObj) || horaInicioObj.isSame(horarioFinObj));
+        if(caso1 || caso2 || caso3){
             return true;
         }
     }
@@ -165,7 +168,6 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     }
     const restauranteLugaresRestricciones = await obtenerLugaresRestriccioness(false, nivelPresupuesto, restricciones);
     const restauranteTodosLugares = await obtenerTodosLugaress(false, nivelPresupuesto);
-    const numActividades = Math.floor(dias * 5);
     const numCategorias = arregloCategorias.length;
     let numTotalLugaresCategorias = 0;
     
@@ -175,7 +177,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     let b = 2;                                                  // Si el lugar está cerca
     let c = 0.5;                                                // Si el lugar 
     let d = 0.5;                                                // Si el lugar cumple con las restricciones
-    let e_weight = 1.5;                                         // Peso del precio
+    let e_weight = 1.25;                                         // Peso del precio
     let b_weight = 3.25;                                        // Peso de la distancia
     let e = esAltoPresupuesto ? e_weight/4 : -e_weight/4;       // Precio del lugar
     
@@ -976,7 +978,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
     }
 }
 
-generarItinerario(1, 1, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 5000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.50611040318008, -99.14657412850516);
+generarItinerario(1, 4, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 4000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.50611040318008, -99.14657412850516);
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS
