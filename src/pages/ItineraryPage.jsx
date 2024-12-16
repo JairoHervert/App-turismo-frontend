@@ -184,7 +184,9 @@ function ItineraryPage() {
       const result = await response.json();
 
       if (response.ok) {
+        //AQUI AGREGAR LA VENTANA O ALERTA.
         console.log('Itinerario guardado exitosamente:', result);
+        navigate('/itinerary');
       } else {
         console.error('Error al guardar el itinerario:', result.error);
         alert('Hubo un error al guardar el itinerario');
