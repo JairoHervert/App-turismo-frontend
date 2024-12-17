@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState, forwardRef, useImperativeHandle } from "react";
-import { useNavigate } from 'react-router-dom';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -55,7 +54,7 @@ const AlertD = forwardRef(({ titulo, mensaje, imagen, boton1, boton2, onConfirm,
           {imagen && (
             <img src={imagen} alt="imagen" style={{ width: 'auto', height: '20vh', display: 'block', margin: '0 auto'}} />
           )}
-          <DialogContentText id="alert-dialog-description" style={{ textAlign: 'center' }}>
+          <DialogContentText id="alert-dialog-description" style={{ textAlign: 'center', color: '#4F4F4F' }}>
             {mensaje}
           </DialogContentText>
         </DialogContent>
