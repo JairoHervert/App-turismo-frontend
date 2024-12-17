@@ -26,6 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import "../../css/LoginPage.css";
+import AlertD from "../alert";
 
 function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciales }) {
   console.log("datosIniciales", datosIniciales)

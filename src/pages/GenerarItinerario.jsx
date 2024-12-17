@@ -17,8 +17,21 @@ import 'dayjs/locale/es';
 // ÍCONOS
 import { Map as MapIcon } from '@mui/icons-material';
 
+import { useRef } from 'react'
+import AlertD from '../components/alert';
+import img from '../img/Itinerary/turist-for-another.jpg';
+
+
 const GenerarItinerario = () => {
 
+  const alertRef = useRef();
+
+  //funcion para abrir la alerta
+  const handleClickOpen = () => {
+      if (alertRef.current) {
+          alertRef.current.handleClickOpen();
+      }
+  };
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -50,7 +63,9 @@ const GenerarItinerario = () => {
       setHelperTextTransporte('Selecciona un medio de transporte antes de continuar');
       hayError = true;
     }
-
+    if(hayError){
+      handleClickOpen();
+    }
     if (!hayError) {
       navigate('/Categorias-page');
     }
@@ -160,9 +175,18 @@ const GenerarItinerario = () => {
           <ButtonsMod
             variant='principal'
             textCont='Continuar'
-            clickEvent={handleClick}
+            clickEvent={handleClick} 
           />
         </Box>
+        <AlertD
+                ref={alertRef}
+                titulo="Rellena los campos"
+                mensaje="Por favor, rellena correctamente todos los campos antes de continuar."
+                imagen={img}
+                //el botón 1 no es obligatorio,por ejemplo, se puede mostrar nada mas como un mensaje por si no selecciona una opción o así
+                boton2="Aceptar"
+                onConfirm={handleClick}
+            />
 
       </Container>
 
