@@ -28,7 +28,7 @@ import AllPlacesPage from '../pages/AllPlacesPage';
 import PreferenciasModal from '../components/preferencias/PreferenciasModal';
 import AdminSavedPlaces from '../pages/AdminSavedPlaces';
 import Carga from '../pages/Carga';
-
+import Pdf from '../components/pdf';
 
 function AppRouter() {
   return (
@@ -64,6 +64,7 @@ function AppRouter() {
         <Route path='/preferencias' element={<PreferenciasModal/>} />
         <Route path='/Admin-SavedPlaces' element={<AdminSavedPlaces/>}/>
         <Route path='/Carga' element={<Carga />} /> 
+        <Route path='/pdf' element={<Pdf />} />
       </Routes>
     </Router>
   );

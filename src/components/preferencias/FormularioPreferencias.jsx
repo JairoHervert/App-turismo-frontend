@@ -53,20 +53,17 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
 
   // Reglas
   const [userNameRules, setUserNameRules] = useState({
-    minLength: false,
-    maxLength: false,
+    length: false,
   });
   const [firstNameRules, setFirstNameRules] = useState({
     onlyLetters: false,
-    minLength: false,
+    length: false,
     startsWithUppercase: false,
-    maxLength: false,
   });
   const [lastNameRules, setLastNameRules] = useState({
     onlyLetters: false,
-    minLength: false,
+    length: false,
     startsWithUppercase: false,
-    maxLength: false,
   });
   const [dateError, setDateError] = useState(false);
   const [dateHelperText, setDateHelperText] = useState(
@@ -81,10 +78,9 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
 
   useEffect(() => {
     const name = userName;
-    const object = { minLength: false, maxLength: false };
+    const object = { length: false };
     if (name) {
-      object.minLength = name.length >= 3;
-      object.maxLength = name.length <= 10;
+      object.length = name.length >= 3 && name.length <= 10;
     }
     setUserNameRules(object);
   }, [userName]);
@@ -99,9 +95,8 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
     const name = firstName || "";
     setFirstNameRules({
       onlyLetters: name ? /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(name) : false,
-      minLength: name ? name.length >= 2 : false,
+      length: name ? name.length >= 3 && name.length <= 20 : false,
       startsWithUppercase: name ? /^[A-ZÁÉÍÓÚÑÜ]/.test(name) : false,
-      maxLength: name ? name.length <= 20 : false,
     });
   }, [firstName]);
 
@@ -115,9 +110,8 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
     const name = lastName || "";
     setLastNameRules({
       onlyLetters: name ? /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(name) : false,
-      minLength: name ? name.length >= 2 : false,
+      length: name ? name.length >= 3 && name.length <= 20 : false,
       startsWithUppercase: name ? /^[A-ZÁÉÍÓÚÑÜ]/.test(name) : false,
-      maxLength: name ? name.length <= 20 : false,
     });
   }, [lastName]);
 
@@ -168,30 +162,25 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
     // Actualiza las reglas de validación
     setFirstNameRules({
       onlyLetters: firstName ? /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(firstName) : false,
-      minLength: firstName ? firstName.length >= 2 : false,
+      length: firstName ? firstName.length >= 3 && firstName.length <= 20 : false,
       startsWithUppercase: firstName ? /^[A-ZÁÉÍÓÚÑÜ]/.test(firstName) : false,
-      maxLength: firstName ? firstName.length <= 20 : false,
     });
 
     setLastNameRules({
       onlyLetters: lastName ? /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(lastName) : false,
-      minLength: lastName ? lastName.length >= 2 : false,
+      length: lastName ? lastName.length >= 3 && lastName.length <= 20 : false,
       startsWithUppercase: lastName ? /^[A-ZÁÉÍÓÚÑÜ]/.test(lastName) : false,
-      maxLength: lastName ? lastName.length <= 20 : false,
     });
 
     // Verifica las reglas de validación antes de enviar el formulario
     if (
-      !userNameRules.minLength ||
-      !userNameRules.maxLength ||
+      !userNameRules.length ||
       !firstNameRules.onlyLetters ||
-      !firstNameRules.minLength ||
+      !firstNameRules.length ||
       !firstNameRules.startsWithUppercase ||
-      !firstNameRules.maxLength ||
       !lastNameRules.onlyLetters ||
-      !lastNameRules.minLength ||
+      !lastNameRules.length ||
       !lastNameRules.startsWithUppercase ||
-      !lastNameRules.maxLength ||
       !selectedDate ||
       dateError ||
       !sexo ||
@@ -257,7 +246,7 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                 variant="outlined"
                 value={userName}
                 onChange={handleUserNameChange}
-                error={formSubmitted && (!userNameRules.minLength || !userNameRules.maxLength)}
+                error={formSubmitted && !userNameRules.length}
                 required
               />
               <Typography
@@ -270,17 +259,10 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
               <ul>
                 <li
                   className={`lo_pa-rule-input fw-medium ${
-                    userNameRules.minLength ? "text-success fw-semibold" : ""
+                    userNameRules.length ? "text-success fw-semibold" : ""
                   }`}
                 >
-                  Debe contener al menos 3 caracteres.
-                </li>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    userNameRules.maxLength ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  No debe contener más de 10 caracteres.
+                  Debe contener entre 3 y 10 caracteres.
                 </li>
               </ul>
             </Grid>
@@ -300,9 +282,8 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                   formSubmitted &&
                   (!firstName ||
                     !firstNameRules.onlyLetters ||
-                    !firstNameRules.minLength ||
-                    !firstNameRules.startsWithUppercase ||
-                    !firstNameRules.maxLength)
+                    !firstNameRules.length ||
+                    !firstNameRules.startsWithUppercase)
                 }
                 required
               />
@@ -332,17 +313,10 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                 </li>
                 <li
                   className={`lo_pa-rule-input fw-medium ${
-                    firstNameRules.minLength ? "text-success fw-semibold" : ""
+                    firstNameRules.length ? "text-success fw-semibold" : ""
                   }`}
                 >
-                  Debe contener al menos 2 letras.
-                </li>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    firstNameRules.maxLength ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  No debe contener más de 20 letras.
+                  Debe contener entre 3 y 20 letras.
                 </li>
               </ul>
             </Grid>
@@ -361,9 +335,8 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                   formSubmitted &&
                   (!lastName ||
                     !lastNameRules.onlyLetters ||
-                    !lastNameRules.minLength ||
-                    !lastNameRules.startsWithUppercase ||
-                    !lastNameRules.maxLength)
+                    !lastNameRules.length ||
+                    !lastNameRules.startsWithUppercase)
                 }
                 required
               />
@@ -395,17 +368,10 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
                 
                 <li
                   className={`lo_pa-rule-input fw-medium ${
-                    lastNameRules.minLength ? "text-success fw-semibold" : ""
+                    lastNameRules.length ? "text-success fw-semibold" : ""
                   }`}
                 >
-                  Debe contener al menos 2 letras.
-                </li>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    lastNameRules.maxLength ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  No debe contener más de 20 letras.
+                  Debe contener entre 3 y 20 letras.
                 </li>
               </ul>
             </Grid>

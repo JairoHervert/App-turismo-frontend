@@ -26,7 +26,51 @@ import MoreInfoPlace from '../components/itinerary/MoreInfoPlace';
 // estilos
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 
+//Funcion de calculo de distancia entre lugares
+import { calcularDistanciasYTiempo } from '../pagesHandlers/itinerary-handler';
+
 function ItineraryPage() {
+  // Estado global para guardar todo el itinerario
+  const [itinerarioCompleto, setItinerarioCompleto] = useState({});
+  // Mueve los hooks dentro de la función
+  const [distanciasTiempos, setDistanciasTiempos] = useState([]);
+  const [lugares, setLugares] = useState([]);
+  // Nuevo estado para el término de búsqueda
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredLugares, setFilteredLugares] = useState([]);
+  const [idUsuario, setIdUsuario] = useState(null); // Estado para el idUsuario
+
+  useEffect(() => {
+    // Obtener el idUsuario desde localStorage
+    const idUsuarioLocal = localStorage.getItem('id');
+    if (idUsuarioLocal) {
+      setIdUsuario(idUsuarioLocal);
+      console.log('ID del usuario:', idUsuarioLocal);
+    } else {
+      console.error('No se encontró el ID del usuario en localStorage');
+    }
+  }, []);
+
+  useEffect(() => {
+    async function obtenerDistancias() {
+      if (lugares.length > 1) {
+        const lugaresConCoordenadas = lugares.map((lugar) => ({
+          nombre: lugar.placeName,
+          lat: lugar.latitude,
+          lon: lugar.longitude,
+        }));
+
+        // Llamada a la función calcularDistanciasYTiempo
+        const resultados = await calcularDistanciasYTiempo(lugaresConCoordenadas);
+        setDistanciasTiempos(resultados); // Guarda los resultados en el estado
+        // Agregar un console.log para verificar los resultados
+      //console.log('Resultados de distancias y tiempos:', resultados);
+      }
+    }
+
+    obtenerDistancias();
+  }, [lugares]); // Solo recalcular si los lugares cambian
+
   // estado para manejar el estado de la pestaña activa, ya sea 'Plan' o 'Ruta'
   const [activeTab, setActiveTab] = useState('Plan');
 
@@ -36,20 +80,6 @@ function ItineraryPage() {
   // estados para manejar el estado del modal de informacion del lugar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // Estado para controlar el modal del boton de finalizar
-  const [openModalFinality, setOpenModalFinality] = useState(false);
-
-  const handleOpenModalFinality = () => {
-    setOpenModalFinality(true);
-  };
-  const handleCloseModalFinality = () => {
-    setOpenModalFinality(false);
-  };
-  const handleConfirmFinality = () => {
-    setOpenModalFinality(false);
-    console.log('Itinerario finalizado');
-  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,10 +95,136 @@ function ItineraryPage() {
     };
   }, []);
 
+
+  //Checa el estado de los lugares que son modificados por el planer y estos los recibe el componente padre
+  useEffect(() => {
+    console.log("Lugares actuales recibidos del componente padre:", lugares);
+  }, [lugares]);
+
   const handlePlaceSelect = (place) => {
     setSelectedPlace(place);
     if (windowWidth < 1200) {
       setIsModalOpen(true);
+    }
+  };
+
+  // Filtrar lugares cada vez que cambia el término de búsqueda o los lugares disponibles
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      // Resetea solo si había lugares filtrados previamente
+      if (filteredLugares.length > 0) {
+        setFilteredLugares([]);
+      }
+    } else {
+      const filtered = lugares.filter((lugar) =>
+        lugar.placeName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      // Solo actualiza si el nuevo filtro es diferente
+      if (JSON.stringify(filtered) !== JSON.stringify(filteredLugares)) {
+        setFilteredLugares(filtered);
+      }
+    }
+  }, [searchTerm, lugares, filteredLugares]);
+
+  // Manejar el cambio en el campo de búsqueda
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Estado para controlar el modal del boton de finalizar
+  const [openModalFinality, setOpenModalFinality] = useState(false);
+
+  const handleOpenModalFinality = () => {
+    setOpenModalFinality(true);
+  };
+  const handleCloseModalFinality = () => {
+    setOpenModalFinality(false);
+  };
+
+  // Función para guardar los datos del itinerario desde Planer
+  const handleItinerarioUpdate = (nuevoItinerario) => {
+    setItinerarioCompleto(nuevoItinerario); // Guarda el itinerario completo
+  };
+
+  //Este es la confirmacion de finalizar y aqui se guarda el itinerario actualizado en la base de datos.
+  // Confirmar y guardar el itinerario completo
+  const handleConfirmFinality = async () => {
+    setOpenModalFinality(false); // Cierra el modal
+
+    try {
+      // Transformar los datos del itinerario completo
+      const lugaresBody = Object.keys(itinerarioCompleto).flatMap((fecha) =>
+        itinerarioCompleto[fecha].map((lugar) => ({
+          idLugar: lugar.placeId,
+          orden: lugar.placeOrden,
+          // Convertir la fecha a formato 'YYYY-MM-DD'
+          fecha: lugar.placeFecha ? new Date(lugar.placeFecha).toISOString().split('T')[0] : null,
+          horaLlegada: lugar.placeTime,
+          horaSalida: lugar.placeTime1,
+        }))
+      );
+
+      console.log('Datos enviados al servidor:', {
+        idUsuario: idUsuario,
+        idItinerario: 1, //CAMBIAR EL IDITINERARIO
+        lugares: lugaresBody,
+      });
+
+      // Enviar al backend
+      const response = await fetch('http://localhost:3001/api/guardar-itinerario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          idUsuario: idUsuario,
+          idItinerario: 1, //CAMBIAR EL IDITINERARIO
+          lugares: lugaresBody,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        //AQUI AGREGAR LA VENTANA O ALERTA.
+        console.log('Itinerario guardado exitosamente:', result);
+        navigate('/itinerary');
+      } else {
+        console.error('Error al guardar el itinerario:', result.error);
+        alert('Hubo un error al guardar el itinerario');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud para guardar el itinerario:', error);
+      alert('No se pudo conectar con el servidor');
+    }
+  };
+
+  // Función para eliminar un lugar en la base de datos y en el estado local
+  const handleDeletePlace = async (idItinerario, idLugar, indexToDelete) => {
+    try {
+      // Llamada al backend para eliminar el lugar
+      const response = await fetch('http://localhost:3001/api/eliminar-lugar', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          idItinerario,
+          idLugar,
+        }),
+      });
+
+      if (response.ok) {
+        console.log(`Lugar con ID ${idLugar} eliminado exitosamente`);
+
+        // Actualizar el estado local eliminando el lugar
+        const updatedLugares = [...lugares]; // Crear una copia de los lugares
+        updatedLugares.splice(indexToDelete, 1); // Eliminar el lugar del índice
+        setLugares(updatedLugares); // Actualizar el estado
+      } else {
+        const error = await response.json();
+        console.error('Error al eliminar el lugar en el backend:', error);
+        alert('Hubo un problema al eliminar el lugar en el servidor');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud al servidor:', error);
+      alert('No se pudo conectar con el servidor para eliminar el lugar');
     }
   };
 
@@ -107,6 +263,8 @@ function ItineraryPage() {
             variant='outlined'
             size='small'
             sx={{ maxWidth: 250 }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>
@@ -156,9 +314,9 @@ function ItineraryPage() {
 
               {/* Renderizado condicional de la pestaña activa */}
               {activeTab === 'Plan' ? (
-                <Planer setSelectedPlace={handlePlaceSelect} />
+                <Planer idUsuario={idUsuario} setSelectedPlace={handlePlaceSelect} onSelectPlaces={setLugares} distanciasTiempos={distanciasTiempos} lugaresFiltrados={filteredLugares} onUpdateItinerario={handleItinerarioUpdate} onDeletePlace={handleDeletePlace} />
               ) : (
-                <PlanRoute />
+                <PlanRoute distanciasTiempos={distanciasTiempos}/>
               )}
             </Card>
           </Grid>

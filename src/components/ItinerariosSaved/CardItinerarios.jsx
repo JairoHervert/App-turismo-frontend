@@ -4,31 +4,33 @@ import Grid from '@mui/material/Grid2';
 import { DeleteOutlineOutlined as DeleteIcon, DescriptionOutlined as DescriptionIcon } from '@mui/icons-material';
 import InfoDialog from './InfoItineraries';
 import { useNavigate } from 'react-router-dom';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { MyDocument } from '../pdf'; // Importa MyDocument desde pdf.jsx
+import img from '../../img/Itinerary/turist-for-another.jpg';
+import AlertD from '../alert';
 
-function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto, viajantes }) {
+import { useRef } from 'react'; 
+
+
+function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto, viajantes, itinerario }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const theme = useTheme();
     const isMobile = useMediaQuery('(max-width:660px)');
+    const alertRef = useRef();
 
+    //funcion para abrir la alerta
     const handleClickOpen = () => {
-        setOpen(true);
+        if (alertRef.current) {
+            alertRef.current.handleClickOpen();
+        }
     };
 
-    const handleNavigation = () =>
-        navigate('/itineraryFinal');
+    const handleNavigation = () => navigate('/itineraryFinal');
     
 
     const handleClose = () => {
         setOpen(false);
-    };
-
-    const handleViewPDF = () => {
-        // Simulación de la función para ver el PDF
-        // Aquí el equipo de backend deberá implementar la lógica para generar y mostrar el PDF
-        alert('Ver PDF del itinerario');
-        // Ejemplo de llamada a una función de backend
-        // viewPDF(itinerarioId);
     };
 
     const handleDeleteItinerary = () => {
@@ -38,6 +40,7 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto,
         // Ejemplo de llamada a una función de backend
         // deleteItinerary(itinerarioId);
     };
+
     return (
         <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} marginY={3} sx={{ display: 'flex', justifyContent: 'center' }}>
             <Card className='it-res-card' sx={{
@@ -47,17 +50,16 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto,
                 boxShadow: 6
             }}>
                 {/* Columna de la imagen */}
-
-                    <CardMedia
-                        component='img'
-                        sx={{
-                            height: isMobile ? 200 : '100%',
-                            objectFit: 'cover',
-                            width: isMobile ? '100%' : 150
-                        }}
-                        image={imagen}
-                        alt='Lugar 1'
-                    />
+                <CardMedia
+                    component='img'
+                    sx={{
+                        height: isMobile ? 200 : '100%',
+                        objectFit: 'cover',
+                        width: isMobile ? '100%' : 150
+                    }}
+                    image={imagen}
+                    alt='Lugar 1'
+                />
 
                 {/* Columna de la información */}
                 <Box sx={{
@@ -137,36 +139,39 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto,
                     >
                         Fin: {fechaFin}
                     </Typography>
-                    {/*
-                    <Button 
-                        variant="contained" 
-                        size="large" 
-                        sx={{ 
-                            marginBottom: isMobile ? 0 : '8px',
-                            bgcolor: '#E4007C',
-                            '&:hover': {
-                                bgcolor: '#c40069'
-                            }
-                        }}
-                    >
-                        Repetir
-                    </Button>
-                    */}
                     <Box sx={{ display: 'flex', gap: '10px' }}>
-                        <IconButton
-                            aria-label="download pdf"
-                            sx={{ color: '#E4007C', padding: '4px' }}
-                            onClick={handleViewPDF}
+                        <PDFDownloadLink
+                            document={<MyDocument data={itinerario} />}
+                            fileName="Itinerario_Aztlán.pdf"
+                            style={{
+                                textDecoration: 'none',
+                                color: '#E4007C',
+                                padding: '4px'
+                            }}
                         >
-                            <DescriptionIcon fontSize='large' />
-                        </IconButton>
+                            {({ loading }) => (
+                                <IconButton aria-label="download pdf" sx={{ color: '#E4007C', padding: '4px' }}>
+                                    <DescriptionIcon fontSize='large' />
+                                </IconButton>
+                            )}
+                        </PDFDownloadLink>
                         <IconButton
                             aria-label="delete"
                             sx={{ color: '#E4007C', padding: '4px' }}
-                            onClick={handleDeleteItinerary}
+                            onClick={handleClickOpen}
                         >
                             <DeleteIcon fontSize='large' />
                         </IconButton>
+                        <AlertD
+                            ref={alertRef}
+                            titulo="¿Estás seguro de eliminar el itinerario?"
+                            mensaje="Una vez eliminado, no podrás recuperar la información."
+                            imagen={img}
+                            //el botón 1 no es obligatorio,por ejemplo, se puede mostrar nada mas como un mensaje por si no selecciona una opción o así
+                            boton1="Aceptar"
+                            boton2="Cancelar"
+                            onConfirm={handleDeleteItinerary}
+                        />
                     </Box>
                 </Box>
             </Card>
@@ -186,6 +191,3 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto,
 }
 
 export default ItemItinerarios;
-
-
-
