@@ -6,6 +6,7 @@ import PlacePage from '../pages/PlacePage';
 import DeseadosPage from '../pages/DeseadosPage';
 import FavoritesPage from '../pages/FavoritesPage';
 import Itinerary from '../pages/ItineraryPage';
+import Itinerary2 from '../pages/ItineraryPageFinal';
 import ItinerariesSavedPage from '../pages/ItinerariesSavedPage';
 import TerminosCondiciones from '../pages/TerminosCondiciones';
 import PoliticasPrivacidad from '../pages/PoliticasPrivacidad';
@@ -39,6 +40,7 @@ function AppRouter() {
         <Route path='/deseados' element={<DeseadosPage />} />
         <Route path='/favoritos' element={<FavoritesPage />} />
         <Route path='/itinerary' element={<Itinerary />} />
+        <Route path='/itineraryFinal' element={<Itinerary2 />} />
         <Route path='/itinerariesSaved' element={<ItinerariesSavedPage/>} />
         <Route path='/HistoryPage' element={<HistorialBusqueda/>} />
         <Route path='/Categorias-page' element={<CategoriasPage/>} />

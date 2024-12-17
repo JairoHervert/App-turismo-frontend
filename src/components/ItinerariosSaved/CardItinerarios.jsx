@@ -3,15 +3,21 @@ import { Card, CardMedia, CardActionArea, CardContent, Typography, Button, IconB
 import Grid from '@mui/material/Grid2';
 import { DeleteOutlineOutlined as DeleteIcon, DescriptionOutlined as DescriptionIcon } from '@mui/icons-material';
 import InfoDialog from './InfoItineraries';
+import { useNavigate } from 'react-router-dom';
 
 function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto, viajantes }) {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     const theme = useTheme();
     const isMobile = useMediaQuery('(max-width:660px)');
 
     const handleClickOpen = () => {
         setOpen(true);
     };
+
+    const handleNavigation = () =>
+        navigate('/itineraryFinal');
+    
 
     const handleClose = () => {
         setOpen(false);
@@ -95,7 +101,7 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto,
                             <Button
                                 variant="outlined"
                                 size='small'
-                                onClick={handleClickOpen}
+                                onClick={handleNavigation}
                             >
                                 Más información
                             </Button>

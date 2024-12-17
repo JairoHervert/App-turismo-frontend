@@ -55,7 +55,7 @@ function RegisterPage() {
   // Validación del nombre de usuario
   const validarUser = (usermame) => {
     const rules = {
-      longitudValida: /^(?=.{2,60}$)/.test(usermame), // Longitud mínima de 2 y máxima de 60 caracteres
+      longitudValida: /^(?=.{3,10}$)/.test(usermame), // Longitud mínima de 2 y máxima de 60 caracteres
       noVacio: usermame.length > 0, // El nombre de usuario no puede estar vacío
     };
     return rules;
@@ -137,18 +137,6 @@ function RegisterPage() {
       return;
     }
 
-    // // Validar correo
-    // const emailRules = validarCorreo(correo);
-
-    // // Si el correo no cumple las reglas
-    // if (!emailRules.sinEspacios || !emailRules.arrobaCaracteres || !emailRules.dominioConPunto || !emailRules.noVacio) {
-    //   setErrors((prevErrors) => ({
-    //     ...prevErrors,
-    //     correo: emailRules,
-    //   }));
-    //   return;
-    // }
-
     // Validar nombre de usuario
     const userRules = validarUser(nombre);
     
@@ -225,7 +213,7 @@ function RegisterPage() {
                             size="small"
                             required
                             error={formSubmitted && !errors.nombre?.longitudValida}
-                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 2 y 60 caracteres." : ""}
+                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 3 y 10 caracteres." : ""}
                           />
                         <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
                           El username debe cumplir con las siguientes reglas:
@@ -234,7 +222,7 @@ function RegisterPage() {
 
                         <Box className="my-3">
                           <ul>
-                            <li className={`re_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 2 y 60 caracteres.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 3 y 10 caracteres.</li>
                           </ul>
                         </Box>
 
@@ -262,7 +250,7 @@ function RegisterPage() {
                         </Box>
 
                         <Box className="my-4">
-                          <FormControl fullWidth size="small" error={formSubmitted && !!errors.contraseña}>
+                          <FormControl fullWidth size="small" error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero)}>
                             <InputLabel>Contraseña</InputLabel>
                             <OutlinedInput
                               type={showPassword ? 'text' : 'password'}
