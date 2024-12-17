@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TextField,
   Dialog,
@@ -26,10 +26,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
 import "../../css/LoginPage.css";
-import AlertD from "../alert";
+import AlertD from "../alert"; // Importa el componente AlertD
 
 function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciales }) {
-  console.log("datosIniciales", datosIniciales)
+  const alertRef = useRef(); // Crea una referencia para el componente AlertD
+
   useEffect(() => {
     let fechaFormateada = null;
     if(datosIniciales?.fechaNacimiento) {
@@ -187,6 +188,10 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
       !sexo ||
       !foodPreference
     ) {
+      // Muestra la alerta si las validaciones no se cumplen
+      if (alertRef.current) {
+        alertRef.current.handleClickOpen();
+      }
       return;
     }
 
@@ -212,271 +217,279 @@ function FormularioPreferencias({ open, handleClose, handleSubmit, datosIniciale
   };
 
   return (
-    <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth>
-      <DialogTitle
-        sx={{
-          fontFamily: "Montserrat, sans-serif",
-          color: theme.palette.primary.main,
-          fontWeight: "bold",
-        }}
-      >
-        Preferencias
-      </DialogTitle>
-      <DialogContent sx={{ fontFamily: "Poppins, sans-serif" }}>
-        <DialogContentText>
-          Para ofrecerte una mejor experiencia, necesitamos conocerte mejor. Por
-          favor, completa la siguiente información.
-        </DialogContentText>
-        <Box
-          component="form"
-          noValidate
-          autoComplete="off"
-          onSubmit={handleFormSubmit}
-          sx={{ mt: 2 }}
-          className="pref-modal-textfield"
+    <>
+      <Dialog open={open} onClose={handleDialogClose} maxWidth="sm" fullWidth>
+        <DialogTitle
+          sx={{
+            fontFamily: "Montserrat, sans-serif",
+            color: theme.palette.primary.main,
+            fontWeight: "bold",
+          }}
         >
-          <Grid container spacing={1}>
-            <Grid size={{ xs: 12 }}>
-              <TextField
-                margin="dense"
-                id="userName"
-                name="userName"
-                label="Nombre de usuario"
-                placeholder="Ej. eduardo123_12"
-                fullWidth
-                variant="outlined"
-                value={userName}
-                onChange={handleUserNameChange}
-                error={formSubmitted && !userNameRules.length}
-                required
-              />
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                className="mb-2 ms-2 fw-medium"
-              >
-                El nombre de usuario debe cumplir con las siguientes reglas:
-              </Typography>
-              <ul>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    userNameRules.length ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  Debe contener entre 3 y 10 caracteres.
-                </li>
-              </ul>
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <TextField
-                margin="dense"
-                id="firstName"
-                name="firstName"
-                label="Nombre(s)"
-                placeholder="Ej. Eduardo Raúl"
-                fullWidth
-                variant="outlined"
-                value={firstName}
-                onChange={handleFirstNameChange}
-                error={
-                  formSubmitted &&
-                  (!firstName ||
-                    !firstNameRules.onlyLetters ||
-                    !firstNameRules.length ||
-                    !firstNameRules.startsWithUppercase)
-                }
-                required
-              />
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                className="mb-2 ms-2 fw-medium"
-              >
-                El nombre debe cumplir con las siguientes reglas:
-              </Typography>
-              <ul>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    firstNameRules.startsWithUppercase
-                      ? "text-success fw-semibold"
-                      : ""
-                  }`}
-                >
-                  Debe comenzar con mayúscula.
-                </li>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    firstNameRules.onlyLetters ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  Solo debe contener letras y acentos.
-                </li>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    firstNameRules.length ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  Debe contener entre 3 y 20 letras.
-                </li>
-              </ul>
-            </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <TextField
-                margin="dense"
-                id="lastName"
-                name="lastName"
-                label="Apellido(s)"
-                fullWidth
-                variant="outlined"
-                placeholder="Ej. Arreola Medina"
-                value={lastName}
-                onChange={handleLastNameChange}
-                error={
-                  formSubmitted &&
-                  (!lastName ||
-                    !lastNameRules.onlyLetters ||
-                    !lastNameRules.length ||
-                    !lastNameRules.startsWithUppercase)
-                }
-                required
-              />
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                className="mb-2 ms-2 fw-medium"
-              >
-                El apellido debe cumplir con las siguientes reglas:
-              </Typography>
-              <ul>
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    lastNameRules.startsWithUppercase
-                      ? "text-success fw-semibold"
-                      : ""
-                  }`}
-                >
-                  Debe comenzar con mayúscula.
-                </li>
-
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    lastNameRules.onlyLetters ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  Solo debe contener letras y acentos.
-                </li>
-                
-                <li
-                  className={`lo_pa-rule-input fw-medium ${
-                    lastNameRules.length ? "text-success fw-semibold" : ""
-                  }`}
-                >
-                  Debe contener entre 3 y 20 letras.
-                </li>
-              </ul>
-            </Grid>
-            <Grid size={{ xs: 7, md: 6 }}>
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                adapterLocale="es"
-              >
-                <DatePicker
-                  label="Fecha de nacimiento"
-                  sx={{ width: "100%" }}
-                  format="DD-MM-YYYY"
+          Preferencias
+        </DialogTitle>
+        <DialogContent sx={{ fontFamily: "Poppins, sans-serif" }}>
+          <DialogContentText>
+            Para ofrecerte una mejor experiencia, necesitamos conocerte mejor. Por
+            favor, completa la siguiente información.
+          </DialogContentText>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleFormSubmit}
+            sx={{ mt: 2 }}
+            className="pref-modal-textfield"
+          >
+            <Grid container spacing={1}>
+              <Grid size={{ xs: 12 }}>
+                <TextField
                   margin="dense"
+                  id="userName"
+                  name="userName"
+                  label="Nombre de usuario"
+                  placeholder="Ej. eduardo123_12"
+                  fullWidth
+                  variant="outlined"
+                  value={userName}
+                  onChange={handleUserNameChange}
+                  error={formSubmitted && !userNameRules.length}
                   required
-                  value={selectedDate}
-                  maxDate={dayjs().subtract(18, "year")}
-                  minDate={dayjs().subtract(65, "year")}
-                  onChange={handleDateOfBirthChange}
-                  slotProps={{
-                    textField: {
-                      error: formSubmitted && (!selectedDate || dateError),
-                      helperText: dateHelperText,
-                    },
-                  }}
                 />
-              </LocalizationProvider>
-            </Grid>
-            <Grid size={{ xs: 5, md: 6 }}>
-              <FormControl fullWidth required error={formSubmitted && !sexo}>
-                <InputLabel id="gender-label">Sexo</InputLabel>
-                <Select
-                  labelId="sexo-label"
-                  id="sexo"
-                  value={sexo}
-                  label="Sexo"
-                  onChange={handleSexoChange}
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  className="mb-2 ms-2 fw-medium"
                 >
-                  <MenuItem value="Masculino">Masculino</MenuItem>
-                  <MenuItem value="Femenino">Femenino</MenuItem>
-                  <MenuItem value="Prefiero no decirlo">
-                  Otro
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid size={{ xs: 12 }}>
-              <FormControl
-                component="fieldset"
+                  El nombre de usuario debe cumplir con las siguientes reglas:
+                </Typography>
+                <ul>
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      userNameRules.length ? "text-success fw-semibold" : ""
+                    }`}
+                  >
+                    Debe contener entre 3 y 10 caracteres.
+                  </li>
+                </ul>
+              </Grid>
 
-                fullWidth
-                required
-                error={formSubmitted && !foodPreference}
-              >
-                <FormLabel component="legend">
-                  Preferencia alimenticia
-                </FormLabel>
-                <RadioGroup
-                  aria-label="food-preference"
-                  name="foodPreference"
-                  value={foodPreference}
-                  onChange={handleFoodPreferenceChange}
+              <Grid size={{ xs: 12, md: 6 }}>
+                <TextField
+                  margin="dense"
+                  id="firstName"
+                  name="firstName"
+                  label="Nombre(s)"
+                  placeholder="Ej. Eduardo Raúl"
+                  fullWidth
+                  variant="outlined"
+                  value={firstName}
+                  onChange={handleFirstNameChange}
+                  error={
+                    formSubmitted &&
+                    (!firstName ||
+                      !firstNameRules.onlyLetters ||
+                      !firstNameRules.length ||
+                      !firstNameRules.startsWithUppercase)
+                  }
+                  required
+                />
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  className="mb-2 ms-2 fw-medium"
                 >
-                  <FormControlLabel
-                    value="Ninguno"
-                    control={
-                      <Radio/>
-                    }
-                    label="Ninguno"
+                  El nombre debe cumplir con las siguientes reglas:
+                </Typography>
+                <ul>
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      firstNameRules.startsWithUppercase
+                        ? "text-success fw-semibold"
+                        : ""
+                    }`}
+                  >
+                    Debe comenzar con mayúscula.
+                  </li>
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      firstNameRules.onlyLetters ? "text-success fw-semibold" : ""
+                    }`}
+                  >
+                    Solo debe contener letras y acentos.
+                  </li>
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      firstNameRules.length ? "text-success fw-semibold" : ""
+                    }`}
+                  >
+                    Debe contener entre 3 y 20 letras.
+                  </li>
+                </ul>
+              </Grid>
+              <Grid size={{ xs: 12, md: 6 }}>
+                <TextField
+                  margin="dense"
+                  id="lastName"
+                  name="lastName"
+                  label="Apellido(s)"
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Ej. Arreola Medina"
+                  value={lastName}
+                  onChange={handleLastNameChange}
+                  error={
+                    formSubmitted &&
+                    (!lastName ||
+                      !lastNameRules.onlyLetters ||
+                      !lastNameRules.length ||
+                      !lastNameRules.startsWithUppercase)
+                  }
+                  required
+                />
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  className="mb-2 ms-2 fw-medium"
+                >
+                  El apellido debe cumplir con las siguientes reglas:
+                </Typography>
+                <ul>
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      lastNameRules.startsWithUppercase
+                        ? "text-success fw-semibold"
+                        : ""
+                    }`}
+                  >
+                    Debe comenzar con mayúscula.
+                  </li>
+
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      lastNameRules.onlyLetters ? "text-success fw-semibold" : ""
+                    }`}
+                  >
+                    Solo debe contener letras y acentos.
+                  </li>
+                  
+                  <li
+                    className={`lo_pa-rule-input fw-medium ${
+                      lastNameRules.length ? "text-success fw-semibold" : ""
+                    }`}
+                  >
+                    Debe contener entre 3 y 20 letras.
+                  </li>
+                </ul>
+              </Grid>
+              <Grid size={{ xs: 7, md: 6 }}>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="es"
+                >
+                  <DatePicker
+                    label="Fecha de nacimiento"
+                    sx={{ width: "100%" }}
+                    format="DD-MM-YYYY"
+                    margin="dense"
+                    required
+                    value={selectedDate}
+                    maxDate={dayjs().subtract(18, "year")}
+                    minDate={dayjs().subtract(65, "year")}
+                    onChange={handleDateOfBirthChange}
+                    slotProps={{
+                      textField: {
+                        error: formSubmitted && (!selectedDate || dateError),
+                        helperText: dateHelperText,
+                      },
+                    }}
                   />
-                  <FormControlLabel
-                    value="Vegetariano(a)"
-                    control={
-                      <Radio/>
-                    }
-                    label="Vegetariano(a)"
-                  />
-                </RadioGroup>
-              </FormControl>
+                </LocalizationProvider>
+              </Grid>
+              <Grid size={{ xs: 5, md: 6 }}>
+                <FormControl fullWidth required error={formSubmitted && !sexo}>
+                  <InputLabel id="gender-label">Sexo</InputLabel>
+                  <Select
+                    labelId="sexo-label"
+                    id="sexo"
+                    value={sexo}
+                    label="Sexo"
+                    onChange={handleSexoChange}
+                  >
+                    <MenuItem value="Masculino">Masculino</MenuItem>
+                    <MenuItem value="Femenino">Femenino</MenuItem>
+                    <MenuItem value="Prefiero no decirlo">
+                    Otro
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <FormControl
+                  component="fieldset"
+
+                  fullWidth
+                  required
+                  error={formSubmitted && !foodPreference}
+                >
+                  <FormLabel component="legend">
+                    Preferencia alimenticia
+                  </FormLabel>
+                  <RadioGroup
+                    aria-label="food-preference"
+                    name="foodPreference"
+                    value={foodPreference}
+                    onChange={handleFoodPreferenceChange}
+                  >
+                    <FormControlLabel
+                      value="Ninguno"
+                      control={
+                        <Radio/>
+                      }
+                      label="Ninguno"
+                    />
+                    <FormControlLabel
+                      value="Vegetariano(a)"
+                      control={
+                        <Radio/>
+                      }
+                      label="Vegetariano(a)"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={hasDisability}
+                      onChange={handleDisabilityChange}
+                      name="hasDisability"
+                    />
+                  }
+                  label="¿Tienes alguna discapacidad motriz?"
+                />
+              </Grid>
             </Grid>
-            <Grid size={{ xs: 12 }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={hasDisability}
-                    onChange={handleDisabilityChange}
-                    name="hasDisability"
-                  />
-                }
-                label="¿Tienes alguna discapacidad motriz?"
+            <DialogActions sx={{ mt: 2 }}>
+              <ButtonsMod
+                variant="principal"
+                textCont="Guardar y continuar"
+                width="auto"
+                height="2rem"
+                type="submit"
               />
-            </Grid>
-          </Grid>
-          <DialogActions sx={{ mt: 2 }}>
-            <ButtonsMod
-              variant="principal"
-              textCont="Guardar y continuar"
-              width="auto"
-              height="2rem"
-              type="submit"
-            />
-          </DialogActions>
-        </Box>
-      </DialogContent>
-    </Dialog>
+            </DialogActions>
+          </Box>
+        </DialogContent>
+      </Dialog>
+      <AlertD
+        ref={alertRef}
+        titulo="Error en el formulario"
+        mensaje="Por favor, completa todos los campos correctamente."
+        boton2="Aceptar"
+      />
+    </>
   );
 }
 
