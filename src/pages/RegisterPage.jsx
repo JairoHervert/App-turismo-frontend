@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container,Grid2 as Grid , Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -14,13 +14,40 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/register/LeftImageR';
 import imgRegister from '../img/registerIMGA.jpg';
-import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
+
+// Alert
+import alertImgError from '../img/alertas/error.webp';
+import alertImgSuccess from '../img/alertas/success.webp';
+import AlertD from './../components/alert';
 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
 
+import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
+
 function RegisterPage() {
   const navigate = useNavigate();
+
+  const alertError = useRef();
+  const [alertContentError, setAlertContentError] = useState('');
+  const handleClickOpenError = () => {
+    if (alertError.current) {
+      alertError.current.handleClickOpen();
+    }
+  };
+  const handleConfirmError = () => {
+  };
+
+  const alertSuccess = useRef();
+  const handleClickOpenSuccess = () => {
+    if (alertSuccess.current) {
+      alertSuccess.current.handleClickOpen();
+    }
+  };
+  const handleConfirmSuccess = () => {
+    navigate('/login');
+  };
+
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -102,7 +129,7 @@ function RegisterPage() {
     }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
 
@@ -163,7 +190,14 @@ function RegisterPage() {
 
     // Si todo está correcto, proceder con el registro
     if (nombre && correo && contraseña && contraseña2 && passwordsMatch && passwordRules.longitudValida && passwordRules.mayuscula && passwordRules.minuscula && passwordRules.numero) {
-      handleRegistro(e, nombre, correo, contraseña, contraseña2);
+      const resultado = await handleRegistro(e, nombre, correo, contraseña);
+      console.log(resultado);
+      if(resultado && resultado.resultado) {
+        handleClickOpenSuccess();
+      } else {
+        setAlertContentError(resultado);
+        handleClickOpenError();
+      }
     }
   };
 
@@ -191,6 +225,23 @@ function RegisterPage() {
             transparentNavbar={false}
             lightLink={false}
             staticNavbar={false}
+          />
+          <AlertD
+            ref={alertError}
+            titulo='Registro fallido'
+            mensaje={alertContentError}
+            imagen={alertImgError}
+            boton2="Aceptar"
+            onConfirm={handleConfirmError}
+          />
+          <AlertD
+            ref={alertSuccess}
+            titulo='Registro exitoso'
+            mensaje='Hemos mandado un correo de confirmación.'
+            imagen={alertImgSuccess}
+            boton2="Aceptar"
+            onConfirm={handleConfirmSuccess}
+            onCloseAction={handleConfirmSuccess}
           />
           <Container maxWidth="md" disableGutters className= 'my-5 py-4 d-flex align-items-center justify-content-center'>
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
