@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -8,9 +9,11 @@ const placeController = require('./src/controllers/place-controller');
 const confirmacionRegistroController = require('./src/controllers/confirmacionRegistro-controller');
 const cookieParser = require('cookie-parser');
 require('dotenv').config();
+const db = require('./src/models/MySQL/db');
 const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
 const historyRoutes = require('./src/routes/history-routes');
+const itinerarioRoutes = require('./src/routes/itinerario-routes');
 const recuperacionController = require('./src/controllers/recuperacion-controller');
 const favDeseadosController = require('./src/controllers/favDeseados-controller');
 
@@ -21,6 +24,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/api/places', placesRoutes);
 app.use('/', historyRoutes);
+app.use('/api', itinerarioRoutes);
 
 const PORT = 3001;
 
@@ -43,6 +47,7 @@ app.post('/iniciar_sesionGoogle', loginController.iniciarSesionGoogle);
 app.post('/login_Facebook', loginController.iniciarSesionFacebook);
 app.post('/user_datos', userController.getDatos);
 app.post('/user_guardar_datos', userController.setDatos);
+app.post('/user_guardar_imagen', userController.setImagen)
 app.post('/user_completar_perfil', userController.completarPerfil);
 app.post('/user_actualizar_categorias', userController.actualizarCategorias);
 app.post('/user_deseados', userController.verDeseados);
@@ -83,6 +88,52 @@ app.post('/isLogged', (req, res) => {
     }
     console.log("decoded", decoded);
   });
+});
+app.post('/refreshToken', (req, res) => {
+  const { id } = req.body;
+  db.query('SELECT username, nombre, apellido, correo, ligaFotoPerfil FROM Usuario WHERE id = ?', [id], (err, results) => {
+    if (err || results.length === 0) {
+      return res.status(500).json({ success: false, message: 'Error al obtener datos del usuario' });
+    }
+
+    const user = results[0];
+    const newToken = jwt.sign(
+      { 
+        id, 
+        username: user.username, 
+        nombre: user.nombre, 
+        apellido: user.apellido, 
+        correo: user.correo, 
+        imagen: user.ligaFotoPerfil 
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.json({ success: true, token: newToken });
+  });
+});
+
+app.get('/api/distancematrix', async (req, res) => {
+  const { origins, destinations, mode, key } = req.query;
+
+  try {
+      const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/distancematrix/json`,
+          {
+              params: {
+                  origins,
+                  destinations,
+                  mode,
+                  key,
+              },
+          }
+      );
+      res.json(response.data);
+  } catch (error) {
+      console.error('Error al llamar a la API de Google:', error);
+      res.status(500).json({ error: 'Error al llamar a la API de Google' });
+  }
 });
 
 app.listen(PORT, () => {

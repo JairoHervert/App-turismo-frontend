@@ -30,6 +30,20 @@ const cargarPrecios = async () => {
             console.error('Error al actualizar el precio:', error.message);
         }
     }
+
+    // Después de cargar los precios, llenar los campos de los lugares que tienen precioAproximado nulo con 0
+    const query = `UPDATE lugar SET precioAproximado = 0 WHERE precioAproximado IS NULL`;
+    try {
+        const [results] = await db.promise().query(query);
+        if (results && results.error) {
+            throw new Error(results.error);
+        }
+        console.log('Precios actualizados correctamente');
+    } catch (error) {
+        console.error('Error al actualizar los precios:', error.message);
+    }
+
+
 }
 
 cargarPrecios();

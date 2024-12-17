@@ -16,7 +16,7 @@ class itinerarioModel {
     });
   }
 
-  static async obtenerLugaresCategoriaRestricciones(idCategoria, esActividad, impedimentoFisico, familiar, vegetarianFriendly, petFriendly){
+  static async obtenerLugaresCategoriaRestricciones(idCategoria, esActividad, nivelPresupuesto, impedimentoFisico, familiar, vegetarianFriendly, petFriendly, goodForGroups){
     let restricciones = '';
     if (impedimentoFisico) {
         restricciones += ' AND (accesibilidadParking OR accesibilidadEntrance OR accesibilidadRestroom OR accesibilidadSeating)';
@@ -36,15 +36,18 @@ class itinerarioModel {
     else{
         restricciones += ' AND NOT(lug.tipos LIKE "%restaurant%")';
     }
+    if(goodForGroups){
+        restricciones += ' AND goodForGroups';
+    }
 
     const query = `SELECT DISTINCT lug.*
         FROM categoria cat
         INNER JOIN subcategoria sub ON cat.id = sub.idCategoria
         INNER JOIN lugarsubcategoria ls ON sub.id = ls.idSubcategoria
         INNER JOIN lugar lug ON lug.id = ls.idLugar
-        WHERE cat.id = ? ${restricciones};`;
+        WHERE cat.id = ? AND lug.precioNivel <= ? ${restricciones};`;
     return new Promise((resolve, reject) => {
-        db.query(query, [idCategoria], (err, results) => {
+        db.query(query, [idCategoria, nivelPresupuesto], (err, results) => {
             if (err) {
                 reject(err);
             }
@@ -71,7 +74,7 @@ class itinerarioModel {
     });
   }
 
-  static async obtenerLugaresRestricciones(id, esActividad, impedimentoFisico, familiar, vegetarianFriendly, petFriendly){
+  static async obtenerLugaresRestricciones(esActividad, nivelPresupuesto, impedimentoFisico, familiar, vegetarianFriendly, petFriendly, goodForGroups){
     let restricciones = '';
     if (impedimentoFisico) {
         restricciones += ' AND (accesibilidadParking OR accesibilidadEntrance OR accesibilidadRestroom OR accesibilidadSeating)';
@@ -91,10 +94,12 @@ class itinerarioModel {
     else{
         restricciones += ' AND NOT(tipos LIKE "%restaurant%")';
     }
-
-    const query = `SELECT * FROM Lugar WHERE id = ? ${restricciones};`;
+    if(goodForGroups){
+        restricciones += ' AND goodForGroups';
+    }
+    const query = `SELECT * FROM Lugar WHERE precioNivel <= ? ${restricciones};`;
     return new Promise((resolve, reject) => {
-        db.query(query, [id], (err, results) => {
+        db.query(query, [nivelPresupuesto], (err, results) => {
             if (err) {
                 reject(err);
             }
@@ -106,17 +111,17 @@ class itinerarioModel {
     });
   }
 
-  static async obtenerTodosLugares(esActividad){
-    const query = "SELECT * FROM Lugar WHERE";
+  static async obtenerTodosLugares(esActividad, nivelPresupuesto){
     let restricciones = '';
     if(!esActividad){
-        restricciones += ' (tipos LIKE "%restaurant%")';
+      restricciones += ' (tipos LIKE "%restaurant%")';
     }
     else{
-        restricciones += ' NOT(tipos LIKE "%restaurant%")';
+      restricciones += ' NOT(tipos LIKE "%restaurant%")';
     }
+    const query = "SELECT * FROM Lugar WHERE precioNivel <= ? AND " + restricciones + ";";
     return new Promise((resolve, reject) => {
-        db.query(query + restricciones, (err, results) => {
+        db.query(query, [nivelPresupuesto], (err, results) => {
             if (err) {
                 reject(err);
             }

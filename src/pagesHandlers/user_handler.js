@@ -64,6 +64,23 @@ const handleGuardarDatos = async (id, nombre, apellido, fecha) => {
   }
 }
 
+const handleGuardarImagen = async (id, imagen) => {
+  try {
+    const response = await axios.post('http://localhost:3001/user_guardar_imagen', { id, imagen });
+    if(response.data.resultado.datos) {
+      const datos = response.data.resultado.datos;
+      return datos;
+    }
+
+  } catch (error) {
+    if(error.response.data.error) {
+      console.error("Error: ", error.response.data.error)
+    } else {
+      console.error("Error: ", error);
+    }
+  }
+}
+
 const handleDeseados = async (id) => {
   try {
     const response = await axios.post('http://localhost:3001/user_deseados', { id });
@@ -143,6 +160,7 @@ export {
   handleCompletarPerfil,
   handleActualizarCategorias,
   handleGuardarDatos,
+  handleGuardarImagen,
   handleDeseados,
   handleFavoritos,
   handleCategorias,

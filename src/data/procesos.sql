@@ -14,6 +14,7 @@ DROP PROCEDURE IF EXISTS UsuarioCompletarPerfil;
 DROP PROCEDURE IF EXISTS ActualizarCategoriasFavoritas;
 DROP PROCEDURE IF EXISTS UsuarioGetDatos;
 DROP PROCEDURE IF EXISTS UsuarioGuardarDatos;
+DROP PROCEDURE IF EXISTS UsuarioSetImagen;
 # Usuario Preferencias
 DROP PROCEDURE IF EXISTS UsuarioAnadirDeseado;
 DROP PROCEDURE IF EXISTS UsuarioAnadirFavorito;
@@ -510,6 +511,33 @@ BEGIN
    END IF;
 END //
 
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`UsuarioSetImagen`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioSetImagen (
+   IN p_id INT,
+   IN p_imagen VARCHAR(512)
+)
+BEGIN
+   DECLARE usuarioExistente INT;
+   
+   SELECT COUNT(*) INTO usuarioExistente
+   FROM Usuario
+   WHERE id = p_id;
+   
+   IF usuarioExistente = 0 THEN
+      SELECT 'usuario_no_existente' AS 'error';
+   ELSE
+      UPDATE Usuario
+      SET
+         ligaFotoPerfil = p_imagen
+      WHERE id = p_id;
+      
+      SELECT id, ligaFotoPerfil FROM Usuario
+      WHERE id = p_id;
+   END IF;
+END //
+
 -- ---------------------------------------------------------------------------------------------------
 --                                         USUARIO PREFERENCIAS
 -- ---------------------------------------------------------------------------------------------------
@@ -624,13 +652,16 @@ CREATE PROCEDURE UsuarioVerDeseados (
 BEGIN
    DECLARE usuarioExistente INT;
    
+   -- Verifica si el usuario existe
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
    WHERE id = p_id;
    
+   -- Si no existe, retorna un mensaje de error
    IF usuarioExistente = 0 THEN
       SELECT 'usuario_no_existente' AS 'error';
    ELSE
+      -- Si existe, selecciona los lugares deseados junto con las categorías
       SELECT
          l.id AS id,
          l.nombre AS nombre,
@@ -659,11 +690,24 @@ BEGIN
          l.accesibilidadParking AS accesibilidadParking,
          l.accesibilidadEntrance AS accesibilidadEntrance,
          l.accesibilidadRestroom AS accesibilidadRestroom,
-         l.accesibilidadSeating AS accesibilidadSeating
+         l.accesibilidadSeating AS accesibilidadSeating,
+         GROUP_CONCAT(DISTINCT c.nombre ORDER BY c.nombre ASC) AS categorias -- Agregar categorías concatenadas
       FROM LugarDeseado
       JOIN Lugar l ON LugarDeseado.idLugar = l.id
-      WHERE LugarDeseado.idUsuario = p_id;
-   END IF;  
+      JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE LugarDeseado.idUsuario = p_id
+      GROUP BY 
+         l.id, l.nombre, l.direccion, l.descripcion, l.imagen, 
+         l.attributions, l.latitud, l.longitud, l.fotos, l.tipos, 
+         l.teléfono, l.precioNivel, l.precioRango, l.rating, 
+         l.regularOpeningHours, l.userRatingCount, l.website, 
+         l.goodForChildren, l.goodForGroups, l.paymentOptions, 
+         l.reservable, l.servesVegetarianFood, l.allowsDogs, 
+         l.reviewsGoogle, l.accesibilidadParking, l.accesibilidadEntrance, 
+         l.accesibilidadRestroom, l.accesibilidadSeating;
+   END IF;
 END //
 
 -- -----------------------------------------------------
@@ -710,10 +754,23 @@ BEGIN
          l.accesibilidadParking AS accesibilidadParking,
          l.accesibilidadEntrance AS accesibilidadEntrance,
          l.accesibilidadRestroom AS accesibilidadRestroom,
-         l.accesibilidadSeating AS accesibilidadSeating
+         l.accesibilidadSeating AS accesibilidadSeating,
+         GROUP_CONCAT(DISTINCT c.nombre ORDER BY c.nombre ASC) AS categorias -- Concatena las categorías asociadas
       FROM LugarFavorito
       JOIN Lugar l ON LugarFavorito.idLugar = l.id
-      WHERE LugarFavorito.idUsuario = p_id;
+      JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+      JOIN Subcategoria s ON s.id = ls.idSubcategoria
+      JOIN Categoria c ON c.id = s.idCategoria
+      WHERE LugarFavorito.idUsuario = p_id
+      GROUP BY 
+         l.id, l.nombre, l.direccion, l.descripcion, l.imagen, 
+         l.attributions, l.latitud, l.longitud, l.fotos, l.tipos, 
+         l.teléfono, l.precioNivel, l.precioRango, l.rating, 
+         l.regularOpeningHours, l.userRatingCount, l.website, 
+         l.goodForChildren, l.goodForGroups, l.paymentOptions, 
+         l.reservable, l.servesVegetarianFood, l.allowsDogs, 
+         l.reviewsGoogle, l.accesibilidadParking, l.accesibilidadEntrance, 
+         l.accesibilidadRestroom, l.accesibilidadSeating;
    END IF;
 END //
 

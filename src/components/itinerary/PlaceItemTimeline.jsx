@@ -42,14 +42,26 @@ function PlaceItemTimeline({ finalItem, placeName, placeImages, placeDescription
                 alt={placeName}
                 className='rounded it_page-img-item'
                 sx={{
-                  height: 'auto',
+                  width: '250px', // Tamaño fijo para imágenes
+                  height: '200px',
+                  objectFit: 'cover',
+                  borderRadius: '1px',
                 }}
               />
 
               {/* Información del lugar */}
-              <Box className='d-flex flex-column ms-3 align-items-center justify-content-center'>
-                <Typography className='text-center' fontFamily={'poppins'} variant='h6' color='black'>{placeName}</Typography>
-                <Typography className='text-center fw-light' fontFamily={'poppins'} variant='body1' color='black'>{placeDescription}</Typography>
+              <Box className='d-flex flex-column ms-3 align-items-center justify-content-center'sx={{
+                flex: 1, // Permite que este contenedor tome todo el espacio disponible
+                minWidth: "300px", // Mínimo ancho para asegurar consistencia
+              }}>
+                <Typography className='text-start' fontFamily={'poppins'} variant='h6' color='black'>{placeName}</Typography>
+                <Typography className='text-start fw-light' fontFamily={'poppins'} variant='body1' color='black'
+                sx={{
+                  display: '-webkit-box',
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                  WebkitLineClamp: 2, // Muestra solo 2 líneas
+                }}>{placeDescription}</Typography>
                 <Rating name='read-only' value={placeRating} readOnly />
 
                 <Box>

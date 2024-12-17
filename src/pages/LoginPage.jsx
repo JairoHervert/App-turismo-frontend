@@ -1,11 +1,16 @@
 // modulos importados
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Box, Typography } from '@mui/material';
 import { TextField, Grid2 as Grid, FormControl, InputLabel, Button, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FormHelperText from '@mui/material/FormHelperText';
 import axios from 'axios';
+
+// Alert
+import alertImgError from '../img/alertas/error.webp';
+import alertImgSuccess from '../img/alertas/success.webp';
+import AlertD from './../components/alert';
 
 // modulos de iconos
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
@@ -29,8 +34,6 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/LoginPage.css';
 
 // elementos de la página
-import imgTeotihuacan from '../img/piramides-teotihuacan.webp';
-import fuenteTlaloc from '../img/PlacePage/place-img-fuentetlaloc.jpg';
 import casaLeon from '../img/PlacePage/place-img-casadeleon.jpg';
 
 function LoginPage() {
@@ -38,6 +41,28 @@ function LoginPage() {
   const handleHomeClick = () => {
     navigate('/');
   };
+
+  const alertError = useRef();
+  const [alertContentError, setAlertContentError] = useState('');
+  const handleClickOpenError = () => {
+    if (alertError.current) {
+      alertError.current.handleClickOpen();
+    }
+  };
+  const handleConfirmError = () => {
+    alert('?')
+  };
+
+  const alertSuccess = useRef();
+  const handleClickOpenSuccess = () => {
+    if (alertSuccess.current) {
+      alertSuccess.current.handleClickOpen();
+    }
+  };
+  const handleConfirmSuccess = () => {
+    navigate('/');
+  };
+  
 
   // validacion de correo
   const [correo, setCorreo] = useState('');
@@ -53,7 +78,6 @@ function LoginPage() {
   const handleCorreoChange = (e) => {
     const correo = e.target.value;
     setCorreo(correo);
-    console.log(correo);
 
     // Validar reglas
     setCorreoReglas({
@@ -116,7 +140,7 @@ function LoginPage() {
       else if(datosIniciales.resultado.tokenFacebook)
         localStorage.setItem('facebook_access_token', datosIniciales.resultado.tokenFacebook);
       setOpenSecondModal(false);
-      navigate('/');
+      handleClickOpenSuccess();
     }
   };
 
@@ -136,7 +160,11 @@ function LoginPage() {
       } else if(respuesta && respuesta.resultado) {
         localStorage.setItem('access_token', respuesta.token);
         localStorage.setItem('id', respuesta.resultado.id);
-        navigate('/');
+        handleClickOpenSuccess();
+      } else {
+        console.log(respuesta);
+        setAlertContentError(respuesta);
+        handleClickOpenError();
       }
     }
   };
@@ -169,13 +197,11 @@ function LoginPage() {
           },
         }
       );
-      console.log('Información del usuario:', userInfo.data);
       const respuesta = await handleLoginGoogle(
         userInfo.data.email,
         userInfo.data.name,
         userInfo.data.picture,
         userInfo.data.sub);
-      console.log("ESTA ES LA RESPUESTA", respuesta);
       if(respuesta && respuesta.resultado && !respuesta.resultado.ultimaConexion) {
         setDatosIniciales(respuesta);
         setOpen(true);
@@ -183,7 +209,10 @@ function LoginPage() {
         localStorage.setItem('access_token', respuesta.token);
         localStorage.setItem('google_access_token', userInfo.data.sub);
         localStorage.setItem('id', respuesta.resultado.id);
-        navigate('/');
+        handleClickOpenSuccess();
+      } else {
+        setAlertContentError(respuesta);
+        handleClickOpenError();
       }
       // Mostrar un SweetAlert de éxito si el registro es exitoso
   
@@ -197,7 +226,28 @@ function LoginPage() {
     onError: errorGoogleHandler,
   });
 
+  const handleFacebook = async (response) => {
+    console.log(response);
+    if(response.status && response.status === 'unknown') {
+      return;
+    }
+    const { userID } = response;
 
+    const resultado = await responseFacebook(response);
+    console.log(resultado);
+    if(resultado && resultado.resultado && !resultado.resultado.ultimaConexion) {
+      setDatosIniciales(resultado);
+      setOpen(true);
+    } else if(resultado && resultado.resultado) {
+      localStorage.setItem('access_token', resultado.token);
+      localStorage.setItem('facebook_access_token', userID);
+      localStorage.setItem('id', resultado.resultado.id);
+      handleClickOpenSuccess();
+    } else {
+      setAlertContentError(resultado);
+      handleClickOpenError();
+    }
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -210,6 +260,23 @@ function LoginPage() {
             transparentNavbar={false}
             lightLink={false}
             staticNavbar={false}
+          />
+          <AlertD
+            ref={alertError}
+            titulo='Inicio de sesión fallido'
+            mensaje={alertContentError}
+            imagen={alertImgError}
+            boton2="Aceptar"
+            onConfirm={handleConfirmError}
+          />
+          <AlertD
+            ref={alertSuccess}
+            titulo='Inicio de sesión exitoso'
+            mensaje='¡Bienvenido!'
+            imagen={alertImgSuccess}
+            boton2="Aceptar"
+            onConfirm={handleConfirmSuccess}
+            onCloseAction={handleConfirmSuccess}
           />
           <FormularioPreferencias open={open} handleClose={handleClose} handleSubmit={handleSubmit} datosIniciales={datosIniciales.resultado}/>
           <SeleccionCategorias open={openSecondModal} handleClose={handleCloseSecondModal} handleSubmit={handleSecondModalSubmit} />
@@ -312,7 +379,7 @@ function LoginPage() {
                             <FacebookLogin
                               appId="1276060800080687"
                               autoLoad={false}
-                              callback={responseFacebook}
+                              callback={handleFacebook}
                               render={(renderProps) => (
                                 <IconButton aria-label="facebook" color='facebook' onClick={renderProps.onClick}>
                                   <FacebookRoundedIcon />

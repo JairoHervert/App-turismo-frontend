@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 import '../css/NavBar.css';
 import logo from '../img/logo-provicional.png';
 import avatar from '../img/userFoto.jpg';
+import axios from 'axios';
 import { isLogged } from '../schemas/isLogged';
 
 // componentes locales
@@ -28,25 +29,46 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
   useEffect(() => {
     const fetchLoginStatus = async () => {
       try {
-        const loggedIn = await isLogged();
-        setIsLoggedIn(loggedIn.logged);
-        if(loggedIn.logged) {
-          setUserName(loggedIn.data.username);
-          if (loggedIn.data.imagen) {
-            // Crear una nueva imagen para validar el enlace
-            const img = new Image();
-            img.onload = () => setProfileImage(loggedIn.data.imagen); // Actualiza si la imagen se carga correctamente
-            img.onerror = () => console.log('No se pudo cargar la imagen del perfil');
-            img.src = loggedIn.data.imagen;
+        const token = localStorage.getItem('access_token');
+        const id = localStorage.getItem('id');
+        
+        if (token && id) {
+          const response = await axios.post('http://localhost:3001/isLogged', { id, token });
+          if (response.data.logged) {
+            setIsLoggedIn(true);
+            setUserName(response.data.decoded.username);
+  
+            if (response.data.decoded.imagen) {
+              // Validar si la nueva imagen es válida antes de actualizar
+              const img = new Image();
+              img.onload = () => setProfileImage(response.data.decoded.imagen);
+              img.onerror = () => console.log('No se pudo cargar la imagen del perfil');
+              img.src = response.data.decoded.imagen;
+            }
+          } else {
+            setIsLoggedIn(false);
           }
+        } else {
+          setIsLoggedIn(false);
         }
       } catch (error) {
         console.log('El usuario no ha iniciado sesión', error);
         setIsLoggedIn(false);
       }
     };
-
+  
     fetchLoginStatus();
+  
+    // Agregar un listener para detectar cambios en el token
+    const handleStorageChange = () => {
+      fetchLoginStatus();
+    };
+  
+    window.addEventListener('storage', handleStorageChange);
+  
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   // Función para manejar la apertura y cierre del menú

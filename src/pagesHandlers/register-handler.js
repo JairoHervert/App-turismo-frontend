@@ -40,54 +40,6 @@ const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
     });
     return;
   }
-/*
-  const nameRegex =  /^[A-ZÁÉÍÓÚÜ][a-záéíóúü]+(?:\s[A-ZÁÉÍÓÚÜa-záéíóúü]+|('[A-ZÁÉÍÓÚÜa-záéíóúü]+))*$/; 
-  if (!nameRegex.test(nombre) || nombre.length < 3) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error en el nombre',
-      text: 'El nombre debe comenzar con una letra mayúscula, solo contener letras y tener al menos 3 caracteres.',
-      timer: 5000,
-      showConfirmButton: false
-    });
-    return;
-  }
-
-  const emailRegex = /^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$/;
-  if (!emailRegex.test(correo)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Por favor, ingrese un correo electrónico válido',
-      timer: 5000,
-      showConfirmButton: false
-    });
-    return;
-  }
-
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-  if (!passwordRegex.test(contraseña)) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error en la contraseña',
-      text: 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número.',
-      timer: 5000,
-      showConfirmButton: false
-    });
-    return;
-  }
-
-  if(contraseña != contraseña2) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Las contraseñas no coinciden',
-      timer: 5000,
-      showConfirmButton: false,
-    });
-    return;
-  }
-*/
   try {
     
     const response = await axios.post('http://localhost:3001/registro', {

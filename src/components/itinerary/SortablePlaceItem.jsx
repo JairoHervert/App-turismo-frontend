@@ -27,7 +27,7 @@ function SortablePlaceItem({ place, index, setSelectedPlace, handleDeleteItem })
 
   // Función para confirmar la eliminación
   const handleConfirmDelete = () => {
-    handleDeleteItem();
+    handleDeleteItem(index,place.placeId);
     handleCloseModal();
   };
 

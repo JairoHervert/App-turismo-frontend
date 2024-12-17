@@ -85,16 +85,35 @@ function FavoritesPage() {
 
   const obtenerFavoritosFiltrados = () => {
     const term = searchTerm.toLowerCase();
-    return originalFavoritos.filter((lugar) =>
-      lugar.nombre.toLowerCase().includes(term) ||
-      (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term))
-    );
+    
+    return originalFavoritos.filter((lugar) => {
+      // Filtro por término de búsqueda
+      const coincideBusqueda =
+        lugar.nombre.toLowerCase().includes(term) ||
+        (lugar.descripcion && lugar.descripcion.toLowerCase().includes(term));
+  
+      // Filtro por alcaldías
+      const coincideAlcaldia =
+        selectedFilters.alcaldias.length > 0
+          ? selectedFilters.alcaldias.some((alcaldia) => lugar.direccion.includes(alcaldia))
+          : true;
+  
+      // Filtro por categorías
+      const coincideCategoria =
+        selectedFilters.categorias.length > 0
+          ? selectedFilters.categorias.some((categoria) => lugar.categorias.includes(categoria))
+          : true;
+  
+      // Retorna true solo si cumple todos los filtros activos
+      return coincideBusqueda && coincideAlcaldia && coincideCategoria;
+    });
+
   };
 
   useEffect(() => {
     const filtrados = obtenerFavoritosFiltrados();
     setFavoritos(filtrados);
-  }, [searchTerm, originalFavoritos]);
+  }, [searchTerm, selectedFilters, originalFavoritos]);
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -146,6 +165,7 @@ function FavoritesPage() {
                 nombre={lugar.nombre}
                 descripcion={lugar.descripcion}
                 imagen={lugar.imagen}
+                category={lugar.categorias}
               />
             ))
           ) : (

@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const generarFotos = async () => {
 
-    const API_KEY = ""
+    const API_KEY = "";
     const filePath = path.join(__dirname, 'lugaresRegistrados.json');
     let data = [];
     if (fs.existsSync(filePath)) {
@@ -27,7 +27,7 @@ const generarFotos = async () => {
         fs.mkdirSync(fotosDir);
     }
 
-    const numFotosPorLugar = 2;
+    const numFotosPorLugar = 1;
 
     for (const lugar of data) {
         let fotosGuardadas = 0;

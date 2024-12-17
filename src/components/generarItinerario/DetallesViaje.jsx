@@ -94,10 +94,10 @@ function DetallesViaje ({medioTransporte, setMedioTransporte, setErrorMedioTrans
                             onChange={handleTransporteChange}
                             label='Medio de transporte'
                         >
-                            <MenuItem value='pie'>A pie</MenuItem>
-                            <MenuItem value='conduccion'>Conducción</MenuItem>
-                            <MenuItem value='ciclismo'>Ciclismo (Ej. Bicicleta)</MenuItem>
-                            <MenuItem value='transito'>Tránsito (Ej. Autobús, metro, tranvía, ferrocarril)</MenuItem>
+                            <MenuItem value='walking'>A pie</MenuItem>
+                            <MenuItem value='driving'>Conducción</MenuItem>
+                            <MenuItem value='bicycling'>Ciclismo (Ej. Bicicleta)</MenuItem>
+                            <MenuItem value='transit'>Tránsito (Ej. Autobús, metro, tranvía, ferrocarril)</MenuItem>
                         </Select>
                         {helperTextTransporte && (
                             <FormHelperText>{helperTextTransporte}</FormHelperText>

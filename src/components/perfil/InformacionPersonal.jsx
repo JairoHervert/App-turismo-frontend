@@ -27,8 +27,6 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     discapacidadMotriz,
   });
 
-  console.log("original", original);
-
   // para editar información personal
   const [ isEditing, setIsEditing] = useState(false);
   const [ formData, setFormData ] = useState({

@@ -24,6 +24,9 @@ function errorHandler(error) {
     case "error_conexion":
       resultado = "Error de conexión";
       break;
+    case "Can't add new command when connection is in closed state":
+      resultado = "Conexión cerrada con la base";
+      break;
   }
   return resultado;
 };
