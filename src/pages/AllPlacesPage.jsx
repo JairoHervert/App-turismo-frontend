@@ -1,5 +1,6 @@
 // componentes online
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container, Stack, TextField, InputAdornment, Typography, Dialog, IconButton } from '@mui/material';
@@ -28,6 +29,7 @@ import { handleAllPlaces } from '../pagesHandlers/place-handler';
 import { isLogged } from '../schemas/isLogged';
 
 function AllPlacesPage() {
+  const { alcaldia } = useParams();
 
   const [logged, setLogged] = useState(false);
   const [id, setId] = useState(null);
@@ -82,7 +84,7 @@ function AllPlacesPage() {
 
   // Estado para los filtros seleccionados (el estado se maneja en el componente MenuFilters.jsx)
   const [selectedFilters, setSelectedFilters] = useState({
-    alcaldias: [],
+    alcaldias: alcaldia ? [alcaldia] : [],
     categorias: [],
   });
 
