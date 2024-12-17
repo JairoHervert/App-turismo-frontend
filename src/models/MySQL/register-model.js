@@ -8,16 +8,14 @@ class registerModel{
     return new Promise((resolve, reject) => {
       db.query(query, [nombre, correo, contraseña], (err, results) => {
         if (err) {
-          if (err.sqlState === '45000') {
-              return reject(new Error('El correo ya está registrado.'));
-          }
           reject(err);
         }
-        const resultado = results || null;
-        console.log(resultado);
+        const resultado = results[0][0] || null;
         if (resultado && resultado.error)
           return reject(new Error(resultado.error));
-        resolve({ message: 'Usuario creado'});
+        else if(resultado && resultado.warning)
+          resolve({ warning: resultado.warning });
+        resolve({ id: resultado ? resultado.id : null });
       });
     });
   }
