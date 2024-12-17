@@ -234,9 +234,10 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     for (let i = 0; i < dias; i++) {
         // Hora actual es la hora de inicio del día
         horaActual = dayjs(horaInicio, 'HH:mm', true);
-
-        // Obtener el dia de la semana actual (domingo = 0, lunes = 1, ..., sábado = 6)
-        const diaSemanaActual = (diaSemanaInicio + i) % 7;
+        
+        // Obtener el dia de la semana actual (lunes = 0, ..., sábado = 5, domingo = 6)
+        const diaSemanaActual = (((diaSemanaInicio + i - 1) % 7)+7)%7;
+        console.log(diaSemanaActual);
 
         lugaresItinerario.push({fecha: dayjs(fechaInicio).add(i, 'day').format('YYYY-MM-DD'), lugares: []});
         let indiceDia = 0;
@@ -987,6 +988,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
             console.log(dia.fecha);
             for (const lugar of dia.lugares) {
                 console.log(lugar.horaInicio);
+                console.log(JSON.parse(lugar.data.regularOpeningHours).weekdayDescriptions);
                 console.log(lugar.data.nombre);
             }
         }
@@ -1011,7 +1013,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
 
 }
 
-generarItinerario(1, 1, "2024-12-16", "2024-12-17", "09:00", "18:00", 50, 2, 2, 2000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+generarItinerario(1, 1, "2024-12-15", "2024-12-15", "09:00", "18:00", 50, 2, 2, 2000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS
