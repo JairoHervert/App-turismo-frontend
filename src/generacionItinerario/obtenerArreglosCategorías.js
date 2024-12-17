@@ -177,7 +177,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     let b = 2;                                                  // Si el lugar está cerca
     let c = 0.5;                                                // Si el lugar está en las categorías favoritas
     let d = 0.5;                                                // Si el lugar cumple con las restricciones
-    let e_weight = 1.25;                                        // Peso del precio
+    let e_weight = 2;                                           // Peso del precio
     let b_weight = 3.25;                                        // Peso de la distancia
     let e = esAltoPresupuesto ? e_weight/4 : -e_weight/4;       // Precio del lugar
     
@@ -944,13 +944,22 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
 const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFin, horaInicio, horaFin, gradoAleatoriedad, duracionActividad, duracionComida, presupuesto, restricciones, latitudInicial, longitudInicial) => {
     // Probar desde el nivelPrecio más alto hasta el más bajo
     let lugaresItinerario = [];
-    let costoAproximado = 0;
+    let costoAproximado = -1;
     let resultadoItinerario = false;
 
-    for(let i = 4; i >= 1; i--){
+    for(let i = 4; i >= 0; i--){
         for(let j = 0; j < 2; j++){
             const itinerario = await seleccionarLugaresPorDistancia(idUsuario, numeroPersonas, restricciones, gradoAleatoriedad, i, j, horaInicio, horaFin, fechaInicio, fechaFin, latitudInicial, longitudInicial);
             if(itinerario.resultadoItinerario){
+                console.log("Costo aproximado: " + itinerario.costoAproximado);
+                // // Imprimir el itinerario
+                // for (const dia of itinerario.lugaresItinerario) {
+                //     console.log(dia.fecha);
+                //     for (const lugar of dia.lugares) {
+                //         console.log(lugar.horaInicio);
+                //         console.log(lugar.data.nombre);
+                //     }
+                // }
                 if(itinerario.costoAproximado > costoAproximado && itinerario.costoAproximado <= presupuesto){
                     lugaresItinerario = itinerario.lugaresItinerario;
                     costoAproximado = itinerario.costoAproximado;
@@ -978,7 +987,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
     }
 }
 
-generarItinerario(1, 1, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 300, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+generarItinerario(1, 1, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 900, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS
