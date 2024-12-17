@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Stack, Card, Typography, CardHeader, CardContent, Select, MenuItem, CardMedia } from '@mui/material';
 import { FormControl, FormGroup, FormControlLabel, Checkbox, Box, InputLabel, FormHelperText } from '@mui/material';
@@ -9,13 +9,47 @@ import { TipsAndUpdates as TipsAndUpdatesIcon, CheckBoxOutlineBlank as CheckBoxO
 function DetallesViaje ({medioTransporte, setMedioTransporte, setErrorMedioTransporte, helperTextTransporte, setHelperTextTransporte}) {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     // Número de viajantes - por defecto es un viajante
-    const [numeroViajantes, setNumeroViajantes] = useState('1');
+    const [numeroViajantes, setNumeroViajantes] = useState(() => {
+        const storedValue = localStorage.getItem('numeroViajantes');
+        return storedValue ? storedValue : 1;
+    });
+
+    useEffect(() => {
+        localStorage.setItem('numeroViajantes', numeroViajantes);
+        console.log(numeroViajantes);
+    }, [numeroViajantes]);
 
     const handleTransporteChange = (event) => {
         setMedioTransporte(event.target.value);
         setErrorMedioTransporte(false);
         setHelperTextTransporte('');
     }
+
+    const [selectedOptions, setSelectedOptions] = useState(() => {
+        const storedOptions = localStorage.getItem('checkboxOptions');
+        return storedOptions
+        ? JSON.parse(storedOptions)
+        : {
+            family: false,
+            vegan: false,
+            pet: false,
+            disability: false,
+            };
+    });
+
+    useEffect(() => {
+        localStorage.setItem('checkboxOptions', JSON.stringify(selectedOptions));
+    }, [selectedOptions]);
+
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        // Actualiza el estado del checkbox seleccionado
+        setSelectedOptions((prev) => ({
+        ...prev,
+        [name]: checked,
+        }));
+        console.log(selectedOptions);
+    };
 
     return (
         <Stack
@@ -110,10 +144,71 @@ function DetallesViaje ({medioTransporte, setMedioTransporte, setErrorMedioTrans
                 </Typography>
 
                 <FormGroup>
-                    <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares para toda la familia' sx={{ marginLeft: 0, marginRight: 0 }} />
+                    {/* <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares para toda la familia' sx={{ marginLeft: 0, marginRight: 0 }} />
                     <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Vegan-Friendly' sx={{ marginLeft: 0, marginRight: 0, }} />
                     <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Lugares Pet-Friendly' sx={{ marginLeft: 0, marginRight: 0, }} />
-                    <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Impedimento físico' sx={{ marginLeft: 0, marginRight: 0, }} />
+                    <FormControlLabel className='gi-card-detallesViaje-checkbox' control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />} label='Impedimento físico' sx={{ marginLeft: 0, marginRight: 0, }} /> */}
+
+                    {/* Acomodar el codigo anterior para que se mas legible */}
+                    <FormControlLabel
+                        className='gi-card-detallesViaje-checkbox'
+                        control={
+                            <Checkbox {...label} 
+                                name='family'
+                                checked={selectedOptions.family}
+                                onChange={handleCheckboxChange}
+                                icon={<CheckBoxOutlineBlankIcon />} 
+                                checkedIcon={<CheckBoxIcon />} 
+                            />
+                        }
+                        label='Lugares para toda la familia'
+                        sx={{ marginLeft: 0, marginRight: 0 }}
+                    />
+                    <FormControlLabel
+                        className='gi-card-detallesViaje-checkbox'
+                        // control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />}
+                        control={
+                            <Checkbox {...label}
+                                name='vegan'
+                                checked={selectedOptions.vegan}
+                                onChange={handleCheckboxChange}
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                            />
+                        }
+                        label='Lugares Vegan-Friendly'
+                        sx={{ marginLeft: 0, marginRight: 0, }}
+                    />
+                    <FormControlLabel
+                        className='gi-card-detallesViaje-checkbox'
+                        // control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />}
+                        control={
+                            <Checkbox {...label}
+                                name='pet'
+                                checked={selectedOptions.pet}
+                                onChange={handleCheckboxChange}
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                            />
+                        }
+                        label='Lugares Pet-Friendly'
+                        sx={{ marginLeft: 0, marginRight: 0, }}
+                    />
+                    <FormControlLabel
+                        className='gi-card-detallesViaje-checkbox'
+                        // control={<Checkbox {...label} icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon />} />}
+                        control={
+                            <Checkbox {...label}
+                                name='disability'
+                                checked={selectedOptions.disability}
+                                onChange={handleCheckboxChange}
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                            />
+                        }
+                        label='Impedimento físico'
+                        sx={{ marginLeft: 0, marginRight: 0, }}
+                    />
                 </FormGroup>
 
                 </CardContent>
