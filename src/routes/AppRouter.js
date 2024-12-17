@@ -61,6 +61,7 @@ function AppRouter() {
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
         <Route path="/recuperacion/:token" element={<IngresarNuevaContrasena />} />
         <Route path='/lugares' element={<AllPlacesPage/>} />
+        <Route path='/lugares/:alcaldia' element={<AllPlacesPage/>} />
         <Route path='/preferencias' element={<PreferenciasModal/>} />
         <Route path='/Admin-SavedPlaces' element={<AdminSavedPlaces/>}/>
         <Route path='/Carga' element={<Carga />} /> 

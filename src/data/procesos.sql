@@ -52,21 +52,34 @@ CREATE PROCEDURE UsuarioRegistro (
 )
 BEGIN
    DECLARE usuarioExistente INT;
+   DECLARE confirmacionStatus INT;
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
    WHERE UPPER(correo) = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
+      -- Validar formato del correo
       IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
          INSERT INTO Usuario (username, correo, contraseña, auditoria, confirmacion)
          VALUES (p_username, p_correo, p_contraseña, NOW(), 0);
+         
+         SELECT id FROM Usuario WHERE correo = p_correo;
       ELSE
          SELECT 'correo_invalido' AS 'error';
       END IF;
    ELSE
-      SIGNAL SQLSTATE '45000' 
-         SET MESSAGE_TEXT = 'El correo ya está registrado.';
+      -- Obtener el valor de confirmacion
+      SELECT confirmacion INTO confirmacionStatus
+      FROM Usuario
+      WHERE UPPER(correo) = UPPER(p_correo);
+
+      -- Verificar el estado de confirmacion
+      IF confirmacionStatus = 0 THEN
+         SELECT 'sin_confirmacion' AS 'warning';
+      ELSE
+         SELECT 'correo_ya_registrado' AS 'error';
+      END IF;
    END IF;
 END //
 

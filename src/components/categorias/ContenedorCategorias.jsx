@@ -7,23 +7,47 @@ import '../../css/Categorias.css';
 import categorias from '../preferencias/CategoriasPref.js';
 import CardCategorias from './CardCategorias.jsx';
 
-function ContenedorCategorias({ categoriasIniciales }) {
+function ContenedorCategorias({ categoriasIniciales, onCategoriasSeleccionadas }) {
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState({});
-  
+
+  useEffect(() => {
+    const categoriasFavoritas = categoriasIniciales
+      .filter((categoria) => categoria.esFavorita === 1)
+      .reduce((acc, categoria) => {
+        acc[categoria.id] = categoria.nombre;
+        return acc;
+      }, {});
+    setCategoriasSeleccionadas((prev) => ({ ...prev, ...categoriasFavoritas }));
+    onCategoriasSeleccionadas(categoriasFavoritas); // Sincroniza el estado inicial con el padre
+  }, [categoriasIniciales, onCategoriasSeleccionadas]);
+
   const handleCategoriaSelect = (categoria) => {
     setCategoriasSeleccionadas((prevSeleccionadas) => {
       const isAlreadySelected = !!prevSeleccionadas[categoria.id];
-      if (isAlreadySelected) {
-        // Si ya está seleccionada, se elimina
-        const updatedSeleccionadas = { ...prevSeleccionadas };
-        delete updatedSeleccionadas[categoria.id];
-        return updatedSeleccionadas;
-      } else {
-        // Si no está seleccionada, se agrega
-        return { ...prevSeleccionadas, [categoria.id]: categoria.nombre };
-      }
+      const updatedSeleccionadas = isAlreadySelected
+        ? (() => {
+            const updated = { ...prevSeleccionadas };
+            delete updated[categoria.id];
+            return updated;
+          })()
+        : { ...prevSeleccionadas, [categoria.id]: categoria.nombre };
+
+      onCategoriasSeleccionadas(updatedSeleccionadas); // Notifica al padre
+      return updatedSeleccionadas;
     });
-  }
+  };
+
+  const handleCategoriaDelete = (categoria) => {
+    setCategoriasSeleccionadas((prev) => {
+      const updated = { ...prev };
+      const idToDelete = Object.keys(prev).find(
+        (key) => prev[key] === categoria
+      );
+      if (idToDelete) delete updated[idToDelete];
+      onCategoriasSeleccionadas(updated); // Notifica al padre sobre el cambio
+      return updated;
+    });
+  };
 
   return (
     <Grid container spacing={2} columns={12}>
@@ -72,16 +96,7 @@ function ContenedorCategorias({ categoriasIniciales }) {
                     <IconButton
                       edge='end'
                       aria-label='delete'
-                      onClick={() => {
-                        setCategoriasSeleccionadas((prev) => {
-                          const updated = { ...prev };
-                          const idToDelete = Object.keys(prev).find(
-                            (key) => prev[key] === categoria
-                          );
-                          if (idToDelete) delete updated[idToDelete];
-                          return updated;
-                        });
-                      }}
+                      onClick={() => handleCategoriaDelete(categoria)} // Elimina y sincroniza con el padre
                     >
                       <DeleteOutlineIcon sx={{ color: '#E4007C', height: '1.3rem', width: '1.3rem' }} />
                     </IconButton>

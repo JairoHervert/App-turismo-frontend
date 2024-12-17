@@ -26,76 +26,40 @@ const enviarCorreoVerificacion = async (nombre, correo) => {
   }
 };
 
-const handleRegistro = async (e, nombre, correo, contraseña, contraseña2) => {
+const handleRegistro = async (e, nombre, correo, contraseña) => {
   e.preventDefault();
-  // setError('');
-
-  if (!nombre || !correo || !contraseña || !contraseña2) {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Todos los campos son obligatorios',
-      timer: 5000,
-      showConfirmButton: false
-    });
-    return;
-  }
   try {
-    
     const response = await axios.post('http://localhost:3001/registro', {
       nombre,
       correo,
       contraseña,
     });
     console.log(response.data);
+    if(response.data.resultado.id) {
+      const responseCorreo = await enviarCorreoVerificacion(nombre, correo);
+      if(responseCorreo)
+        return response.data;
+      else
+        throw({error: 'Error mandando el correo de confirmación. Favor de reintentar'});
+    } else if(response.data.resultado.warning) {
+      const responseCorreo = await enviarCorreoVerificacion(nombre, correo);
+      if(responseCorreo)
+        return response.data;
+      else
+        throw({error: 'Error mandando el correo de confirmación. Favor de reintentar'});
+    } else {
+      throw(new Error('Algo falló en la solicitud'));
+    }
 
-    if(response.data !== 'El correo ya está registrado.'){
-      const reponseCorreo = await enviarCorreoVerificacion(nombre, correo);
-      console.log(reponseCorreo);   // Borrar cuando se entregue el proyecto
-      
-      if(reponseCorreo){
-        Swal.fire({
-          icon: 'success',
-          title: 'Registro iniciado correctamente',
-          text: 'El siguiente paso es aceptar el correo de confirmación para poder ingresar a tu cuenta.',
-          // timer: 5000,
-          showConfirmButton: true,
-          willClose: () => {
-            window.location.href = '/'
-          }
-        });
-      }
-      else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudo enviar el correo de confirmación, vuelve a solicitar que se envíe.',
-          timer: 5000,
-          showConfirmButton: false
-        });
-      }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      return error.response.data.error
+    } else if(error.error) {
+      return error.error;
+    } else {
+      console.error("Error al intentar iniciar sesión:", error);
+      return 'Algo falló en la solicitud';
     }
-    else{
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'El correo ya está registrado',
-        timer: 5000,
-        showConfirmButton: false,
-      });
-    }
-    // navigate('/');
-  } catch (err) {
-    const errorMsg = err.response?.data?.error || 'Error de conexión';
-    // setError('Error al registrar usuario: ' + errorMsg);
-    console.error(err);
-    Swal.fire({
-      icon: 'error',
-      title: 'Registro fallido',
-      text: errorMsg,
-      timer: 5000,
-      showConfirmButton: false
-    });
   }
 };
 

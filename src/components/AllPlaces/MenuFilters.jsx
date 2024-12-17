@@ -16,7 +16,7 @@ function MenuFilters({ setIsModalOpen, selectedFilters, onApplyFilters  }) {
     'Gustavo A. Madero',
     'Iztacalco',
     'Iztapalapa',
-    'Magdalena C.',
+    'La Magdalena Contreras',
     'Miguel Hidalgo',
     'Milpa Alta',
     'Tláhuac',

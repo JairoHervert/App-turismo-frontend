@@ -54,7 +54,7 @@ const registrarLugar = async (lugar) => {
     PRICE_LEVEL_VERY_EXPENSIVE: 4,
   };
 
-  const priceLevel = priceLevelMap[lugar.priceLevel] ?? null; // Convertir o asignar null si no está definido
+  const priceLevel = priceLevelMap[lugar.priceLevel] ?? 0; // Convertir o asignar null si no está definido
 
   const paymentOptions = simplifyPaymentOptions(lugar.paymentOptions);
 
