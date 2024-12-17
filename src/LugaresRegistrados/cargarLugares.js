@@ -15,14 +15,14 @@ const cargarLugares = async () => {
         return;
     }
     
-    // for(const lugar of data) {
-    //     try {
-    //         await registrarLugar(lugar);
-    //         console.log(`Lugar registrado exitosamente desde el JSON con ID: ${lugar.id}`);
-    //     } catch (error) {
-    //         console.error(`Error al registrar desde el JSON el lugar ${lugar.id}:`, error.message);
-    //     }
-    // }
+    for(const lugar of data) {
+        try {
+            await registrarLugar(lugar);
+            console.log(`Lugar registrado exitosamente desde el JSON con ID: ${lugar.id}`);
+        } catch (error) {
+            console.error(`Error al registrar desde el JSON el lugar ${lugar.id}:`, error.message);
+        }
+    }
 }
 
 cargarLugares();

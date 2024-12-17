@@ -6,7 +6,8 @@ dayjs.extend(customParseFormat);
 
 dayjs.locale(dayjs_es);
 
-const {obtenerCategoriasFavoritas, obtenerLugaresCategoriaRestricciones, obtenerLugaresDeseados, obtenerLugaresRestricciones, obtenerTodosLugares} = require('../models/MySQL/itinerario-model');
+const {obtenerCategoriasFavoritas, obtenerLugaresCategoriaRestricciones, obtenerLugaresDeseados, obtenerLugaresRestricciones, obtenerTodosLugares, guardarItinerario } = require('../models/MySQL/itinerario-model');
+const { json } = require('express');
 // const es = require('dayjs/locale/es');
 
 const obtenerCategoriasFavoritass = async (idUsuario) => {
@@ -140,6 +141,16 @@ const formatoDiaHorario = (dia, horario) => {
     }
 
     return {horarioInicio, horarioFin};
+}
+
+const guardarItinerarioDB = async (idUsuario, itinerario) => {
+    try {
+        const resultado = await guardarItinerario(idUsuario, itinerario);
+        return resultado;
+    } catch (error) {
+        console.error('Error guardarItinerarioDB:', error);
+        return null;
+    }
 }
 
 const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restricciones, gradoAleatoriedad, nivelPresupuesto, esAltoPresupuesto, horaInicio, horaFin, fechaInicio, fechaFin, latitudInicial, longitudInicial) => {
@@ -937,7 +948,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
 
     }
 
-    return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true};
+    return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true, fechaInicio: fechaInicio, fechaFin: fechaFin};
 
 }
 
@@ -969,6 +980,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
         }
     }
 
+    let objItinerario = null;
     if(resultadoItinerario){
         console.log(lugaresItinerario);
         for (const dia of lugaresItinerario) {
@@ -979,15 +991,27 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
             }
         }
         console.log("Costo aproximado: " + costoAproximado);
-        return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true};
+        objItinerario = {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true, fechaInicio: fechaInicio, fechaFin: fechaFin};
+
+        // GUARDAR EN LA BASE DE DATOS con la funcion guardarItinerarioDB(idUsuario, objItinerario)
+        const itinerarioGuardado = await guardarItinerarioDB(idUsuario, objItinerario);
+        if(itinerarioGuardado){
+            console.log("Itinerario guardado en la base de datos");
+        }
+        else {
+            console.log("No se pudo guardar el itinerario en la base de datos");
+        }
     }
     else {
         console.log("No se pudo crear el itinerario con el presupuesto indicado");
-        return {resultadoItinerario: false};
+        objItinerario = {resultadoItinerario: false};
     }
+
+    return objItinerario;
+
 }
 
-generarItinerario(1, 1, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 900, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+generarItinerario(1, 1, "2024-12-16", "2024-12-17", "09:00", "18:00", 50, 2, 2, 2000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS

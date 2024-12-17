@@ -87,13 +87,44 @@ const GenerarItinerario = () => {
   const [errorMedioTransporte, setErrorMedioTransporte] = useState(false);
   const [helperTextTransporte, setHelperTextTransporte] = useState('');
 
-  // Guardar el valor de medioTransporte en localStorage cuando cambie
+  // ------------------ useEffects para leer los valores de localStorage una vez al inicio ------------------
+
+  useEffect(() => {
+    const modo = localStorage.getItem('modo');
+    if (modo) {
+      setMedioTransporte(modo);
+    }
+  }, []);
+
+  useEffect(() => {
+    const presupuestoGuardado = localStorage.getItem('presupuesto');
+    if (presupuestoGuardado) {
+      setPresupuesto(presupuestoGuardado);
+    }
+  }, []);
+
+  // Para las fechas de inicio y fin, no se guardan en localStorage
+  // Los del checkbox se realizan en el componente DetallesViaje
+
+  // ------------------ useEffects para guardar los valores en localStorage cuando cambien ------------------
+
   useEffect(() => {
     if (medioTransporte) {
       localStorage.setItem('modo', medioTransporte);
-      console.log('Modo de transporte guardado en el localstorage de generaritinerario.jsx:', medioTransporte);
+      console.log('Modo de transporte guardado en localStorage:', medioTransporte);
     }
   }, [medioTransporte]);
+
+  useEffect(() => {
+    if (presupuesto) {
+      localStorage.setItem('presupuesto', presupuesto);
+      console.log('Presupuesto guardado en localStorage:', presupuesto);
+    }
+  }, [presupuesto]);
+
+  // Para las fechas de inicio y fin, no se guardan en localStorage
+  // Los del checkbox se realizan en el componente DetallesViaje
+
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
