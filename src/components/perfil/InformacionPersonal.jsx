@@ -177,8 +177,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
   
     // Si está vacío, no se muestra un error
     if (trimmedNombre === '') {
-      setNombreError(false);
-      setNombreHelperText('El nombre debe empezar con una letra mayúscula y tener al menos dos letras válidas');
+      setNombreError(true);
+      setNombreHelperText('Este campo es obligatorio');
       return true;
     }
   
@@ -222,8 +222,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
   
     // Si está vacío, no se muestra un error
     if (trimmedApellido === '') {
-      setApellidoError(false);
-      setApellidoHelperText('El apellido debe empezar con una letra mayúscula y tener al menos dos letras válidas');
+      setApellidoError(true);
+      setApellidoHelperText('Este campo es obligatorio');
       return true;
     }
   
