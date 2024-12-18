@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../css/Perfil.css';
 
 import { Stack, Card, Typography, CardHeader, CardContent, Divider, TextField, Select, MenuItem } from '@mui/material';
@@ -13,7 +13,9 @@ import 'dayjs/locale/es';
 import {Info as InfoIcon, Cake as CakeIcon, MailOutline as MailOutlineIcon, Badge as BadgeIcon, Transgender as TrasgenderIcon, BrunchDining as BrunchDiningIcon, Accessible as AccessibleIcon } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 
+import AlertD from '../alert';
 import { handleGuardarDatos } from '../../pagesHandlers/user_handler';
+import img from '../../img/Itinerary/turist-for-another.jpg';
 
 function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia, discapacidadMotriz}) {
 
@@ -48,6 +50,15 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
   // Para la validación de fecha de nacimiento
   const [fechaError, setFechaError] = useState(false);
   const [fechaHelperText, setFechaHelperText] = useState('La edad debe ser de entre 18 a 65 años');
+  // modal
+  const alertRef = useRef();
+
+  const [openModal, setOpenModal] = useState(false);
+  const handleClickOpen = () => {
+    if (alertRef.current) {
+        alertRef.current.handleClickOpen();
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -107,6 +118,10 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     if (formData.apellido || apellidoError) {
       if (!validarApellido(formData.apellido)) valid = false;
     }
+
+    if(!valid) {
+      handleClickOpen();
+    }
     
     if (valid) {
       console.log('Datos guardados: ', formData);
@@ -164,7 +179,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
         });
       }
       else {
-        setIsEditing(false);
+        // setIsEditing(false);
+        setOpenModal(true);
       }
     } else {
       console.log('Formulario no válido');
@@ -179,7 +195,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     if (trimmedNombre === '') {
       setNombreError(true);
       setNombreHelperText('Este campo es obligatorio');
-      return true;
+      return false;
     }
   
     // Si pone otros caracteres inválidos
@@ -224,7 +240,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     if (trimmedApellido === '') {
       setApellidoError(true);
       setApellidoHelperText('Este campo es obligatorio');
-      return true;
+      return false;
     }
   
     // Si pone otros caracteres inválidos
@@ -322,7 +338,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                     setIsEditing(!isEditing);
                   }
                   // Si estás editando y el formato no es válido, no te deja guardar
-                  else if (isFormValid() && isEditing) {
+                  else if (isEditing) {
                     handleSave();
                   }
                 }}
@@ -556,6 +572,15 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
             </Stack>
       
         </CardContent>
+
+        <AlertD
+          ref={alertRef}
+          titulo="Rellena los campos"
+          mensaje="Por favor, rellena correctamente todos los campos antes de continuar."
+          imagen={img}
+          boton2="Aceptar"
+          onConfirm={handleClickOpen}
+        />
       </Card>
       
     );
