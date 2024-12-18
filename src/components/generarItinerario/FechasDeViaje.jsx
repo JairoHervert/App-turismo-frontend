@@ -9,23 +9,49 @@ import 'dayjs/locale/es';
 
 import { EventNote as EventNoteIcon } from '@mui/icons-material';
 
-function FechasDeViaje ({ fechaInicio, setFechaInicio, fechaFin, setFechaFin, errorFechaFin, setErrorFechaFin }) {
+function FechasDeViaje ({ fechaInicio, setFechaInicio, fechaFin, setFechaFin, errorFechaFin, setErrorFechaFin, helperTextFechaFin, setHelperTextFechaFin, errorFechaInicio, setErrorFechaInicio, helperTextFechaInicio, setHelperTextFechaInicio }) {
+    const maxDuracion = 30;
+    const maxItinerarioFecha = dayjs().add(1, 'year');
 
     const handleFechaInicioChange = (nuevaFechaInicio) => {
         setFechaInicio(nuevaFechaInicio);
+
+        if (nuevaFechaInicio.isAfter(maxItinerarioFecha)) {
+            setErrorFechaInicio(true);
+            setHelperTextFechaInicio('La fecha de inicio debe ser dentro del próximo año');
+        }
+        else {
+            setErrorFechaInicio(false);
+        }
+        
         if (nuevaFechaInicio.isAfter(fechaFin)) {
-        setErrorFechaFin(true);
-        } else {
-        setErrorFechaFin(false);
+            setErrorFechaFin(true);
+            setHelperTextFechaFin('Seleccione una fecha de fin válida');
+        }
+        else if (fechaFin.diff(nuevaFechaInicio, 'days') > maxDuracion) {
+            setErrorFechaFin(true);
+            setHelperTextFechaFin('El viaje no puede durar más de 30 días');
+        }
+        else {
+            setErrorFechaFin(false);
         }
     }
 
-    const hanldeFechaFinChange = (nuevoFechaFin) => {
+    const handleFechaFinChange = (nuevoFechaFin) => {
         setFechaFin(nuevoFechaFin);
         if (nuevoFechaFin.isBefore(fechaInicio)) {
-        setErrorFechaFin(true);
-        } else {
-        setErrorFechaFin(false);
+            setErrorFechaFin(true);
+        }
+        else if (nuevoFechaFin.diff(fechaInicio, 'days') > maxDuracion) {
+            setErrorFechaFin(true);
+            setHelperTextFechaFin('El viaje no puede durar más de 30 días');
+        }
+        else if (nuevoFechaFin.isAfter(maxItinerarioFecha)) {
+            setErrorFechaFin(true);
+            setHelperTextFechaFin('La fecha de fin debe ser dentro del próximo año');
+        }
+        else {
+            setErrorFechaFin(false);
         }
     }
 
@@ -50,8 +76,8 @@ function FechasDeViaje ({ fechaInicio, setFechaInicio, fechaFin, setFechaFin, er
         />
         <CardContent>
 
-        <Typography className='gi-card-titulo-apartados' sx={{ marginBottom: '30px' }}>
-            Selecciona la fecha de inicio y la fecha de fin de tu viaje.
+        <Typography variant='body2' className='gi-card-titulo-apartados' sx={{ marginBottom: '30px' }}>
+            Selecciona la fecha de inicio y la fecha de fin de tu viaje. La duración máxima permitida es de 30 días, y solo puedes planificar viajes dentro del periodo comprendido entre hoy y los próximos 12 meses.
         </Typography>
 
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} mt={2} alignItems='flex-start' justifyContent={{ sm: 'center' }} sx={{ marginTop: '0px' }}>
@@ -67,6 +93,13 @@ function FechasDeViaje ({ fechaInicio, setFechaInicio, fechaFin, setFechaFin, er
                 onChange={handleFechaInicioChange} // se actualiza al elegir una nueva fecha
                 format='DD-MM-YYYY'
                 margin='dense'
+                slotProps={{
+                    textField: {
+                    // marca un error si la fecha de fin es antes de la de inicio
+                    error: errorFechaInicio,
+                    helperText: errorFechaInicio ? helperTextFechaInicio : '',
+                    }
+                }}
                 />
             </Stack>
             { /* Fecha de fin */}
@@ -76,14 +109,14 @@ function FechasDeViaje ({ fechaInicio, setFechaInicio, fechaFin, setFechaFin, er
                 label='Fecha de fin'
                 minDate={fechaInicio} // fecha mínima será la de inicio
                 value={fechaFin}
-                onChange={hanldeFechaFinChange}
+                onChange={handleFechaFinChange}
                 format='DD-MM-YYYY'
                 margin='dense'
                 slotProps={{
                     textField: {
                     // marca un error si la fecha de fin es antes de la de inicio
                     error: errorFechaFin,
-                    helperText: errorFechaFin ? 'Selecciona una fecha de fin válida' : '',
+                    helperText: errorFechaFin ? helperTextFechaFin : '',
                     }
                 }}
                 />
