@@ -63,6 +63,43 @@ router.post('/guardar-itinerario', async (req, res) => {
     // Convierte el pool actual a promesas
     const connection = db.promise();
 
+    const insertQuery = `
+      INSERT INTO LugarItinerario (idLugar, idItinerario, orden, fecha, horaLlegada, horaSalida)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON DUPLICATE KEY UPDATE
+      orden = VALUES(orden),
+      fecha = VALUES(fecha),
+      horaLlegada = VALUES(horaLlegada),
+      horaSalida = VALUES(horaSalida)
+    `;
+
+    // Iterar sobre los lugares y aplicar INSERT/UPDATE
+    for (const lugar of lugares) {
+      console.log("Guardando lugar:", lugar);
+      await connection.query(insertQuery, [
+        lugar.idLugar,       // idLugar
+        idItinerario,        // idItinerario
+        lugar.orden,         // orden
+        lugar.fecha,         // fecha
+        lugar.horaLlegada,   // horaLlegada
+        lugar.horaSalida     // horaSalida
+      ]);
+    }
+
+    res.status(200).json({ message: 'Itinerario guardado exitosamente' });
+  } catch (error) {
+    console.error('Error al guardar el itinerario:', error);
+    res.status(500).json({ error: 'Error al guardar el itinerario' });
+  }
+});
+/*
+router.post('/guardar-itinerario', async (req, res) => {
+  const { idUsuario, idItinerario, lugares } = req.body;
+
+  try {
+    // Convierte el pool actual a promesas
+    const connection = db.promise();
+
     // Iterar sobre los lugares enviados y actualizar en la base de datos
     for (const lugar of lugares) {
       console.log("Actualizando lugar:", lugar);
@@ -80,6 +117,7 @@ router.post('/guardar-itinerario', async (req, res) => {
     res.status(500).json({ error: 'Error al guardar el itinerario' });
   }
 });
+*/
 
 
 // Ruta para eliminar un lugar del itinerario
@@ -130,6 +168,74 @@ router.post('/itinerario/orden', async (req, res) => {
     }
 });
 
+// Obtener lugares deseados de un usuario
+router.get('/lugares-deseados/:idUsuario', async (req, res) => {
+  const { idUsuario } = req.params;
+
+  // Verifica que el parámetro idUsuario esté presente
+  if (!idUsuario) {
+    return res.status(400).json({ error: 'El parámetro idUsuario es requerido' });
+  }
+
+  const query = `
+    SELECT l.id AS idLugar, l.nombre AS placeName, l.descripcion, l.imagen, l.rating
+    FROM LugarDeseado ld
+    JOIN Lugar l ON ld.idLugar = l.id
+    WHERE ld.idUsuario = ?
+  `;
+
+  try {
+    // Convertimos a promesa la conexión
+    const [rows] = await db.promise().query(query, [idUsuario]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'No se encontraron lugares deseados para este usuario' });
+    }
+
+    res.status(200).json(rows); // Envía los resultados al cliente
+  } catch (error) {
+    console.error('Error al obtener los lugares deseados:', error);
+    res.status(500).json({ error: 'Error al obtener los lugares deseados' });
+  }
+});
+
+// Obtener todos los lugares en orden, primero los deseados y despues los demas de la BD
+router.get('/lugares', async (req, res) => {
+  const { idUsuario } = req.query;
+
+  try {
+    const query = `
+      SELECT 
+        l.id AS idLugar, 
+        l.nombre AS placeName, 
+        l.descripcion, 
+        l.imagen,
+        l.rating,
+        l.regularOpeningHours,
+        l.latitud,
+        l.longitud,
+        l.direccion,
+        l.teléfono,
+        CASE WHEN ld.idLugar IS NOT NULL THEN 1 ELSE 0 END AS esDeseado,
+        GROUP_CONCAT(DISTINCT s.nombre ORDER BY s.nombre ASC) AS subcategorias
+      FROM Lugar l
+      LEFT JOIN LugarDeseado ld ON l.id = ld.idLugar AND ld.idUsuario = ?
+      LEFT JOIN LugarSubcategoria ls ON l.id = ls.idLugar
+      LEFT JOIN Subcategoria s ON ls.idSubcategoria = s.id
+      GROUP BY 
+        l.id, l.nombre, l.descripcion, l.imagen, l.rating, 
+        l.regularOpeningHours, l.latitud, l.longitud, l.direccion, l.teléfono, esDeseado
+      ORDER BY esDeseado DESC, l.nombre ASC;
+    `;
+
+    const [rows] = await db.promise().query(query, [idUsuario]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error('Error al obtener lugares:', error);
+    res.status(500).json({ error: 'Error al obtener los lugares' });
+  }
+});
   
 
 module.exports = router;

@@ -26,7 +26,7 @@ import SortablePlaceItem from './SortablePlaceItem';
 import ThemeMaterialUI from '../ThemeMaterialUI';
 import '../../css/ItineraryPage.css';
 
-//Handler fotos
+//Handler fotos y distancias API
 import { handleFotosLugar } from '../../pagesHandlers/place-handler';
 
 // itinerario de prueba (puede cambiarse a Itinerario1 o Itinerario3)
@@ -42,7 +42,7 @@ import AlertDialog from './AddPlaces'; // Adjust the path as necessary
 import Recomendados from './Recomendados';
 
 
-function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpdateItinerario = () => {}, distanciasTiempos, lugaresFiltrados = [], onDeletePlace}) {
+function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpdateItinerario = () => {}, distanciasTiempos, lugaresFiltrados = [], onUpdateDistanciasTiempos, onDeletePlace}) {
   const [calculated, setCalculated] = useState(false);
   const [lastDistances, setLastDistances] = useState(null);
   // arrays para el formato de la fecha
@@ -178,6 +178,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
           : [];
 
           //console.log('Subcategorías procesadas:', placeSubcategories);
+          //console.log('ANTES DE TRANSFORMAR ITINERARIO Hora de llegada para', place.nombre, ':', place.horaLlegada);
 
 
           transformedItinerary[dateKey].push({
@@ -194,7 +195,8 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
             //placeThings: JSON.parse(place.tipos || '[]'), // Parsear tipos si están en formato JSON
             placeOpenHour: openHour || '00:00 am', // Hora genérica si no está disponible
             placeCloseHour: closeHour || '00:00 pm',
-            placeOrden: place.orden || transformedItinerary[dateKey].length + 1,
+            placeOrden: transformedItinerary[dateKey].length + 1,
+            //placeOrden: place.orden || transformedItinerary[dateKey].length + 1,
             latitude: place.latitud || 0,
             longitude: place.longitud || 0,
             placeAddress: place.direccion || 'Sin dirección',
@@ -286,7 +288,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
       let hasChanges = false;
   
       // Hora base inicial para el primer lugar
-      let currentTime = dayjs("10:00", "HH:mm"); // Hora inicial del primer lugar
+      let currentTime = dayjs(itineraryItems[0]?.placeTime || "10:00", "HH:mm"); // Hora inicial del primer lugar
   
       for (let i = 0; i < updatedItinerary.length; i++) {
         const currentPlace = updatedItinerary[i];
@@ -449,7 +451,8 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
   };
 
   const [open, setOpen] = useState(false);
-  const [suggestedPlaces, setSuggestedPlaces] = useState([...Recomendados  ]);
+  const [allPlaces, setAllPlaces] = useState([]); // Copia original de los lugares
+  const [suggestedPlaces, setSuggestedPlaces] = useState([]);
   const [acceptedPlaces, setAcceptedPlaces] = useState([]);
 
   const handleClickOpen = () => {
@@ -461,21 +464,149 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
   };
 
   const handleAcceptPlace = (place) => {
-    setAcceptedPlaces([...acceptedPlaces, place]);
-    setSuggestedPlaces(suggestedPlaces.filter((p) => p !== place));
+    setAcceptedPlaces((prevAccepted) => {
+      const updatedAccepted = [...prevAccepted, place];
+      setSuggestedPlaces(
+        allPlaces.filter((p) => !updatedAccepted.some((ap) => ap.idLugar === p.idLugar))
+      );
+      return updatedAccepted;
+    });
   };
+
+  useEffect(() => {
+    console.log('Lugares sugeridos actualizados:', suggestedPlaces);
+  }, [suggestedPlaces]);
+
+  useEffect(() => {
+    if (open) {
+      setSuggestedPlaces(allPlaces);
+    }
+  }, [open, allPlaces]);
 
   const handleRemovePlace = (place) => {
-    setAcceptedPlaces(acceptedPlaces.filter((p) => p !== place));
-    setSuggestedPlaces([...suggestedPlaces, place]);
+    console.log('Eliminando lugar:', place);
+    setAcceptedPlaces((prevAccepted) =>
+      prevAccepted.filter((p) => p.idLugar !== place.idLugar)
+    );
+    // Reintroduce el lugar eliminado en lugares sugeridos
+    setSuggestedPlaces((prevSuggested) =>
+      [...prevSuggested, place]
+    );
   };
 
-  const handleConfirmPlaces = () => {
-    console.log('Lugares aceptados:', acceptedPlaces); // Imprime los lugares aceptados
-    setAcceptedPlaces([]);
-    setSuggestedPlaces(suggestedPlaces.filter((place) => !acceptedPlaces.includes(place)));
+  //AQUI AGREGARE LOS LUGARES ACEPTADOS AL ITINERARIO HASTA EL FINAL, DESPUES DEL ULTIMO ITINERARIO
+  const handleConfirmPlaces = async () => {
+    console.log('Lugares aceptados:', acceptedPlaces);
   
+    if (acceptedPlaces.length === 0) return;
+
+    // Fetch de las imágenes del lugar
+    //let placeImages = ['https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg'];
+  
+    const currentItinerary = itinerario[selectedDay] || [];
+    let lastPlaceTime = currentItinerary.length > 0
+      ? dayjs(currentItinerary[currentItinerary.length - 1].placeTime1, "HH:mm")
+      : dayjs("10:00", "HH:mm");
+
+    // Arreglo auxiliar para almacenar imágenes y horarios preprocesados
+    const lugaresPreprocesados = [];
+
+    // Preprocesa cada lugar para obtener imágenes y horarios
+    for (const place of acceptedPlaces) {
+      let openHour = '00:00 am';
+      let closeHour = '00:00 pm';
+      let placeImages = [];
+
+      // Procesar regularOpeningHours
+      if (place.regularOpeningHours) {
+        try {
+          const openingHours = JSON.parse(place.regularOpeningHours);
+          if (openingHours.periods) {
+            const selectedDate = dayjs(selectedDay, 'DD-MM-YYYY');
+            const dayOfWeek = selectedDate.day();
+
+            const periodForDay = openingHours.periods.find(period => period.open.day === dayOfWeek);
+            if (periodForDay) {
+              openHour = `${(periodForDay.open.hour % 12 || 12)}:${periodForDay.open.minute
+                .toString().padStart(2, '0')} ${periodForDay.open.hour < 12 ? 'am' : 'pm'}`;
+              closeHour = `${(periodForDay.close.hour % 12 || 12)}:${periodForDay.close.minute
+                .toString().padStart(2, '0')} ${periodForDay.close.hour < 12 ? 'am' : 'pm'}`;
+            }
+          }
+        } catch (error) {
+          console.error('Error al parsear regularOpeningHours:', error);
+        }
+      }
+
+      // Obtener imágenes
+      try {
+        const resultado = await handleFotosLugar(place.idLugar);
+        placeImages = resultado.map(element => `http://localhost:3000/fotosLugares/${element.URL}`);
+      } catch (error) {
+        console.error('Error al obtener foto del lugar', error);
+        placeImages = ['https://www.dondeir.com/wp-content/uploads/2021/03/bibliotecas-mexico.jpg'];
+      }
+
+      // Guardar datos preprocesados
+      lugaresPreprocesados.push({
+        ...place,
+        openHour,
+        closeHour,
+        placeImages,
+      });
+    }
+
+    // Construir el nuevo arreglo del itinerario
+    const newItineraryItems = lugaresPreprocesados.map((place, index) => {
+    const placeTime = lastPlaceTime;
+    const placeTime1 = placeTime.add(2, "hour");
+    lastPlaceTime = placeTime1;
+
+  
+      return {
+        placeTime: placeTime.format("HH:mm"),
+        placeTime1: placeTime1.format("HH:mm"),
+        placeFecha: dayjs(selectedDay, "DD-MM-YYYY").format("YYYY-MM-DD"),
+        placeName: place.placeName || "Sin nombre",
+        placeDescription: place.descripcion || "Sin descripción",
+        placeLongDescription: place.descripcion || 'Sin descripcion extensa',
+        placeThings: place.subcategorias 
+        ? place.subcategorias.split(/,\s*/).slice(0, 3) // Toma solo las primeras 3 subcategorías
+        : [],
+        placeOpenHour: place.openHour || '00:00 am', //FALTA
+        placeCloseHour: place.closeHour || '00:00 pm', //FALTA
+        placeId: place.idLugar,
+        placeOrden: currentItinerary.length + index + 1, // Orden del lugar
+        latitude: place.latitud || 0,
+        longitude: place.longitud || 0,
+        placeAddress: place.direccion || 'Sin direccion',
+        placePhone: place.teléfono || 'Sin telefono',
+        placeImages: place.placeImages, // Ruta para imágenes
+        placeRating: parseFloat(place.rating) || 0,
+        finalItem: false,
+      };
+    });
+  
+    const updatedItinerary = [...currentItinerary, ...newItineraryItems];
+  
+    // Llama a la función del padre para actualizar distancias
+    const lugaresConCoordenadas = updatedItinerary.map((lugar) => ({
+      nombre: lugar.placeName,
+      lat: lugar.latitude,
+      lon: lugar.longitude,
+    }));
+  
+    onUpdateDistanciasTiempos(lugaresConCoordenadas);
+  
+    setItinerary((prev) => ({
+      ...prev,
+      [selectedDay]: updatedItinerary,
+    }));
+  
+    setItineraryItems(updatedItinerary);
+    setAcceptedPlaces([]);
   };
+  
 
 
   return (
@@ -563,7 +694,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
           </Typography>
 
           <Box className='ms-2 mt-4' sx={{ display: 'flex', gap: '1rem' }}>
-            <ButtonsMod
+            {/*<ButtonsMod
               variant='secundario'
               textCont='Descargar PDF'
               width='auto'
@@ -571,7 +702,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
               clickEvent={handlePDF}
               startIcon={<PictureAsPdfIcon />}
               type='submit'
-            />
+            />*/}
 
             <ButtonsMod
               variant='secundario'
@@ -631,6 +762,8 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
           onAcceptPlace={handleAcceptPlace}
           onRemovePlace={handleRemovePlace}
           onConfirmPlaces={handleConfirmPlaces} // Pasa la función para confirmar los lugares aceptados
+          allPlaces={allPlaces}            // Envía la copia original
+          setAllPlaces={setAllPlaces}      // Envía el setter
         />
       </Box>
     </ThemeProvider>

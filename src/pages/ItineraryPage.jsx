@@ -186,7 +186,7 @@ function ItineraryPage() {
       if (response.ok) {
         //AQUI AGREGAR LA VENTANA O ALERTA.
         console.log('Itinerario guardado exitosamente:', result);
-        navigate('/itinerary');
+        navigate('/itinerariesSaved');
       } else {
         console.error('Error al guardar el itinerario:', result.error);
         alert('Hubo un error al guardar el itinerario');
@@ -225,6 +225,16 @@ function ItineraryPage() {
     } catch (error) {
       console.error('Error en la solicitud al servidor:', error);
       alert('No se pudo conectar con el servidor para eliminar el lugar');
+    }
+  };
+
+  const handleUpdateDistanciasTiempos = async (lugaresConCoordenadas) => {
+    try {
+      const nuevasDistancias = await calcularDistanciasYTiempo(lugaresConCoordenadas);
+      setDistanciasTiempos(nuevasDistancias);
+      console.log('Distancias y tiempos actualizados:', nuevasDistancias);
+    } catch (error) {
+      console.error('Error al calcular distancias y tiempos:', error);
     }
   };
 
@@ -314,7 +324,7 @@ function ItineraryPage() {
 
               {/* Renderizado condicional de la pestaña activa */}
               {activeTab === 'Plan' ? (
-                <Planer idUsuario={idUsuario} setSelectedPlace={handlePlaceSelect} onSelectPlaces={setLugares} distanciasTiempos={distanciasTiempos} lugaresFiltrados={filteredLugares} onUpdateItinerario={handleItinerarioUpdate} onDeletePlace={handleDeletePlace} />
+                <Planer idUsuario={idUsuario} setSelectedPlace={handlePlaceSelect} onSelectPlaces={setLugares} distanciasTiempos={distanciasTiempos} lugaresFiltrados={filteredLugares} onUpdateItinerario={handleItinerarioUpdate} onDeletePlace={handleDeletePlace} onUpdateDistanciasTiempos={handleUpdateDistanciasTiempos} />
               ) : (
                 <PlanRoute distanciasTiempos={distanciasTiempos}/>
               )}

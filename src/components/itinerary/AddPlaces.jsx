@@ -1,4 +1,6 @@
-import * as React from 'react';
+//import * as React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import axios from 'axios'; // Importa axios para las peticiones HTTP
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,14 +17,65 @@ import PlaceCard from './placeCardModal'; // Asegúrate de importar el component
 import AcceptedPlaceCard from './NewPlacesModal'; // Asegúrate de importar el componente AcceptedPlaceCard
 import TextField from '@mui/material/TextField';
 import AlertD from '../alert';
-import { useRef } from 'react';
 import img from '../../img/Itinerary/turist-for-another.jpg';
 import ThemeMaterialUI from '../ThemeMaterialUI';
 import { ThemeProvider, useTheme } from '@mui/material/styles';
 
-export default function AlertDialog({ open, handleClose, suggestedPlaces, acceptedPlaces, onAcceptPlace, onRemovePlace, onConfirmPlaces }) {
+export default function AlertDialog({ open, handleClose, acceptedPlaces, onAcceptPlace, onRemovePlace, onConfirmPlaces, allPlaces, setAllPlaces, }) {
   //obtener la referencia del componente AlertD
   const alertRef = useRef();
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [suggestedPlaces, setSuggestedPlaces] = useState([]);
+  const theme = useTheme();
+  const idUsuario = localStorage.getItem('id'); // Suponiendo que el ID del usuario está almacenado en localStorage
+  //console.log('El idUsuario en AddPlaces.jsx es: ',idUsuario);
+
+  // Obtener primero los lugares deseados y despues los demas lugares de la BD
+  useEffect(() => {
+    const fetchLugares = async () => {
+      try {
+        const idUsuario = localStorage.getItem('id'); // Obtener ID de localStorage
+        const response = await axios.get(`http://localhost:3001/api/lugares?idUsuario=${idUsuario}`);
+        console.log('Lugares recibidos:', response.data);
+
+        // Convertir esDeseado de 1/0 a true/false
+        const allPlaces = response.data.map((place) => ({
+          ...place,
+          esDeseado: !!place.esDeseado, // Convierte 1 -> true y 0 -> false
+        }));
+
+        setAllPlaces(allPlaces); // Guarda una copia base
+        setSuggestedPlaces(allPlaces); // Inicializa lugares sugeridos
+      } catch (error) {
+        console.error('Error al obtener los lugares:', error);
+      }
+    };
+  
+    if (open) {
+      fetchLugares();
+    }
+  }, [open]);
+  
+
+  // Obtener los lugares deseados desde la BD
+  /*
+  useEffect(() => {
+    const fetchLugaresDeseados = async () => {
+      try {
+        const idUsuario = localStorage.getItem('id'); // Suponiendo que el ID del usuario está almacenado en localStorage
+        const response = await axios.get(`http://localhost:3001/api/lugares-deseados/${idUsuario}`);
+        //console.log('Datos recibidos de la BD AddPlaces.jsx:', response.data);
+        setSuggestedPlaces(response.data);
+      } catch (error) {
+        console.error('Error al obtener los lugares deseados:', error);
+      }
+    };
+
+    if (open) {
+      fetchLugaresDeseados();
+    }
+  }, [open, idUsuario]);
+  */
 
   //funcion para abrir la alerta
   const handleClickOpen = () => {
@@ -30,8 +83,23 @@ export default function AlertDialog({ open, handleClose, suggestedPlaces, accept
       alertRef.current.handleClickOpen();
     }
   };
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const theme = useTheme();
+
+  useEffect(() => {
+    if (open && allPlaces.length > 0) {
+      setSuggestedPlaces(allPlaces);
+    }
+  }, [open]);
+  
+
+  // Modificación al aceptar un lugar
+  const handleAcceptPlaceLocal = (place) => {
+    setSuggestedPlaces((prev) => prev.filter((p) => p.idLugar !== place.idLugar));
+    onAcceptPlace(place); // Ejecuta la función externa para actualizar el estado principal
+  };
+
+  const filteredSuggestedPlaces = suggestedPlaces.filter((place) =>
+    place.placeName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -73,18 +141,39 @@ export default function AlertDialog({ open, handleClose, suggestedPlaces, accept
 
 
               <Box sx={{ maxHeight: 450, overflowY: 'auto', marginTop: 2 }}> {/* Contenedor con scroll */}
-                {suggestedPlaces.map((place, index) => (
-                  <Grid item xs={12} key={index} sx={{ marginBottom: '1rem' }}>
-                    <PlaceCard place={place} onAcceptPlace={onAcceptPlace} />
-                  </Grid>
-                ))}
+                {/* Agrega este console.log para ver el contenido */}
+                {/*console.log("Contenido de suggestedPlaces:", suggestedPlaces)*/} 
+                {/*{filteredSuggestedPlaces.map((place, index) => (    {suggestedPlaces.map((place, index) => (*/} 
+                {filteredSuggestedPlaces.map((place, index) => ( 
+                    <Grid item xs={12} key={index} sx={{ marginBottom: '1rem' }}>
+                      <PlaceCard
+                          place={{
+                            id: place.idLugar,
+                            name: place.placeName,
+                            description: place.descripcion || 'Sin descripción',
+                            image: place.imagen || null,
+                            rating: place.rating || 0, // Si existe rating
+                            esDeseado: place.esDeseado,
+                        }}
+                        onAcceptPlace={() => handleAcceptPlaceLocal(place)} // Aquí se pasa la función correctamente
+                        isLogged={true}
+                        isClickedDeseados={place.esDeseado} // Indica si es un lugar deseado
+                        isClickedFavoritos={false}
+                        onDeseadosClick={() => console.log(`Deseado: ${place.idLugar}`)}
+                        onFavoritosClick={() => console.log(`Favorito: ${place.idLugar}`)}
+                      />
+                    </Grid>
+                  ))}
               </Box>
             </Grid>
             <Grid size={{ xs: 12, md: 4 }} sx={{ backgroundColor: '#f9f9f9', padding: 2, borderRadius: 2 }}>
               <Typography variant="h6">Lugares Aceptados</Typography>
-              {acceptedPlaces.map((place, index) => (
-                <AcceptedPlaceCard key={index} place={place} onRemovePlace={onRemovePlace} />
-              ))}
+              {acceptedPlaces.map((place, index) => {
+                //console.log('Lugar aceptado al presionar el boton AGREGAR LUGAR:', place);
+                return (
+                  <AcceptedPlaceCard key={index} place={place} onRemovePlace={onRemovePlace} />
+                );
+              })}
             </Grid>
           </Grid>
         </DialogContent>
