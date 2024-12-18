@@ -179,7 +179,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
 
           //console.log('Subcategorías procesadas:', placeSubcategories);
           //console.log('ANTES DE TRANSFORMAR ITINERARIO Hora de llegada para', place.nombre, ':', place.horaLlegada);
-
+          console.log('FECHA DEL LUGAR ES', place.fecha);
 
           transformedItinerary[dateKey].push({
             placeTime: place.horaLlegada 
@@ -561,12 +561,17 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
     const placeTime = lastPlaceTime;
     const placeTime1 = placeTime.add(2, "hour");
     lastPlaceTime = placeTime1;
+    console.log('DIA DEL ITINERARIO ES: ',selectedDay);
+    const [day, month, year] = selectedDay.split("-"); // Divide la fecha
+    const fechaMySQL = `${year}-${month}-${day}`; // Construye YYYY-MM-DD
+
+    console.log("Fecha lista para MySQL:", fechaMySQL); // Salida: "2024-02-12"
 
   
       return {
         placeTime: placeTime.format("HH:mm"),
         placeTime1: placeTime1.format("HH:mm"),
-        placeFecha: dayjs(selectedDay, "DD-MM-YYYY").format("YYYY-MM-DD"),
+        placeFecha: fechaMySQL,
         placeName: place.placeName || "Sin nombre",
         placeDescription: place.descripcion || "Sin descripción",
         placeLongDescription: place.descripcion || 'Sin descripcion extensa',
