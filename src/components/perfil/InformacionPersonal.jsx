@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import AlertD from '../alert';
 import { handleGuardarDatos } from '../../pagesHandlers/user_handler';
 import img from '../../img/Itinerary/turist-for-another.jpg';
+import alertImgSuccess from '../../img/alertas/success.webp';
 
 function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNacimiento, genero, preferenciaAlimenticia, discapacidadMotriz}) {
 
@@ -53,6 +54,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
   // modal
   const alertRef = useRef();
   const alertRefCambios = useRef();
+  const alertRefConfirmar = useRef();
 
   const handleModalCambios = async () => {
     try {
@@ -79,7 +81,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       
       if (updatedDatos) {
         setOriginal(updatedDatos);
-        Swal.fire("¡Guardado!", "", "success");
+        handleClickOpen(3);
+        //Swal.fire("¡Guardado!", "", "success");
         setIsEditing(false);
       }
     } catch (error) {
@@ -94,6 +97,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
       alertRef.current.handleClickOpen();
     } else if (modalId === 2 && alertRefCambios.current) {
       alertRefCambios.current.handleClickOpen();
+    } else if(modalId === 3 && alertRefConfirmar.current) {
+      alertRefConfirmar.current.handleClickOpen();
     }
   };
 
@@ -627,6 +632,15 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
           boton1='Aceptar'
           boton2="Cancelar"
           onConfirm={handleModalCambios}
+        />
+
+        <AlertD
+          ref={alertRefConfirmar}
+          titulo="¡Cambios guardados!"
+          mensaje="Tus cambios se han guardado correctamente."
+          imagen={alertImgSuccess}
+          boton2="Aceptar"
+          onConfirm={handleClickOpen}
         />
       </Card>
       

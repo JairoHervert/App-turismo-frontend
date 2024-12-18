@@ -148,18 +148,11 @@ function Navbar({ showingresa, showRegistrate, transparentNavbar, lightLink, sta
                               <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                               {/* Opciones del menú */}
                         
-                        <li><Link className="dropdown-item" to='/perfil-page'>Usuario - Perfil</Link></li>
-                        <li><Link className='dropdown-item' to='/deseados'>Usuario - Deseados</Link></li>
-                        <li><Link className='dropdown-item' to='/favoritos'>Usuario - Favoritos</Link></li>
-                        <li><Link className='dropdown-item' to='/itinerariesSaved'>Usuario - Itinerarios guardados</Link></li>
-                        <li><Link className='dropdown-item' to='/HistoryPage'>Usuario - Historial</Link></li>
-                        <li><Link className='dropdown-item' to='/Categorias-page'>Itinerario - Categorías</Link></li>
-                        <li><Link className='dropdown-item' to='/itinerary'>Página de itinerario</Link></li>
-                        <li><Link className='dropdown-item' to='/register-place-page'>Página de alta de lugares</Link></li>
-                        <li><Link className='dropdown-item' to='/Admin-Page-Places'>Página de solicitud de administrador</Link></li>
-                        <li><Link className='dropdown-item' to='/Admin-Page'>Página de administrador</Link></li>
-                        <li><Link className='dropdown-item' to='/Admin-dashboard'>Dashboard de administrador</Link></li>
-                        <li><Link className='dropdown-item' to='/Admin-SavedPlaces'>Lugares de administrador</Link></li>
+                        <li><Link className="dropdown-item" to='/perfil-page'>Perfil</Link></li>
+                        <li><Link className='dropdown-item' to='/deseados'>Lugares deseados</Link></li>
+                        <li><Link className='dropdown-item' to='/favoritos'>Lugares favoritos</Link></li>
+                        <li><Link className='dropdown-item' to='/itinerariesSaved'>Itinerarios guardados</Link></li>
+                        <li><Link className='dropdown-item' to='/HistoryPage'>Historial de navegación</Link></li>
                         <li><hr className="dropdown-divider" /></li>
                         <li><Link className="dropdown-item" to="/logout" onClick={handleLogout}>Cerrar Sesión</Link></li>
                       </ul>
