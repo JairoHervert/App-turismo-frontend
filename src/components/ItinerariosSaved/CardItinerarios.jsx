@@ -33,6 +33,7 @@ function ItemItinerarios({id, imagen, detalles, fechaInicio, fechaFin, itinerari
     };
 
     const handleDeleteItinerary = () => {
+        console.log('imagen', imagen);
         // Simulación de la función para eliminar el itinerario
         // Aquí el equipo de backend deberá implementar la lógica para eliminar el itinerario
         alert('Eliminar itinerario');
@@ -149,12 +150,21 @@ function ItemItinerarios({id, imagen, detalles, fechaInicio, fechaFin, itinerari
                     acc[fecha].push({
                         placeTime: item.horaLlegada || "Sin hora",
                         placeName: item.NombreLugar || "Lugar desconocido",
-                        placeOpenHour: JSON.parse(item.Horario)?.periods[0]?.open?.hour + ":00" || "No disponible",
-                        placeCloseHour: JSON.parse(item.Horario)?.periods[0]?.close?.hour + ":00" || "No disponible",
+                        placeOpenHour: 
+                        item.Horario && 
+                        JSON.parse(item.Horario)?.periods?.[0]?.open?.hour
+                            ? `${JSON.parse(item.Horario).periods[0].open.hour}:00`
+                            : "No disponible",
+                        placeCloseHour: 
+                        item.Horario && 
+                        JSON.parse(item.Horario)?.periods?.[0]?.close?.hour
+                            ? `${JSON.parse(item.Horario).periods[0].close.hour}:00`
+                            : "No disponible",
                         placeAddress: item.Direccion || "Dirección no disponible",
                         placePhone: item.Telefono || "No disponible",
                         placeRating: item.Calificacion || "Sin calificación",
-                        placeThings: JSON.parse(item.Tipos) || ["No disponible"]
+                        placeThings: item.Tipos ? JSON.parse(item.Tipos) : ["No disponible"]
+
                     });
                     return acc;
                 }, {})

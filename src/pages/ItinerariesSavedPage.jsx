@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import "../css/ItinerariesSavedPage.css";
@@ -20,20 +20,24 @@ import { HandleObtenerItinerarios } from "../pagesHandlers/itinerarioG-handler";
 
 function ItinirariesSavePage() {
   const [itinerarios, setItinerarios] = useState([]); // Estado para los itinerarios agrupados
+  const isFetching = useRef(false); // Flag para evitar múltiples llamadas
 
   useEffect(() => {
     const fetchItinerarios = async () => {
+      if (isFetching.current) return; // Evita ejecutar si ya se está ejecutando
+      isFetching.current = true;
+
       try {
         const response = await HandleObtenerItinerarios(localStorage.getItem("id"));
-  
+
         // Asegúrate de usar la propiedad correcta
         const data = Array.isArray(response) ? response : response.data;
-  
+
         if (!Array.isArray(data)) {
           console.error("La respuesta no es un arreglo:", data);
           return;
         }
-  
+
         // Agrupa los datos por idItinerario
         const groupedItinerarios = data.reduce((acc, item) => {
           if (!acc[item.idItinerario]) {
@@ -42,17 +46,18 @@ function ItinirariesSavePage() {
           acc[item.idItinerario].push(item);
           return acc;
         }, {});
-  
+
         // Convierte el objeto agrupado en un array para renderizarlo
         setItinerarios(Object.entries(groupedItinerarios)); // [ [idItinerario, eventos[]], ... ]
       } catch (error) {
         console.error("Error al obtener los itinerarios:", error);
+      } finally {
+        isFetching.current = false; // Libera el flag
       }
     };
-  
+
     fetchItinerarios();
-  }, []);
-  
+  }, []); // Dependencias vacías garantizan que solo se ejecute en el montaje
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -106,18 +111,23 @@ function ItinirariesSavePage() {
           sx={{ maxHeight: "65vh", overflowY: "auto" }}
         >
           {itinerarios.map(([idItinerario, eventos], index) => {
-            const fechaInicio = eventos[0]?.fechaInicio.split("T")[0];
-            const fechaFin = eventos[0]?.fechaFin.split("T")[0];
+            if (!eventos.length) return null; // Evita errores si eventos está vacío
+            console.log("Eventos:", eventos[0]);
+            const fechaInicio = eventos[0]?.fechaInicio?.split("T")[0] || "N/A";
+            const fechaFin = eventos[0]?.fechaFin?.split("T")[0] || "N/A";
             const detalles = eventos.map((evento) => evento.NombreLugar || "Lugar desconocido");
-            console.log("itinerario", eventos);
+            const imagenLugar = eventos[0]?.Imagen || "default.jpg";
+            console.log("Imagen:", imagenLugar);
+
             return (
               <ItemItinerarios
+                key={idItinerario}
                 id={idItinerario}
-                imagen={eventos[0]?.placeImages?.[0]} // Usa la primera imagen del primer evento
-                detalles={detalles} // Muestra los nombres de los lugares
-                fechaInicio={fechaInicio} // Usa la fecha de inicio del primer evento
-                fechaFin={fechaFin} // Usa la fecha de fin del primer evento
-                itinerario={eventos} // Pasa todos los eventos del itinerario
+                imagen={`${process.env.PUBLIC_URL}/fotosLugares/${imagenLugar}`} 
+                detalles={detalles} 
+                fechaInicio={fechaInicio}
+                fechaFin={fechaFin} 
+                itinerario={eventos}
               />
             );
           })}
