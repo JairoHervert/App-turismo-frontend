@@ -294,7 +294,7 @@ function LoginPage() {
               <Grid size={{ xs: 10, md: 6 }} className='login-left-container'>
                 <LeftImage
                   imageUrl={casaLeon}
-                  nombreFotografo='Brandon Peso Pluma' />
+                  nombreFotografo='Jorge Luis León' />
               </Grid>
 
               {/* lado derecho formulario */}
