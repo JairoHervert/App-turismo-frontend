@@ -137,6 +137,19 @@ function RegisterPage() {
         ...prevErrors,
         camposObligatorios: true, // Añadir error para campos vacíos
       }));
+      setAlertContentError('Por favor, verifique que todos los campos estén completos y correctos.');
+      handleClickOpenError();
+      return;
+    }
+
+    // Validar correo
+    const correoRules = validarCorreo(correo);
+    if(!correoRules.sinEspacios || !correoRules.arrobaCaracteres || !correoRules.dominioConPunto || !correoRules.noVacio) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        correo: correoRules,
+      }));
+      setAlertContentError('Por favor, verifique correctamente su correo electrónico.');
       handleClickOpenError();
       return;
     }
@@ -151,6 +164,7 @@ function RegisterPage() {
         ...prevErrors,
         contraseña: passwordRules,
       }));
+      setAlertContentError('Por favor, verifique correctamente su contraseña.');
       handleClickOpenError();
       return;
     }
@@ -161,6 +175,7 @@ function RegisterPage() {
         ...prevErrors,
         contraseña2: false, // Marcar error en confirmar contraseña
       }));
+      setAlertContentError('Por favor, verifique que las contraseñas coinciden.');
       handleClickOpenError();
       return;
     }
@@ -174,6 +189,7 @@ function RegisterPage() {
         ...prevErrors,
         nombre: userRules,
       }));
+      setAlertContentError('Por favor, verifique correctamente su nombre de usuario.')
       handleClickOpenError();
       return;
     }
@@ -218,8 +234,8 @@ function RegisterPage() {
           />
           <AlertD
             ref={alertError}
-            titulo='Completa todos los campos correctamente'
-            mensaje='Por favor, verifica que todos los campos estén completos y correctos.'
+            titulo='Registro fallido'
+            mensaje={alertContentError}
             imagen={alertImgError}
             boton2="Aceptar"
             onConfirm={handleConfirmError}
@@ -286,7 +302,15 @@ function RegisterPage() {
                             size="small"
 
                             error={formSubmitted && (!errors.correo?.noVacio || !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto)}
-                            helperText={formSubmitted && (!errors.correo?.noVacio || !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto) ? "El correo no puede estar vacio." : ""}
+                            helperText={
+                              formSubmitted
+                                ? !errors.correo?.noVacio
+                                  ? "El correo no puede estar vacío."
+                                  : !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto
+                                  ? "Verifique correctamente su correo."
+                                  : ""
+                                : ""
+                            }
                           />
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
                             El correo debe cumplir con las siguientes reglas:
@@ -300,7 +324,9 @@ function RegisterPage() {
                         </Box>
 
                         <Box className="my-4">
-                          <FormControl fullWidth size="small" error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio)}>
+                          <FormControl
+                          fullWidth size="small"
+                          error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio)}>
                             <InputLabel>Contraseña</InputLabel>
                             <OutlinedInput
                               type={showPassword ? 'text' : 'password'}
@@ -320,8 +346,14 @@ function RegisterPage() {
                               label="Contraseña"
 
                             />
-                            {formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio) && (
-                              <FormHelperText>La contraseña no puede estar vacia.</FormHelperText>
+                            {formSubmitted && (
+                              <FormHelperText>
+                                {!errors.contraseña?.noVacio
+                                  ? "La contraseña no puede estar vacía."
+                                  : !errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero
+                                  ? "Verifique que la contraseña cumpla los requisitos."
+                                  : ""}
+                              </FormHelperText>
                             )}
                           </FormControl>
                         </Box>
@@ -348,7 +380,7 @@ function RegisterPage() {
 
                             />
                             {formSubmitted && !errors.contraseña2 && (
-                              <FormHelperText>La confirmación de contraseña no puede estar vacia.</FormHelperText>
+                              <FormHelperText>Verifique que la confirmación de contraseña coincida.</FormHelperText>
                             )}
                           </FormControl>
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
