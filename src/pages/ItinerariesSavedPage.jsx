@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
 import "../css/ItinerariesSavedPage.css";
@@ -16,10 +16,44 @@ import {
   Bookmark as BookmarkIcon,
 } from "@mui/icons-material";
 import ItemItinerarios from "../components/ItinerariosSaved/CardItinerarios";
-
-import itinerarios from "../components/ItinerariosSaved/ItinerariosGuardados"; // Importa el arreglo de itinerarios
+import { HandleObtenerItinerarios } from "../pagesHandlers/itinerarioG-handler";
 
 function ItinirariesSavePage() {
+  const [itinerarios, setItinerarios] = useState([]); // Estado para los itinerarios agrupados
+
+  useEffect(() => {
+    const fetchItinerarios = async () => {
+      try {
+        const response = await HandleObtenerItinerarios(localStorage.getItem("id"));
+        console.log("Datos obtenidos de la API:", response);
+  
+        // Asegúrate de usar la propiedad correcta
+        const data = Array.isArray(response) ? response : response.data;
+  
+        if (!Array.isArray(data)) {
+          console.error("La respuesta no es un arreglo:", data);
+          return;
+        }
+  
+        // Agrupa los datos por idItinerario
+        const groupedItinerarios = data.reduce((acc, item) => {
+          if (!acc[item.idItinerario]) {
+            acc[item.idItinerario] = [];
+          }
+          acc[item.idItinerario].push(item);
+          return acc;
+        }, {});
+  
+        // Convierte el objeto agrupado en un array para renderizarlo
+        setItinerarios(Object.entries(groupedItinerarios)); // [ [idItinerario, eventos[]], ... ]
+      } catch (error) {
+        console.error("Error al obtener los itinerarios:", error);
+      }
+    };
+  
+    fetchItinerarios();
+  }, []);
+  
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -49,8 +83,7 @@ function ItinirariesSavePage() {
               color="primary"
               fontSize="inhert"
               className="it_pag-icono-book"
-            />{" "}
-            {/* Ahora usa el color primario del tema */}
+            />
             <h1 className="it-page-title">Itinerarios guardados</h1>
           </Stack>
 
@@ -73,18 +106,22 @@ function ItinirariesSavePage() {
           className="resume-calendar-container"
           sx={{ maxHeight: "65vh", overflowY: "auto" }}
         >
-          {itinerarios.map((itinerario, index) => (
-            <ItemItinerarios
-              key={index}
-              imagen={Object.values(itinerario)[0][0].placeImages[0]} // Usa la primera imagen del primer lugar del primer día
-              detalles={Object.values(itinerario).flat().map(item => item.placeName)} // Mapea los nombres de los lugares
-              fechaInicio={Object.keys(itinerario)[0]} // Usa la primera fecha como fecha de inicio
-              fechaFin={Object.keys(itinerario).slice(-1)[0]} // Usa la última fecha como fecha de fin
-              presupuesto="1000" // Puedes ajustar esto según tus datos
-              viajantes="2" // Puedes ajustar esto según tus datos
-              itinerario={itinerario} // Pasa el arreglo itinerario completo
-            />
-          ))}
+          {itinerarios.map(([idItinerario, eventos], index) => {
+            const fechaInicio = eventos[0]?.fechaInicio.split("T")[0];
+            const fechaFin = eventos[0]?.fechaFin.split("T")[0];
+            const detalles = eventos.map((evento) => evento.NombreLugar || "Lugar desconocido");
+
+            return (
+              <ItemItinerarios
+                key={idItinerario}
+                imagen={eventos[0]?.placeImages?.[0]} // Usa la primera imagen del primer evento
+                detalles={detalles} // Muestra los nombres de los lugares
+                fechaInicio={fechaInicio} // Usa la fecha de inicio del primer evento
+                fechaFin={fechaFin} // Usa la fecha de fin del primer evento
+                itinerario={eventos} // Pasa todos los eventos del itinerario
+              />
+            );
+          })}
         </Box>
       </Container>
 

@@ -17,6 +17,8 @@ const itinerarioRoutes = require('./src/routes/itinerario-routes');
 const algoritmoRoutes = require('./src/routes/algoritmo-routes');
 const recuperacionController = require('./src/controllers/recuperacion-controller');
 const favDeseadosController = require('./src/controllers/favDeseados-controller');
+const itinerariosgController = require('./src/controllers/itinerariosg-controller');
+
 
 const app = express();
 app.use(cors());
@@ -61,6 +63,8 @@ app.post('/agregar-favoritos', favDeseadosController.Favoritos);
 app.post('/agregar-deseados', favDeseadosController.Deseados);
 app.post('/eliminar-favoritos', favDeseadosController.EliminarFavoritos);
 app.post('/eliminar-deseados', favDeseadosController.EliminarDeseados);
+
+app.post('/obtener-itinerarios', itinerariosgController.ItinerariosGuardados);
 
 app.post('/es-favorito', favDeseadosController.EsFavorito);
 app.post('/es-deseado', favDeseadosController.EsDeseado);

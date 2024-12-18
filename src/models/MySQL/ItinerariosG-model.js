@@ -1,9 +1,8 @@
 const db = require('./db'); // Importar la configuración de la conexión a la BD
 
-class ObtenerItinerariosModel {
+class ItinerariosGuardadosModel {
   // Método para obtener los itinerarios de un usuario
   static async obtenerItinerarios(idUsuario) {
-    console.log("Model recibe: ", idUsuario);
     const query = 'CALL UsuarioVerItinerariosConLugares(?);'; // Procedimiento almacenado
 
     return new Promise((resolve, reject) => {
@@ -22,4 +21,4 @@ class ObtenerItinerariosModel {
   }
 }
 
-module.exports = ObtenerItinerariosModel; // Exportar el modelo
+module.exports = ItinerariosGuardadosModel; // Exportar el modelo
