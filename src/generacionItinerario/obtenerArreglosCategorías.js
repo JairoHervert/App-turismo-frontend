@@ -100,10 +100,13 @@ const lugarAbierto = (horaInicio, horaFin, horarioInicio, horarioFin) =>{
         }
     }
     else{
-        if((horaInicioObj.isAfter(horarioInicioObj) || horaInicioObj.isSame(horarioInicioObj)) && (horaFinObj.isBefore(horarioFinObj) || horaFinObj.isSame(horarioFinObj))){
-            return true;
+        if((horaInicioObj.isAfter(horarioInicioObj) || horaInicioObj.isSame(horarioInicioObj)) && (horaInicioObj.isBefore(horarioFinObj) || horaInicioObj.isSame(horarioFinObj))){
+            if((horaFinObj.isBefore(horarioFinObj) || horaFinObj.isSame(horarioFinObj)) && (horaFinObj.isAfter(horarioInicioObj) || horaFinObj.isSame(horarioInicioObj))){
+                return true;
+            }
         }
     }
+    return false;
 }
 
 const formatoDiaHorario = (dia, horario) => {
@@ -139,7 +142,16 @@ const formatoDiaHorario = (dia, horario) => {
     if(horarioInicio.length === 4){
         horarioInicio = '0' + horarioInicio;
     }
-
+    // Agregar el 0 a la izquierda si el horario es menor a 10
+    if(horarioFin.length === 4){
+        horarioFin = '0' + horarioFin;
+    }
+    else if(horarioFin.length > 5){
+        horarioFin = horarioDia.split('–')[2].trim();
+        if(horarioFin.length === 4){
+            horarioFin = '0' + horarioFin;
+        }
+    }
     return {horarioInicio, horarioFin};
 }
 
@@ -185,10 +197,10 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     // Parámetros para el cálculo del score
     const distRef = 0.18179334784903947;                        // Distancia de referencia
     let a = 0.5;                                                // Si el lugar es deseado
-    let b = 2;                                                  // Si el lugar está cerca
+    let b = 2;                                                  // Si el lugar está cerca (variable)
     let c = 0.5;                                                // Si el lugar está en las categorías favoritas
     let d = 0.5;                                                // Si el lugar cumple con las restricciones
-    let e_weight = 2;                                           // Peso del precio
+    let e_weight = 4;                                           // Peso del precio
     let b_weight = 3.25;                                        // Peso de la distancia
     let e = esAltoPresupuesto ? e_weight/4 : -e_weight/4;       // Precio del lugar
     
@@ -298,6 +310,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
 
             // Seleccionar el lugar con el score más alto
             let scoreMaximo = -Infinity;
+            b = Math.abs(b_weight / (Math.pow(distRef, 2) - Math.pow(distanciaMinima, 2)));
             let idLugarSeleccionado = "";
             let longitudSiguiente = 0;
             let latitudSiguiente = 0;
@@ -467,8 +480,8 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
             }
         }
 
+        
         let scoreMaximo = -Infinity;
-
         b = Math.abs(b_weight / (Math.pow(distRef, 2) - Math.pow(distanciaMinimaRestaurante, 2)));
 
         if(hayRestauranteCategorias){
@@ -647,10 +660,10 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
                 }
             }
 
-            b = Math.abs(b_weight / (Math.pow(distRef, 2) - Math.pow(distanciaMinima, 2)));
-
+            
             // Seleccionar el lugar con el score más alto
             let scoreMaximo = -Infinity;
+            b = Math.abs(b_weight / (Math.pow(distRef, 2) - Math.pow(distanciaMinima, 2)));
             let idLugarSeleccionado = "";
             let longitudSiguiente = 0;
             let latitudSiguiente = 0;
@@ -822,7 +835,6 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
         }
 
         scoreMaximo = -Infinity;
-
         b = Math.abs(b_weight / (Math.pow(distRef, 2) - Math.pow(distanciaMinimaRestaurante, 2)));
 
         if(hayRestauranteCategorias){
@@ -871,7 +883,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
 
                     let horarioInicio = formatoDiaHorarioObj.horarioInicio;
                     let horarioFin = formatoDiaHorarioObj.horarioFin;
-                    
+
                     if (!lugarAbierto(horaActual.format('HH:mm'), horaActual.add(duracionActividad, 'hour').format('HH:mm'), horarioInicio, horarioFin)) {
                         continue;
                     }
@@ -988,7 +1000,6 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
             console.log(dia.fecha);
             for (const lugar of dia.lugares) {
                 console.log(lugar.horaInicio);
-                console.log(JSON.parse(lugar.data.regularOpeningHours).weekdayDescriptions);
                 console.log(lugar.data.nombre);
             }
         }
@@ -1013,7 +1024,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
 
 }
 
-generarItinerario(1, 1, "2024-12-15", "2024-12-15", "09:00", "18:00", 50, 2, 2, 2000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+generarItinerario(1, 1, "2024-12-18", "2024-12-18", "09:00", "18:00", 50, 2, 2, 1000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS
