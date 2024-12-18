@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { Container,Grid2 as Grid , Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
+import { Container, Grid2 as Grid, Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -66,7 +66,8 @@ function RegisterPage() {
     };
     return rules;
   };
-  //Validaciones del correo
+
+  // Validaciones del correo
   const validarCorreo = (correo) => {
     const rules = {
       sinEspacios: /^[^\s]+$/.test(correo),
@@ -76,8 +77,6 @@ function RegisterPage() {
     };
     return rules;
   };
-  
-  // Manejadores de cambios para el correo
 
   // Validación del nombre de usuario
   const validarUser = (usermame) => {
@@ -87,7 +86,6 @@ function RegisterPage() {
     };
     return rules;
   };
-  
 
   const validarConfirmarContraseña = (contraseña, confirmacion) => {
     return contraseña === confirmacion;
@@ -98,7 +96,7 @@ function RegisterPage() {
     setNombre(value);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      nombre: validarUser(value),  // Validar nombre de usuario
+      nombre: validarUser(value),
     }));
   };
 
@@ -139,6 +137,7 @@ function RegisterPage() {
         ...prevErrors,
         camposObligatorios: true, // Añadir error para campos vacíos
       }));
+      handleClickOpenError();
       return;
     }
 
@@ -152,6 +151,7 @@ function RegisterPage() {
         ...prevErrors,
         contraseña: passwordRules,
       }));
+      handleClickOpenError();
       return;
     }
 
@@ -161,18 +161,20 @@ function RegisterPage() {
         ...prevErrors,
         contraseña2: false, // Marcar error en confirmar contraseña
       }));
+      handleClickOpenError();
       return;
     }
 
     // Validar nombre de usuario
     const userRules = validarUser(nombre);
-    
+
     // Si el nombre de usuario no cumple las reglas
     if (!userRules.longitudValida || !userRules.noVacio) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         nombre: userRules,
       }));
+      handleClickOpenError();
       return;
     }
 
@@ -180,7 +182,7 @@ function RegisterPage() {
     if (nombre && correo && contraseña && contraseña2 && passwordsMatch && passwordRules.longitudValida && passwordRules.mayuscula && passwordRules.minuscula && passwordRules.numero) {
       const resultado = await handleRegistro(e, nombre, correo, contraseña);
       console.log(resultado);
-      if(resultado && resultado.resultado) {
+      if (resultado && resultado.resultado) {
         handleClickOpenSuccess();
       } else {
         setAlertContentError(resultado);
@@ -216,8 +218,8 @@ function RegisterPage() {
           />
           <AlertD
             ref={alertError}
-            titulo='Registro fallido'
-            mensaje={alertContentError}
+            titulo='Completa todos los campos correctamente'
+            mensaje='Por favor, verifica que todos los campos estén completos y correctos.'
             imagen={alertImgError}
             boton2="Aceptar"
             onConfirm={handleConfirmError}
@@ -231,18 +233,18 @@ function RegisterPage() {
             onConfirm={handleConfirmSuccess}
             onCloseAction={handleConfirmSuccess}
           />
-          <Container maxWidth="md" disableGutters className= 'my-5 py-4 d-flex align-items-center justify-content-center'>
+          <Container maxWidth="md" disableGutters className='my-5 py-4 d-flex align-items-center justify-content-center'>
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
               {/* Left Image Section */}
               <Grid size={{ xs: 12, md: 6 }} className='register-left-container'>
                 <LeftImage
-                  imageUrl={imgRegister}              
-                  nombreFotografo="Daniel Zepeda"/>
+                  imageUrl={imgRegister}
+                  nombreFotografo="Daniel Zepeda" />
               </Grid>
 
               {/* Form Section */}
               <Grid size={{ xs: 12, md: 6 }}>
-                                <Box className="register-right-form bg-light">
+                <Box className="register-right-form bg-light">
                   <Box className="mx-3 pb-5 pt-3">
                     <Box className="d-flex justify-content-end">
                       <IconButton aria-label="cerrar" onClick={handleHomeClick}>
@@ -250,7 +252,6 @@ function RegisterPage() {
                       </IconButton>
                     </Box>
                     <Box className="mx-4">
-                      
                       <Typography variant="h4" className="fw-bold">Regístrate</Typography>
                       <Typography variant="subtitle1">Completa el formulario para continuar</Typography>
 
@@ -262,13 +263,12 @@ function RegisterPage() {
                             onChange={handleNameChange}
                             fullWidth
                             size="small"
-                            required
                             error={formSubmitted && !errors.nombre?.longitudValida}
-                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 3 y 10 caracteres." : ""}
+                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario no puede estar vacio." : ""}
                           />
-                        <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
-                          El username debe cumplir con las siguientes reglas:
-                        </Typography>
+                          <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
+                            El username debe cumplir con las siguientes reglas:
+                          </Typography>
                         </Box>
 
                         <Box className="my-3">
@@ -277,7 +277,6 @@ function RegisterPage() {
                           </ul>
                         </Box>
 
-
                         <Box className="my-4">
                           <TextField
                             label="Correo electrónico"
@@ -285,9 +284,9 @@ function RegisterPage() {
                             onChange={handleEmailChange}
                             fullWidth
                             size="small"
-                            required
-                            error={formSubmitted && !errors.correo?.noVacio}
-                            helperText={formSubmitted && !errors.correo?.noVacio ? "El correo no debe estar vacío." : ""}
+
+                            error={formSubmitted && (!errors.correo?.noVacio || !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto)}
+                            helperText={formSubmitted && (!errors.correo?.noVacio || !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto) ? "El correo no puede estar vacio." : ""}
                           />
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
                             El correo debe cumplir con las siguientes reglas:
@@ -295,13 +294,13 @@ function RegisterPage() {
                           <ul>
                             <li className={`re_pa-rule-input fw-medium ${errors.correo?.noVacio ? 'text-success fw-semibold' : ''}`}>No debe estar vacío.</li>
                             <li className={`re_pa-rule-input fw-medium ${errors.correo?.sinEspacios ? 'text-success fw-semibold' : ''}`}>No debe contener espacios.</li>
-                            <li className={`re_pa-rule-input fw-medium ${errors.correo?.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbore @.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.correo?.arrobaCaracteres ? 'text-success fw-semibold' : ''}`}>Debe tener al menos un carácter antes y después del símbolo @.</li>
                             <li className={`re_pa-rule-input fw-medium ${errors.correo?.dominioConPunto ? 'text-success fw-semibold' : ''}`}>Debe incluir un punto en la parte del dominio (por ejemplo, .com, .net).</li>
                           </ul>
                         </Box>
 
                         <Box className="my-4">
-                          <FormControl fullWidth size="small" error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero)}>
+                          <FormControl fullWidth size="small" error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio)}>
                             <InputLabel>Contraseña</InputLabel>
                             <OutlinedInput
                               type={showPassword ? 'text' : 'password'}
@@ -319,8 +318,11 @@ function RegisterPage() {
                                 </InputAdornment>
                               }
                               label="Contraseña"
-                              required
+
                             />
+                            {formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio) && (
+                              <FormHelperText>La contraseña no puede estar vacia.</FormHelperText>
+                            )}
                           </FormControl>
                         </Box>
 
@@ -343,12 +345,15 @@ function RegisterPage() {
                                 </InputAdornment>
                               }
                               label="Confirmar contraseña"
-                              required
+
                             />
+                            {formSubmitted && !errors.contraseña2 && (
+                              <FormHelperText>La confirmación de contraseña no puede estar vacia.</FormHelperText>
+                            )}
                           </FormControl>
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
-                          La contraseña debe cumplir con las siguientes reglas:
-                            </Typography>
+                            La contraseña debe cumplir con las siguientes reglas:
+                          </Typography>
                         </Box>
 
                         <Box className="my-3">
@@ -361,7 +366,7 @@ function RegisterPage() {
                           </ul>
                         </Box>
 
-                                               {/* Botón de registro */}
+                        {/* Botón de registro */}
                         <Box className="my-4">
                           <Button fullWidth variant="contained" type="submit">
                             Registrarse
@@ -397,6 +402,9 @@ function RegisterPage() {
                           </small>
                         </div>
                       </form>
+                      <Box className='mt-5'>
+                        <Typography variant='body1'>¿Ya tienes una cuenta? <Link href="/login" underline="hover">Inicia sesión aquí</Link></Typography>
+                      </Box>
                     </Box>
                   </Box>
                 </Box>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import NavBarHome from '../components/NavBar';
 import Footer from '../components/Footer';
+import { useLoadScript } from "@react-google-maps/api";
 import Mapa from '../components/Mapa';
 import PreguntaRegistro from '../components/preguntaRegistro';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +20,9 @@ import '../css/HomePage.css';
 import CatHome from '../components/categories/CategoryHome';
 import CardAlcaldia from '../components/home/CardAlcaldia';
 import datosTarjetas from '../components/home/datosTarjetas';
+
+const libraries = ["places"];
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 const HomePage = () => {
 
@@ -89,6 +93,14 @@ const HomePage = () => {
     const shuffledCards = shuffleArray([...datosTarjetas]);
     setSelectedCards(shuffledCards.slice(0, 4));
   }, []);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: apiKey,
+    libraries,
+  });
+
+  if (loadError) return <div>Error al cargar Google Maps</div>;
+  if (!isLoaded) return <div>Cargando mapa...</div>;
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -164,7 +176,7 @@ const HomePage = () => {
       <section>
         <div className='mapa'>
           <h2>¡Sorpréndete con lo que te rodea!</h2>
-          <Mapa />
+          <Mapa isLoaded={isLoaded} />
         </div>
       </section>
 

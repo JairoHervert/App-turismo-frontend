@@ -294,7 +294,7 @@ function LoginPage() {
               <Grid size={{ xs: 10, md: 6 }} className='login-left-container'>
                 <LeftImage
                   imageUrl={casaLeon}
-                  nombreFotografo='Brandon Peso Pluma' />
+                  nombreFotografo='Jorge Luis León' />
               </Grid>
 
               {/* lado derecho formulario */}
@@ -375,18 +375,8 @@ function LoginPage() {
                               let messageForEmailError = '';
 
                               // validacion de campos
-                              if (!correoReglas.noVacio && contraseña.length == 0) {
-                                messageForEmailError = 'El correo y la contraseña no pueden estar vacíos';
-                              } else if (!correoReglas.noVacio && contraseña.length > 0) {
-                                messageForEmailError = 'El correo no puede estar vacío';
-                              } else if ((correoReglas.sinEspacios && correoReglas.arrobaCaracteres && correoReglas.dominioConPunto && correoReglas.noVacio) && contraseña.length < 1) {
-                                console.log('alertContenterror:', alertContentError);
-                                console.log('contraseña:', contraseña);
-                                messageForEmailError = 'La contraseña no puede estar vacía';
-                              } else if ((!correoReglas.sinEspacios || !correoReglas.arrobaCaracteres || !correoReglas.dominioConPunto || !correoReglas.noVacio) && contraseña.length > 0) {
-                                messageForEmailError = 'El correo no cumple con las reglas de formato indicadas';
-                              } else if ((!correoReglas.sinEspacios || !correoReglas.arrobaCaracteres || !correoReglas.dominioConPunto || !correoReglas.noVacio) && contraseña.length < 1) {
-                                messageForEmailError = 'El correo no cumple con las reglas de formato indicadas y la contraseña no puede estar vacía';
+                              if (!correoReglas.sinEspacios || !correoReglas.arrobaCaracteres || !correoReglas.dominioConPunto || !correoReglas.noVacio || contraseña.length < 1) {
+                                messageForEmailError = 'Por favor, verifica que los campos estén completos y correctos.';
                               }
 
                               // si hay error alguno se muestra la alerta
