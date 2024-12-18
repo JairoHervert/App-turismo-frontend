@@ -4,7 +4,7 @@ const axios = require('axios');
 
 const generarFotos = async () => {
 
-    const API_KEY = "";
+    const API_KEY = "AIzaSyAhmFmJZs2h4lfmCt_CwW6UURoPvAB01ic";
     const filePath = path.join(__dirname, 'lugaresRegistrados.json');
     let data = [];
     if (fs.existsSync(filePath)) {
