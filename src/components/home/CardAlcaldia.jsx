@@ -8,7 +8,7 @@ function CardAlcaldia({ nombreAlcaldia, nombreLugar, nombreImagen }) {
   const navigate = useNavigate();
 
   const handlePlacePageClick = () => {
-    navigate('/placepage');
+    navigate(`/lugares/${nombreAlcaldia}`);
   };
 
 
