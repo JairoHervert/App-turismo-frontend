@@ -25,7 +25,6 @@ function ItinirariesSavePage() {
     const fetchItinerarios = async () => {
       try {
         const response = await HandleObtenerItinerarios(localStorage.getItem("id"));
-        console.log("Datos obtenidos de la API:", response);
   
         // Asegúrate de usar la propiedad correcta
         const data = Array.isArray(response) ? response : response.data;
@@ -110,7 +109,7 @@ function ItinirariesSavePage() {
             const fechaInicio = eventos[0]?.fechaInicio.split("T")[0];
             const fechaFin = eventos[0]?.fechaFin.split("T")[0];
             const detalles = eventos.map((evento) => evento.NombreLugar || "Lugar desconocido");
-
+            console.log("itinerario", eventos);
             return (
               <ItemItinerarios
                 id={idItinerario}
