@@ -439,7 +439,7 @@ function ItineraryPage() {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id='finality-dialog-description'>
-              <Typography fontFamily={'poppins'} className='fw-normal text-center'>Confirma si deseas finalizar este itinerario. Podrás consultarlo más tarde en la sección de .</Typography>
+              <Typography fontFamily={'poppins'} className='fw-normal text-center'>Confirma si deseas finalizar este itinerario. Podrás consultarlo más tarde en la sección de itineraios guardados</Typography>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
