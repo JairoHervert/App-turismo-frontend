@@ -52,13 +52,50 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
   const [fechaHelperText, setFechaHelperText] = useState('La edad debe ser de entre 18 a 65 años');
   // modal
   const alertRef = useRef();
+  const alertRefCambios = useRef();
 
-  const [openModal, setOpenModal] = useState(false);
-  const handleClickOpen = () => {
-    if (alertRef.current) {
-        alertRef.current.handleClickOpen();
-    }
+  const handleModalCambios = async () => {
+    try {
+      // Llamar a la función para guardar los datos
+      const updatedDatos = await handleGuardarDatos(
+        id, // Asume que formData contiene el ID del usuario
+        formData.nombre,
+        formData.apellido,
+        formData.fechaNacimiento
+      );
+      updatedDatos.correoElectronico = original.correoElectronico;
+      // Convertir la cadena a un objeto Date
+      const fecha = new Date(updatedDatos.fechaNacimiento);
+
+      // Formatear a DD-MM-YYYY
+      const dia = String(fecha.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
+      const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
+      const anio = fecha.getFullYear();
+
+      // Combinar el formato
+      const fechaFormateada = `${dia}-${mes}-${anio}`;
+      updatedDatos.fechaNacimiento = fechaFormateada;
+      console.log("updated", updatedDatos);
+      
+      if (updatedDatos) {
+        setOriginal(updatedDatos);
+        Swal.fire("¡Guardado!", "", "success");
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Error al guardar los datos:", error);
+      Swal.fire("Error", "No se pudieron guardar los datos", "error");
+    } 
   }
+
+
+  const handleClickOpen = (modalId) => {
+    if (modalId === 1 && alertRef.current) {
+      alertRef.current.handleClickOpen();
+    } else if (modalId === 2 && alertRefCambios.current) {
+      alertRefCambios.current.handleClickOpen();
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -120,7 +157,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     }
 
     if(!valid) {
-      handleClickOpen();
+      handleClickOpen(1);
     }
     
     if (valid) {
@@ -132,55 +169,55 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
           || formData.preferenciaAlimenticia !== original.preferenciaAlimenticia
         ) {
         console.log("?")
-        Swal.fire({
-          title: "¿Deseas guardar los cambios?",
-          showDenyButton: true,
-          showCancelButton: true,
-          confirmButtonText: "Guardar",
-          denyButtonText: `No guardar`,
-        }).then(async (result) => {
-          if (result.isConfirmed) {
-            try {
-              // Llamar a la función para guardar los datos
-              const updatedDatos = await handleGuardarDatos(
-                id, // Asume que formData contiene el ID del usuario
-                formData.nombre,
-                formData.apellido,
-                formData.fechaNacimiento
-              );
-              updatedDatos.correoElectronico = original.correoElectronico;
-              // Convertir la cadena a un objeto Date
-              const fecha = new Date(updatedDatos.fechaNacimiento);
+        handleClickOpen(2);
+        // Swal.fire({
+        //   title: "¿Deseas guardar los cambios?",
+        //   showDenyButton: true,
+        //   showCancelButton: true,
+        //   confirmButtonText: "Guardar",
+        //   denyButtonText: `No guardar`,
+        // }).then(async (result) => {
+        //   if (result.isConfirmed) {
+        //     try {
+        //       // Llamar a la función para guardar los datos
+        //       const updatedDatos = await handleGuardarDatos(
+        //         id, // Asume que formData contiene el ID del usuario
+        //         formData.nombre,
+        //         formData.apellido,
+        //         formData.fechaNacimiento
+        //       );
+        //       updatedDatos.correoElectronico = original.correoElectronico;
+        //       // Convertir la cadena a un objeto Date
+        //       const fecha = new Date(updatedDatos.fechaNacimiento);
 
-              // Formatear a DD-MM-YYYY
-              const dia = String(fecha.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
-              const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
-              const anio = fecha.getFullYear();
+        //       // Formatear a DD-MM-YYYY
+        //       const dia = String(fecha.getDate()).padStart(2, '0'); // Asegurar 2 dígitos
+        //       const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses comienzan desde 0
+        //       const anio = fecha.getFullYear();
 
-              // Combinar el formato
-              const fechaFormateada = `${dia}-${mes}-${anio}`;
-              updatedDatos.fechaNacimiento = fechaFormateada;
-              console.log("updated", updatedDatos);
+        //       // Combinar el formato
+        //       const fechaFormateada = `${dia}-${mes}-${anio}`;
+        //       updatedDatos.fechaNacimiento = fechaFormateada;
+        //       console.log("updated", updatedDatos);
               
-              if (updatedDatos) {
-                setOriginal(updatedDatos);
-                Swal.fire("¡Guardado!", "", "success");
-                setIsEditing(false);
-              }
-            } catch (error) {
-              console.error("Error al guardar los datos:", error);
-              Swal.fire("Error", "No se pudieron guardar los datos", "error");
-            }
-          } else if (result.isDenied) {
-            setFormData(original); // Restablecer valores originales
-            Swal.fire("Los cambios no fueron guardados", "", "info");
-            setIsEditing(false); // Salir del modo edición
-          }
-        });
+        //       if (updatedDatos) {
+        //         setOriginal(updatedDatos);
+        //         Swal.fire("¡Guardado!", "", "success");
+        //         setIsEditing(false);
+        //       }
+        //     } catch (error) {
+        //       console.error("Error al guardar los datos:", error);
+        //       Swal.fire("Error", "No se pudieron guardar los datos", "error");
+        //     }
+        //   } else if (result.isDenied) {
+        //     setFormData(original); // Restablecer valores originales
+        //     Swal.fire("Los cambios no fueron guardados", "", "info");
+        //     setIsEditing(false); // Salir del modo edición
+        //   }
+        // });
       }
       else {
-        // setIsEditing(false);
-        setOpenModal(true);
+        setIsEditing(false);
       }
     } else {
       console.log('Formulario no válido');
@@ -580,6 +617,16 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
           imagen={img}
           boton2="Aceptar"
           onConfirm={handleClickOpen}
+        />
+
+        <AlertD
+          ref={alertRefCambios}
+          titulo="¿Desea guardar los cambios?"
+          mensaje="Haz click en el botón de aceptar para confirmar los cambios."
+          imagen={img}
+          boton1='Aceptar'
+          boton2="Cancelar"
+          onConfirm={handleModalCambios}
         />
       </Card>
       
