@@ -51,9 +51,9 @@ class userController {
   }
 
   static async setDatos(req, res) {
-    const { id, nombre, apellido, fecha } = req.body;
+    const { id, nombre, apellido, fecha, sexo, alim, accesi } = req.body;
     try {
-      const resultado = await userModel.UsuarioSetDatos(id, nombre, apellido, fecha);
+      const resultado = await userModel.UsuarioSetDatos(id, nombre, apellido, fecha, sexo, alim, accesi);
 
       res.json({resultado: resultado});
     } catch (error) {

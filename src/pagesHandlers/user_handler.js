@@ -47,9 +47,9 @@ const handleActualizarCategorias = async (id, categorias) => {
   }
 }
 
-const handleGuardarDatos = async (id, nombre, apellido, fecha) => {
+const handleGuardarDatos = async (id, nombre, apellido, fecha, sexo, alim, accesi) => {
   try {
-    const response = await axios.post('http://localhost:3001/user_guardar_datos', { id, nombre, apellido, fecha });
+    const response = await axios.post('http://localhost:3001/user_guardar_datos', { id, nombre, apellido, fecha, sexo, alim, accesi });
     if(response.data.resultado.datos) {
       const datos = response.data.resultado.datos;
       return datos;

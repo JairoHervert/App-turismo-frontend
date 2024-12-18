@@ -21,10 +21,10 @@ function Footer({ showIncorporaLugar }) {
                             
               {/* Mostrar el enlace de incorporar lugar si showIncorporaLugar es verdadero */}
               {showIncorporaLugar && (
-                <p><Link to='/'>Incorpora un Lugar</Link></p>
+                <p><Link to='/register-place-page'>Incorpora un Lugar</Link></p>
               )}
 
-              <p><Link to='/'>Terminos y Condiciones</Link></p>
+              <p><Link to='/terminos-condiciones'>Terminos y Condiciones</Link></p>
               <p><Link to='/'>Sobre nosotros</Link></p>
             </div>
 

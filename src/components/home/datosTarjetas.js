@@ -92,7 +92,7 @@ const datosTarjetas = [
   },
   {
     id: 16,
-    nombreAlcaldia: 'Magdalena Contreras',
+    nombreAlcaldia: 'La Magdalena Contreras',
     nombreLugar: 'Rio Magdalena',
     nombreImagen: 'magdalena',
   },

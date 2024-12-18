@@ -63,7 +63,10 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
         id, // Asume que formData contiene el ID del usuario
         formData.nombre,
         formData.apellido,
-        formData.fechaNacimiento
+        formData.fechaNacimiento,
+        formData.genero,
+        formData.preferenciaAlimenticia,
+        formData.accesibilidad === 'No' ? '0' : '1'
       );
       updatedDatos.correoElectronico = original.correoElectronico;
       // Convertir la cadena a un objeto Date
@@ -172,6 +175,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
           || formData.fechaNacimiento != original.fechaNacimiento
           || formData.genero !== original.genero
           || formData.preferenciaAlimenticia !== original.preferenciaAlimenticia
+          || formData.accesibilidad !== original.accesibilidad
         ) {
         console.log("?")
         handleClickOpen(2);
@@ -348,9 +352,24 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     }));
   }
 
-    const isFormValid = () => {
-      return !nombreError || !apellidoError || !fechaError;
-    }
+  const isFormValid = () => {
+    return !nombreError || !apellidoError || !fechaError;
+  }
+
+  const handleSexoChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value, }));
+  }
+
+  const handleAlimenticiaChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value, }));
+  }
+
+  const handleAccesibilidadChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value, }));
+  }
 
     return (
       <Card
@@ -407,13 +426,13 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                       {/* EDITAR CORREO ELECTRÓNICO */}
                         {isEditing ? (
                             <TextField
-                                disabled
-                                variant='outlined'
-                                size='small'
-                                name='correoElectronico'
-                                value={formData.correoElectronico}
-                                onChange={handleInputChange}
-                                sx={{ width:'100%' }}
+                              disabled
+                              variant='outlined'
+                              size='small'
+                              name='correoElectronico'
+                              value={formData.correoElectronico}
+                              onChange={handleInputChange}
+                              sx={{ width:'100%' }}
                             />
                         ) : (
                             <Typography variant='body1'>{formData.correoElectronico}</Typography>
@@ -435,17 +454,17 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                   <Grid size={{xs: 12, sm: 7, md: 8}} sx={{paddingTop: '0'}}>
                     { /* EDITAR NOMBRE */}
                     {isEditing ? (
-                        <TextField
-                            fullWidth
-                            required
-                            variant='outlined'
-                            size='small'
-                            name='nombre'
-                            value={formData.nombre}
-                            onChange={handleInputChange}
-                            error={nombreError}
-                            helperText={nombreHelperText}
-                        />
+                      <TextField
+                        fullWidth
+                        required
+                        variant='outlined'
+                        size='small'
+                        name='nombre'
+                        value={formData.nombre}
+                        onChange={handleInputChange}
+                        error={nombreError}
+                        helperText={nombreHelperText}
+                      />
                     ) : (
                     <Typography variant='body1'>{formData.nombre || 'Sin especificar'}</Typography>
                     )}
@@ -466,17 +485,17 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                   <Grid size={{xs: 12, sm: 7, md:8}} sx={{paddingTop: '0'}}>
                     { /* EDITAR APELLIDO */}
                     {isEditing ? (
-                        <TextField
-                          fullWidth
-                          required
-                          variant='outlined'
-                          size='small'
-                          name='apellido'
-                          value={formData.apellido}
-                          onChange={handleInputChange}
-                          error={apellidoError}
-                          helperText={apellidoHelperText}
-                        />
+                      <TextField
+                        fullWidth
+                        required
+                        variant='outlined'
+                        size='small'
+                        name='apellido'
+                        value={formData.apellido}
+                        onChange={handleInputChange}
+                        error={apellidoError}
+                        helperText={apellidoHelperText}
+                      />
                     ) : (
                     <Typography variant='body1'>{formData.apellido || 'Sin especificar'}</Typography>
                     )}
@@ -539,7 +558,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                         <Select
                           id='genero'
                           value={formData.genero}
-                          // onChange={}
+                          name='genero'
+                          onChange={handleSexoChange}
                           sx={{ width: '100%', height: '3rem' }}
                         >
                           <MenuItem value='Masculino'>Masculino</MenuItem>
@@ -569,7 +589,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                         <Select
                           id='preferenciaAlimenticia'
                           value={formData.preferenciaAlimenticia}
-                          // onChange={}
+                          name='preferenciaAlimenticia'
+                          onChange={handleAlimenticiaChange}
                           sx={{ width: '100%', height: '3rem' }}
                         >
                           <MenuItem value='Ninguno'>Ninguno</MenuItem>
@@ -598,7 +619,8 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
                         <Select
                           id='discapacidadMotriz'
                           value={formData.accesibilidad}
-                          // onChange={}
+                          name='accesibilidad'
+                          onChange={handleAccesibilidadChange}
                           sx={{ width: '100%', height: '3rem' }}
                         >
                           <MenuItem value='Si'>Sí</MenuItem>
