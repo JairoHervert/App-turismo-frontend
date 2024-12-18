@@ -47,10 +47,10 @@ class userModel {
     });
   }
 
-  static async UsuarioSetDatos(id, nombre, apellido, fecha) {
-    const query = 'CALL UsuarioGuardarDatos(?, ?, ?, ?);';
+  static async UsuarioSetDatos(id, nombre, apellido, fecha, sexo, alim, accesi) {
+    const query = 'CALL UsuarioGuardarDatos(?, ?, ?, ?, ?, ?, ?);';
     return new Promise((resolve, reject) => {
-      db.query(query, [id, nombre, apellido, fecha], (err, results) => {
+      db.query(query, [id, nombre, apellido, fecha, sexo, alim, accesi], (err, results) => {
         if (err) {
           reject(err);
         }
@@ -63,7 +63,6 @@ class userModel {
   }
 
   static async UsuarioSetImagen(id, imagen) {
-    console.log("LE LLEGA", id, imagen)
     const query = 'CALL UsuarioSetImagen(?, ?);';
     return new Promise((resolve, reject) => {
       db.query(query, [id, imagen], (err, results) => {

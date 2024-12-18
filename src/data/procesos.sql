@@ -493,7 +493,10 @@ CREATE PROCEDURE UsuarioGuardarDatos (
    IN p_id INT,
    IN p_nombre VARCHAR(60),
    IN p_apellido VARCHAR(60),
-   IN p_fechaNacimiento VARCHAR(10)
+   IN p_fechaNacimiento VARCHAR(10),
+   IN p_sexo VARCHAR(20),
+   IN p_alim VARCHAR(20),
+   IN p_accesi VARCHAR(20)
 )
 BEGIN
    DECLARE usuarioExistente INT;
@@ -509,7 +512,10 @@ BEGIN
       SET 
          nombre = p_nombre, 
          apellido = p_apellido, 
-         fechaNacimiento = STR_TO_DATE(p_fechaNacimiento, '%d-%m-%Y')
+         fechaNacimiento = STR_TO_DATE(p_fechaNacimiento, '%d-%m-%Y'),
+         sexo = p_sexo,
+         preferenciaAlimenticia = p_alim,
+         requiereAccesibilidad = p_accesi
       WHERE id = p_id;
       
       SELECT
