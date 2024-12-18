@@ -627,7 +627,7 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
         <AlertD
           ref={alertRefCambios}
           titulo="¿Desea guardar los cambios?"
-          mensaje="Haz click en el botón de aceptar para confirmar los cambios."
+          mensaje="Haz click en el botón de ACEPTAR para confirmar los cambios."
           imagen={img}
           boton1='Aceptar'
           boton2="Cancelar"

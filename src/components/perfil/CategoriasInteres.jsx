@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../../css/Perfil.css';
 import ButtonsMod from '../ButtonsMod';
 
@@ -7,6 +7,9 @@ import Grid from '@mui/material/Grid2';
 import CategoryIcon from '@mui/icons-material/Category';
 
 import { handleActualizarCategorias } from '../../pagesHandlers/user_handler';
+import AlertD from '../alert';
+import img from '../../img/Itinerary/turist-for-another.jpg';
+import alertImgSuccess from '../../img/alertas/success.webp';
 
 function CategoriasInteres({ idUsuario, categoriasUsuario }) {
   const [id, setId] = useState(idUsuario);
@@ -16,7 +19,10 @@ function CategoriasInteres({ idUsuario, categoriasUsuario }) {
   const [isEditing, setIsEditing] = useState(false);
   const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState(categoriasUsuario);
   const [categoriasTotales, setCategoriasTotales] = useState([]);
-  
+  const alertRef = useRef();
+  const alertRefConfirmar = useRef();
+  const alertRefInvalido = useRef();
+
   const toggleCategoriaSeleccionada = (categoriaId) => {
     setCategoriasSeleccionadas((prev) =>
       prev.includes(categoriaId)
@@ -25,18 +31,35 @@ function CategoriasInteres({ idUsuario, categoriasUsuario }) {
     )
   }
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if(categoriasSeleccionadas.length > 0) {
-      const nombresSeleccionados = categoriasTotales
-      .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
-      .map((categoria) => categoria.nombre)
-      .join(','); // Unir los nombres por comas
+      handleClickOpen(1);
+      // const nombresSeleccionados = categoriasTotales
+      // .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
+      // .map((categoria) => categoria.nombre)
+      // .join(','); // Unir los nombres por comas
     
-      const response = await handleActualizarCategorias(id, nombresSeleccionados);
-      console.log(response);
-      if(response) {
-        setIsEditing(!isEditing);
-      }
+      // const response = await handleActualizarCategorias(id, nombresSeleccionados);
+      // console.log(response);
+      // if(response) {
+      //   setIsEditing(!isEditing);
+      // }
+    } else {
+      handleClickOpen(3);
+    }
+  }
+
+  const handleGuardarCambios = async () => {
+    const nombresSeleccionados = categoriasTotales
+    .filter((categoria) => categoriasSeleccionadas.includes(categoria.id))
+    .map((categoria) => categoria.nombre)
+    .join(','); // Unir los nombres por comas
+  
+    const response = await handleActualizarCategorias(id, nombresSeleccionados);
+    console.log(response);
+    if(response) {
+      handleClickOpen(2);
+      setIsEditing(!isEditing);
     }
   }
 
@@ -56,6 +79,16 @@ function CategoriasInteres({ idUsuario, categoriasUsuario }) {
     setCategoriasTotales(categorias);
     setCategoriasSeleccionadas(id_categorias_seleccionadas);
   }, [categoriasUsuario]);
+
+  const handleClickOpen = (modalId) => {
+    if (modalId === 1 && alertRef.current) {
+      alertRef.current.handleClickOpen();
+    } else if (modalId === 2 && alertRefConfirmar.current) {
+      alertRefConfirmar.current.handleClickOpen();
+    } else if (modalId === 3 && alertRefInvalido.current) {
+      alertRefInvalido.current.handleClickOpen();
+    }
+  };
 
   return (
     <Card
@@ -80,7 +113,16 @@ function CategoriasInteres({ idUsuario, categoriasUsuario }) {
           <ButtonsMod
             variant='secundario'
             textCont={isEditing ? 'Guardar' : 'Editar'}
-            clickEvent={handleSave}
+            clickEvent={() => {
+              // Si no estás editando, cambia a editar
+              if (!isEditing) { 
+                setIsEditing(!isEditing);
+              }
+              // Si estás editando y el formato no es válido, no te deja guardar
+              else if (isEditing) {
+                handleSave();
+              }
+            }}
           />
         }
       />
@@ -194,6 +236,34 @@ function CategoriasInteres({ idUsuario, categoriasUsuario }) {
         )}
 
       </CardContent>
+      {/* 1. Preguntar si desea guardar cambios */}
+      <AlertD
+        ref={alertRef}
+        titulo="¿Desea guardar los cambios?"
+        mensaje="Haz click en el botón de ACEPTAR para confirmar los cambios."
+        imagen={img}
+        boton1='Aceptar'
+        boton2="Cancelar"
+        onConfirm={handleGuardarCambios}
+      />
+      {/* 2. Confirmar cambios guardados */}
+      <AlertD
+        ref={alertRefConfirmar}
+        titulo="¡Cambios guardados!"
+        mensaje="Tus cambios se han guardado correctamente."
+        imagen={alertImgSuccess}
+        boton2="Aceptar"
+        onConfirm={handleClickOpen}
+      />
+      {/* 3. Si no tiene categorias seleccionadas */}
+      <AlertD
+          ref={alertRefInvalido}
+          titulo="Selecciona tus categorías de interés"
+          mensaje="Por favor, selecciona al menos una categoría de tu interés para continuar."
+          imagen={img}
+          boton2="Aceptar"
+          onConfirm={handleClickOpen}
+        />
     </Card>
   );
 }
