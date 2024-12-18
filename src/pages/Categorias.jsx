@@ -71,7 +71,7 @@ function SearchCategoryPage() {
       handleClickOpenError();
       return;
     }
-    navigate('/itinerary');
+    navigate('/Carga');
   };
 
   return (

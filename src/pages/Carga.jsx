@@ -72,8 +72,15 @@ export default function CircularSize() {
 
         const result = response.data;
         console.log('Respuesta del servidor:', result);
-
-        navigate('/itinerary', { state: { result } });
+        console.log('Resultado del itinerario:', result.resultado.resultadoItinerario);
+        if(result.resultado.resultadoItinerario >= 0){
+          navigate(`/itinerary?idItinerario=${result.resultado.resultadoItinerario}`, { state: { result } });
+        }
+        else{
+          // ALERTA DE ERROR AL GENERAR ITINERARIO ( Diciendo que intente de nuevo o que aumente el presupuesto)(Hacerlo de manera adecuada)
+          // REGRESAR A LA PÁGINA DE GENERAR ITINERARIO
+          // navigate('/generar-itinerario');
+        }
       } catch (error) {
         console.error('Error durante la carga o la petición:', error);
       } finally {
