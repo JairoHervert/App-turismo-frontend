@@ -196,11 +196,11 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     
     // Parámetros para el cálculo del score
     const distRef = 0.18179334784903947;                        // Distancia de referencia
-    let a = 0.5;                                                // Si el lugar es deseado
+    let a = 0.25;                                               // Si el lugar es deseado
     let b = 2;                                                  // Si el lugar está cerca (variable)
-    let c = 0.5;                                                // Si el lugar está en las categorías favoritas
-    let d = 0.5;                                                // Si el lugar cumple con las restricciones
-    let e_weight = 4;                                           // Peso del precio
+    let c = 0.25;                                               // Si el lugar está en las categorías favoritas
+    let d = 0.25;                                               // Si el lugar cumple con las restricciones
+    let e_weight = 10;                                          // Peso del precio
     let b_weight = 3.25;                                        // Peso de la distancia
     let e = esAltoPresupuesto ? e_weight/4 : -e_weight/4;       // Precio del lugar
     
@@ -1024,7 +1024,7 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
 
 }
 
-generarItinerario(1, 1, "2024-12-18", "2024-12-18", "09:00", "18:00", 50, 2, 2, 1000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+generarItinerario(1, 1, "2024-12-18", "2024-12-18", "09:00", "18:00", 50, 2, 2, 2000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS
