@@ -14,6 +14,7 @@ const jwt = require('jsonwebtoken');
 const placesRoutes = require('./src/routes/places');
 const historyRoutes = require('./src/routes/history-routes');
 const itinerarioRoutes = require('./src/routes/itinerario-routes');
+const algoritmoRoutes = require('./src/routes/algoritmo-routes');
 const recuperacionController = require('./src/controllers/recuperacion-controller');
 const favDeseadosController = require('./src/controllers/favDeseados-controller');
 
@@ -25,6 +26,7 @@ app.use(cookieParser());
 app.use('/api/places', placesRoutes);
 app.use('/', historyRoutes);
 app.use('/api', itinerarioRoutes);
+app.use('/algoritmo', algoritmoRoutes);
 
 const PORT = 3001;
 
