@@ -492,8 +492,8 @@ function RegisterPage() {
                         <div className="mt-4">
                           <small>
                             Al registrarte, aceptas nuestros
-                            <Link to="/terminos-condiciones" className="fontAzulMayaOscuro"> Términos de Servicio</Link> y
-                            <Link to="/politica-privacidad" className="fontAzulMayaOscuro"> Política de Privacidad</Link>.
+                            <Link href="/terminos-condiciones" className="fontAzulMayaOscuro"> Términos de Servicio</Link> y
+                            <Link href="/politica-privacidad" className="fontAzulMayaOscuro"> Política de Privacidad</Link>.
                           </small>
                         </div>
                       </form>
