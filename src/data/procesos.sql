@@ -1223,12 +1223,12 @@ BEGIN
             l.horaSalida,
             l.fecha,
             lu.nombre AS NombreLugar,
+            lu.imagen AS Imagen,
             lu.direccion AS Direccion,
             lu.rating AS Calificacion,
             lu.teléfono AS Telefono,
             lu.tipos AS Tipos,
             lu.regularOpeningHours AS Horario
-            lu.imagen AS Imagen
         FROM 
             itinerario i
         INNER JOIN 
