@@ -53,7 +53,12 @@ const GenerarItinerario = () => {
 
     // Validaciones fecha de inicio y fin
     if (fechaFin.isBefore(fechaInicio)) {
-      setErrorFechaFin(true);
+      hayError = true;
+    }
+    else if (fechaFin.diff(fechaInicio, 'days') > maxDuracion) {
+      hayError = true;
+    } 
+    else if (fechaInicio.isAfter(maxItinerarioFecha)) {
       hayError = true;
     }
 
@@ -75,6 +80,11 @@ const GenerarItinerario = () => {
   const [fechaInicio, setFechaInicio] = useState(dayjs());
   const [fechaFin, setFechaFin] = useState(dayjs());
   const [errorFechaFin, setErrorFechaFin] = useState(false);
+  const [helperTextFechaFin, setHelperTextFechaFin] = useState('');
+  const [errorFechaInicio, setErrorFechaInicio] = useState(false);
+  const [helperTextFechaInicio, setHelperTextFechaInicio] = useState('');
+  const maxDuracion = 30;
+  const maxItinerarioFecha = dayjs().add(1, 'year');
 
   // Sección - Presupuesto
   const [isFirstEnabled] = useState(true);
@@ -175,6 +185,12 @@ const GenerarItinerario = () => {
               setFechaFin={setFechaFin}
               errorFechaFin={errorFechaFin}
               setErrorFechaFin={setErrorFechaFin}
+              helperTextFechaFin={helperTextFechaFin}
+              setHelperTextFechaFin={setHelperTextFechaFin}
+              errorFechaInicio={errorFechaInicio}
+              helperTextFechaInicio={helperTextFechaInicio}
+              setHelperTextFechaInicio={setHelperTextFechaInicio}
+              setErrorFechaInicio={setErrorFechaInicio}
             />        
 
             { /* Sección - Card Presupuesto / Disposición del presupuesto */}
