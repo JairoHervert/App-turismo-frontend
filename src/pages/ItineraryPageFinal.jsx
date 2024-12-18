@@ -39,6 +39,7 @@ function ItineraryPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredLugares, setFilteredLugares] = useState([]);
   const [idUsuario, setIdUsuario] = useState(null); // Estado para el idUsuario
+  const [idItinerario, setIdItinerario] = useState(null); // Estado para el idItinerario
 
   useEffect(() => {
     // Obtener el idUsuario desde localStorage
@@ -48,6 +49,18 @@ function ItineraryPage() {
       console.log('ID del usuario:', idUsuarioLocal);
     } else {
       console.error('No se encontró el ID del usuario en localStorage');
+    }
+  }, []);
+
+  // Obtener el idItinerario desde el link http://localhost:3000/itineraryFinal?idItinerario=1
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idItinerario = urlParams.get('idItinerario');
+    if (idItinerario) {
+      setIdItinerario(idItinerario);
+      console.log('ID del itinerario:', idItinerario);
+    } else {
+      console.error('No se encontró el ID del itinerario en la URL');
     }
   }, []);
 
@@ -314,7 +327,7 @@ function ItineraryPage() {
 
               {/* Renderizado condicional de la pestaña activa */}
               {activeTab === 'Plan' ? (
-                <Planer idUsuario={idUsuario} setSelectedPlace={handlePlaceSelect} onSelectPlaces={setLugares} distanciasTiempos={distanciasTiempos} lugaresFiltrados={filteredLugares} onUpdateItinerario={handleItinerarioUpdate} onDeletePlace={handleDeletePlace} />
+                <Planer idUsuario={idUsuario} setSelectedPlace={handlePlaceSelect} onSelectPlaces={setLugares} distanciasTiempos={distanciasTiempos} lugaresFiltrados={filteredLugares} onUpdateItinerario={handleItinerarioUpdate} onDeletePlace={handleDeletePlace} idItinerario={idItinerario}/>
               ) : (
                 <PlanRoute distanciasTiempos={distanciasTiempos}/>
               )}

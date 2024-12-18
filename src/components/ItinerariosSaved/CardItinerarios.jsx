@@ -12,7 +12,7 @@ import AlertD from '../alert';
 import { useRef } from 'react'; 
 
 
-function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, itinerario }) {
+function ItemItinerarios({id, imagen, detalles, fechaInicio, fechaFin, itinerario }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const theme = useTheme();
@@ -26,8 +26,7 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, itinerario }
         }
     };
 
-    const handleNavigation = () => navigate('/itineraryFinal');
-    
+    const handleNavigation = () => navigate(`/itinerary/?idItinerario=${id}&new=false`);
 
     const handleClose = () => {
         setOpen(false);

@@ -113,7 +113,7 @@ function ItinirariesSavePage() {
 
             return (
               <ItemItinerarios
-                key={idItinerario}
+                id={idItinerario}
                 imagen={eventos[0]?.placeImages?.[0]} // Usa la primera imagen del primer evento
                 detalles={detalles} // Muestra los nombres de los lugares
                 fechaInicio={fechaInicio} // Usa la fecha de inicio del primer evento
