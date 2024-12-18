@@ -1222,6 +1222,7 @@ BEGIN
             lu.teléfono AS Telefono,
             lu.tipos AS Tipos,
             lu.regularOpeningHours AS Horario
+            lu.imagen AS Imagen
         FROM 
             itinerario i
         INNER JOIN 

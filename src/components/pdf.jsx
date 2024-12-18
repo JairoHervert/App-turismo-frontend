@@ -152,7 +152,10 @@ export const MyDocument = ({ data }) => {
   const itemsPerPage = 3;
   const pages = [];
 
-  Object.keys(data).forEach((date) => {
+  // Ordena las fechas antes de procesarlas
+  const sortedDates = Object.keys(data).sort((a, b) => new Date(a) - new Date(b));
+
+  sortedDates.forEach((date) => {
     const items = data[date];
     for (let i = 0; i < items.length; i += itemsPerPage) {
       const pageItems = items.slice(i, i + itemsPerPage);
@@ -225,6 +228,7 @@ export const MyDocument = ({ data }) => {
     </Document>
   );
 };
+
 
 
 export default MyDocument;
