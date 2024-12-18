@@ -44,6 +44,7 @@ function ItineraryPage() {
   const [filteredLugares, setFilteredLugares] = useState([]);
   const [idUsuario, setIdUsuario] = useState(null); // Estado para el idUsuario
   const [idItinerario, setIdItinerario] = useState(null); // Estado para el idItinerario
+  const [isNewItinerary, setIsNewItinerary] = useState(false); // Estado para saber si es un itinerario nuevo
 
   useEffect(() => {
     // Obtener el idUsuario desde localStorage
@@ -56,7 +57,7 @@ function ItineraryPage() {
     }
   }, []);
 
-  // Obtener el idItinerario desde el link http://localhost:3000/itinerary?idItinerario=1
+  // Obtener el idItinerario desde el link http://localhost:3000/itinerary?idItinerario=1&new=true
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const idItinerario = urlParams.get('idItinerario');
@@ -65,6 +66,17 @@ function ItineraryPage() {
       console.log('ID del itinerario:', idItinerario);
     } else {
       console.error('No se encontró el ID del itinerario en la URL');
+    }
+  }, []);
+  
+  // Obtener si es un itinerario nuevo o no
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const newItinerary = urlParams.get('new');
+    if (newItinerary === 'true') {
+      setIsNewItinerary(true);
+    } else {
+      console.error('No se encontró si es un itinerario nuevo en la URL');
     }
   }, []);
 
@@ -263,7 +275,15 @@ function ItineraryPage() {
   const navigate = useNavigate();
 
   const handleRegresarClick = () => {
-    navigate('/Categorias-page');
+    // Si es nuevo itinerario, regresar a Categorias-page
+    if(isNewItinerary) {
+      navigate('/generar-itinerario');
+    }
+    // Si no, regresar a ItinerariesSaved
+    else {
+      navigate('/itinerariesSaved');
+    }
+      
   }
 
   const handleFinalizarClick = () => {

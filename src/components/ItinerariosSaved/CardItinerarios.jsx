@@ -12,7 +12,7 @@ import AlertD from '../alert';
 import { useRef } from 'react'; 
 
 
-function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, itinerario }) {
+function ItemItinerarios({id, imagen, detalles, fechaInicio, fechaFin, itinerario }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const theme = useTheme();
@@ -26,8 +26,7 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, itinerario }
         }
     };
 
-    const handleNavigation = () => navigate('/itineraryFinal');
-    
+    const handleNavigation = () => navigate(`/itinerary/?idItinerario=${id}&new=false`);
 
     const handleClose = () => {
         setOpen(false);
@@ -140,21 +139,42 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, itinerario }
                         Fin: {fechaFin}
                     </Typography>
                     <Box sx={{ display: 'flex', gap: '10px' }}>
-                        <PDFDownloadLink
-                            document={<MyDocument data={itinerario} />}
-                            fileName="Itinerario_Aztlán.pdf"
-                            style={{
-                                textDecoration: 'none',
-                                color: '#E4007C',
-                                padding: '4px'
-                            }}
-                        >
-                            {({ loading }) => (
-                                <IconButton aria-label="download pdf" sx={{ color: '#E4007C', padding: '4px' }}>
-                                    <DescriptionIcon fontSize='large' />
-                                </IconButton>
-                            )}
-                        </PDFDownloadLink>
+                    <PDFDownloadLink
+    document={
+        <MyDocument
+            data={
+                itinerario.reduce((acc, item) => {
+                    const fecha = item.fecha.split("T")[0]; // Extrae solo la fecha
+                    if (!acc[fecha]) acc[fecha] = [];
+                    acc[fecha].push({
+                        placeTime: item.horaLlegada || "Sin hora",
+                        placeName: item.NombreLugar || "Lugar desconocido",
+                        placeOpenHour: JSON.parse(item.Horario)?.periods[0]?.open?.hour + ":00" || "No disponible",
+                        placeCloseHour: JSON.parse(item.Horario)?.periods[0]?.close?.hour + ":00" || "No disponible",
+                        placeAddress: item.Direccion || "Dirección no disponible",
+                        placePhone: item.Telefono || "No disponible",
+                        placeRating: item.Calificacion || "Sin calificación",
+                        placeThings: JSON.parse(item.Tipos) || ["No disponible"]
+                    });
+                    return acc;
+                }, {})
+            }
+        />
+    }
+    fileName="Itinerario_Aztlán.pdf"
+    style={{
+        textDecoration: 'none',
+        color: '#E4007C',
+        padding: '4px'
+    }}
+>
+    {({ loading }) => (
+        <IconButton aria-label="download pdf" sx={{ color: '#E4007C', padding: '4px' }}>
+            <DescriptionIcon fontSize='large' />
+        </IconButton>
+    )}
+</PDFDownloadLink>
+
                         <IconButton
                             aria-label="delete"
                             sx={{ color: '#E4007C', padding: '4px' }}

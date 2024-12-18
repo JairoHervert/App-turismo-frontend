@@ -78,7 +78,7 @@ export default function CircularSize() {
         console.log('Respuesta del servidor:', result);
         console.log('Resultado del itinerario:', result.resultado.resultadoItinerario);
         if(result.resultado.resultadoItinerario >= 0){
-          navigate(`/itinerary?idItinerario=${result.resultado.resultadoItinerario}`, { state: { result } });
+          navigate(`/itinerary?idItinerario=${result.resultado.resultadoItinerario}&new=true`, { state: { result } });
         }
         else{
         }
