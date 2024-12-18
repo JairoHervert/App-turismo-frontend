@@ -12,7 +12,7 @@ import AlertD from '../alert';
 import { useRef } from 'react'; 
 
 
-function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto, viajantes, itinerario }) {
+function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, itinerario }) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
     const theme = useTheme();
@@ -175,17 +175,6 @@ function ItemItinerarios({ imagen, detalles, fechaInicio, fechaFin, presupuesto,
                     </Box>
                 </Box>
             </Card>
-
-            <InfoDialog
-                open={open}
-                onClose={handleClose}
-                titulo={fechaInicio}
-                fechaInicio={fechaInicio}
-                fechaFinal={fechaFin}
-                presupuesto={presupuesto}
-                viajantes={viajantes}
-                detalles={detalles}
-            />
         </Grid>
     );
 }
