@@ -33,7 +33,7 @@ function DetallesViaje ({medioTransporte, setMedioTransporte, setErrorMedioTrans
             family: false,
             vegan: false,
             pet: false,
-            disability: false,
+            disability: false
             };
     });
 

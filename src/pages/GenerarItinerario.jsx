@@ -79,6 +79,8 @@ const GenerarItinerario = () => {
   // Sección - Fecha Inicio y Fecha Fin **Por defecto se llena con la fecha de hoy
   const [fechaInicio, setFechaInicio] = useState(dayjs());
   const [fechaFin, setFechaFin] = useState(dayjs());
+  const [fechaFinString, setFechaFinString] = useState('');
+  const [fechaInicioString, setFechaInicioString] = useState('');
   const [errorFechaFin, setErrorFechaFin] = useState(false);
   const [helperTextFechaFin, setHelperTextFechaFin] = useState('');
   const [errorFechaInicio, setErrorFechaInicio] = useState(false);
@@ -113,7 +115,7 @@ const GenerarItinerario = () => {
     }
   }, []);
 
-  // Para las fechas de inicio y fin, no se guardan en localStorage
+  // Para las fechas de inicio y fin, no se obtienen de localStorage
   // Los del checkbox se realizan en el componente DetallesViaje
 
   // ------------------ useEffects para guardar los valores en localStorage cuando cambien ------------------
@@ -132,7 +134,20 @@ const GenerarItinerario = () => {
     }
   }, [presupuesto]);
 
-  // Para las fechas de inicio y fin, no se guardan en localStorage
+  useEffect(() => {
+    if (fechaInicio) {
+      localStorage.setItem('fechaInicio', fechaInicio);
+      console.log('Fecha de inicio guardada en localStorage:', fechaInicio);
+    }
+  }, [fechaInicio]);
+
+  useEffect(() => {
+    if (fechaFin) {
+      localStorage.setItem('fechaFin', fechaFin);
+      console.log('Fecha de fin guardada en localStorage:', fechaFin);
+    }
+  }, [fechaFin]);
+
   // Los del checkbox se realizan en el componente DetallesViaje
 
 

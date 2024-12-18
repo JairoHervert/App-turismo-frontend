@@ -1008,24 +1008,27 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
         objItinerario = {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true, fechaInicio: fechaInicio, fechaFin: fechaFin};
 
         // GUARDAR EN LA BASE DE DATOS con la funcion guardarItinerarioDB(idUsuario, objItinerario)
-        const itinerarioGuardado = await guardarItinerarioDB(idUsuario, objItinerario);
-        if(itinerarioGuardado){
-            console.log("Itinerario guardado en la base de datos");
+        // Si el resultado es un entero mayor a 0, se guardó correctamente
+        // Si el resultado es -1, no se pudo guardar el itinerario
+        const resultadoGuardarItinerario = await guardarItinerarioDB(idUsuario, objItinerario);
+        if(resultadoGuardarItinerario > 0){
+            console.log("Se guardó correctamente el itinerario");
+            console.log(resultadoGuardarItinerario);
+            return {resultadoItinerario: resultadoGuardarItinerario};
         }
         else {
-            console.log("No se pudo guardar el itinerario en la base de datos");
+            console.log("No se pudo guardar el itinerario");
+            return {resultadoItinerario: -1};
         }
     }
     else {
         console.log("No se pudo crear el itinerario con el presupuesto indicado");
-        objItinerario = {resultadoItinerario: false};
+        return {resultadoItinerario: -1};
     }
-
-    return objItinerario;
-
 }
 
-generarItinerario(1, 1, "2024-12-18", "2024-12-18", "09:00", "18:00", 50, 2, 2, 2200, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+// generarItinerario(1, 1, "2024-12-18", "2024-12-18", "09:00", "18:00", 50, 2, 2, 600, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
-// PASOS
-// 4. GUARDAR EN LA BASE DE DATOS
+module.exports = {
+    generarItinerario
+}

@@ -42,7 +42,7 @@ import AlertDialog from './AddPlaces'; // Adjust the path as necessary
 import Recomendados from './Recomendados';
 
 
-function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpdateItinerario = () => {}, distanciasTiempos, lugaresFiltrados = [], onUpdateDistanciasTiempos, onDeletePlace}) {
+function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpdateItinerario = () => {}, distanciasTiempos, lugaresFiltrados = [], onUpdateDistanciasTiempos, onDeletePlace, idItinerario }) {
   const [calculated, setCalculated] = useState(false);
   const [lastDistances, setLastDistances] = useState(null);
   // arrays para el formato de la fecha
@@ -90,7 +90,7 @@ function Planer({ idUsuario, setSelectedPlace, onSelectPlaces = () => {}, onUpda
       //console.log('El ID del usuario en el Planer.jsx es: ', idUsuarioLocal);
       try {
         //CAMBIAR EL IDITINERARIO PARA QUE SEA DE MANERA DINAMICA
-        const response = await fetch(`http://localhost:3001/api/itinerario?idUsuario=${idUsuarioLocal}&idItinerario=1`);
+        const response = await fetch(`http://localhost:3001/api/itinerario?idUsuario=${idUsuarioLocal}&idItinerario=${idItinerario}`);
         const data = await response.json();
 
         // Transformar los datos al formato esperado
