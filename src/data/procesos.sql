@@ -129,8 +129,8 @@ BEGIN
    FROM Usuario
    WHERE tokenGoogle = p_token;
     
-   IF correoExistente = 0 THEN
-      IF googleExistente = 0 THEN
+   IF googleExistente = 0 THEN
+      IF correoExistente = 0 THEN
          IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
             INSERT INTO Usuario (nombre, apellido, correo, ligaFotoPerfil, tokenGoogle, confirmacion, auditoria, contraseña)
             VALUES (p_nombre, p_apellido, p_correo, p_imagen, p_token, 1, NOW(), 'google');
@@ -141,10 +141,10 @@ BEGIN
             SELECT 'correo_invalido' AS 'error';
          END IF;
       ELSE
-         SELECT 'cuenta_ya_registrada' AS 'error';
+         SELECT 'correo_ya_registrado' AS 'error';
       END IF;
-   ELSE
-      SELECT 'correo_ya_registrado' AS 'error';
+   ELSE 
+      SELECT 'cuenta_ya_registrada' AS 'error';
    END IF;
 END //
 

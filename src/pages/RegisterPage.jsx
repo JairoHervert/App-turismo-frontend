@@ -9,6 +9,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -23,7 +24,7 @@ import AlertD from './../components/alert';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
 
-import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
+import { handleRegistro, handleRegistroGoogle, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function RegisterPage() {
   };
 
   const alertSuccess = useRef();
+  const [alertContentSuccess, setAlertContentSuccess] = useState('');
   const handleClickOpenSuccess = () => {
     if (alertSuccess.current) {
       alertSuccess.current.handleClickOpen();
@@ -199,6 +201,7 @@ function RegisterPage() {
       const resultado = await handleRegistro(e, nombre, correo, contraseña);
       console.log(resultado);
       if (resultado && resultado.resultado) {
+        setAlertContentSuccess('Hemos mandado un correo de confirmación, activa tu cuenta para poder iniciar sesión.');
         handleClickOpenSuccess();
       } else {
         setAlertContentError(resultado);
@@ -216,10 +219,70 @@ function RegisterPage() {
 
   const handleHomeClick = () => navigate('/');
 
+  // ----------------------------------------------------------------------
+  //                                GOOGLE
+  // ----------------------------------------------------------------------
+
+  const successGoogleHandler = async (tokenResponse) => {
+    const accessToken = tokenResponse.access_token;
+    
+    // Llama a Google UserInfo API para obtener los datos del usuario
+    try {
+      const userInfo = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log('Información del usuario:', userInfo.data);
+
+      const respuesta = await handleRegistroGoogle(
+        userInfo.data.given_name,
+        userInfo.data.family_name,
+        userInfo.data.email,
+        userInfo.data.picture,
+        userInfo.data.sub
+      );
+      if(respuesta && respuesta.resultado && respuesta.resultado.id) {
+        setAlertContentSuccess('Autenticación de registro con Google exitosa.');
+        handleClickOpenSuccess();
+      } else {
+        setAlertContentError(respuesta);
+        handleClickOpenError();
+      }
+
+    } catch (error) {
+      console.error('Error al obtener información del usuario:', error);
+    }
+  };
+
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: successGoogleHandler,
     onError: errorGoogleHandler,
   });
+
+  // ----------------------------------------------------------------------
+  //                              FACEBOOK
+  // ----------------------------------------------------------------------
+
+  const handleFacebook = async (response) => {
+    console.log(response);
+    if(response.status && response.status === 'unknown') {
+      return;
+    }
+
+    const resultado = await responseFacebook(response);
+    console.log(resultado);
+    if(resultado && resultado.id) {
+      setAlertContentSuccess('Autenticación de registro con Facebook exitosa.');
+      handleClickOpenSuccess();
+    } else {
+      setAlertContentError(resultado);
+      handleClickOpenError();
+    }
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -243,7 +306,7 @@ function RegisterPage() {
           <AlertD
             ref={alertSuccess}
             titulo='Registro exitoso'
-            mensaje='Hemos mandado un correo de confirmación.'
+            mensaje={alertContentSuccess}
             imagen={alertImgSuccess}
             boton2="Aceptar"
             onConfirm={handleConfirmSuccess}
@@ -307,7 +370,7 @@ function RegisterPage() {
                                 ? !errors.correo?.noVacio
                                   ? "El correo no puede estar vacío."
                                   : !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto
-                                  ? "Verifique correctamente su correo."
+                                  ? "Verifica correctamente tu correo."
                                   : ""
                                 : ""
                             }
@@ -351,7 +414,7 @@ function RegisterPage() {
                                 {!errors.contraseña?.noVacio
                                   ? "La contraseña no puede estar vacía."
                                   : !errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero
-                                  ? "Verifique que la contraseña cumpla los requisitos."
+                                  ? "Verifica que la contraseña cumpla los requisitos."
                                   : ""}
                               </FormHelperText>
                             )}
@@ -380,7 +443,7 @@ function RegisterPage() {
 
                             />
                             {formSubmitted && !errors.contraseña2 && (
-                              <FormHelperText>Verifique que la confirmación de contraseña coincida.</FormHelperText>
+                              <FormHelperText>Verifica que la confirmación de contraseña coincida.</FormHelperText>
                             )}
                           </FormControl>
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
@@ -415,7 +478,7 @@ function RegisterPage() {
                             <FacebookLogin
                               appId="1276060800080687"
                               autoLoad={false}
-                              callback={responseFacebook}
+                              callback={handleFacebook}
                               render={(renderProps) => (
                                 <IconButton aria-label="facebook" color='facebook' onClick={renderProps.onClick}>
                                   <FacebookRoundedIcon />

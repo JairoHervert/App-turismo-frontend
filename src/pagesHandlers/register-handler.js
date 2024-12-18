@@ -73,76 +73,20 @@ const handleRegistroGoogle = async (nombre, apellido, correo, imagen, token) => 
       token: token,
     });
 
-    console.log(response);
-    console.log(response.data);
-    console.log(response.data.resultado);
-
+    console.log(response.data.resultado.id);
     if(response.data.resultado.id){
-      Swal.fire({
-        icon: 'success',
-        title: 'Registro con Google exitoso',
-        text: '¡Bienvenido! Has registrado tu cuenta de Google correctamente.',
-        timer: 5000,
-        showConfirmButton: false,
-        willClose: () => {
-          window.location.href = '/login'
-        }
-      })
+      console.log("Registro exitoso. ID de usuario:", response.data.resultado.id);
+      return response.data;
     } else {
-      console.log("OwO")
+      throw(new Error('Error desconocido'));
     }
   } catch (error) {
     if (error.response && error.response.data && error.response.data.error) {
-      console.error("Error:", error.response.data.error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Registro con Google fallido',
-        text: error.response.data.error,
-        timer: 5000,
-        showConfirmButton: false
-      });
+      return error.response.data.error
     } else {
       console.error("Error al intentar iniciar sesión:", error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Registro con Google fallido',
-        text: 'Algo falló en la solicitud',
-        timer: 5000,
-        showConfirmButton: false
-      });
+      return 'Algo falló en la solicitud';
     }
-  }
-};
-
-// VERIFICACIÓN CON GOOGLE
-const successGoogleHandler = async (tokenResponse) => {
-  //console.log('Token de Google:', tokenResponse);
-  const accessToken = tokenResponse.access_token;
-  //console.log('Token de acceso:', accessToken);
-  
-  // Llama a Google UserInfo API para obtener los datos del usuario
-  try {
-    const userInfo = await axios.get(
-      'https://www.googleapis.com/oauth2/v3/userinfo',
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    console.log('Información del usuario:', userInfo.data);
-
-    await handleRegistroGoogle(
-      userInfo.data.given_name,
-      userInfo.data.family_name,
-      userInfo.data.email,
-      userInfo.data.picture,
-      userInfo.data.sub
-    );
-    console.log(userInfo);
-
-  } catch (error) {
-    console.error('Error al obtener información del usuario:', error);
   }
 };
 
@@ -152,10 +96,6 @@ const errorGoogleHandler = () => {
 
 // VERIFICACIÓN CON FACEBOOK
 const responseFacebook = async (response) => {
-  console.log(response);
-  if(response.status && response.status == 'unknown') {
-    return;
-  }
   const { accessToken, name, userID } = response;
   const picture = `https://graph.facebook.com/${userID}/picture?type=large&access_token=${accessToken}`;
 
@@ -166,35 +106,26 @@ const responseFacebook = async (response) => {
       facebookId: userID,
     });
     
-    console.log("res", res);
-    console.log(res.data.id);
-    console.log(name, picture, userID);
-    Swal.fire({
-      icon: 'success',
-      title: 'Registro con Facebook exitoso',
-      text: '¡Bienvenido! Has iniciado sesión correctamente con Facebook.',
-      timer: 5000,
-      showConfirmButton: false,
-      willClose: () => {
-        window.location.href = '/login'
-      }
-    });
+    if(res.data.id) {
+      console.log("Registro exitoso. ID de usuario:", res.data.id);
+      return res.data;
+    } else {
+      throw(new Error('Error desconocido'));
+    }
   } catch (error) {
-    console.error('Error al registrar usuario con Facebook:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Registro con Facebook fallido',
-      text: error.response.data.error,
-      timer: 5000,
-      showConfirmButton: false
-    });
+    if (error.response && error.response.data && error.response.data.error) {
+      return error.response.data.error
+    } else {
+      console.error("Error al intentar iniciar sesión:", error);
+      return 'Algo falló en la solicitud';
+    }
   }
 };
 
 // Exports
 export {
   handleRegistro,
-  successGoogleHandler,
+  handleRegistroGoogle,
   errorGoogleHandler,
   responseFacebook
 };
