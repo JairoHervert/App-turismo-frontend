@@ -20,6 +20,7 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import ButtonsMod from '../components/ButtonsMod';
 import Planer from '../components/itinerary/Planer';
+import { useLoadScript } from "@react-google-maps/api";
 import PlanRoute from '../components/itinerary/PlanRoute';
 import MoreInfoPlace from '../components/itinerary/MoreInfoPlace';
 
@@ -28,6 +29,9 @@ import ThemeMaterialUI from '../components/ThemeMaterialUI';
 
 //Funcion de calculo de distancia entre lugares
 import { calcularDistanciasYTiempo } from '../pagesHandlers/itinerary-handler';
+
+const libraries = ["places"];
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 function ItineraryPage() {
   // Estado global para guardar todo el itinerario
@@ -100,6 +104,11 @@ function ItineraryPage() {
   useEffect(() => {
     console.log("Lugares actuales recibidos del componente padre:", lugares);
   }, [lugares]);
+
+  const LugaresCoordenadas = lugares.map((lugar) => ({
+    lat: lugar.latitude,
+    lon: lugar.longitude,
+  }));
 
   const handlePlaceSelect = (place) => {
     setSelectedPlace(place);
@@ -248,6 +257,14 @@ function ItineraryPage() {
     navigate('/itinerary');
   }
 
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: apiKey,
+    libraries,
+  });
+
+  if (loadError) return <div>Error al cargar Google Maps</div>;
+  if (!isLoaded) return <div>Cargando mapa...</div>;
+
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
       <Navbar
@@ -326,7 +343,7 @@ function ItineraryPage() {
               {activeTab === 'Plan' ? (
                 <Planer idUsuario={idUsuario} setSelectedPlace={handlePlaceSelect} onSelectPlaces={setLugares} distanciasTiempos={distanciasTiempos} lugaresFiltrados={filteredLugares} onUpdateItinerario={handleItinerarioUpdate} onDeletePlace={handleDeletePlace} onUpdateDistanciasTiempos={handleUpdateDistanciasTiempos} />
               ) : (
-                <PlanRoute distanciasTiempos={distanciasTiempos}/>
+                <PlanRoute isLoaded={isLoaded} LugaresCoordenadas={LugaresCoordenadas}/>
               )}
             </Card>
           </Grid>

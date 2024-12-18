@@ -40,8 +40,9 @@ router.get('/itinerario', (req, res) => {
     WHERE i.idUsuario = ?
   )
   GROUP BY li.idLugar, l.nombre, li.orden, l.descripcion, l.latitud, l.longitud, l.regularOpeningHours, l.imagen, l.rating, l.direccion, l.teléfono
-  ORDER BY li.fecha ASC, li.horaLlegada ASC;
+  ORDER BY li.fecha ASC, li.orden ASC;
 `;
+  //Cambie la linea 43 que tenia = ORDER BY li.fecha ASC, li.horaLlegada ASC; para que sea por fecha y luego por orden.
   //Cambie la linea 43 que tenia= ORDER BY li.orden ASC; por que tal vez no me de el valor del orden al crear el itinerario, por lo que mejor sean ordenador por fecha y hora de llegada.
   // Cambia el orden de los parámetros
   db.query(query, [idItinerario, idUsuario], (err, results) => {
