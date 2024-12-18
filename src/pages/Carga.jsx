@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import Stack from '@mui/material/Stack';
@@ -6,10 +6,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import img from '../img/grillo.png';
+import Button from '@mui/material/Button';
 
 // Componentes
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
+
+// Alert
+import alertImgError from '../img/alertas/error.webp';
 
 export default function CircularSize() {
   const [loading, setLoading] = useState(true);
@@ -77,9 +81,6 @@ export default function CircularSize() {
           navigate(`/itinerary?idItinerario=${result.resultado.resultadoItinerario}`, { state: { result } });
         }
         else{
-          // ALERTA DE ERROR AL GENERAR ITINERARIO ( Diciendo que intente de nuevo o que aumente el presupuesto)(Hacerlo de manera adecuada)
-          // REGRESAR A LA PÁGINA DE GENERAR ITINERARIO
-          // navigate('/generar-itinerario');
         }
       } catch (error) {
         console.error('Error durante la carga o la petición:', error);
@@ -104,6 +105,33 @@ export default function CircularSize() {
         </Stack>
         <Footer />
       </>
+    );
+  } else {
+    return (
+      <>
+      <Navbar />
+      <Stack spacing={2} direction="column" alignItems="center" justifyContent="center" sx={{ height: '88vh' }}>
+        <img src={alertImgError} alt="Error" style={{ width: '150px', height: '150px' }} />
+        <Typography variant="h6" align="center" sx={{ color: '#e6007e', fontWeight: 'bold', width: '50%' }}>
+          Error al generar un itinerario con las especificaciones dadas, por favor intente de nuevo con otro presupuesto / categorías
+        </Typography>
+        <Button variant="contained"
+          sx={{
+            color: '#FFFFFF',
+            '&:hover': {
+              backgroundColor: '#CA006B',
+              transition: '0.4s',
+            }
+          }}
+          onClick={(e) => {
+            navigate('/generar-itinerario');
+          }}
+          >
+          Regresar
+        </Button>
+      </Stack>
+
+      <Footer /></>
     );
   }
 
