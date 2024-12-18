@@ -198,7 +198,7 @@ function ItineraryPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           idUsuario: idUsuario,
-          idItinerario: 1, //CAMBIAR EL IDITINERARIO
+          idItinerario: idItinerario,
           lugares: lugaresBody,
         }),
       });
