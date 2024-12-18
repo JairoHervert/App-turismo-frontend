@@ -16,6 +16,7 @@ import background from "../img/logo-provicional.png"; // Asegúrate de tener una
 const styles = StyleSheet.create({
   page: {
     padding: 20,
+    paddingBottom: 40,
     backgroundColor: "#f5f5f5",
     display: "flex",
     flexDirection: "column",
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
 
 // Componente para el documento dinámico
 export const MyDocument = ({ data }) => {
-  const itemsPerPage = 4;
+  const itemsPerPage = 3;
   const pages = [];
 
   Object.keys(data).forEach((date) => {
@@ -208,11 +209,6 @@ export const MyDocument = ({ data }) => {
                     <Text style={styles.text}>
                       Categorías: {item.placeThings.join(", ")}
                     </Text>
-                    {item.placeWebsite && (
-                      <Link style={styles.link} src={item.placeWebsite}>
-                        Sitio Web
-                      </Link>
-                    )}
                   </View>
                 </View>
               ))}
