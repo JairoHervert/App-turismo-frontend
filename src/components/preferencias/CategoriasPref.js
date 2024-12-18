@@ -65,7 +65,7 @@ const categorias = [
   },
   {
     id: 7,
-    nombre: 'Buffetes',
+    nombre: 'Bufés',
     imagen: img07Buffetes,
   },
   {
@@ -110,7 +110,7 @@ const categorias = [
   },
   {
     id: 16,
-    nombre: 'Marisquerias',
+    nombre: 'Marisquerías',
     imagen: img16Marisquerias,
   },
   {
