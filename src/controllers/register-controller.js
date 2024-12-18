@@ -49,8 +49,7 @@ class registerController {
   static async registroFacebook(req, res) {
     const { nombre, imagen, facebookId } = req.body;
     
-    registerModel
-      .registroFacebook(nombre, imagen, facebookId)
+    registerModel.registroFacebook(nombre, imagen, facebookId)
       .then((resultado) => {
         res.status(201).json(resultado);
       })

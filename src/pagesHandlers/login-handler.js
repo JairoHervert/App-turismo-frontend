@@ -21,6 +21,10 @@ const handleLogin = async (e, correo, contraseña) => {
   }
 };
 
+// ----------------------------------------------------------------------
+//                                GOOGLE
+// ----------------------------------------------------------------------
+
 const handleLoginGoogle = async (correo, nombre, imagen, token) => {
   try {
     const response = await axios.post('http://localhost:3001/iniciar_sesionGoogle', {
@@ -45,10 +49,6 @@ const handleLoginGoogle = async (correo, nombre, imagen, token) => {
     }
   }
 };
-
-// ----------------------------------------------------------------------
-//                                GOOGLE
-// ----------------------------------------------------------------------
 
 const errorGoogleHandler = () => {
   console.log('Error al autenticar con Google');

@@ -9,6 +9,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import FacebookRoundedIcon from '@mui/icons-material/FacebookRounded';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -23,7 +24,7 @@ import AlertD from './../components/alert';
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
 
-import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
+import { handleRegistro, handleRegistroGoogle, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -39,6 +40,7 @@ function RegisterPage() {
   };
 
   const alertSuccess = useRef();
+  const [alertContentSuccess, setAlertContentSuccess] = useState('');
   const handleClickOpenSuccess = () => {
     if (alertSuccess.current) {
       alertSuccess.current.handleClickOpen();
@@ -137,6 +139,19 @@ function RegisterPage() {
         ...prevErrors,
         camposObligatorios: true, // Añadir error para campos vacíos
       }));
+      setAlertContentError('Por favor, verifique que todos los campos estén completos y correctos.');
+      handleClickOpenError();
+      return;
+    }
+
+    // Validar correo
+    const correoRules = validarCorreo(correo);
+    if(!correoRules.sinEspacios || !correoRules.arrobaCaracteres || !correoRules.dominioConPunto || !correoRules.noVacio) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        correo: correoRules,
+      }));
+      setAlertContentError('Por favor, verifique correctamente su correo electrónico.');
       handleClickOpenError();
       return;
     }
@@ -151,6 +166,7 @@ function RegisterPage() {
         ...prevErrors,
         contraseña: passwordRules,
       }));
+      setAlertContentError('Por favor, verifique correctamente su contraseña.');
       handleClickOpenError();
       return;
     }
@@ -161,6 +177,7 @@ function RegisterPage() {
         ...prevErrors,
         contraseña2: false, // Marcar error en confirmar contraseña
       }));
+      setAlertContentError('Por favor, verifique que las contraseñas coinciden.');
       handleClickOpenError();
       return;
     }
@@ -174,6 +191,7 @@ function RegisterPage() {
         ...prevErrors,
         nombre: userRules,
       }));
+      setAlertContentError('Por favor, verifique correctamente su nombre de usuario.')
       handleClickOpenError();
       return;
     }
@@ -183,6 +201,7 @@ function RegisterPage() {
       const resultado = await handleRegistro(e, nombre, correo, contraseña);
       console.log(resultado);
       if (resultado && resultado.resultado) {
+        setAlertContentSuccess('Hemos mandado un correo de confirmación, activa tu cuenta para poder iniciar sesión.');
         handleClickOpenSuccess();
       } else {
         setAlertContentError(resultado);
@@ -200,10 +219,70 @@ function RegisterPage() {
 
   const handleHomeClick = () => navigate('/');
 
+  // ----------------------------------------------------------------------
+  //                                GOOGLE
+  // ----------------------------------------------------------------------
+
+  const successGoogleHandler = async (tokenResponse) => {
+    const accessToken = tokenResponse.access_token;
+    
+    // Llama a Google UserInfo API para obtener los datos del usuario
+    try {
+      const userInfo = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log('Información del usuario:', userInfo.data);
+
+      const respuesta = await handleRegistroGoogle(
+        userInfo.data.given_name,
+        userInfo.data.family_name,
+        userInfo.data.email,
+        userInfo.data.picture,
+        userInfo.data.sub
+      );
+      if(respuesta && respuesta.resultado && respuesta.resultado.id) {
+        setAlertContentSuccess('Autenticación de registro con Google exitosa.');
+        handleClickOpenSuccess();
+      } else {
+        setAlertContentError(respuesta);
+        handleClickOpenError();
+      }
+
+    } catch (error) {
+      console.error('Error al obtener información del usuario:', error);
+    }
+  };
+
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: successGoogleHandler,
     onError: errorGoogleHandler,
   });
+
+  // ----------------------------------------------------------------------
+  //                              FACEBOOK
+  // ----------------------------------------------------------------------
+
+  const handleFacebook = async (response) => {
+    console.log(response);
+    if(response.status && response.status === 'unknown') {
+      return;
+    }
+
+    const resultado = await responseFacebook(response);
+    console.log(resultado);
+    if(resultado && resultado.id) {
+      setAlertContentSuccess('Autenticación de registro con Facebook exitosa.');
+      handleClickOpenSuccess();
+    } else {
+      setAlertContentError(resultado);
+      handleClickOpenError();
+    }
+  }
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -218,8 +297,8 @@ function RegisterPage() {
           />
           <AlertD
             ref={alertError}
-            titulo='Completa todos los campos correctamente'
-            mensaje='Por favor, verifica que todos los campos estén completos y correctos.'
+            titulo='Registro fallido'
+            mensaje={alertContentError}
             imagen={alertImgError}
             boton2="Aceptar"
             onConfirm={handleConfirmError}
@@ -227,7 +306,7 @@ function RegisterPage() {
           <AlertD
             ref={alertSuccess}
             titulo='Registro exitoso'
-            mensaje='Hemos mandado un correo de confirmación.'
+            mensaje={alertContentSuccess}
             imagen={alertImgSuccess}
             boton2="Aceptar"
             onConfirm={handleConfirmSuccess}
@@ -286,7 +365,15 @@ function RegisterPage() {
                             size="small"
 
                             error={formSubmitted && (!errors.correo?.noVacio || !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto)}
-                            helperText={formSubmitted && (!errors.correo?.noVacio || !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto) ? "El correo no puede estar vacio." : ""}
+                            helperText={
+                              formSubmitted
+                                ? !errors.correo?.noVacio
+                                  ? "El correo no puede estar vacío."
+                                  : !errors.correo?.sinEspacios || !errors.correo?.arrobaCaracteres || !errors.correo?.dominioConPunto
+                                  ? "Verifica correctamente tu correo."
+                                  : ""
+                                : ""
+                            }
                           />
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
                             El correo debe cumplir con las siguientes reglas:
@@ -300,7 +387,9 @@ function RegisterPage() {
                         </Box>
 
                         <Box className="my-4">
-                          <FormControl fullWidth size="small" error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio)}>
+                          <FormControl
+                          fullWidth size="small"
+                          error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio)}>
                             <InputLabel>Contraseña</InputLabel>
                             <OutlinedInput
                               type={showPassword ? 'text' : 'password'}
@@ -320,8 +409,14 @@ function RegisterPage() {
                               label="Contraseña"
 
                             />
-                            {formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero || !errors.contraseña?.noVacio) && (
-                              <FormHelperText>La contraseña no puede estar vacia.</FormHelperText>
+                            {formSubmitted && (
+                              <FormHelperText>
+                                {!errors.contraseña?.noVacio
+                                  ? "La contraseña no puede estar vacía."
+                                  : !errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero
+                                  ? "Verifica que la contraseña cumpla los requisitos."
+                                  : ""}
+                              </FormHelperText>
                             )}
                           </FormControl>
                         </Box>
@@ -348,7 +443,7 @@ function RegisterPage() {
 
                             />
                             {formSubmitted && !errors.contraseña2 && (
-                              <FormHelperText>La confirmación de contraseña no puede estar vacia.</FormHelperText>
+                              <FormHelperText>Verifica que la confirmación de contraseña coincida.</FormHelperText>
                             )}
                           </FormControl>
                           <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
@@ -383,7 +478,7 @@ function RegisterPage() {
                             <FacebookLogin
                               appId="1276060800080687"
                               autoLoad={false}
-                              callback={responseFacebook}
+                              callback={handleFacebook}
                               render={(renderProps) => (
                                 <IconButton aria-label="facebook" color='facebook' onClick={renderProps.onClick}>
                                   <FacebookRoundedIcon />

@@ -190,6 +190,10 @@ function LoginPage() {
     event.preventDefault();
   };
 
+  // ----------------------------------------------------------------------
+  //                                GOOGLE
+  // ----------------------------------------------------------------------
+
   const successGoogleHandler = async (tokenResponse) => {
     console.log('Token de Google:', tokenResponse);
     const accessToken = tokenResponse.access_token;
@@ -233,6 +237,10 @@ function LoginPage() {
     onSuccess: successGoogleHandler,
     onError: errorGoogleHandler,
   });
+
+// ----------------------------------------------------------------------
+//                              FACEBOOK
+// ----------------------------------------------------------------------
 
   const handleFacebook = async (response) => {
     console.log(response);
