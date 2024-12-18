@@ -32,14 +32,25 @@ function ItemItinerarios({id, imagen, detalles, fechaInicio, fechaFin, itinerari
         setOpen(false);
     };
 
-    const handleDeleteItinerary = () => {
-        console.log('imagen', imagen);
-        // Simulación de la función para eliminar el itinerario
-        // Aquí el equipo de backend deberá implementar la lógica para eliminar el itinerario
-        alert('Eliminar itinerario');
-        // Ejemplo de llamada a una función de backend
-        // deleteItinerary(itinerarioId);
-    };
+    const handleDeleteItinerary = async () => {
+        try {
+            const response = await fetch(`http://localhost:3001/api/eliminar-itinerario/${id}`, {
+                method: 'DELETE',
+            });
+    
+            if (response.ok) {
+                alert('Itinerario eliminado exitosamente.');
+                window.location.reload(); // Opcional: Recargar la página para actualizar la lista
+            } else {
+                const data = await response.json();
+                console.error('Error al eliminar el itinerario:', data.error);
+                alert('Error al eliminar el itinerario');
+            }
+        } catch (error) {
+            console.error('Error en la solicitud de eliminación:', error);
+            alert('No se pudo conectar con el servidor');
+        }
+    };    
 
     return (
         <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} marginY={3} sx={{ display: 'flex', justifyContent: 'center' }}>

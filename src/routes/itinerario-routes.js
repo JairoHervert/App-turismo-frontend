@@ -238,5 +238,26 @@ router.get('/lugares', async (req, res) => {
   }
 });
   
+// Ruta para eliminar un itinerario y sus lugares asociados
+router.delete('/eliminar-itinerario/:idItinerario', (req, res) => {
+  const { idItinerario } = req.params;
+
+  // Eliminar registros relacionados en LugarItinerario y luego el itinerario
+  db.query('DELETE FROM LugarItinerario WHERE idItinerario = ?', [idItinerario], (err) => {
+      if (err) {
+          console.error('Error al eliminar lugares del itinerario:', err);
+          return res.status(500).json({ error: 'Error al eliminar los lugares del itinerario' });
+      }
+
+      db.query('DELETE FROM Itinerario WHERE id = ?', [idItinerario], (err) => {
+          if (err) {
+              console.error('Error al eliminar el itinerario:', err);
+              return res.status(500).json({ error: 'Error al eliminar el itinerario' });
+          }
+
+          return res.status(200).json({ message: 'Itinerario eliminado exitosamente' });
+      });
+  });
+});
 
 module.exports = router;
