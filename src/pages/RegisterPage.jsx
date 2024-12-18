@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import { Container,Grid2 as Grid , Box, Typography, TextField, FormControl, InputLabel, OutlinedInput, InputAdornment, Button, Link, IconButton, FormHelperText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -14,13 +14,40 @@ import Navbar from '../components/NavBar';
 import Footer from '../components/Footer';
 import LeftImage from '../components/register/LeftImageR';
 import imgRegister from '../img/registerIMGA.jpg';
-import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
+
+// Alert
+import alertImgError from '../img/alertas/error.webp';
+import alertImgSuccess from '../img/alertas/success.webp';
+import AlertD from './../components/alert';
 
 import ThemeMaterialUI from '../components/ThemeMaterialUI';
 import '../css/RegisterPage.css';
 
+import { handleRegistro, successGoogleHandler, errorGoogleHandler, responseFacebook } from '../pagesHandlers/register-handler';
+
 function RegisterPage() {
   const navigate = useNavigate();
+
+  const alertError = useRef();
+  const [alertContentError, setAlertContentError] = useState('');
+  const handleClickOpenError = () => {
+    if (alertError.current) {
+      alertError.current.handleClickOpen();
+    }
+  };
+  const handleConfirmError = () => {
+  };
+
+  const alertSuccess = useRef();
+  const handleClickOpenSuccess = () => {
+    if (alertSuccess.current) {
+      alertSuccess.current.handleClickOpen();
+    }
+  };
+  const handleConfirmSuccess = () => {
+    navigate('/login');
+  };
+
   const [nombre, setNombre] = useState('');
   const [correo, setCorreo] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -55,7 +82,7 @@ function RegisterPage() {
   // Validación del nombre de usuario
   const validarUser = (usermame) => {
     const rules = {
-      longitudValida: /^(?=.{2,60}$)/.test(usermame), // Longitud mínima de 2 y máxima de 60 caracteres
+      longitudValida: /^(?=.{3,10}$)/.test(usermame), // Longitud mínima de 2 y máxima de 60 caracteres
       noVacio: usermame.length > 0, // El nombre de usuario no puede estar vacío
     };
     return rules;
@@ -102,7 +129,7 @@ function RegisterPage() {
     }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormSubmitted(true);
 
@@ -137,18 +164,6 @@ function RegisterPage() {
       return;
     }
 
-    // // Validar correo
-    // const emailRules = validarCorreo(correo);
-
-    // // Si el correo no cumple las reglas
-    // if (!emailRules.sinEspacios || !emailRules.arrobaCaracteres || !emailRules.dominioConPunto || !emailRules.noVacio) {
-    //   setErrors((prevErrors) => ({
-    //     ...prevErrors,
-    //     correo: emailRules,
-    //   }));
-    //   return;
-    // }
-
     // Validar nombre de usuario
     const userRules = validarUser(nombre);
     
@@ -163,7 +178,14 @@ function RegisterPage() {
 
     // Si todo está correcto, proceder con el registro
     if (nombre && correo && contraseña && contraseña2 && passwordsMatch && passwordRules.longitudValida && passwordRules.mayuscula && passwordRules.minuscula && passwordRules.numero) {
-      handleRegistro(e, nombre, correo, contraseña, contraseña2);
+      const resultado = await handleRegistro(e, nombre, correo, contraseña);
+      console.log(resultado);
+      if(resultado && resultado.resultado) {
+        handleClickOpenSuccess();
+      } else {
+        setAlertContentError(resultado);
+        handleClickOpenError();
+      }
     }
   };
 
@@ -191,6 +213,23 @@ function RegisterPage() {
             transparentNavbar={false}
             lightLink={false}
             staticNavbar={false}
+          />
+          <AlertD
+            ref={alertError}
+            titulo='Registro fallido'
+            mensaje={alertContentError}
+            imagen={alertImgError}
+            boton2="Aceptar"
+            onConfirm={handleConfirmError}
+          />
+          <AlertD
+            ref={alertSuccess}
+            titulo='Registro exitoso'
+            mensaje='Hemos mandado un correo de confirmación.'
+            imagen={alertImgSuccess}
+            boton2="Aceptar"
+            onConfirm={handleConfirmSuccess}
+            onCloseAction={handleConfirmSuccess}
           />
           <Container maxWidth="md" disableGutters className= 'my-5 py-4 d-flex align-items-center justify-content-center'>
             <Grid container sx={{ justifyContent: 'center', borderRadius: '6px', overflow: 'hidden' }}>
@@ -225,7 +264,7 @@ function RegisterPage() {
                             size="small"
                             required
                             error={formSubmitted && !errors.nombre?.longitudValida}
-                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 2 y 60 caracteres." : ""}
+                            helperText={formSubmitted && !errors.nombre?.longitudValida ? "El nombre de usuario debe tener entre 3 y 10 caracteres." : ""}
                           />
                         <Typography variant="body2" color="textSecondary" className="mb-2 ms-2 fw-medium">
                           El username debe cumplir con las siguientes reglas:
@@ -234,7 +273,7 @@ function RegisterPage() {
 
                         <Box className="my-3">
                           <ul>
-                            <li className={`re_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 2 y 60 caracteres.</li>
+                            <li className={`re_pa-rule-input fw-medium ${errors.nombre?.longitudValida ? 'text-success fw-semibold' : ''}`}>El nombre de usuario debe tener entre 3 y 10 caracteres.</li>
                           </ul>
                         </Box>
 
@@ -262,7 +301,7 @@ function RegisterPage() {
                         </Box>
 
                         <Box className="my-4">
-                          <FormControl fullWidth size="small" error={formSubmitted && !!errors.contraseña}>
+                          <FormControl fullWidth size="small" error={formSubmitted && (!errors.contraseña?.longitudValida || !errors.contraseña?.mayuscula || !errors.contraseña?.minuscula || !errors.contraseña?.numero)}>
                             <InputLabel>Contraseña</InputLabel>
                             <OutlinedInput
                               type={showPassword ? 'text' : 'password'}

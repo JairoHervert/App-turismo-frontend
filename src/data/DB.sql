@@ -146,7 +146,7 @@ INSERT INTO `categoria` (`nombre`, `imagen`) VALUES
 ('Comida rápida y botanas', 'https://plus.unsplash.com/premium_photo-1683619761492-639240d29bb5?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
 ('Compras y souvenirs', 'https://www.visitlakecounty.org/images/galleria_photos/Shopping%20Malls/header-shopping-malls.jpg'), 
 ('Karaokes', 'https://media.istockphoto.com/id/1204145419/photo/night-bar-music-comedy-show-microphone-in-a-bar.jpg?s=612x612&w=0&k=20&c=AO8VbbKTCzfupYeVf1Njh58s781vAQfldSfZ5Nj2Fc4='),
-('Lugares de Aventura', 'https://media.istockphoto.com/id/910215514/photo/two-little-brothers-hiking-in-forest.jpg?s=612x612&w=0&k=20&c=GoLp_tJXQaqOS6a3UnO4oDyZLqwMSfEwNMr2dgw9D4w='), 
+('Lugares de aventura', 'https://media.istockphoto.com/id/910215514/photo/two-little-brothers-hiking-in-forest.jpg?s=612x612&w=0&k=20&c=GoLp_tJXQaqOS6a3UnO4oDyZLqwMSfEwNMr2dgw9D4w='), 
 ('Lugares históricos', 'https://generaldeseguros.mx/wp-content/uploads/2024/06/Que-visitar-en-Mexico-1024x698.webp'),
 ('Lugares religiosos', 'https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?q=80&w=1665&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
 ('Marisquerías', 'https://okdiario.com/img/2024/10/24/mariscos-635x358.jpg'), 
@@ -263,10 +263,10 @@ INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
 
 -- Lugares de Aventura
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES
-('off_roading_area', 'Área de offroad', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura')),
-('adventure_sports_center', 'Centro de deportes de aventura', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura')),
-('cycling_park', 'Parque de cicilismo', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura')),
-('hiking_area', 'Campo de caminata', (SELECT id FROM categoria WHERE nombre = 'Lugares de Aventura'));
+('off_roading_area', 'Área de offroad', (SELECT id FROM categoria WHERE nombre = 'Lugares de aventura')),
+('adventure_sports_center', 'Centro de deportes de aventura', (SELECT id FROM categoria WHERE nombre = 'Lugares de aventura')),
+('cycling_park', 'Parque de cicilismo', (SELECT id FROM categoria WHERE nombre = 'Lugares de aventura')),
+('hiking_area', 'Campo de caminata', (SELECT id FROM categoria WHERE nombre = 'Lugares de aventura'));
 
 -- Lugares históricos
 INSERT INTO `subcategoria` (`id`, `nombre`, `idCategoria`) VALUES

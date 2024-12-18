@@ -17,8 +17,21 @@ import 'dayjs/locale/es';
 // ÍCONOS
 import { Map as MapIcon } from '@mui/icons-material';
 
+import { useRef } from 'react'
+import AlertD from '../components/alert';
+import img from '../img/Itinerary/turist-for-another.jpg';
+
+
 const GenerarItinerario = () => {
 
+  const alertRef = useRef();
+
+  //funcion para abrir la alerta
+  const handleClickOpen = () => {
+      if (alertRef.current) {
+          alertRef.current.handleClickOpen();
+      }
+  };
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -50,7 +63,9 @@ const GenerarItinerario = () => {
       setHelperTextTransporte('Selecciona un medio de transporte antes de continuar');
       hayError = true;
     }
-
+    if(hayError){
+      handleClickOpen();
+    }
     if (!hayError) {
       navigate('/Categorias-page');
     }
@@ -72,13 +87,44 @@ const GenerarItinerario = () => {
   const [errorMedioTransporte, setErrorMedioTransporte] = useState(false);
   const [helperTextTransporte, setHelperTextTransporte] = useState('');
 
-  // Guardar el valor de medioTransporte en localStorage cuando cambie
+  // ------------------ useEffects para leer los valores de localStorage una vez al inicio ------------------
+
+  useEffect(() => {
+    const modo = localStorage.getItem('modo');
+    if (modo) {
+      setMedioTransporte(modo);
+    }
+  }, []);
+
+  useEffect(() => {
+    const presupuestoGuardado = localStorage.getItem('presupuesto');
+    if (presupuestoGuardado) {
+      setPresupuesto(presupuestoGuardado);
+    }
+  }, []);
+
+  // Para las fechas de inicio y fin, no se guardan en localStorage
+  // Los del checkbox se realizan en el componente DetallesViaje
+
+  // ------------------ useEffects para guardar los valores en localStorage cuando cambien ------------------
+
   useEffect(() => {
     if (medioTransporte) {
       localStorage.setItem('modo', medioTransporte);
-      console.log('Modo de transporte guardado en el localstorage de generaritinerario.jsx:', medioTransporte);
+      console.log('Modo de transporte guardado en localStorage:', medioTransporte);
     }
   }, [medioTransporte]);
+
+  useEffect(() => {
+    if (presupuesto) {
+      localStorage.setItem('presupuesto', presupuesto);
+      console.log('Presupuesto guardado en localStorage:', presupuesto);
+    }
+  }, [presupuesto]);
+
+  // Para las fechas de inicio y fin, no se guardan en localStorage
+  // Los del checkbox se realizan en el componente DetallesViaje
+
 
   return (
     <ThemeProvider theme={ThemeMaterialUI}>
@@ -160,9 +206,18 @@ const GenerarItinerario = () => {
           <ButtonsMod
             variant='principal'
             textCont='Continuar'
-            clickEvent={handleClick}
+            clickEvent={handleClick} 
           />
         </Box>
+        <AlertD
+                ref={alertRef}
+                titulo="Rellena los campos"
+                mensaje="Por favor, rellena correctamente todos los campos antes de continuar."
+                imagen={img}
+                //el botón 1 no es obligatorio,por ejemplo, se puede mostrar nada mas como un mensaje por si no selecciona una opción o así
+                boton2="Aceptar"
+                onConfirm={handleClick}
+            />
 
       </Container>
 

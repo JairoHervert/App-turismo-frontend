@@ -197,9 +197,9 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     }
   
     // Número de caracteres (entre 2 y 60)
-    if (trimmedNombre.length < 2 || trimmedNombre.length > 60) {
+    if (trimmedNombre.length < 2 || trimmedNombre.length > 20) {
       setNombreError(true);
-      setNombreHelperText('El nombre debe tener entre 2 y 60 caracteres');
+      setNombreHelperText('El nombre debe tener entre 2 y 20 caracteres');
       return false;
     }
 
@@ -242,9 +242,9 @@ function InformacionPersonal({id, correoElectronico, nombre, apellido, fechaNaci
     }
   
     // Número de caracteres (entre 2 y 60)
-    if (trimmedApellido.length < 2 || trimmedApellido.length > 60) {
+    if (trimmedApellido.length < 2 || trimmedApellido.length > 20) {
       setApellidoError(true);
-      setApellidoHelperText('El apellido debe tener entre 2 y 60 caracteres');
+      setApellidoHelperText('El apellido debe tener entre 2 y 20 caracteres');
       return false;
     }
 

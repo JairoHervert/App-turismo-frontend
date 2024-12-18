@@ -132,6 +132,73 @@ class itinerarioModel {
         });
     });
   }
+
+  // Esta función primero crea el itinerario en la tabla Itinerario y luego crea las relaciones en la tabla LugarItinerario
+  static async guardarItinerario(idUsuario, itinerario){
+    // const itinerario = JSON.parse(itinerarioString);
+    // Obtener la fecha inicial y final
+    const fechaInicio = itinerario.fechaInicio;
+    const fechaFin = itinerario.fechaFin;
+    const dias = itinerario.lugaresItinerario;
+    // dias es un arreglo de objetos con la siguiente estructura
+    // [
+    //   {
+    //     fecha: '2024-12-02',
+    //     lugares: [
+    //       {
+    //         DETALLES DEL LUGAR
+    //       },
+    //       {
+    //         DETALLES DEL LUGAR
+    //       },
+    //       ...
+    //     ]
+    //   },
+    //   ...
+    // ]
+
+    // Ejemplo
+    // Primero inserta el itinerario
+      // INSERT INTO Itinerario (idUsuario, fechainicio, fechafin)
+      // VALUES (1,'2024-12-02','2024-12-04');
+      // La insercion me devuelve el id del itinerario
+    // Luego inserta los lugares
+      // INSERT INTO LugarItinerario (idItinerario, idLugar, orden, horaLlegada, horaSalida, fecha, auditoria) 
+      // VALUES
+      // (1, 'ChIJ0TgTPyv50YUR-iqvuuniMvI', 1, '10:00:00', '12:00:00', '2024-12-02', NOW()),
+      // (1, 'ChIJ_Snp5Qr90YURsaIE_iQE8oU', 2, '12:00:00', '14:00:00', '2024-12-02', NOW()),
+      // (1, 'ChIJ_xP1t6v40YURJmwqWm3owew', 3, '14:00:00', '16:00:00', '2024-12-02', NOW()),
+      // (1, 'ChIJQWGH_U__0YURun-Y31zgPjI', 4, '16:00:00', '18:00:00', '2024-12-02', NOW()),
+      // (1, 'ChIJY29w0Un_0YUR7pw57OVcNuo', 5, '13:30:00', '14:30:00', '2024-12-04', NOW()),
+      // (1, 'ChIJs0hTSxsC0oURjhhkDYbOtZE', 6, '14:30:00', '16:30:00', '2024-12-04', NOW());
+
+    let query = 'INSERT INTO Itinerario (idUsuario, fechainicio, fechafin) VALUES (?,?,?);';
+    return new Promise((resolve, reject) => {
+      db.query(query, [idUsuario, fechaInicio, fechaFin], (err, results) => {
+        if (err) {
+          reject(err);
+        }
+        const idItinerario = results.insertId;
+        console.log('idItinerario', idItinerario);
+        if (idItinerario) {
+          query = 'INSERT INTO LugarItinerario (idItinerario, idLugar, orden, horaLlegada, horaSalida, fecha, auditoria) VALUES ?;';
+          const values = [];
+          for(const dia of dias){
+            dia.lugares.forEach((lugar, index) => {
+              values.push([idItinerario, lugar.data.id, index + 1, lugar.horaInicio, lugar.horaInicio, dia.fecha, new Date()]);
+            });
+          }
+          db.query(query, [values], (err, results) => {
+            if (err) {
+              reject(err);
+            }
+            resolve(results);
+          });
+        }
+      });
+    });
+  }
+    
 }
 
 

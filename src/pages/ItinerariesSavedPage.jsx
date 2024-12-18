@@ -17,7 +17,7 @@ import {
 } from "@mui/icons-material";
 import ItemItinerarios from "../components/ItinerariosSaved/CardItinerarios";
 
-import itinerariosGuardados from "../components/ItinerariosSaved/ItinerariosGuardados";
+import itinerarios from "../components/ItinerariosSaved/ItinerariosGuardados"; // Importa el arreglo de itinerarios
 
 function ItinirariesSavePage() {
 
@@ -73,15 +73,16 @@ function ItinirariesSavePage() {
           className="resume-calendar-container"
           sx={{ maxHeight: "65vh", overflowY: "auto" }}
         >
-          {itinerariosGuardados.map((itinerario, index) => (
+          {itinerarios.map((itinerario, index) => (
             <ItemItinerarios
               key={index}
-              imagen={itinerario.imagen}
-              detalles={itinerario.detalles}
-              fechaInicio={itinerario.fechaInicio}
-              fechaFin={itinerario.fechaFin}
-              presupuesto={itinerario.presupuesto}
-              viajantes={itinerario.viajantes}
+              imagen={Object.values(itinerario)[0][0].placeImages[0]} // Usa la primera imagen del primer lugar del primer día
+              detalles={Object.values(itinerario).flat().map(item => item.placeName)} // Mapea los nombres de los lugares
+              fechaInicio={Object.keys(itinerario)[0]} // Usa la primera fecha como fecha de inicio
+              fechaFin={Object.keys(itinerario).slice(-1)[0]} // Usa la última fecha como fecha de fin
+              presupuesto="1000" // Puedes ajustar esto según tus datos
+              viajantes="2" // Puedes ajustar esto según tus datos
+              itinerario={itinerario} // Pasa el arreglo itinerario completo
             />
           ))}
         </Box>

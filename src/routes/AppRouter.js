@@ -6,6 +6,7 @@ import PlacePage from '../pages/PlacePage';
 import DeseadosPage from '../pages/DeseadosPage';
 import FavoritesPage from '../pages/FavoritesPage';
 import Itinerary from '../pages/ItineraryPage';
+import Itinerary2 from '../pages/ItineraryPageFinal';
 import ItinerariesSavedPage from '../pages/ItinerariesSavedPage';
 import TerminosCondiciones from '../pages/TerminosCondiciones';
 import PoliticasPrivacidad from '../pages/PoliticasPrivacidad';
@@ -27,7 +28,7 @@ import AllPlacesPage from '../pages/AllPlacesPage';
 import PreferenciasModal from '../components/preferencias/PreferenciasModal';
 import AdminSavedPlaces from '../pages/AdminSavedPlaces';
 import Carga from '../pages/Carga';
-
+import Pdf from '../components/pdf';
 
 function AppRouter() {
   return (
@@ -39,6 +40,7 @@ function AppRouter() {
         <Route path='/deseados' element={<DeseadosPage />} />
         <Route path='/favoritos' element={<FavoritesPage />} />
         <Route path='/itinerary' element={<Itinerary />} />
+        <Route path='/itineraryFinal' element={<Itinerary2 />} />
         <Route path='/itinerariesSaved' element={<ItinerariesSavedPage/>} />
         <Route path='/HistoryPage' element={<HistorialBusqueda/>} />
         <Route path='/Categorias-page' element={<CategoriasPage/>} />
@@ -59,9 +61,11 @@ function AppRouter() {
         <Route path='/Admin-dashboard' element={<AdminDash/>} />
         <Route path="/recuperacion/:token" element={<IngresarNuevaContrasena />} />
         <Route path='/lugares' element={<AllPlacesPage/>} />
+        <Route path='/lugares/:alcaldia' element={<AllPlacesPage/>} />
         <Route path='/preferencias' element={<PreferenciasModal/>} />
         <Route path='/Admin-SavedPlaces' element={<AdminSavedPlaces/>}/>
         <Route path='/Carga' element={<Carga />} /> 
+        <Route path='/pdf' element={<Pdf />} />
       </Routes>
     </Router>
   );

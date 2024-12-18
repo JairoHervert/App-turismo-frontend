@@ -6,7 +6,8 @@ dayjs.extend(customParseFormat);
 
 dayjs.locale(dayjs_es);
 
-const {obtenerCategoriasFavoritas, obtenerLugaresCategoriaRestricciones, obtenerLugaresDeseados, obtenerLugaresRestricciones, obtenerTodosLugares} = require('../models/MySQL/itinerario-model');
+const {obtenerCategoriasFavoritas, obtenerLugaresCategoriaRestricciones, obtenerLugaresDeseados, obtenerLugaresRestricciones, obtenerTodosLugares, guardarItinerario } = require('../models/MySQL/itinerario-model');
+const { json } = require('express');
 // const es = require('dayjs/locale/es');
 
 const obtenerCategoriasFavoritass = async (idUsuario) => {
@@ -142,6 +143,16 @@ const formatoDiaHorario = (dia, horario) => {
     return {horarioInicio, horarioFin};
 }
 
+const guardarItinerarioDB = async (idUsuario, itinerario) => {
+    try {
+        const resultado = await guardarItinerario(idUsuario, itinerario);
+        return resultado;
+    } catch (error) {
+        console.error('Error guardarItinerarioDB:', error);
+        return null;
+    }
+}
+
 const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restricciones, gradoAleatoriedad, nivelPresupuesto, esAltoPresupuesto, horaInicio, horaFin, fechaInicio, fechaFin, latitudInicial, longitudInicial) => {
     const probabilidadAleatoria = gradoAleatoriedad / 100;
     // Calcular el número de días del viaje y el que dia de la semana es la fecha de inicio (0-6)
@@ -177,7 +188,7 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     let b = 2;                                                  // Si el lugar está cerca
     let c = 0.5;                                                // Si el lugar está en las categorías favoritas
     let d = 0.5;                                                // Si el lugar cumple con las restricciones
-    let e_weight = 1.25;                                        // Peso del precio
+    let e_weight = 2;                                           // Peso del precio
     let b_weight = 3.25;                                        // Peso de la distancia
     let e = esAltoPresupuesto ? e_weight/4 : -e_weight/4;       // Precio del lugar
     
@@ -223,9 +234,10 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
     for (let i = 0; i < dias; i++) {
         // Hora actual es la hora de inicio del día
         horaActual = dayjs(horaInicio, 'HH:mm', true);
-
-        // Obtener el dia de la semana actual (domingo = 0, lunes = 1, ..., sábado = 6)
-        const diaSemanaActual = (diaSemanaInicio + i) % 7;
+        
+        // Obtener el dia de la semana actual (lunes = 0, ..., sábado = 5, domingo = 6)
+        const diaSemanaActual = (((diaSemanaInicio + i - 1) % 7)+7)%7;
+        console.log(diaSemanaActual);
 
         lugaresItinerario.push({fecha: dayjs(fechaInicio).add(i, 'day').format('YYYY-MM-DD'), lugares: []});
         let indiceDia = 0;
@@ -937,20 +949,29 @@ const seleccionarLugaresPorDistancia = async (idUsuario, numeroPersonas, restric
 
     }
 
-    return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true};
+    return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true, fechaInicio: fechaInicio, fechaFin: fechaFin};
 
 }
 
 const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFin, horaInicio, horaFin, gradoAleatoriedad, duracionActividad, duracionComida, presupuesto, restricciones, latitudInicial, longitudInicial) => {
     // Probar desde el nivelPrecio más alto hasta el más bajo
     let lugaresItinerario = [];
-    let costoAproximado = 0;
+    let costoAproximado = -1;
     let resultadoItinerario = false;
 
-    for(let i = 4; i >= 1; i--){
+    for(let i = 4; i >= 0; i--){
         for(let j = 0; j < 2; j++){
             const itinerario = await seleccionarLugaresPorDistancia(idUsuario, numeroPersonas, restricciones, gradoAleatoriedad, i, j, horaInicio, horaFin, fechaInicio, fechaFin, latitudInicial, longitudInicial);
             if(itinerario.resultadoItinerario){
+                console.log("Costo aproximado: " + itinerario.costoAproximado);
+                // // Imprimir el itinerario
+                // for (const dia of itinerario.lugaresItinerario) {
+                //     console.log(dia.fecha);
+                //     for (const lugar of dia.lugares) {
+                //         console.log(lugar.horaInicio);
+                //         console.log(lugar.data.nombre);
+                //     }
+                // }
                 if(itinerario.costoAproximado > costoAproximado && itinerario.costoAproximado <= presupuesto){
                     lugaresItinerario = itinerario.lugaresItinerario;
                     costoAproximado = itinerario.costoAproximado;
@@ -960,25 +981,39 @@ const generarItinerario = async (idUsuario, numeroPersonas, fechaInicio, fechaFi
         }
     }
 
+    let objItinerario = null;
     if(resultadoItinerario){
         console.log(lugaresItinerario);
         for (const dia of lugaresItinerario) {
             console.log(dia.fecha);
             for (const lugar of dia.lugares) {
                 console.log(lugar.horaInicio);
+                console.log(JSON.parse(lugar.data.regularOpeningHours).weekdayDescriptions);
                 console.log(lugar.data.nombre);
             }
         }
         console.log("Costo aproximado: " + costoAproximado);
-        return {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true};
+        objItinerario = {lugaresItinerario: lugaresItinerario, costoAproximado: costoAproximado, resultadoItinerario: true, fechaInicio: fechaInicio, fechaFin: fechaFin};
+
+        // GUARDAR EN LA BASE DE DATOS con la funcion guardarItinerarioDB(idUsuario, objItinerario)
+        const itinerarioGuardado = await guardarItinerarioDB(idUsuario, objItinerario);
+        if(itinerarioGuardado){
+            console.log("Itinerario guardado en la base de datos");
+        }
+        else {
+            console.log("No se pudo guardar el itinerario en la base de datos");
+        }
     }
     else {
         console.log("No se pudo crear el itinerario con el presupuesto indicado");
-        return {resultadoItinerario: false};
+        objItinerario = {resultadoItinerario: false};
     }
+
+    return objItinerario;
+
 }
 
-generarItinerario(1, 1, "2024-12-16", "2024-12-16", "09:00", "18:00", 50, 2, 2, 300, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
+generarItinerario(1, 1, "2024-12-15", "2024-12-15", "09:00", "18:00", 50, 2, 2, 2000, {impedimentoFisico: false, familiar: false, vegetarianFriendly: false, petFriendly: false, goodForGroups: false}, 19.436511157306374, -99.13954113405046 );
 
 // PASOS
 // 4. GUARDAR EN LA BASE DE DATOS

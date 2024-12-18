@@ -36,6 +36,9 @@ DROP PROCEDURE IF EXISTS LugarGetSubcategorias;
 DROP PROCEDURE IF EXISTS RegistrarFoto;
 DROP PROCEDURE IF EXISTS LugarGetFotos;
 
+#Itinerario
+DROP PROCEDURE IF EXISTS UsuarioVerItinerariosConLugares;
+
 DELIMITER //
 
 -- ---------------------------------------------------------------------------------------------------
@@ -52,21 +55,34 @@ CREATE PROCEDURE UsuarioRegistro (
 )
 BEGIN
    DECLARE usuarioExistente INT;
+   DECLARE confirmacionStatus INT;
 
    SELECT COUNT(*) INTO usuarioExistente
    FROM Usuario
    WHERE UPPER(correo) = UPPER(p_correo);
     
    IF usuarioExistente = 0 THEN
+      -- Validar formato del correo
       IF p_correo REGEXP '^[a-zA-Z0-9]+([._-]?[a-zA-Z0-9]+)*@[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*(\.[a-zA-Z0-9]+([\-]?[a-zA-Z0-9]+)*)*\.[a-zA-Z]{2,63}$' THEN
          INSERT INTO Usuario (username, correo, contraseña, auditoria, confirmacion)
          VALUES (p_username, p_correo, p_contraseña, NOW(), 0);
+         
+         SELECT id FROM Usuario WHERE correo = p_correo;
       ELSE
          SELECT 'correo_invalido' AS 'error';
       END IF;
    ELSE
-      SIGNAL SQLSTATE '45000' 
-         SET MESSAGE_TEXT = 'El correo ya está registrado.';
+      -- Obtener el valor de confirmacion
+      SELECT confirmacion INTO confirmacionStatus
+      FROM Usuario
+      WHERE UPPER(correo) = UPPER(p_correo);
+
+      -- Verificar el estado de confirmacion
+      IF confirmacionStatus = 0 THEN
+         SELECT 'sin_confirmacion' AS 'warning';
+      ELSE
+         SELECT 'correo_ya_registrado' AS 'error';
+      END IF;
    END IF;
 END //
 
@@ -1172,5 +1188,52 @@ BEGIN
       WHERE idLugar = p_id;
    END IF;
 END //
+
+-- -----------------------------------------------------
+-- Process `AppTurismo`.`GetItinerarioGuardado`
+-- -----------------------------------------------------
+CREATE PROCEDURE UsuarioVerItinerariosConLugares (
+    IN p_idUsuario INT
+)
+BEGIN
+    DECLARE usuarioExistente INT;
+
+    -- Verifica si el usuario existe
+    SELECT COUNT(*) INTO usuarioExistente
+    FROM Usuario
+    WHERE id = p_idUsuario;
+
+    -- Si el usuario no existe, devuelve un mensaje
+    IF usuarioExistente = 0 THEN
+        SELECT 'El usuario no existe' AS Mensaje;
+    ELSE
+        -- Si el usuario existe, devuelve los itinerarios y sus lugares
+        SELECT 
+            i.id AS idItinerario,
+            i.fechaInicio,
+            i.fechaFin,
+            l.orden,
+            l.horaLlegada,
+            l.horaSalida,
+            l.fecha,
+            lu.nombre AS NombreLugar,
+            lu.direccion AS Direccion,
+            lu.rating AS Calificacion,
+            lu.teléfono AS Telefono,
+            lu.tipos AS Tipos,
+            lu.regularOpeningHours AS Horario
+        FROM 
+            itinerario i
+        INNER JOIN 
+            lugaritinerario l ON i.id = l.idItinerario
+        INNER JOIN 
+            lugar lu ON l.idLugar = lu.id 
+        WHERE 
+            i.idUsuario = p_idUsuario
+        ORDER BY 
+            i.id, l.orden;
+    END IF;
+END //
+
 
 DELIMITER ;

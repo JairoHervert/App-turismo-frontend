@@ -50,7 +50,6 @@ function LoginPage() {
     }
   };
   const handleConfirmError = () => {
-    alert('?')
   };
 
   const alertSuccess = useRef();
