@@ -33,7 +33,7 @@ function Presupuesto ({ isFirstEnabled, presupuesto, setPresupuesto, error, setE
             {/* Presupuesto - Contenido */}
             <CardContent>
 
-                <Typography sx={{ marginBottom: '20px', justifyContent: 'center' }} className='gi-card-titulo-apartados'>
+                <Typography sx={{ marginBottom: '20px', justifyContent: 'center' }} variant='body2' className='gi-card-titulo-apartados'>
                     Para crear un itinerario adaptado a tus necesidades, es importante que ingreses el presupuesto disponible.
                 </Typography>
 
@@ -70,7 +70,7 @@ function Presupuesto ({ isFirstEnabled, presupuesto, setPresupuesto, error, setE
             {/* Disposición del presupuesto - Contenido */}
             <CardContent>
 
-                <Typography sx={{ marginBottom: '20px' }}>
+                <Typography sx={{ marginBottom: '20px' }} variant='body2' className='gi-card-titulo-apartados'>
                     Utiliza los controles deslizantes para asignar el porcentaje del total disponible a cada opción según tus preferencias.
                 </Typography>
 

@@ -62,6 +62,14 @@ function LoginPage() {
     navigate('/');
   };
   
+  // Manejadores para el modal de errores: campo de correo vacio o no coincide con las reglas
+  const alertEmailError = useRef();
+  const [alertContentEmailError, setAlertContentEmailError] = useState('');
+  const handleClickOpenEmailError = () => {
+    if (alertEmailError.current) {
+      alertEmailError.current.handleClickOpen();
+    }
+  };
 
   // validacion de correo
   const [correo, setCorreo] = useState('');
@@ -71,6 +79,7 @@ function LoginPage() {
     sinEspacios: false,
     arrobaCaracteres: false,
     dominioConPunto: false,
+    noVacio: false,
   });
   const[datosIniciales, setDatosIniciales] = useState({});
 
@@ -359,7 +368,38 @@ function LoginPage() {
                         </Box>
 
                         <Box className='lo_pa-iniciar-olvidaste'>
-                          <Button variant="contained" type="submit">
+                          <Button variant="contained"
+                            type="submit"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              let messageForEmailError = '';
+
+                              // validacion de campos
+                              if (!correoReglas.noVacio && contraseña.length == 0) {
+                                messageForEmailError = 'El correo y la contraseña no pueden estar vacíos';
+                              } else if (!correoReglas.noVacio && contraseña.length > 0) {
+                                messageForEmailError = 'El correo no puede estar vacío';
+                              } else if ((correoReglas.sinEspacios && correoReglas.arrobaCaracteres && correoReglas.dominioConPunto && correoReglas.noVacio) && contraseña.length < 1) {
+                                console.log('alertContenterror:', alertContentError);
+                                console.log('contraseña:', contraseña);
+                                messageForEmailError = 'La contraseña no puede estar vacía';
+                              } else if ((!correoReglas.sinEspacios || !correoReglas.arrobaCaracteres || !correoReglas.dominioConPunto || !correoReglas.noVacio) && contraseña.length > 0) {
+                                messageForEmailError = 'El correo no cumple con las reglas de formato indicadas';
+                              } else if ((!correoReglas.sinEspacios || !correoReglas.arrobaCaracteres || !correoReglas.dominioConPunto || !correoReglas.noVacio) && contraseña.length < 1) {
+                                messageForEmailError = 'El correo no cumple con las reglas de formato indicadas y la contraseña no puede estar vacía';
+                              }
+
+                              // si hay error alguno se muestra la alerta
+                              if (messageForEmailError) {
+                                setAlertContentEmailError(messageForEmailError);
+                                handleClickOpenEmailError();
+                                return;
+                              }
+
+                              // si pasa la validacion se envia el formulario
+                              handleFormSubmit(e);
+                            }}
+                            >
                             Iniciar sesión
                           </Button>
 
@@ -367,6 +407,16 @@ function LoginPage() {
                             <Typography variant='subtitle2' color='dark' className='mt-4 pb-2' sx={{ fontSize: '1rem' }}>¿Olvidaste tu contraseña?</Typography>
                           </Link>
                         </Box>
+
+                        {/* Alerta de error en el campo de correo, vacio o error */}
+                        <AlertD
+                          ref={alertEmailError}
+                          titulo='Error en campo de correo'
+                          mensaje={alertContentEmailError}
+                          imagen={alertImgError}
+                          boton2='Aceptar'
+                          onConfirm={handleClickOpenEmailError}
+                        />
 
                         <Box className='my-4 d-flex flex-column align-items-center justify-content-center'>
                           <Typography variant='subtitle2' sx={{ fontSize: '1rem' }}>O inicia sesión con:</Typography>
