@@ -64,7 +64,7 @@ const FormularioLugar = ({ addplace, lugares, setLugares }) => {
   };
 
   const handleSubmitAccept = () => {
-    alert('Lugar aceptado');
+    //alert('Lugar aceptado');
     
     // Cambiar la categoría a "Aceptados"
     const updatedLugar = { ...lugar, categoria: 'Aceptados' };
@@ -77,7 +77,7 @@ const FormularioLugar = ({ addplace, lugares, setLugares }) => {
   
 
   const handleSubmitReject = () => {
-    alert('Lugar rechazado');
+    //alert('Lugar rechazado');
     navigate('/Admin-Page-Places');
   };
 
