@@ -41,8 +41,10 @@ function SearchCategoryPage() {
       try {
         let resultado;
         const id = localStorage.getItem('id');
-        if (id) resultado = await handleTodasCategoriasUsuario(id);
-        else resultado = await handleCategorias();
+        if (id)
+          resultado = await handleTodasCategoriasUsuario(id);
+        else
+          resultado = await handleCategorias();
         const categoriasAleatorias = shuffleArray(resultado);
         setCategorias(categoriasAleatorias);
         console.log(categoriasAleatorias);
