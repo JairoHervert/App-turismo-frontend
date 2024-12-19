@@ -698,6 +698,7 @@ BEGIN
          l.teléfono AS teléfono,
          l.precioNivel AS precioNivel,
          l.precioRango AS precioRango,
+         l.precioAproximado AS costo,
          l.rating AS rating,
          l.regularOpeningHours AS regularOpeningHours,
          l.userRatingCount AS userRatingCount,
@@ -1227,7 +1228,7 @@ BEGIN
             lu.rating AS Calificacion,
             lu.teléfono AS Telefono,
             lu.tipos AS Tipos,
-            lu.regularOpeningHours AS Horario
+            lu.regularOpeningHours AS Horario,
             lu.imagen AS Imagen
         FROM 
             itinerario i

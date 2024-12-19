@@ -114,7 +114,7 @@ function UDCuadroLugar({
         <div className="us_de-icons d-flex justify-content-center align-items-center gap-3">
           <div className="d-flex align-items-center gap-2">
             <i className="bi bi-cash-coin fs-5 fontRosaMexicano"></i>
-            <p className="fw-medium mb-0">Costo: <span className="fw-semibold">{costoLugar}</span></p>
+            <p className="fw-medium mb-0">Costo: $<span className="fw-semibold">{costoLugar}</span> MXN</p>
           </div>
         </div>
       </div>
