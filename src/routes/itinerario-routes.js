@@ -64,6 +64,9 @@ router.post('/guardar-itinerario', async (req, res) => {
     // Convierte el pool actual a promesas
     const connection = db.promise();
 
+    // Primero elminar los lugares del itinerario
+    await connection.query('DELETE FROM LugarItinerario WHERE idItinerario = ?', [idItinerario]);
+
     const insertQuery = `
       INSERT INTO LugarItinerario (idLugar, idItinerario, orden, fecha, horaLlegada, horaSalida)
       VALUES (?, ?, ?, ?, ?, ?)
